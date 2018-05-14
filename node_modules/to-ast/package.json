@@ -1,0 +1,37 @@
+{
+  "name": "to-ast",
+  "version": "1.0.0",
+  "description": "Converts JavaScript objects to equivalent ASTs",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/devongovett/to-ast.git"
+  },
+  "keywords": [
+    "ast",
+    "object",
+    "syntax",
+    "escodegen",
+    "esprima"
+  ],
+  "author": "Devon Govett <devongovett@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/devongovett/to-ast/issues"
+  },
+  "homepage": "https://github.com/devongovett/to-ast",
+  "devDependencies": {
+    "escodegen": "^1.6.1",
+    "mocha": "^2.2.1"
+  },
+  "dependencies": {
+    "ast-types": "^0.7.2",
+    "esprima": "^2.1.0"
+  }
+}

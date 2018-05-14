@@ -104,7 +104,7 @@ class App extends Component {
 
   render() {
     const { classes, theme } = this.props;
-    const { projectSelected, allProjects } = this.state;
+    const { allProjects } = this.state;
 
     const drawer = (
       <div>
