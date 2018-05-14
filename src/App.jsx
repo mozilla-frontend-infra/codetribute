@@ -19,8 +19,13 @@ import List from 'material-ui/List';
 import Hidden from 'material-ui/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+
+
+//TODO: think of how the data in yaml should be structured
 import data from './data.yaml';
 
+
+// styles
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -67,42 +72,55 @@ const styles = theme => ({
 const bugType = ['Unassigned Bug', 'Assigned Bugs', 'Simple Bugs'];
 
 class App extends Component {
-  state = {
-    mobileOpen: false,
-    projectSelected : []
-  };
+
+  constructor(props) {
+    super(props);
+    var allProjects = [...data.Projs];
+    allProjects.forEach(function(project, index) {
+      project.push(false)
+    })
+    this.state = {
+      mobileOpen: false,
+      allProjects : [...data.Projs],
+    };
+  }
+
 
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
   handleCheckboxToggle = (proj) => {
-    console.log(proj)
-    var projectSelected = [...this.state.projectSelected];
-    console.log(projectSelected)
-    var index = projectSelected.indexOf(proj);
-    if (index == -1) {
-      projectSelected.push(proj);
-    } else {
-      projectSelected.splice(index,1)
-    }
-    this.setState({projectSelected: projectSelected})
+
+    var allProjects = [...this.state.allProjects];
+
+    allProjects.forEach(function(project, index) {
+      if (project[0] === proj) {
+        console.log(project[2])
+        project[2] = !project[2];
+      }
+    });
+
+    this.setState({allProjects: allProjects});
   };
 
   render() {
     const { classes, theme } = this.props;
-    const { projectSelected } = this.state;
+    const { allProjects } = this.state;
+
+
     const drawer = (
       <div>
         <div className={classes.toolbar} />
           <FormControl component="fieldset">
             <FormLabel component="legend">Are you interested in:</FormLabel>
             <FormGroup>
-              { data.Projs.map((proj, index) => (              
+              { allProjects.map((proj, index) => (              
                 <FormControlLabel
                   control={
                     <Checkbox
                       value={proj[0]}
+                      checked = {proj[2]}
                       onChange = {(e) => this.handleCheckboxToggle(proj[0],e)}
                     />
                   }
@@ -192,13 +210,21 @@ class App extends Component {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
+
+
+          {/* this is the place for project description, i was thinking of using a auto moving carousel / modal */}
           <Typography variant="subheading">
-          Projects selected description (carousel)
+          Projects selected description ( as a carousel later)
           </Typography>
-          {projectSelected.map((proj) => 
-            <Typography noWrap>{proj} description</Typography>)
+          {allProjects.map((proj) => (
+            proj[2] &&
+            <Typography key={proj} noWrap>{proj} description</Typography>
+            )
+          )
           }
 
+          <Divider/>
+          {/* this is the place for bugs */}
           <Typography variant="subheading">
           Bugs (list/ table)
           </Typography>
