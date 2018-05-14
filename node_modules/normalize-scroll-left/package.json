@@ -1,0 +1,48 @@
+{
+  "name": "normalize-scroll-left",
+  "description": "Utility library to determine and normalize Element.scrollLeft behavior",
+  "version": "0.1.2",
+  "author": {
+    "name": "Ali Taheri Moghaddar",
+    "email": "ali.taheri.m@gmail.com"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alitaheri/normalize-scroll-left.git"
+  },
+  "keywords": [
+    "rtl",
+    "dom",
+    "scroll-left",
+    "scrollLeft",
+    "normalize",
+    "browser",
+    "element"
+  ],
+  "scripts": {
+    "build": "rimraf lib && tsc",
+    "prepublishOnly": "npm run build",
+    "lint": "tslint -e \"node_modules/**\" \"src/**/*.ts\"",
+    "test": "mocha --compilers ts:ts-node/register \"src/**/*.spec.ts\""
+  },
+  "license": "MIT",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "@types/node": "^8.0.34",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "rimraf": "^2.6.2",
+    "ts-loader": "^2.3.7",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.7.0",
+    "tslint-eslint-rules": "^4.1.1",
+    "tslint-microsoft-contrib": "^5.0.1",
+    "typescript": "^2.5.3"
+  }
+}
