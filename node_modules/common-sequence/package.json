@@ -1,0 +1,31 @@
+{
+  "name": "common-sequence",
+  "author": "Lloyd Brookes <75pound@gmail.com>",
+  "version": "1.0.2",
+  "description": "Returns an array containing the initial elements which both input arrays have in common",
+  "repository": "https://github.com/75lb/common-sequence.git",
+  "license": "MIT",
+  "main": "./lib/common-sequence.js",
+  "keywords": [
+    "common",
+    "path",
+    "folder",
+    "dir",
+    "compare",
+    "parent",
+    "array",
+    "sequence"
+  ],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "tape test/*.js",
+    "lint": "jshint lib/*.js bin/*.js test/*.js; echo",
+    "docs": "jsdoc2md -t jsdoc2md/README.hbs lib/*.js > README.md; echo"
+  },
+  "devDependencies": {
+    "jsdoc-to-markdown": "^1.1.1",
+    "tape": "^4.0.0"
+  }
+}
