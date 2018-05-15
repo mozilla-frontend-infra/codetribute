@@ -1,0 +1,41 @@
+Web Platform:
+  a11y:
+    Name: Accessibility
+    InfoHeader: Extra information for Accessibility
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/Accessibility/Contribute" target="_blank">Accessibility</a> team
+    Products: 
+     - Core: ['Disability Access APIs']
+     - Firefox: ['Disability Access']
+     - additional: {'keywords': ['access']}
+  gfx:
+    Name: Graphics
+    InfoHeader: Extra information for Graphics
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/Platform/GFX/Contribute" target="_blank">Graphics</a> team
+    Products: 
+     - Core: ['Graphics', 'GFX: Color Management', 'Canvas: WebGL', 'Canvas: 2D', 'ImageLib', 'Graphics', 'Graphics: Layers', 'Graphics: Text', 'Panning and Zooming']
+  net:
+    Name: Networking
+    Products: 
+     - Core: ['Networking', 'Networking: HTTP', 'Networking: Cookies', 'Networking: File', 'Networking: JAR', 'Networking: WebSockets', 'Networking: DNS', 'WebRTC: Networking']
+  jseng:
+    Name: JavaScript Engine
+    InfoHeader: Extra information for the JS engine
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey" target="_blank">JS engine</a> team
+    Products: 
+     - Core: ['JavaScript Engine', 'JavaScript Engine: JIT', 'JavaScript: GC', 'JavaScript: Internationalization API', 'JavaScript: Standard Library', 'js-ctypes', 'XPConnect']
+  layout:
+    Name: Layout
+    Products: 
+     - Core: ['Layout', 'Layout: Block and Inline', 'Layout: Floats', 'Layout: Form Controls', 'Layout: HTML Frames', 'Layout: Images', 'Layout: Misc Code', 'Layout: R & A Pos', 'Layout: Tables', 'Layout: Text', 'Layout: View Rendering']
+  dom:
+    Name: DOM and CSS technology
+    Products: 
+     - Core: ['CSS Parsing and Computation', 'SVG', 'DOM', 'DOM: Core & HTML', 'DOM: CSS Object Model', 'DOM: Device Interfaces', 'DOM: Events', 'DOM: IndexedDB', 'DOM: Mozilla Extensions', 'DOM: Other', 'DOM: Traversal-Range', 'DOM: Validation', 'DOM: Workers', 'Geolocation', 'HTML: Form Submission', 'Event Handling', 'HTML: Parser', 'MathML', 'XML', 'XSLT']
+  editor:
+    Name: Input handling
+    Products: 
+     - Core: ['Editor', 'Selection', 'Keyboard: Navigation', 'Drag and Drop', 'Spelling Checker']
+  media:
+    Name: Media
+    Products: 
+     - Core: ['Video/Audio', 'WebRTC', 'WebRTC: Audio/Video', 'WebRTC: Signalling']

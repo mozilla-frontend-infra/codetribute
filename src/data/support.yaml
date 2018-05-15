@@ -1,0 +1,52 @@
+Support:
+  build:
+    Name: Build System
+    Products: 
+     - Core: ['Build Config']
+     - MailNews Core: ['Build Config']
+  releng:
+    Name: Release Engineering
+    InfoHeader: Extra information for Release Engineering
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/ReleaseEngineering/Contribute" target="_blank">Release Engineering</a> team
+    Products: 
+     - mozilla.org: ['Hg: Customizations']
+     - Release Engineering
+  taskcluster:
+    Name: TaskCluster
+    Products: 
+     - TaskCluster
+  reporting:
+    Name: Dashboards and Reporting
+    InfoHeader: Extra information for Dashboards
+    SubInfo: Find out more about the <a href="https://github.com/mozilla/treeherder" target="_blank">Treeherder</a> dashboard and its components
+    Products: 
+     - Tree Management
+  automation:
+    Name: Test Automation
+    Products: 
+     - Testing
+    Repositories: 
+     - armenzg/mozilla_ci_tools: mentored
+     - automatedtester/automation-services-bot: mentored
+     - automatedtester/powerball-platform: mentored
+     - automatedtester/testdaybot: mentored
+     - automatedtester/unittest-zero: mentored
+     - davehunt/flynnid: mentored
+     - davehunt/pytest-mozwebqa: mentored
+     - mozilla/bidpom: mentored
+     - mozilla/coversheet: mentored
+     - mozilla/memchaser: mentored
+     - mozilla/moz-grid-config: mentored
+     - mozilla/mozdownload: mentored
+     - mozilla/mozmill-ci: mentored
+     - mozilla/nightlytt: mentored
+     - marco-c/grcov: good-first-bug
+     - marco-c/code-coverage-reports: good-first-bug
+     - marco-c/code-coverage-addon: good-first-bug
+     - mozilla-releng/services: skill:good-first-bug
+  appsengineering:
+    Name: Apps Engineering
+    InfoHeader: Extra information for Apps Engineering
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/Apps/Engineering" target="_blank">Apps Engineering team</a>
+    Products: 
+     - Developer Ecosystem: ['App Center', 'Apps', 'Dev Kit', 'Web Components']

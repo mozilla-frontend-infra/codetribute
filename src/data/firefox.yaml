@@ -1,0 +1,65 @@
+Firefox:
+  ff:
+    Name: User interface
+    Products: 
+     - Firefox
+     - Toolkit
+     - Cloud Services: ['Firefox Sync: UI']
+     - Input: ['Frontend', 'General']
+  devtools:
+    Name: Developer Tools
+    InfoHeader: Extra information for Developer Tools
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/DevTools/GetInvolved" target="_blank">devtools team</a>
+    Products: 
+     - Firefox: ['Developer Tools', 'Developer Tools: 3D View', 'Developer Tools: App Manager', 'Developer Tools: Console', 'Developer Tools: Debugger', 'Developer Tools: Framework', 'Developer Tools: Graphic Commandline and Toolbar', 'Developer Tools: Inspector', 'Developer Tools: Netmonitor', 'Developer Tools: Object Inspector', 'Developer Tools: Profiler', 'Developer Tools: Responsive Mode', 'Developer Tools: Scratchpad', 'Developer Tools: Source Editor', 'Developer Tools: Style Editor']
+  internals:
+    Name: Internals
+    Products: 
+     - Core: ['General', 'Widget', 'Document Navigation', 'XPCOM', 'Embedding: APIs', 'Embedding: GRE Core', 'Embedding: Packaging', 'File Handling', 'Find Backend', 'Gecko Profiler', 'History (Global)', 'Image Blocking', 'Installer', 'IPC', 'MFBT', 'Plug-ins', 'Preferences: Backend', 'Print Preview', 'Printing: Output', 'Printing: Setup', 'Profile: BackEnd', 'Profile: Migration', 'Profile: Roaming', 'RDF', 'Rewriting and Analysis', 'Security', 'Security: CAPS', 'Security: PSM', 'Security: S/MIME', 'Security: UI', 'Serializers', 'SQL', 'String', 'XBL', 'XTF', 'XUL', 'Widget', 'Widget: BeOS', 'Widget: OS/2', 'Widget: Photon', 'Widget: Qt', 'XP Toolkit/Widgets: XUL', 'XP Toolkit/Widgets: Menus', 'Identity', 'Localization']
+     - NSPR
+     - NSS
+     - Toolkit: ['Telemetry', 'Add-ons Manager']
+    Repositories: 
+     - mozilla/telemetry-dashboard: mentored
+  internals-android:
+    Name: Internals (Android)
+    Products: 
+     - Core: ['Widget: Android']
+  internals-gtk:
+    Name: Internals (GTK)
+    Products: 
+     - Core: ['Embedding: GTK Widget', 'Widget: Gtk']
+  internals-osx:
+    Name: Internals (OSX)
+    Products: 
+     - Core: ['Embedding: Mac', 'Widget: Cocoa']
+  internals-win32:
+    Name: Internals (Windows)
+    Products: 
+     - Core: ['Widget: Win32']
+  mobileandroid:
+    Name: Mobile (Android)
+    InfoHeader: Extra information for Mobile on Android
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/Mobile/Get_Involved" target="_blank">Mobile team</a>
+    Products: 
+     - Fennec
+     - Firefox for Android
+     - Core: ['Widget: Android', 'mozglue']
+  mobileios:
+    Name: Mobile (iOS)
+    InfoHeader: Extra information for Mobile on iOS
+    SubInfo: Find out more at the <a href="https://github.com/mozilla/firefox-ios" target="_blank">GitHub page</a>
+    Products: 
+     - Firefox for iOS
+  sync:
+    Name: Sync
+    InfoHeader: Extra information for Firefox Sync
+    SubInfo: Get involved with the <a href="https://wiki.mozilla.org/Services/Sync#Get_Involved" target="_blank">Sync</a> team
+    Products: 
+     - Cloud Services: ['Firefox Sync: Backend', 'Firefox Sync: Build', 'Firefox Sync: Crypto', 'Firefox Sync: UI', 'Server: Sync']
+     - Firefox: ['Sync']
+     - Android Background Services: ['Android Sync']
+  webextensions:
+    Name: Web Extensions
+    Products: 
+     - Toolkit: ['WebExtensions: Android', 'WebExtensions: Compatibility', 'WebExtensions: Developer tools', 'WebExtensions: Experiments', 'WebExtensions: Frontend', 'WebExtensions: General', 'WebExtensions: Request Handling', 'WebExtensions: Untriaged']
