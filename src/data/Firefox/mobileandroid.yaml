@@ -1,0 +1,11 @@
+name: Mobile (Android)
+description: |
+  ### Extra information for Mobile on Android
+
+  
+
+  #### Get involved with the [Mobile team](https://wiki.mozilla.org/Mobile/Get_Involved)
+products: 
+ - Fennec
+ - Firefox for Android
+ - Core: ['Widget: Android', 'mozglue']

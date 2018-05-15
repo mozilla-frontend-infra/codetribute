@@ -1,0 +1,3 @@
+name: Internals (OSX)
+products: 
+ - Core: ['Embedding: Mac', 'Widget: Cocoa']

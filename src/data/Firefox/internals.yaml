@@ -1,0 +1,8 @@
+name: Internals
+products: 
+ - Core: ['General', 'Widget', 'Document Navigation', 'XPCOM', 'Embedding: APIs', 'Embedding: GRE Core', 'Embedding: Packaging', 'File Handling', 'Find Backend', 'Gecko Profiler', 'History (Global)', 'Image Blocking', 'Installer', 'IPC', 'MFBT', 'Plug-ins', 'Preferences: Backend', 'Print Preview', 'Printing: Output', 'Printing: Setup', 'Profile: BackEnd', 'Profile: Migration', 'Profile: Roaming', 'RDF', 'Rewriting and Analysis', 'Security', 'Security: CAPS', 'Security: PSM', 'Security: S/MIME', 'Security: UI', 'Serializers', 'SQL', 'String', 'XBL', 'XTF', 'XUL', 'Widget', 'Widget: BeOS', 'Widget: OS/2', 'Widget: Photon', 'Widget: Qt', 'XP Toolkit/Widgets: XUL', 'XP Toolkit/Widgets: Menus', 'Identity', 'Localization']
+ - NSPR
+ - NSS
+ - Toolkit: ['Telemetry', 'Add-ons Manager']
+repositories: 
+ - mozilla/telemetry-dashboard: mentored
