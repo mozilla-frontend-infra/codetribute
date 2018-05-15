@@ -1,0 +1,6 @@
+name: Accessibility
+description: Get involved with the [Accessibility](https://wiki.mozilla.org/Accessibility/Contribute) team
+products: 
+ - Core: ['Disability Access APIs']
+ - Firefox: ['Disability Access']
+ - additional: {'keywords': ['access']}

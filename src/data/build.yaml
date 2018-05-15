@@ -1,0 +1,4 @@
+name: Build System
+products: 
+ - Core: ['Build Config']
+ - MailNews Core: ['Build Config']
