@@ -70,6 +70,7 @@ const bugType = ['Unassigned Bug', 'Assigned Bugs', 'Simple Bugs'];
 class App extends Component {
   constructor(props) {
     super(props);
+    
     const allProjectGroups = projectInfo;
     // Contains all information from allProjectGroups parsed
     const allProjectGroupsEntries = [];
