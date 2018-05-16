@@ -1,13 +1,10 @@
 import { Component } from 'react';
-import './App.css';
 import { withStyles } from 'material-ui/styles';
-import Button from 'material-ui/Button';
 import {
   FormLabel,
   FormControl,
   FormGroup,
   FormControlLabel,
-  FormHelperText,
 } from 'material-ui/Form';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
@@ -15,19 +12,15 @@ import Typography from 'material-ui/Typography';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
 import Hidden from 'material-ui/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-
-
-//TODO: think of how the data in yaml should be structured
+import './App.css';
 import data from './data.yaml';
-
+import projectInfo from './loader';
 
 // styles
 const drawerWidth = 240;
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -44,10 +37,9 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
-
   },
   appBarTitle: {
-    fontFamily: 'Roboto300'
+    fontFamily: 'Roboto300',
   },
   drawerPaper: {
     [theme.breakpoints.up('md')]: {
@@ -66,102 +58,127 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     minWidth: 0, // So the Typography noWrap works
   },
+  formControlLabel: {
+    display: 'flex',
+    align: 'center',
+    marginLeft: 0,
+  },
   toolbar: theme.mixins.toolbar,
 });
-
 const bugType = ['Unassigned Bug', 'Assigned Bugs', 'Simple Bugs'];
 
 class App extends Component {
-
   constructor(props) {
     super(props);
-    var allProjects = [...data.Projs];
-    allProjects.forEach(function(project, index) {
-      project.push(false)
-    })
+
+    const allProjectGroups = projectInfo;
+    // Contains all information from allProjectGroups parsed
+    const allProjectGroupsEntries = [];
+    // Contains a key-value pair as [projectkey]:[checked]
+    const projectSelected = {};
+
+    // Organizes the information so that it can be displayed easily
+    Object.entries(allProjectGroups).forEach(element => {
+      const curr = {};
+      const [key, value] = element;
+
+      curr.group = key;
+      curr.projects = Object.entries(value).reduce((projects, project) => {
+        const [key, proj] = project;
+
+        proj.key = key;
+        projects.push(proj);
+        projectSelected[key] = false;
+
+        return projects;
+      }, []);
+      allProjectGroupsEntries.push(curr);
+    });
+
     this.state = {
       mobileOpen: false,
-      allProjects : [...data.Projs],
+      allProjectGroupsEntries,
+      projectSelected,
     };
   }
-
 
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
-  handleCheckboxToggle = (proj) => {
+  handleCheckboxToggle = key => {
+    const { projectSelected } = this.state;
 
-    var allProjects = [...this.state.allProjects];
-
-    allProjects.forEach(function(project, index) {
-      if (project[0] === proj) {
-        console.log(project[2])
-        project[2] = !project[2];
-      }
-    });
-
-    this.setState({allProjects: allProjects});
+    projectSelected[key] = !projectSelected[key];
+    this.setState({ projectSelected });
   };
 
   render() {
     const { classes, theme } = this.props;
-    const { allProjects } = this.state;
-
-
+    const { allProjectGroupsEntries, projectSelected } = this.state;
     const drawer = (
       <div>
         <div className={classes.toolbar} />
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Are you interested in:</FormLabel>
-            <FormGroup>
-              { allProjects.map((proj, index) => (              
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value={proj[0]}
-                      checked = {proj[2]}
-                      onChange = {(e) => this.handleCheckboxToggle(proj[0],e)}
-                    />
-                  }
-                  key={index}
-                  label={proj[0]}
-                />
-              ))}
-            </FormGroup>
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Are you interested in:</FormLabel>
 
-            <FormLabel component="legend">Do you know ?</FormLabel>
-            <FormGroup>
-              { data.Languages.map((lang, index) => (              
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value={lang}
-                    />
-                  }
-                  key={index}
-                  label={lang}
-                />
-              ))}
-            </FormGroup>
-
-            <FormLabel component="legend">Filter result on:</FormLabel>
-            <FormGroup>
-              { bugType.map((bug, index) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value={bug}
-                    />
-                  }
-                  label={bug}
-                  key={index}
-                />
+          <FormGroup>
+            {allProjectGroupsEntries.map(projectGroup => (
+              <div key={projectGroup.group}>
+                <Typography variant="subheading">
+                  {projectGroup.group}
+                </Typography>
+                {projectGroup.projects.map(project => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        value={project.key}
+                        checked={projectSelected[project.key]}
+                        onChange={e =>
+                          this.handleCheckboxToggle(project.key, e)
+                        }
+                      />
+                    }
+                    key={project.Name}
+                    label={project.Name}
+                    classes={{
+                      root: classes.formControlLabel,
+                    }}
+                  />
                 ))}
+              </div>
+            ))}
+          </FormGroup>
 
-            </FormGroup>
-          </FormControl>
-        </div>
+          <FormLabel component="legend">Do you know ?</FormLabel>
+          <FormGroup>
+            {data.Languages.map(lang => (
+              <FormControlLabel
+                control={<Checkbox value={lang} />}
+                key={lang}
+                label={lang}
+                classes={{
+                  root: classes.formControlLabel,
+                }}
+              />
+            ))}
+          </FormGroup>
+
+          <FormLabel component="legend">Filter result on:</FormLabel>
+          <FormGroup>
+            {bugType.map(bug => (
+              <FormControlLabel
+                control={<Checkbox value={bug} />}
+                label={bug}
+                key={bug}
+                classes={{
+                  root: classes.formControlLabel,
+                }}
+              />
+            ))}
+          </FormGroup>
+        </FormControl>
+      </div>
     );
 
     return (
@@ -172,28 +189,28 @@ class App extends Component {
               color="inherit"
               aria-label="open drawer"
               onClick={this.handleDrawerToggle}
-              className={classes.navIconHide}
-            >
+              className={classes.navIconHide}>
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>BugsAhoy</Typography>
+            <Typography variant="title" color="inherit" noWrap>
+              BugsAhoy
+            </Typography>
           </Toolbar>
         </AppBar>
         <Hidden mdUp>
-        <Drawer
-          variant="temporary"
-          anchor= {theme.direction === 'rtl' ? 'right' : 'left'}
-          open={this.state.mobileOpen}
-          onClose={this.handleDrawerToggle}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          modalProps={{
-            keepMounted: true,
-          }}
-        >
-          {drawer}
-        </Drawer>
+          <Drawer
+            variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+            open={this.state.mobileOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true,
+            }}>
+            {drawer}
+          </Drawer>
         </Hidden>
 
         <Hidden smDown implementation="css">
@@ -202,8 +219,7 @@ class App extends Component {
             open
             classes={{
               paper: classes.drawerPaper,
-            }}
-          >
+            }}>
             {drawer}
           </Drawer>
         </Hidden>
@@ -211,29 +227,18 @@ class App extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
 
-
-          {/* this is the place for project description, i was thinking of using a auto moving carousel / modal */}
+          {/* this is the place for project description, 
+          i was thinking of using a auto moving carousel / modal */}
           <Typography variant="subheading">
-          Projects selected description ( as a carousel later)
+            Projects selected description ( as a carousel later)
           </Typography>
-          {allProjects.map((proj) => (
-            proj[2] &&
-            <Typography key={proj} noWrap>{proj} description</Typography>
-            )
-          )
-          }
 
-          <Divider/>
+          <Divider />
           {/* this is the place for bugs */}
-          <Typography variant="subheading">
-          Bugs (list/ table)
-          </Typography>
-
-
+          <Typography variant="subheading">Bugs (list/ table)</Typography>
         </main>
       </div>
     );
-
   }
 }
 
