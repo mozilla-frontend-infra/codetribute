@@ -1,11 +1,6 @@
 import { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
-import {
-  FormLabel,
-  FormControl,
-  FormGroup,
-  FormControlLabel,
-} from 'material-ui/Form';
+import { FormLabel, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import Typography from 'material-ui/Typography';
@@ -17,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import './App.css';
 import data from './data.yaml';
-import projectInfo from './loader';
+import projectGroups from './data/loader';
 
 // styles
 const drawerWidth = 240;
@@ -70,35 +65,19 @@ const bugType = ['Unassigned Bug', 'Assigned Bugs', 'Simple Bugs'];
 class App extends Component {
   constructor(props) {
     super(props);
-    
-    const allProjectGroups = projectInfo;
-    // Contains all information from allProjectGroups parsed
-    const allProjectGroupsEntries = [];
-    // Contains a key-value pair as [projectkey]:[checked]
-    const projectSelected = {};
 
-    // Organizes the information so that it can be displayed easily
-    Object.entries(allProjectGroups).forEach(element => {
-      const curr = {};
-      const [key, value] = element;
+    const isProjectSelected = {};
 
-      curr.group = key;
-      curr.projects = Object.entries(value).reduce((projects, project) => {
-        const [key, proj] = project;
-
-        proj.key = key;
-        projects.push(proj);
-        projectSelected[key] = false;
-
-        return projects;
-      }, []);
-      allProjectGroupsEntries.push(curr);
+    Object.entries(projectGroups).forEach(projectGroup => {
+      projectGroup[1].forEach(
+        project => (isProjectSelected[project.fileName] = false)
+      );
     });
 
     this.state = {
       mobileOpen: false,
-      allProjectGroupsEntries,
-      projectSelected,
+      projectGroups,
+      isProjectSelected,
     };
   }
 
@@ -107,77 +86,73 @@ class App extends Component {
   };
 
   handleCheckboxToggle = key => {
-    const { projectSelected } = this.state;
+    const { isProjectSelected } = this.state;
 
-    projectSelected[key] = !projectSelected[key];
-    this.setState({ projectSelected });
+    isProjectSelected[key] = !isProjectSelected[key];
+    this.setState({ isProjectSelected });
   };
 
   render() {
     const { classes, theme } = this.props;
-    const { allProjectGroupsEntries, projectSelected } = this.state;
+    const { projectGroups, isProjectSelected } = this.state;
     const drawer = (
       <div>
         <div className={classes.toolbar} />
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Are you interested in:</FormLabel>
+        <FormLabel component="legend">Are you interested in:</FormLabel>
 
-          <FormGroup>
-            {allProjectGroupsEntries.map(projectGroup => (
-              <div key={projectGroup.group}>
-                <Typography variant="subheading">
-                  {projectGroup.group}
-                </Typography>
-                {projectGroup.projects.map(project => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={project.key}
-                        checked={projectSelected[project.key]}
-                        onChange={e =>
-                          this.handleCheckboxToggle(project.key, e)
-                        }
-                      />
-                    }
-                    key={project.Name}
-                    label={project.Name}
-                    classes={{
-                      root: classes.formControlLabel,
-                    }}
-                  />
-                ))}
-              </div>
-            ))}
-          </FormGroup>
+        <FormGroup>
+          {Object.entries(projectGroups).map(([group, projects]) => (
+            <div key={group}>
+              <Typography variant="subheading">{group}</Typography>
+              {projects.map(project => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={project.fileName}
+                      checked={isProjectSelected[project.fileName]}
+                      onChange={e =>
+                        this.handleCheckboxToggle(project.fileName, e)
+                      }
+                    />
+                  }
+                  key={project.fileName}
+                  label={project.name}
+                  classes={{
+                    root: classes.formControlLabel,
+                  }}
+                />
+              ))}
+            </div>
+          ))}
+        </FormGroup>
 
-          <FormLabel component="legend">Do you know ?</FormLabel>
-          <FormGroup>
-            {data.Languages.map(lang => (
-              <FormControlLabel
-                control={<Checkbox value={lang} />}
-                key={lang}
-                label={lang}
-                classes={{
-                  root: classes.formControlLabel,
-                }}
-              />
-            ))}
-          </FormGroup>
+        <FormLabel component="legend">Do you know ?</FormLabel>
+        <FormGroup>
+          {data.Languages.map(lang => (
+            <FormControlLabel
+              control={<Checkbox value={lang} />}
+              key={lang}
+              label={lang}
+              classes={{
+                root: classes.formControlLabel,
+              }}
+            />
+          ))}
+        </FormGroup>
 
-          <FormLabel component="legend">Filter result on:</FormLabel>
-          <FormGroup>
-            {bugType.map(bug => (
-              <FormControlLabel
-                control={<Checkbox value={bug} />}
-                label={bug}
-                key={bug}
-                classes={{
-                  root: classes.formControlLabel,
-                }}
-              />
-            ))}
-          </FormGroup>
-        </FormControl>
+        <FormLabel component="legend">Filter result on:</FormLabel>
+        <FormGroup>
+          {bugType.map(bug => (
+            <FormControlLabel
+              control={<Checkbox value={bug} />}
+              label={bug}
+              key={bug}
+              classes={{
+                root: classes.formControlLabel,
+              }}
+            />
+          ))}
+        </FormGroup>
       </div>
     );
 
