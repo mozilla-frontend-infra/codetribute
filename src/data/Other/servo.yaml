@@ -1,9 +1,6 @@
 name: Servo
 description: |
   ### Extra information for Servo
-
-  
-
-  #### Get involved with the [Servo](https://github.com/servo/servo/) project
+  Get involved with the [Servo](https://github.com/servo/servo/) project
 repositories: 
  - servo/servo: E-easy

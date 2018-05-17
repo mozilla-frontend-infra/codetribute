@@ -1,10 +1,7 @@
 name: Instantbird
 description: |
   ### Extra information for Instantbird
-
-  
-
-  #### Get involved with the [Instantbird project](https://wiki.instantbird.org/Main_Page)
+  Get involved with the [Instantbird project](https://wiki.instantbird.org/Main_Page)
 products: 
  - Instantbird
  - Chat Core

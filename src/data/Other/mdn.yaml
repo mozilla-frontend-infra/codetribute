@@ -1,9 +1,6 @@
 name: MDN / Developer Documentation
 description: |
   ### Extra information for MDN
-
-  
-
-  #### Get involved with the [MDN Community](https://developer.mozilla.org/en-US/docs/MDN/Getting_started)
+  Get involved with the [MDN Community](https://developer.mozilla.org/en-US/docs/MDN/Getting_started)
 products: 
  - Developer Documentation: ['Accessibility', 'Add-ons', 'API: CSSOM', 'API: Device API', 'API: DOM', 'API: File API', 'API: HTML', 'API: IndexedDB', 'API: Miscellaneous', 'API: SVG', 'API: Web Animations', 'API: Web Audio', 'API: Web Sockets', 'API: Web Workers', 'API: WebRTC', 'Apps', 'CSS', 'Developer Tools', 'Emscripten', 'Games', 'General', 'HTML', 'JavaScript', 'Learning Area', 'Localization', 'Macros/Templates', 'Marketplace', 'MathML', 'MDN Meta Docs', 'Mozilla Platform', 'Protocols', 'Security', 'SVG']

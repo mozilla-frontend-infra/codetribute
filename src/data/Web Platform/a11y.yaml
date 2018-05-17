@@ -1,10 +1,7 @@
 name: Accessibility
 description: |
   ### Extra information for Accessibility
-
-  
-
-  #### Get involved with the [Accessibility](https://wiki.mozilla.org/Accessibility/Contribute) team
+  Get involved with the [Accessibility](https://wiki.mozilla.org/Accessibility/Contribute) team
 products: 
  - Core: ['Disability Access APIs']
  - Firefox: ['Disability Access']

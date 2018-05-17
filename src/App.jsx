@@ -1,11 +1,6 @@
 import { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
-import {
-  FormLabel,
-  FormControl,
-  FormGroup,
-  FormControlLabel,
-} from 'material-ui/Form';
+import { FormLabel, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import Typography from 'material-ui/Typography';
@@ -15,9 +10,12 @@ import Toolbar from 'material-ui/Toolbar';
 import Hidden from 'material-ui/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import './App.css';
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 import data from './data.yaml';
-import projectInfo from './loader';
+import projectGroups from './data/loader';
+import Carousel from './components/Carousel';
+import './App.css';
 
 // styles
 const drawerWidth = 240;
@@ -64,41 +62,34 @@ const styles = theme => ({
     marginLeft: 0,
   },
   toolbar: theme.mixins.toolbar,
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  grid: {
+    display: 'grid',
+    minWidth: 0,
+    }
 });
 const bugType = ['Unassigned Bug', 'Assigned Bugs', 'Simple Bugs'];
 
 class App extends Component {
   constructor(props) {
     super(props);
-    
-    const allProjectGroups = projectInfo;
-    // Contains all information from allProjectGroups parsed
-    const allProjectGroupsEntries = [];
-    // Contains a key-value pair as [projectkey]:[checked]
-    const projectSelected = {};
 
-    // Organizes the information so that it can be displayed easily
-    Object.entries(allProjectGroups).forEach(element => {
-      const curr = {};
-      const [key, value] = element;
+    const projectSelections = {};
 
-      curr.group = key;
-      curr.projects = Object.entries(value).reduce((projects, project) => {
-        const [key, proj] = project;
-
-        proj.key = key;
-        projects.push(proj);
-        projectSelected[key] = false;
-
-        return projects;
-      }, []);
-      allProjectGroupsEntries.push(curr);
+    Object.entries(projectGroups).forEach(projectGroup => {
+      projectGroup[1].forEach(
+        project => (projectSelections[project.fileName] = false)
+      );
     });
 
     this.state = {
       mobileOpen: false,
-      allProjectGroupsEntries,
-      projectSelected,
+      projectGroups,
+      projectSelections: projectSelections,
     };
   }
 
@@ -107,77 +98,73 @@ class App extends Component {
   };
 
   handleCheckboxToggle = key => {
-    const { projectSelected } = this.state;
+    const { projectSelections } = this.state;
 
-    projectSelected[key] = !projectSelected[key];
-    this.setState({ projectSelected });
+    projectSelections[key] = !projectSelections[key];
+    this.setState({ projectSelections });
   };
 
   render() {
     const { classes, theme } = this.props;
-    const { allProjectGroupsEntries, projectSelected } = this.state;
+    const { projectGroups, projectSelections } = this.state;
     const drawer = (
       <div>
         <div className={classes.toolbar} />
-        <FormControl component="fieldset">
-          <FormLabel component="legend">Are you interested in:</FormLabel>
+        <FormLabel component="legend">Are you interested in:</FormLabel>
 
-          <FormGroup>
-            {allProjectGroupsEntries.map(projectGroup => (
-              <div key={projectGroup.group}>
-                <Typography variant="subheading">
-                  {projectGroup.group}
-                </Typography>
-                {projectGroup.projects.map(project => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        value={project.key}
-                        checked={projectSelected[project.key]}
-                        onChange={e =>
-                          this.handleCheckboxToggle(project.key, e)
-                        }
-                      />
-                    }
-                    key={project.Name}
-                    label={project.Name}
-                    classes={{
-                      root: classes.formControlLabel,
-                    }}
-                  />
-                ))}
-              </div>
-            ))}
-          </FormGroup>
+        <FormGroup>
+          {Object.entries(projectGroups).map(([group, projects]) => (
+            <div key={group}>
+              <Typography variant="subheading">{group}</Typography>
+              {projects.map(project => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      value={project.fileName}
+                      checked={projectSelections[project.fileName]}
+                      onChange={e =>
+                        this.handleCheckboxToggle(project.fileName, e)
+                      }
+                    />
+                  }
+                  key={project.fileName}
+                  label={project.name}
+                  classes={{
+                    root: classes.formControlLabel,
+                  }}
+                />
+              ))}
+            </div>
+          ))}
+        </FormGroup>
 
-          <FormLabel component="legend">Do you know ?</FormLabel>
-          <FormGroup>
-            {data.Languages.map(lang => (
-              <FormControlLabel
-                control={<Checkbox value={lang} />}
-                key={lang}
-                label={lang}
-                classes={{
-                  root: classes.formControlLabel,
-                }}
-              />
-            ))}
-          </FormGroup>
+        <FormLabel component="legend">Do you know ?</FormLabel>
+        <FormGroup>
+          {data.Languages.map(lang => (
+            <FormControlLabel
+              control={<Checkbox value={lang} />}
+              key={lang}
+              label={lang}
+              classes={{
+                root: classes.formControlLabel,
+              }}
+            />
+          ))}
+        </FormGroup>
 
-          <FormLabel component="legend">Filter result on:</FormLabel>
-          <FormGroup>
-            {bugType.map(bug => (
-              <FormControlLabel
-                control={<Checkbox value={bug} />}
-                label={bug}
-                key={bug}
-                classes={{
-                  root: classes.formControlLabel,
-                }}
-              />
-            ))}
-          </FormGroup>
-        </FormControl>
+        <FormLabel component="legend">Filter result on:</FormLabel>
+        <FormGroup>
+          {bugType.map(bug => (
+            <FormControlLabel
+              control={<Checkbox value={bug} />}
+              label={bug}
+              key={bug}
+              classes={{
+                root: classes.formControlLabel,
+              }}
+            />
+          ))}
+        </FormGroup>
       </div>
     );
 
@@ -226,16 +213,19 @@ class App extends Component {
 
         <main className={classes.content}>
           <div className={classes.toolbar} />
-
-          {/* this is the place for project description, 
-          i was thinking of using a auto moving carousel / modal */}
-          <Typography variant="subheading">
-            Projects selected description ( as a carousel later)
-          </Typography>
-
-          <Divider />
-          {/* this is the place for bugs */}
-          <Typography variant="subheading">Bugs (list/ table)</Typography>
+          <Grid container spacing={24}>
+            <Grid item xs={9}>
+              <Paper className={classes.paper}>
+              <Typography variant="subheading">Bugs</Typography>
+              </Paper>
+            </Grid>
+            <Grid item xs={3} className={classes.grid}>
+              <Carousel
+                projectGroups={projectGroups}
+                projectSelections={projectSelections}
+              />
+            </Grid>
+          </Grid>
         </main>
       </div>
     );

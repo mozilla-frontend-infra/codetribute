@@ -1,9 +1,6 @@
 name: JavaScript Engine
 description: |
   ### Extra information for the JS engine
-
-  
-
-  #### Get involved with the [JS engine](https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey) team
+  Get involved with the [JS engine](https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey) team
 products: 
  - Core: ['JavaScript Engine', 'JavaScript Engine: JIT', 'JavaScript: GC', 'JavaScript: Internationalization API', 'JavaScript: Standard Library', 'js-ctypes', 'XPConnect']
