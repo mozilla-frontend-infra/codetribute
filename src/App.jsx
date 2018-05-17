@@ -1,7 +1,5 @@
 import { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
-import { FormLabel, FormGroup, FormControlLabel } from 'material-ui/Form';
-import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import Typography from 'material-ui/Typography';
 import Drawer from 'material-ui/Drawer';
@@ -12,6 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import data from './data.yaml';
 import projectGroups from './data/loader';
 import Carousel from './components/Carousel';
@@ -70,7 +71,7 @@ const styles = theme => ({
   grid: {
     display: 'grid',
     minWidth: 0,
-    }
+  },
 });
 const bugType = ['Unassigned Bug', 'Assigned Bugs', 'Simple Bugs'];
 
@@ -89,7 +90,7 @@ class App extends Component {
     this.state = {
       mobileOpen: false,
       projectGroups,
-      projectSelections: projectSelections,
+      projectSelections,
     };
   }
 
@@ -97,10 +98,10 @@ class App extends Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
-  handleCheckboxToggle = key => {
+  handleCheckboxToggle = ({ currentTarget: { id } }) => {
     const { projectSelections } = this.state;
 
-    projectSelections[key] = !projectSelections[key];
+    projectSelections[id] = !projectSelections[id];
     this.setState({ projectSelections });
   };
 
@@ -110,61 +111,45 @@ class App extends Component {
     const drawer = (
       <div>
         <div className={classes.toolbar} />
-        <FormLabel component="legend">Are you interested in:</FormLabel>
-
-        <FormGroup>
-          {Object.entries(projectGroups).map(([group, projects]) => (
-            <div key={group}>
-              <Typography variant="subheading">{group}</Typography>
-              {projects.map(project => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value={project.fileName}
-                      checked={projectSelections[project.fileName]}
-                      onChange={e =>
-                        this.handleCheckboxToggle(project.fileName, e)
-                      }
-                    />
-                  }
-                  key={project.fileName}
-                  label={project.name}
-                  classes={{
-                    root: classes.formControlLabel,
-                  }}
+        <Typography>Are you interested in:</Typography>
+        {Object.entries(projectGroups).map(([group, projects]) => (
+          <List key={group}>
+            <ListItem>
+              <ListItemText>{group}</ListItemText>
+            </ListItem>
+            {projects.map(project => (
+              <ListItem
+                key={`${group}-${project.fileName}`}
+                id={project.fileName}
+                onClick={this.handleCheckboxToggle}
+                button>
+                <Checkbox
+                  value={project.fileName}
+                  checked={projectSelections[project.fileName]}
                 />
-              ))}
-            </div>
-          ))}
-        </FormGroup>
+                <ListItemText primary={project.name} />
+              </ListItem>
+            ))}
+          </List>
+        ))}
 
-        <FormLabel component="legend">Do you know ?</FormLabel>
-        <FormGroup>
+        <Typography>Do you know ?</Typography>
+        <List>
           {data.Languages.map(lang => (
-            <FormControlLabel
-              control={<Checkbox value={lang} />}
-              key={lang}
-              label={lang}
-              classes={{
-                root: classes.formControlLabel,
-              }}
-            />
+            <ListItem key={lang} id={lang} button>
+              <Checkbox value={lang} />
+              <ListItemText primary={lang} />
+            </ListItem>
           ))}
-        </FormGroup>
 
-        <FormLabel component="legend">Filter result on:</FormLabel>
-        <FormGroup>
+          <Typography>Filter result on:</Typography>
           {bugType.map(bug => (
-            <FormControlLabel
-              control={<Checkbox value={bug} />}
-              label={bug}
-              key={bug}
-              classes={{
-                root: classes.formControlLabel,
-              }}
-            />
+            <ListItem key={bug} id={bug} button>
+              <Checkbox value={bug} />
+              <ListItemText primary={bug} />
+            </ListItem>
           ))}
-        </FormGroup>
+        </List>
       </div>
     );
 
@@ -216,7 +201,7 @@ class App extends Component {
           <Grid container spacing={24}>
             <Grid item xs={9}>
               <Paper className={classes.paper}>
-              <Typography variant="subheading">Bugs</Typography>
+                <Typography variant="subheading">Bugs</Typography>
               </Paper>
             </Grid>
             <Grid item xs={3} className={classes.grid}>
