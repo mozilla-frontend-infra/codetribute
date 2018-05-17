@@ -20,7 +20,6 @@ import Hidden from 'material-ui/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-
 //TODO: think of how the data in yaml should be structured
 import data from './data.yaml';
 
@@ -91,7 +90,6 @@ class App extends Component {
   };
 
   handleCheckboxToggle = (proj) => {
-
     var allProjects = [...this.state.allProjects];
 
     allProjects.forEach(function(project, index) {
@@ -106,8 +104,7 @@ class App extends Component {
 
   render() {
     const { classes, theme } = this.props;
-    const { allProjects } = this.state;
-
+    const { projectSelected, allProjects } = this.state;
 
     const drawer = (
       <div>
