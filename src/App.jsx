@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
-import { FormLabel, FormGroup, FormControlLabel } from 'material-ui/Form';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import Typography from 'material-ui/Typography';
@@ -101,58 +100,45 @@ class App extends Component {
     const drawer = (
       <div>
         <div className={classes.toolbar} />
-        <FormLabel component="legend">Are you interested in:</FormLabel>
-
-        <FormGroup>
-          {Object.entries(projectGroups).map(([group, projects]) => (
-            <List key={group}>
-              <ListItem>
-                <ListItemText>{group}</ListItemText>
+        <Typography>Are you interested in:</Typography>
+        {Object.entries(projectGroups).map(([group, projects]) => (
+          <List key={group}>
+            <ListItem>
+              <ListItemText>{group}</ListItemText>
+            </ListItem>
+            {projects.map(project => (
+              <ListItem
+                key={`${group}-${project.fileName}`}
+                id={project.fileName}
+                onClick={this.handleCheckboxToggle}
+                button>
+                <Checkbox
+                  value={project.fileName}
+                  checked={projectSelections[project.fileName]}
+                />
+                <ListItemText primary={project.name} />
               </ListItem>
-              {projects.map(project => (
-                <ListItem
-                  key={`${group}-${project.fileName}`}
-                  id={project.fileName}
-                  onClick={this.handleCheckboxToggle}
-                  button>
-                  <Checkbox
-                    value={project.fileName}
-                    checked={projectSelections[project.fileName]}
-                  />
-                  <ListItemText primary={project.name} />
-                </ListItem>
-              ))}
-            </List>
-          ))}
-        </FormGroup>
+            ))}
+          </List>
+        ))}
 
-        <FormLabel component="legend">Do you know ?</FormLabel>
-        <FormGroup>
+        <Typography>Do you know ?</Typography>
+        <List>
           {data.Languages.map(lang => (
-            <FormControlLabel
-              control={<Checkbox value={lang} />}
-              key={lang}
-              label={lang}
-              classes={{
-                root: classes.formControlLabel,
-              }}
-            />
+            <ListItem key={lang} id={lang} button>
+              <Checkbox value={lang} />
+              <ListItemText primary={lang} />
+            </ListItem>
           ))}
-        </FormGroup>
 
-        <FormLabel component="legend">Filter result on:</FormLabel>
-        <FormGroup>
+          <Typography>Filter result on:</Typography>
           {bugType.map(bug => (
-            <FormControlLabel
-              control={<Checkbox value={bug} />}
-              label={bug}
-              key={bug}
-              classes={{
-                root: classes.formControlLabel,
-              }}
-            />
+            <ListItem key={bug} id={bug} button>
+              <Checkbox value={bug} />
+              <ListItemText primary={bug} />
+            </ListItem>
           ))}
-        </FormGroup>
+        </List>
       </div>
     );
 
