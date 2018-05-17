@@ -10,6 +10,9 @@ import Toolbar from 'material-ui/Toolbar';
 import Hidden from 'material-ui/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import './App.css';
 import data from './data.yaml';
 import projectGroups from './data/loader';
@@ -66,18 +69,18 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const isProjectSelected = {};
+    const projectSelections = {};
 
     Object.entries(projectGroups).forEach(projectGroup => {
       projectGroup[1].forEach(
-        project => (isProjectSelected[project.fileName] = false)
+        project => (projectSelections[project.fileName] = false)
       );
     });
 
     this.state = {
       mobileOpen: false,
       projectGroups,
-      isProjectSelected,
+      projectSelections,
     };
   }
 
@@ -85,16 +88,16 @@ class App extends Component {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
 
-  handleCheckboxToggle = key => {
-    const { isProjectSelected } = this.state;
+  handleCheckboxToggle = ({ currentTarget: { id } }) => {
+    const { projectSelections } = this.state;
 
-    isProjectSelected[key] = !isProjectSelected[key];
-    this.setState({ isProjectSelected });
+    projectSelections[id] = !projectSelections[id];
+    this.setState({ projectSelections });
   };
 
   render() {
     const { classes, theme } = this.props;
-    const { projectGroups, isProjectSelected } = this.state;
+    const { projectGroups, projectSelections } = this.state;
     const drawer = (
       <div>
         <div className={classes.toolbar} />
@@ -102,27 +105,24 @@ class App extends Component {
 
         <FormGroup>
           {Object.entries(projectGroups).map(([group, projects]) => (
-            <div key={group}>
-              <Typography variant="subheading">{group}</Typography>
+            <List key={group}>
+              <ListItem>
+                <ListItemText>{group}</ListItemText>
+              </ListItem>
               {projects.map(project => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      value={project.fileName}
-                      checked={isProjectSelected[project.fileName]}
-                      onChange={e =>
-                        this.handleCheckboxToggle(project.fileName, e)
-                      }
-                    />
-                  }
-                  key={project.fileName}
-                  label={project.name}
-                  classes={{
-                    root: classes.formControlLabel,
-                  }}
-                />
+                <ListItem
+                  key={`${group}-${project.fileName}`}
+                  id={project.fileName}
+                  onClick={this.handleCheckboxToggle}
+                  button>
+                  <Checkbox
+                    value={project.fileName}
+                    checked={projectSelections[project.fileName]}
+                  />
+                  <ListItemText primary={project.name} />
+                </ListItem>
               ))}
-            </div>
+            </List>
           ))}
         </FormGroup>
 
