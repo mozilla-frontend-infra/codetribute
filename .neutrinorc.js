@@ -1,7 +1,7 @@
 module.exports = {
   use: [
     [
-      '@neutrinojs/react',
+      'neutrino-preset-mozilla-frontend-infra/react',
       {
         html: {
           title: 'bugsahoy'

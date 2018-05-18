@@ -1,0 +1,9 @@
+name: Graphics
+description: |
+  ### Extra information for Graphics
+
+  
+
+  #### Get involved with the [Graphics](https://wiki.mozilla.org/Platform/GFX/Contribute) team
+products: 
+ - Core: ['Graphics', 'GFX: Color Management', 'Canvas: WebGL', 'Canvas: 2D', 'ImageLib', 'Graphics', 'Graphics: Layers', 'Graphics: Text', 'Panning and Zooming']

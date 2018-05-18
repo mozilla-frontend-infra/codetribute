@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "build": "neutrino build",
-    "start": "neutrino start"
+    "start": "neutrino start",
+    "lint": "neutrino lint"
   },
   "dependencies": {
     "@material-ui/core": "^1.0.0-rc.0",
