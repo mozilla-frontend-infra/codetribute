@@ -1,0 +1,6 @@
+name: Dashboards and Reporting
+description: |
+  ### Extra information for Dashboards
+  Find out more about the [Treeherder](https://github.com/mozilla/treeherder) dashboard and its components
+products: 
+ - Tree Management
