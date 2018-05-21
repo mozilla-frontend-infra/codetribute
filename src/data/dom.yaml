@@ -1,0 +1,3 @@
+name: DOM and CSS technology
+products: 
+ - Core: ['CSS Parsing and Computation', 'SVG', 'DOM', 'DOM: Core & HTML', 'DOM: CSS Object Model', 'DOM: Device Interfaces', 'DOM: Events', 'DOM: IndexedDB', 'DOM: Mozilla Extensions', 'DOM: Other', 'DOM: Traversal-Range', 'DOM: Validation', 'DOM: Workers', 'Geolocation', 'HTML: Form Submission', 'Event Handling', 'HTML: Parser', 'MathML', 'XML', 'XSLT']
