@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import ReactMarkdown from 'react-markdown';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from 'material-ui/Typography';
@@ -50,7 +51,7 @@ const styles = theme => ({
   },
 });
 
-class Projects extends Component {
+class ProjectsView extends Component {
   constructor(props) {
     super(props);
 
@@ -132,7 +133,14 @@ class Projects extends Component {
                   <CustomizedCard
                     title={info.name}
                     description={<ReactMarkdown source={info.description} />}
-                    footer={<Button color="primary">VIEW PROJECT</Button>}
+                    footer={
+                      <Button
+                        component={Link}
+                        to={`${this.props.match.url}/${project}`}
+                        color="primary">
+                        VIEW PROJECT
+                      </Button>
+                    }
                   />
                 </Grid>
               ))}
@@ -144,4 +152,4 @@ class Projects extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Projects);
+export default withStyles(styles, { withTheme: true })(ProjectsView);
