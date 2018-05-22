@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from 'material-ui/Typography';
+import TextField from '@material-ui/core/TextField';
 import projects from '../../data/loader';
 import CustomizedCard from '../../components/CustomizedCard';
 
@@ -55,11 +56,33 @@ class Projects extends Component {
 
     this.state = {
       projects,
+      search: '',
     };
   }
+
+  handleTextInputChange = event => {
+    this.setState({ search: event.target.value });
+  };
   render() {
     const { classes } = this.props;
-    const { projects } = this.state;
+    const { projects, search } = this.state;
+    const selectedProjects = Object.keys(projects)
+      .filter(fileName => {
+        const found =
+          fileName.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
+          projects[fileName].name
+            .toLowerCase()
+            .indexOf(search.toLowerCase()) !== -1;
+
+        return found;
+      })
+      .reduce(
+        (prev, key) => ({
+          ...prev,
+          [key]: projects[key],
+        }),
+        {}
+      );
 
     return (
       <div className={classes.root}>
@@ -88,8 +111,17 @@ class Projects extends Component {
         </header>
         <main className={classes.content}>
           <div className={classes.container}>
+            <TextField
+              label="Search"
+              id="margin-normal"
+              fullWidth
+              value={this.state.search}
+              className={classes.textField}
+              helperText="Project name, Keyword"
+              onChange={this.handleTextInputChange}
+            />
             <Grid container spacing={16} justify="center" alignItems="center">
-              {Object.entries(projects).map(([project, info]) => (
+              {Object.entries(selectedProjects).map(([project, info]) => (
                 <Grid
                   item
                   key={project}
