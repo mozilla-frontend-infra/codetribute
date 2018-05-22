@@ -1,0 +1,5 @@
+name: Release Engineering
+description: Get involved with the [Release Engineering](https://wiki.mozilla.org/ReleaseEngineering/Contribute) team
+products: 
+ - mozilla.org: ['Hg: Customizations']
+ - Release Engineering

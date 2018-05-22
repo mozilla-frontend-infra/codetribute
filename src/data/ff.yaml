@@ -1,0 +1,6 @@
+name: Firefox - User interface
+products: 
+ - Firefox
+ - Toolkit
+ - Cloud Services: ['Firefox Sync: UI']
+ - Input: ['Frontend', 'General']

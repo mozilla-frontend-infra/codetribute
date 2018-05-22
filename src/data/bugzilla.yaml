@@ -1,0 +1,5 @@
+name: Bugzilla
+description: Get involved with the [Bugzilla](https://wiki.mozilla.org/Bugzilla) project or [BMO](https://wiki.mozilla.org/BMO), Mozilla's custom version
+products: 
+ - Bugzilla: ['Administration', 'Attachments & Requests', 'Bug Import/Export & Moving', 'Bugzilla-General', 'bugzilla.org', 'Creating/Changing Bugs', 'Documentation', 'Email Notifications', 'Extensions', 'QA Test Scripts', 'Query/Bug Lists', 'Testing Suite', 'User Accounts', 'User Interface', 'WebService', 'Whining']
+ - bugzilla.mozilla.org: ['Administration', 'API', 'Bugzilla Tweaks', 'Developer Box', 'Extensions: AntiSpam', 'Extensions: BMO', 'Extensions: ComponentWatching', 'Extensions: MyDashboard', 'Extensions: Needinfo', 'Extensions: UserProfile', 'General', 'rbbz', 'Sandstone/Mozilla Skin', 'User Interface']
