@@ -5,7 +5,8 @@ import {
   CardActions,
   Typography,
 } from 'material-ui';
-import PropTypes from 'prop-types';
+import { object, node, string } from 'prop-types';
+import ReactMarkdown from 'react-markdown';
 
 const styles = () => ({
   card: {
@@ -55,7 +56,7 @@ const styles = () => ({
   },
 });
 
-function CustomizedCard({ ...props }) {
+function ProjectCard({ ...props }) {
   const { classes, subtitle, title, description, footer } = props;
 
   return (
@@ -73,24 +74,27 @@ function CustomizedCard({ ...props }) {
         ) : null}
         {description !== undefined ? (
           <Typography className={classes.cardDescription}>
-            {description}
+            <ReactMarkdown source={description} />
           </Typography>
         ) : null}
       </CardContent>
-      <CardActions className={`${classes.textAlign} ${classes.cardActions}`}>
-        {footer}
-      </CardActions>
+      <CardActions className={classes.cardActions}>{footer}</CardActions>
     </Card>
   );
 }
 
-CustomizedCard.propTypes = {
-  classes: PropTypes.object.isRequired,
-  title: PropTypes.node,
-  subtitle: PropTypes.node,
-  description: PropTypes.node,
-  footer: PropTypes.node,
-  avatar: PropTypes.string,
+ProjectCard.propTypes = {
+  classes: object.isRequired,
+  title: node,
+  subtitle: node,
+  description: node,
+  footer: node,
+  avatar: string,
 };
 
-export default withStyles(styles)(CustomizedCard);
+ProjectCard.defaultProps = {
+  avatar: '',
+  subtitle: null,
+};
+
+export default withStyles(styles)(ProjectCard);

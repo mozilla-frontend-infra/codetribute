@@ -1,22 +1,12 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { withStyles } from 'material-ui/styles';
-import ReactMarkdown from 'react-markdown';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from 'material-ui/Typography';
 import projects from '../../data/loader';
-import CustomizedCard from '../../components/CustomizedCard';
+import ProjectCard from '../../components/ProjectCard';
 
 const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-  },
   mainCard: {
     backgroundColor: theme.palette.primary.dark,
     margin: theme.spacing.unit * 3,
@@ -62,29 +52,18 @@ class Projects extends Component {
     const { projects } = this.state;
 
     return (
-      <div className={classes.root}>
+      <Fragment>
         <header>
-          <Grid
-            container
-            spacing={16}
-            direction="column"
-            justify="center"
-            alignItems="center">
-            <Grid item xs={12}>
-              <div className={classes.columnFlex}>
-                <div className={classes.flex1} />
-                <div>
-                  <Typography variant="display4" align="center">
-                    Bug Issue UI
-                  </Typography>
-                  <Typography variant="display1" align="center">
-                    A first contribution finder
-                  </Typography>
-                </div>
-                <div className={classes.flex1} />
-              </div>
-            </Grid>
-          </Grid>
+          <div className={classes.columnFlex}>
+            <div className={classes.flex1} />
+            <Typography variant="display4" align="center">
+              Bug Issue
+            </Typography>
+            <Typography variant="display1" align="center">
+              A first contribution finder
+            </Typography>
+            <div className={classes.flex1} />
+          </div>
         </header>
         <main className={classes.content}>
           <div className={classes.container}>
@@ -97,9 +76,9 @@ class Projects extends Component {
                   sm={12}
                   md={4}
                   className={classes.grid}>
-                  <CustomizedCard
+                  <ProjectCard
                     title={info.name}
-                    description={<ReactMarkdown source={info.description} />}
+                    description={info.description}
                     footer={<Button color="primary">VIEW PROJECT</Button>}
                   />
                 </Grid>
@@ -107,7 +86,7 @@ class Projects extends Component {
             </Grid>
           </div>
         </main>
-      </div>
+      </Fragment>
     );
   }
 }
