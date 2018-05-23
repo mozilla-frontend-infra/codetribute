@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { object } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -43,7 +43,7 @@ let BugsTableToolbar = props => {
     <Toolbar className={classes.root}>
       <div className={classes.title}>
         <Typography variant="title" id="tableTitle">
-          Bugs
+          Fix
         </Typography>
       </div>
       <div className={classes.spacer} />
@@ -59,8 +59,7 @@ let BugsTableToolbar = props => {
 };
 
 BugsTableToolbar.propTypes = {
-  classes: PropTypes.object.isRequired,
-  numSelected: PropTypes.number.isRequired,
+  classes: object.isRequired,
 };
 
 BugsTableToolbar = withStyles(toolbarStyles)(BugsTableToolbar);
@@ -79,13 +78,16 @@ const styles = theme => ({
 });
 
 class BugsTable extends Component {
+  static propTypes = {
+    classes: object.isRequired,
+  };
+
   constructor(props, context) {
     super(props, context);
 
     this.state = {
       order: 'desc',
       orderBy: 'lastupdate',
-      selected: [],
       data: [
         createData(
           'Taskcluster',
@@ -200,15 +202,13 @@ class BugsTable extends Component {
     this.setState({ data, order, orderBy });
   };
 
-  handleChangePage = (event, page) => {
+  handlePageChange = (event, page) => {
     this.setState({ page });
   };
 
-  handleChangeRowsPerPage = event => {
+  handleRowsPerPageChange = event => {
     this.setState({ rowsPerPage: event.target.value });
   };
-
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
     const { classes } = this.props;
@@ -225,14 +225,13 @@ class BugsTable extends Component {
               order={order}
               orderBy={orderBy}
               onRequestSort={this.handleRequestSort}
-              rowCount={data.length}
             />
             <TableBody>
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => (
                   <TableRow hover tabIndex={-1} key={n.id}>
-                    <TableCell component="th" scope="row" padding="none">
+                    <TableCell component="th" scope="row">
                       {n.project}
                     </TableCell>
                     <TableCell>{n.description}</TableCell>
@@ -260,16 +259,12 @@ class BugsTable extends Component {
           nextIconButtonProps={{
             'aria-label': 'Next Page',
           }}
-          onChangePage={this.handleChangePage}
-          onChangeRowsPerPage={this.handleChangeRowsPerPage}
+          onChangePage={this.handlePageChange}
+          onChangeRowsPerPage={this.handleRowsPerPageChange}
         />
       </Paper>
     );
   }
 }
-
-BugsTable.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(BugsTable);

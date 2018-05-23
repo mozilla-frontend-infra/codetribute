@@ -4,27 +4,24 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Tooltip from '@material-ui/core/Tooltip';
-import PropTypes from 'prop-types';
+import { func, string } from 'prop-types';
 
-const columnData = [
-  { id: 'project', numeric: false, disablePadding: true, label: 'Project' },
+const columns = [
+  { id: 'project', numeric: false, label: 'Project' },
   {
     id: 'description',
     numeric: false,
-    disablePadding: false,
     label: 'Description (#ID)',
   },
-  { id: 'tag', numeric: false, disablePadding: false, label: 'Tag' },
+  { id: 'tag', numeric: false, label: 'Tag' },
   {
     id: 'assignedto',
     numeric: false,
-    disablePadding: false,
     label: 'Assigned To',
   },
   {
     id: 'lastupdate',
     numeric: false,
-    disablePadding: false,
     label: 'Last update',
   },
 ];
@@ -40,12 +37,12 @@ class BugsTableHead extends Component {
     return (
       <TableHead>
         <TableRow>
-          {columnData.map(
+          {columns.map(
             column => (
               <TableCell
                 key={column.id}
                 numeric={column.numeric}
-                padding={column.disablePadding ? 'none' : 'default'}
+                padding="default"
                 sortDirection={orderBy === column.id ? order : false}>
                 <Tooltip
                   title="Sort"
@@ -69,10 +66,12 @@ class BugsTableHead extends Component {
 }
 
 BugsTableHead.propTypes = {
-  onRequestSort: PropTypes.func.isRequired,
-  order: PropTypes.string.isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  // function to call when user select sorting option
+  onRequestSort: func.isRequired,
+  // column which is chosen as the variable for sorting
+  order: string.isRequired,
+  // asc or desc
+  orderBy: string.isRequired,
 };
 
 export default BugsTableHead;
