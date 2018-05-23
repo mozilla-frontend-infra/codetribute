@@ -5,10 +5,11 @@ import {
   CardActions,
   Typography,
 } from 'material-ui';
+import { Component } from 'react';
 import { object, node, string } from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
-const styles = () => ({
+@withStyles(() => ({
   card: {
     marginTop: '30px',
     textAlign: 'center',
@@ -54,47 +55,45 @@ const styles = () => ({
     height: 'auto',
     display: 'inline',
   },
-});
+}))
+export default class ProjectCard extends Component {
+  static propTypes = {
+    classes: object.isRequired,
+    title: node,
+    subtitle: node,
+    description: node,
+    footer: node,
+    avatar: string,
+  };
 
-function ProjectCard({ ...props }) {
-  const { classes, subtitle, title, description, footer } = props;
+  static defaultProps = {
+    subtitle: null,
+  };
 
-  return (
-    <Card className={classes.card}>
-      <CardContent className={classes.textAlign}>
-        {subtitle !== undefined ? (
-          <Typography component="h6" className={classes.cardSubtitle}>
-            {subtitle}
-          </Typography>
-        ) : null}
-        {title !== undefined ? (
-          <Typography component="h4" className={classes.cardTitle}>
-            {title}
-          </Typography>
-        ) : null}
-        {description !== undefined ? (
-          <Typography className={classes.cardDescription}>
-            <ReactMarkdown source={description} />
-          </Typography>
-        ) : null}
-      </CardContent>
-      <CardActions className={classes.cardActions}>{footer}</CardActions>
-    </Card>
-  );
+  render() {
+    const { classes, subtitle, title, description, footer } = this.props;
+
+    return (
+      <Card className={classes.card}>
+        <CardContent className={classes.textAlign}>
+          {subtitle && (
+            <Typography component="h6" className={classes.cardSubtitle}>
+              {subtitle}
+            </Typography>
+          )}
+          {title && (
+            <Typography component="h4" className={classes.cardTitle}>
+              {title}
+            </Typography>
+          )}
+          {description && (
+            <Typography className={classes.cardDescription}>
+              <ReactMarkdown source={description} />
+            </Typography>
+          )}
+        </CardContent>
+        <CardActions className={classes.cardActions}>{footer}</CardActions>
+      </Card>
+    );
+  }
 }
-
-ProjectCard.propTypes = {
-  classes: object.isRequired,
-  title: node,
-  subtitle: node,
-  description: node,
-  footer: node,
-  avatar: string,
-};
-
-ProjectCard.defaultProps = {
-  avatar: '',
-  subtitle: null,
-};
-
-export default withStyles(styles)(ProjectCard);

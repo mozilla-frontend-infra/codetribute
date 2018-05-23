@@ -1,3 +1,7 @@
-const Bugs = () => <div>Bugs</div>;
+import { Component } from 'react';
 
-export default Bugs;
+export default class Bugs extends Component {
+  render() {
+    return <div>Bugs</div>;
+  }
+}

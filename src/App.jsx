@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Projects from './views/Projects';
 import Bugs from './views/Bugs';
 
@@ -8,9 +8,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/projects" component={Projects} />
+          <Route exact path="/" component={Projects} />
           <Route path="/bugs" component={Bugs} />
-          <Redirect from="/" to="/projects" />
         </Switch>
       </BrowserRouter>
     );

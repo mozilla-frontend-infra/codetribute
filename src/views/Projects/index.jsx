@@ -6,40 +6,34 @@ import Typography from 'material-ui/Typography';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 
-const styles = theme => ({
-  mainCard: {
-    backgroundColor: theme.palette.primary.dark,
-    margin: theme.spacing.unit * 3,
-  },
-  text: {
-    color: theme.palette.secondary.light,
-    margin: '1px',
-  },
-  grid: {
-    padding: '0 15px !important',
-    maxWidth: '100%',
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background,
-    minWidth: 0,
-  },
-  container: {
-    paddingRight: '15px',
-    paddingLeft: '15px',
-    marginRight: 'auto',
-    marginLeft: 'auto',
-  },
-  flex1: {
-    flex: 1,
-  },
-  columnFlex: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-});
-
-class Projects extends Component {
+@withStyles(
+  theme => ({
+    grid: {
+      padding: '0 15px !important',
+      maxWidth: '100%',
+    },
+    content: {
+      flexGrow: 1,
+      backgroundColor: theme.palette.background,
+      minWidth: 0,
+    },
+    container: {
+      paddingRight: '15px',
+      paddingLeft: '15px',
+      marginRight: 'auto',
+      marginLeft: 'auto',
+    },
+    flex1: {
+      flex: 1,
+    },
+    columnFlex: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  }),
+  { withTheme: true }
+)
+export default class Projects extends Component {
   constructor(props) {
     super(props);
 
@@ -67,7 +61,7 @@ class Projects extends Component {
         </header>
         <main className={classes.content}>
           <div className={classes.container}>
-            <Grid container spacing={16} justify="center" alignItems="center">
+            <Grid container>
               {Object.entries(projects).map(([project, info]) => (
                 <Grid
                   item
@@ -90,5 +84,3 @@ class Projects extends Component {
     );
   }
 }
-
-export default withStyles(styles, { withTheme: true })(Projects);
