@@ -1,7 +1,7 @@
 import { Component, Fragment } from 'react';
 import { withStyles } from 'material-ui/styles';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Grid from 'material-ui/Grid';
+import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
