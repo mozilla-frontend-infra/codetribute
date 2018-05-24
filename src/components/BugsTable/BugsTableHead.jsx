@@ -42,7 +42,6 @@ class BugsTableHead extends Component {
               <TableCell
                 key={column.id}
                 numeric={column.numeric}
-                padding="default"
                 sortDirection={orderBy === column.id ? order : false}>
                 <Tooltip
                   title="Sort"

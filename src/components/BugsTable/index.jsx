@@ -13,8 +13,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import BugsTableHead from './BugsTableHead';
+import { PROJECTS_PAGE_SIZE, INITIAL_COUNTER } from '../../utils/constants';
 
-let counter = 0;
+let counter = INITIAL_COUNTER;
 
 function createData(project, description, tag, assignedto, lastupdate) {
   counter += 1;
@@ -43,7 +44,7 @@ let BugsTableToolbar = props => {
     <Toolbar className={classes.root}>
       <div className={classes.title}>
         <Typography variant="title" id="tableTitle">
-          Fix
+          Bugs and Issue
         </Typography>
       </div>
       <div className={classes.spacer} />
@@ -70,10 +71,13 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3,
   },
   table: {
-    minWidth: 1020,
+    width: '100%',
   },
   tableWrapper: {
     overflowX: 'auto',
+  },
+  description: {
+    whiteSpace: 'nowrap',
   },
 });
 
@@ -182,7 +186,7 @@ class BugsTable extends Component {
         ),
       ].sort((a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)),
       page: 0,
-      rowsPerPage: 5,
+      rowsPerPage: PROJECTS_PAGE_SIZE,
     };
   }
 
@@ -206,15 +210,9 @@ class BugsTable extends Component {
     this.setState({ page });
   };
 
-  handleRowsPerPageChange = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
-
   render() {
     const { classes } = this.props;
     const { data, order, orderBy, rowsPerPage, page } = this.state;
-    const emptyRows =
-      rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
@@ -234,24 +232,22 @@ class BugsTable extends Component {
                     <TableCell component="th" scope="row">
                       {n.project}
                     </TableCell>
-                    <TableCell>{n.description}</TableCell>
+                    <TableCell className={classes.description}>
+                      {n.description}
+                    </TableCell>
                     <TableCell>{n.tag}</TableCell>
                     <TableCell>{n.assignedto}</TableCell>
                     <TableCell>{n.lastupdate}</TableCell>
                   </TableRow>
                 ))}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </div>
         <TablePagination
           component="div"
           count={data.length}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={PROJECTS_PAGE_SIZE}
+          rowsPerPageOptions={[PROJECTS_PAGE_SIZE]}
           page={page}
           backIconButtonProps={{
             'aria-label': 'Previous Page',
@@ -260,7 +256,6 @@ class BugsTable extends Component {
             'aria-label': 'Next Page',
           }}
           onChangePage={this.handlePageChange}
-          onChangeRowsPerPage={this.handleRowsPerPageChange}
         />
       </Paper>
     );
