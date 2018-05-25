@@ -52,8 +52,12 @@ import ReactMarkdown from 'react-markdown';
     margin: '0 0 10px',
   },
   cardActions: {
-    height: 'auto',
-    display: 'inline',
+    position: 'absolute',
+    right: '0',
+    left: '0',
+    bottom: '0',
+    display: 'flex',
+    justifyContent: 'center',
   },
 }))
 export default class ProjectCard extends Component {
