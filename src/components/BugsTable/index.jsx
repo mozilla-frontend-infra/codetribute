@@ -13,15 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import BugsTableHead from './BugsTableHead';
-import { PROJECTS_PAGE_SIZE, INITIAL_COUNTER } from '../../utils/constants';
-
-let counter = INITIAL_COUNTER;
-
-function createData(project, description, tag, assignedto, lastupdate) {
-  counter += 1;
-
-  return { id: counter, project, description, tag, assignedto, lastupdate };
-}
+import { PROJECTS_PAGE_SIZE } from '../../utils/constants';
 
 const toolbarStyles = theme => ({
   root: {
@@ -93,97 +85,106 @@ class BugsTable extends Component {
       order: 'desc',
       orderBy: 'lastupdate',
       data: [
-        createData(
-          'Taskcluster',
-          '333 - Make azure-entities and azure-blob0-storage independent of tc-lib-monitor',
-          'JS',
-          'None',
-          '2018-02-04'
-        ),
-        createData(
-          'Taskcluster',
-          '44 - Add pagination to auth.listRoles',
-          'JS',
-          'None',
-          '2018-03-05'
-        ),
-        createData(
-          'Taskcluster',
-          '1457126 - Authorization failures should state which clientId lacks scopes',
-          'Rust',
-          'None',
-          '2018-04-05'
-        ),
-        createData(
-          'Taskcluster',
-          '1453714 - Return http 424 instead of 403 for error artifacts',
-          'Python',
-          'None',
-          '2017-12-04'
-        ),
-        createData(
-          'Taskcluster',
-          '1451548 - Return 404 for indexes and namespaces that are expired',
-          'JS',
-          'None',
-          '2018-05-04'
-        ),
-        createData(
-          'Servo',
-          '1443016 - Create a fake version of azure-blob-storage',
-          'JS',
-          'None',
-          '2018-05-12'
-        ),
-        createData(
-          'Taskcluster',
-          '1443017 - Use a mock AWS library to test publishing API definitions',
-          'JS',
-          'None',
-          '2018-05-14'
-        ),
-        createData(
-          'Servo',
-          '1436212 - Add pagination to listClients',
-          'JS',
-          'None',
-          '2018-05-20'
-        ),
-        createData(
-          'Taskcluster',
-          '1344912 - Support tag events, too',
-          'JS',
-          'None',
-          '2018-01-01'
-        ),
-        createData(
-          'Taskcluster',
-          '1306494 - Add a diff+commit submit button to some text areas in tc-tools',
-          'JS',
-          'None',
-          '2018-02-12'
-        ),
-        createData(
-          'Servo',
-          '1441960 - Add measure of time to start processing a task',
-          'JS',
-          'None',
-          '2018-05-06'
-        ),
-        createData(
-          'Servo',
-          '1446768 - Only post "No taskcluster jobs.." to a PR once',
-          'JS',
-          'None',
-          '2018-05-01'
-        ),
-        createData(
-          'Taskcluster',
-          '1441977 - Run tests for taskcluster-treeherder in Taskcluster',
-          'JS',
-          'None',
-          '2018-05-03'
-        ),
+        {
+          project: 'Servo',
+          description: '1436212 - Add pagination to listClients',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-05-20',
+        },
+        {
+          project: 'Taskcluster',
+          description:
+            '1443017 - Use a mock AWS library to test publishing API definitions',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-05-14',
+        },
+        {
+          project: 'Servo',
+          description: '1443016 - Create a fake version of azure-blob-storage',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-05-12',
+        },
+        {
+          project: 'Servo',
+          description:
+            '1441960 - Add measure of time to start processing a task',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-05-06',
+        },
+        {
+          project: 'Taskcluster',
+          description:
+            '1451548 - Return 404 for indexes and namespaces that are expired',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-05-04',
+        },
+        {
+          project: 'Taskcluster',
+          description:
+            '1441977 - Run tests for taskcluster-treeherder in Taskcluster',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-05-03',
+        },
+        {
+          project: 'Servo',
+          description:
+            '1446768 - Only post "No taskcluster jobs.." to a PR once',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-05-01',
+        },
+        {
+          project: 'Taskcluster',
+          description:
+            '1457126 - Authorization failures should state which clientId lacks scopes',
+          tag: 'Rust',
+          assignedto: 'None',
+          lastupdate: '2018-04-05',
+        },
+        {
+          project: 'Taskcluster',
+          description: '44 - Add pagination to auth.listRoles',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-03-05',
+        },
+        {
+          project: 'Taskcluster',
+          description:
+            '1306494 - Add a diff+commit submit button to some text areas in tc-tools',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-02-12',
+        },
+        {
+          project: 'Taskcluster',
+          description:
+            '333 - Make azure-entities and azure-blob0-storage independent of tc-lib-monitor',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-02-04',
+        },
+        {
+          project: 'Taskcluster',
+          description: '1344912 - Support tag events, too',
+          tag: 'JS',
+          assignedto: 'None',
+          lastupdate: '2018-01-01',
+        },
+        {
+          project: 'Taskcluster',
+          description:
+            '1453714 - Return http 424 instead of 403 for error artifacts',
+          tag: 'Python',
+          assignedto: 'None',
+          lastupdate: '2017-12-04',
+        },
       ].sort((a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)),
       page: 0,
       rowsPerPage: PROJECTS_PAGE_SIZE,
@@ -228,7 +229,10 @@ class BugsTable extends Component {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => (
-                  <TableRow hover tabIndex={-1} key={n.id}>
+                  <TableRow
+                    hover
+                    tabIndex={-1}
+                    key={`${n.project}-${n.description}`}>
                     <TableCell component="th" scope="row">
                       {n.project}
                     </TableCell>
