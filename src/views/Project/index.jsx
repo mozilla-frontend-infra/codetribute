@@ -19,7 +19,7 @@ class Project extends Component {
     return (
       <div>
         <header>
-          <Typography variant="display3" align="center">
+          <Typography variant="display1" align="center">
             {projectInfo.name}
           </Typography>
           {projectInfo.description && (
