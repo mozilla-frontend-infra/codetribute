@@ -17,12 +17,12 @@ const columns = [
   { numeric: false, label: 'Project' },
   {
     numeric: false,
-    label: 'Description (#ID)',
+    label: 'Summary',
   },
   { numeric: false, label: 'Tag' },
   {
     numeric: false,
-    label: 'Assigned To',
+    label: 'Assignee',
   },
   {
     numeric: false,
