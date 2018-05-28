@@ -1,15 +1,16 @@
 import { Component } from 'react';
 import { object } from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableHead from '@material-ui/core/TableHead';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
+import { withStyles } from 'material-ui/styles';
+import Table, {
+  TableBody,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  TablePagination,
+  TableCell,
+} from 'material-ui/Table';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
 import { PROJECTS_PAGE_SIZE } from '../../utils/constants';
 
 const columns = [
