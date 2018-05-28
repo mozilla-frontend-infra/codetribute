@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import { withStyles } from 'material-ui/styles';
 import ReactMarkdown from 'react-markdown';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Grid from 'material-ui/Grid';
+import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import TextField from '@material-ui/core/TextField';
+import TextField from 'material-ui/TextField';
 import projects from '../../data/loader';
 import CustomizedCard from '../../components/CustomizedCard';
 

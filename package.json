@@ -9,8 +9,6 @@
     "lint": "neutrino lint"
   },
   "dependencies": {
-    "@material-ui/core": "^1.0.0-rc.0",
-    "@material-ui/icons": "^1.0.0-rc.0",
     "js-yaml-loader": "^0.1.0",
     "material-ui": "^1.0.0-beta.47",
     "prop-types": "^15.6.1",
