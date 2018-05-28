@@ -88,7 +88,7 @@ CustomizedCard.propTypes = {
   classes: PropTypes.object.isRequired,
   title: PropTypes.node,
   subtitle: PropTypes.node,
-  description: PropTypes.node,
+  summary: PropTypes.node,
   footer: PropTypes.node,
   avatar: PropTypes.string,
 };

@@ -10,7 +10,6 @@ import Table, {
   TableCell,
 } from 'material-ui/Table';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
 import { PROJECTS_PAGE_SIZE } from '../../utils/constants';
 
 const columns = [
@@ -40,7 +39,7 @@ const styles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
-  description: {
+  summary: {
     whiteSpace: 'nowrap',
   },
 });
@@ -59,102 +58,100 @@ class BugsTable extends Component {
       data: [
         {
           project: 'Servo',
-          description: '1436212 - Add pagination to listClients',
+          summary: '1436212 - Add pagination to listClients',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-05-20',
         },
         {
           project: 'Taskcluster',
-          description:
+          summary:
             '1443017 - Use a mock AWS library to test publishing API definitions',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-05-14',
         },
         {
           project: 'Servo',
-          description: '1443016 - Create a fake version of azure-blob-storage',
+          summary: '1443016 - Create a fake version of azure-blob-storage',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-05-12',
         },
         {
           project: 'Servo',
-          description:
-            '1441960 - Add measure of time to start processing a task',
+          summary: '1441960 - Add measure of time to start processing a task',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-05-06',
         },
         {
           project: 'Taskcluster',
-          description:
+          summary:
             '1451548 - Return 404 for indexes and namespaces that are expired',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-05-04',
         },
         {
           project: 'Taskcluster',
-          description:
+          summary:
             '1441977 - Run tests for taskcluster-treeherder in Taskcluster',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-05-03',
         },
         {
           project: 'Servo',
-          description:
-            '1446768 - Only post "No taskcluster jobs.." to a PR once',
+          summary: '1446768 - Only post "No taskcluster jobs.." to a PR once',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-05-01',
         },
         {
           project: 'Taskcluster',
-          description:
+          summary:
             '1457126 - Authorization failures should state which clientId lacks scopes',
           tag: 'Rust',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-04-05',
         },
         {
           project: 'Taskcluster',
-          description: '44 - Add pagination to auth.listRoles',
+          summary: '44 - Add pagination to auth.listRoles',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-03-05',
         },
         {
           project: 'Taskcluster',
-          description:
+          summary:
             '1306494 - Add a diff+commit submit button to some text areas in tc-tools',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-02-12',
         },
         {
           project: 'Taskcluster',
-          description:
+          summary:
             '333 - Make azure-entities and azure-blob0-storage independent of tc-lib-monitor',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-02-04',
         },
         {
           project: 'Taskcluster',
-          description: '1344912 - Support tag events, too',
+          summary: '1344912 - Support tag events, too',
           tag: 'JS',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2018-01-01',
         },
         {
           project: 'Taskcluster',
-          description:
+          summary:
             '1453714 - Return http 424 instead of 403 for error artifacts',
           tag: 'Python',
-          assignedTo: 'None',
+          assignee: 'None',
           lastUpdated: '2017-12-04',
         },
       ].sort((a, b) => (a.lastUpdated > b.lastUpdated ? -1 : 1)),
@@ -194,9 +191,6 @@ class BugsTable extends Component {
     return (
       <div className={classes.root}>
         <Toolbar>
-          <Typography variant="title" id="tableTitle">
-            Bugs and Issue
-          </Typography>
           <div className={classes.spacer} />
         </Toolbar>
         <div className={classes.tableWrapper}>
@@ -225,15 +219,15 @@ class BugsTable extends Component {
                   <TableRow
                     hover
                     tabIndex={-1}
-                    key={`${n.project}-${n.description}`}>
+                    key={`${n.project}-${n.summary}`}>
                     <TableCell component="th" scope="row">
                       {n.project}
                     </TableCell>
-                    <TableCell className={classes.description}>
-                      {n.description}
+                    <TableCell className={classes.summary}>
+                      {n.summary}
                     </TableCell>
                     <TableCell>{n.tag}</TableCell>
-                    <TableCell>{n.assignedTo}</TableCell>
+                    <TableCell>{n.assignee}</TableCell>
                     <TableCell>{n.lastUpdated}</TableCell>
                   </TableRow>
                 ))}
