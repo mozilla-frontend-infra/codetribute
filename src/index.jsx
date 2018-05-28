@@ -3,13 +3,13 @@ import { AppContainer } from 'react-hot-loader';
 import App from './App';
 
 const root = document.getElementById('root');
-const load = () => render(
-  (
+const load = () =>
+  render(
     <AppContainer>
       <App />
-    </AppContainer>
-  ), root,
-);
+    </AppContainer>,
+    root
+  );
 
 // This is needed for Hot Module Replacement
 if (module.hot) {
