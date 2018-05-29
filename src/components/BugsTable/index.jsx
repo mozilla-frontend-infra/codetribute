@@ -9,7 +9,6 @@ import Table, {
   TablePagination,
   TableCell,
 } from 'material-ui/Table';
-import Toolbar from 'material-ui/Toolbar';
 import { PROJECTS_PAGE_SIZE } from '../../utils/constants';
 
 const columns = [
@@ -190,9 +189,6 @@ class BugsTable extends Component {
 
     return (
       <div className={classes.root}>
-        <Toolbar>
-          <div className={classes.spacer} />
-        </Toolbar>
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <TableHead>
