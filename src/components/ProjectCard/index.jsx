@@ -5,14 +5,14 @@ import {
   CardActions,
   Typography,
 } from 'material-ui';
+import Button from 'material-ui/Button';
 import { Component } from 'react';
-import { object, node } from 'prop-types';
+import { object, node, string } from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
 @withStyles(
   theme => ({
     card: {
-      marginBottom: 30,
       textAlign: 'center',
       position: 'relative',
       width: '100%',
@@ -32,7 +32,7 @@ import ReactMarkdown from 'react-markdown';
       marginBottom: 10,
     },
     cardDescription: {
-      fontWeight: '300',
+      fontWeight: 300,
       padding: 2 * theme.spacing.unit,
     },
     cardActions: {
@@ -49,7 +49,7 @@ import ReactMarkdown from 'react-markdown';
 export default class ProjectCard extends Component {
   static propTypes = {
     classes: object.isRequired,
-    title: node,
+    title: string.isRequired,
     description: node,
     footer: node,
   };
@@ -59,19 +59,23 @@ export default class ProjectCard extends Component {
   };
 
   render() {
-    const { classes, title, description, footer } = this.props;
+    const { classes, title, description } = this.props;
 
     return (
       <Card className={classes.card}>
         <CardContent className={classes.textAlign}>
-          {title && <Typography gutterBottom variant="title" component="h4">{title}</Typography>}
+          <Typography gutterBottom variant="title" component="h4">
+            {title}
+          </Typography>
           {description && (
             <Typography className={classes.cardDescription}>
               <ReactMarkdown source={description} />
             </Typography>
           )}
         </CardContent>
-        <CardActions className={classes.cardActions}>{footer}</CardActions>
+        <CardActions className={classes.cardActions}>
+          <Button color="primary">VIEW PROJECT</Button>
+        </CardActions>
       </Card>
     );
   }

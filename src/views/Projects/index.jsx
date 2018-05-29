@@ -1,20 +1,14 @@
 import { Component, Fragment } from 'react';
 import { withStyles } from 'material-ui/styles';
 import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 
 @withStyles(
   theme => ({
-    grid: {
-      padding: '0 15px !important',
-      maxWidth: '100%',
-    },
     content: {
       flexGrow: 1,
-      backgroundColor: theme.palette.background,
       minWidth: 0,
     },
     container: {
@@ -23,12 +17,9 @@ import ProjectCard from '../../components/ProjectCard';
       marginRight: 'auto',
       marginLeft: 'auto',
     },
-    flex1: {
-      flex: 1,
-    },
-    columnFlex: {
-      display: 'flex',
-      flexDirection: 'column',
+    header: {
+      paddingTop: theme.spacing.unit,
+      paddingBottom: 2 * theme.spacing.unit,
     },
   }),
   { withTheme: true }
@@ -47,33 +38,22 @@ export default class Projects extends Component {
 
     return (
       <Fragment>
-        <header>
-          <div className={classes.columnFlex}>
-            <div className={classes.flex1} />
-            <Typography variant="display4" align="center">
-              Bug Issue
-            </Typography>
-            <Typography variant="display1" align="center">
-              A first contribution finder
-            </Typography>
-            <div className={classes.flex1} />
-          </div>
+        <header className={classes.header}>
+          <Typography variant="display4" align="center">
+            Bug Issue
+          </Typography>
+          <Typography variant="display1" align="center">
+            Find your first contribution with Mozilla
+          </Typography>
         </header>
         <main className={classes.content}>
           <div className={classes.container}>
-            <Grid container>
+            <Grid container spacing={16}>
               {Object.entries(projects).map(([project, info]) => (
-                <Grid
-                  item
-                  key={project}
-                  xs={12}
-                  sm={12}
-                  md={4}
-                  className={classes.grid}>
+                <Grid item key={project} xs={12} sm={12} md={4} lg={3}>
                   <ProjectCard
                     title={info.name}
                     description={info.description}
-                    footer={<Button color="primary">VIEW PROJECT</Button>}
                   />
                 </Grid>
               ))}
