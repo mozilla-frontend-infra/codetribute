@@ -1,17 +1,97 @@
-import { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
-import ProjectsView from './ProjectsView';
-import Project from '../Project';
+import { Component, Fragment } from 'react';
+import { withStyles } from 'material-ui/styles';
+import { Link } from 'react-router-dom';
+import Grid from 'material-ui/Grid';
+import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
+import TextField from 'material-ui/TextField';
+import projects from '../../data/loader';
+import ProjectCard from '../../components/ProjectCard';
 
-export default class Projects extends Component {
+@withStyles(theme => ({
+  container: {
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+  },
+  header: {
+    paddingTop: theme.spacing.unit,
+    paddingBottom: 2 * theme.spacing.unit,
+  },
+}))
+export default class Index extends Component {
+  state = {
+    projects,
+    search: '',
+  };
+
+  handleTextInputChange = event => {
+    this.setState({ search: event.target.value });
+  };
+
   render() {
-    const { path } = this.props.match;
+    console.log('rendering', this.props.match.url);
+    const { classes } = this.props;
+    const { projects, search } = this.state;
+    const selectedProjects = Object.keys(projects)
+      .filter(fileName => {
+        const found =
+          fileName.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
+          projects[fileName].name
+            .toLowerCase()
+            .indexOf(search.toLowerCase()) !== -1;
+
+        return found;
+      })
+      .reduce(
+        (prev, key) => ({
+          ...prev,
+          [key]: projects[key],
+        }),
+        {}
+      );
 
     return (
-      <Switch>
-        <Route path={`${path}/:projectKey`} component={Project} />
-        <Route path={path} exact component={ProjectsView} />
-      </Switch>
+      <Fragment>
+        <header className={classes.header}>
+          <Typography variant="display2" align="center">
+            Bug Issue
+          </Typography>
+          <Typography variant="subheading" align="center">
+            Find your first contribution with Mozilla
+          </Typography>
+        </header>
+        <main className={classes.container}>
+          <TextField
+            label="Search"
+            id="margin-normal"
+            fullWidth
+            value={this.state.search}
+            className={classes.textField}
+            helperText="Project name, Keyword"
+            onChange={this.handleTextInputChange}
+          />
+          <Grid container spacing={16}>
+            {Object.entries(selectedProjects).map(([project, info]) => (
+              <Grid item key={project} xs={12} sm={12} md={4} lg={3}>
+                <ProjectCard
+                  title={info.name}
+                  description={info.description}
+                  footer={
+                    <Button
+                      component={Link}
+                      to={`${this.props.match.url}${project}`}
+                      color="primary">
+                      VIEW PROJECT
+                    </Button>
+                  }
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </main>
+      </Fragment>
     );
   }
 }
