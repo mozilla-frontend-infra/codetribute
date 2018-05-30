@@ -6,10 +6,6 @@ import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 
 @withStyles(theme => ({
-  content: {
-    flexGrow: 1,
-    minWidth: 0,
-  },
   container: {
     paddingRight: 15,
     paddingLeft: 15,
@@ -25,6 +21,7 @@ export default class Projects extends Component {
   state = {
     projects,
   };
+
   render() {
     const { classes } = this.props;
     const { projects } = this.state;
@@ -39,19 +36,14 @@ export default class Projects extends Component {
             Find your first contribution with Mozilla
           </Typography>
         </header>
-        <main className={classes.content}>
-          <div className={classes.container}>
-            <Grid container spacing={16}>
-              {Object.entries(projects).map(([project, info]) => (
-                <Grid item key={project} xs={12} sm={12} md={4} lg={3}>
-                  <ProjectCard
-                    title={info.name}
-                    description={info.description}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </div>
+        <main className={classes.container}>
+          <Grid container spacing={16}>
+            {Object.entries(projects).map(([project, info]) => (
+              <Grid item key={project} xs={12} sm={12} md={4} lg={3}>
+                <ProjectCard title={info.name} description={info.description} />
+              </Grid>
+            ))}
+          </Grid>
         </main>
       </Fragment>
     );

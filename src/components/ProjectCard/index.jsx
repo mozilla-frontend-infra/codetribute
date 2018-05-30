@@ -7,7 +7,7 @@ import {
 } from 'material-ui';
 import Button from 'material-ui/Button';
 import { Component } from 'react';
-import { object, string } from 'prop-types';
+import { string } from 'prop-types';
 import ReactMarkdown from 'react-markdown';
 
 @withStyles(theme => ({
@@ -45,7 +45,6 @@ import ReactMarkdown from 'react-markdown';
 }))
 export default class ProjectCard extends Component {
   static propTypes = {
-    classes: object.isRequired,
     title: string.isRequired,
     description: string,
   };
