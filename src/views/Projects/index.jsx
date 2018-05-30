@@ -5,33 +5,26 @@ import Typography from 'material-ui/Typography';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 
-@withStyles(
-  theme => ({
-    content: {
-      flexGrow: 1,
-      minWidth: 0,
-    },
-    container: {
-      paddingRight: '15px',
-      paddingLeft: '15px',
-      marginRight: 'auto',
-      marginLeft: 'auto',
-    },
-    header: {
-      paddingTop: theme.spacing.unit,
-      paddingBottom: 2 * theme.spacing.unit,
-    },
-  }),
-  { withTheme: true }
-)
+@withStyles(theme => ({
+  content: {
+    flexGrow: 1,
+    minWidth: 0,
+  },
+  container: {
+    paddingRight: 15,
+    paddingLeft: 15,
+    marginRight: 'auto',
+    marginLeft: 'auto',
+  },
+  header: {
+    paddingTop: theme.spacing.unit,
+    paddingBottom: 2 * theme.spacing.unit,
+  },
+}))
 export default class Projects extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      projects,
-    };
-  }
+  state = {
+    projects,
+  };
   render() {
     const { classes } = this.props;
     const { projects } = this.state;
@@ -39,10 +32,10 @@ export default class Projects extends Component {
     return (
       <Fragment>
         <header className={classes.header}>
-          <Typography variant="display4" align="center">
+          <Typography variant="display2" align="center">
             Bug Issue
           </Typography>
-          <Typography variant="display1" align="center">
+          <Typography variant="subheading" align="center">
             Find your first contribution with Mozilla
           </Typography>
         </header>
