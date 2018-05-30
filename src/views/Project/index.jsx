@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { ApolloConsumer } from 'react-apollo';
 import Grid from '@material-ui/core/Grid';
 import Typography from 'material-ui/Typography';
 import ReactMarkdown from 'react-markdown';
@@ -16,6 +17,33 @@ class Project extends Component {
   render() {
     const { fileName, projects } = this.state;
     const projectInfo = projects[fileName];
+    // dictionary with repo as key and tag as value
+    const tmp = projectInfo.repositories
+      ? projectInfo.repositories.reduce(
+          (prev, cur) => ({ ...prev, ...cur }),
+          {}
+        )
+      : {};
+    // initial query search for all repo
+    const repoQuerySearch = ['state:open'];
+    // a dictionary of tag (string) and list of repository in that tag
+    const tagRepoDictionary = Object.keys(tmp).reduce((prev, key) => {
+      const curr = [
+        ...(prev[tmp[key]] || [...repoQuerySearch, `label:${tmp[key]}`]),
+        `repo:${key}`,
+      ];
+
+      return {
+        ...prev,
+        [tmp[key]]: curr,
+      };
+    }, {});
+    const tagRepoList = Object.entries(tagRepoDictionary).map(
+      ([key, value]) => ({
+        label: key,
+        query: value.join(' '),
+      })
+    );
 
     return (
       <div>
@@ -43,7 +71,15 @@ class Project extends Component {
               </div>
             </Grid>
           </Grid>
-          <BugsTable />
+          <ApolloConsumer>
+            {client => (
+              <BugsTable
+                client={client}
+                projectName={projectInfo.name}
+                tagRepoList={tagRepoList}
+              />
+            )}
+          </ApolloConsumer>
         </header>
       </div>
     );
