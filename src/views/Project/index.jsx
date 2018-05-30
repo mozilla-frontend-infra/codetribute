@@ -1,6 +1,8 @@
 import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
+import { Component } from 'react';
+import { ApolloConsumer } from 'react-apollo';
 import projects from '../../data/loader';
 import TasksTable from '../../components/TasksTable';
 
@@ -122,3 +124,4 @@ export default class Project extends Component {
     );
   }
 }
+
