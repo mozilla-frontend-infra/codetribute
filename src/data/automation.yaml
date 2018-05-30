@@ -5,7 +5,6 @@ repositories:
  - armenzg/mozilla_ci_tools: mentored
  - automatedtester/automation-services-bot: mentored
  - automatedtester/powerball-platform: mentored
- - automatedtester/testdaybot: mentored
  - automatedtester/unittest-zero: mentored
  - davehunt/flynnid: mentored
  - davehunt/pytest-mozwebqa: mentored
