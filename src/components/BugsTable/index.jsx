@@ -96,10 +96,7 @@ class BugsTable extends Component {
   };
 
   handleChangePage = (event, page) => {
-    const { onPageChange } = this.props;
-
     this.setState({ page });
-    onPageChange(page);
   };
 
   render() {
