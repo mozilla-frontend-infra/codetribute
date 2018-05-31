@@ -1,11 +1,13 @@
+import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
-import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import TextField from 'material-ui/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 
+@hot(module)
 @withStyles(theme => ({
   container: {
     paddingRight: 15,

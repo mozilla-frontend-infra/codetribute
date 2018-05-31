@@ -1,14 +1,12 @@
-import {
-  withStyles,
-  Card,
-  CardContent,
-  CardActions,
-  Typography,
-} from 'material-ui';
-import Button from 'material-ui/Button';
 import { Component } from 'react';
 import { string } from 'prop-types';
-import ReactMarkdown from 'react-markdown';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import Markdown from 'react-markdown';
 
 @withStyles(theme => ({
   card: {
@@ -64,7 +62,7 @@ export default class ProjectCard extends Component {
           </Typography>
           {description && (
             <Typography className={classes.cardDescription}>
-              <ReactMarkdown source={description} />
+              <Markdown source={description} />
             </Typography>
           )}
         </CardContent>
