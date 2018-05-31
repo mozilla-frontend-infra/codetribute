@@ -1,3 +1,1 @@
-const PROJECTS_PAGE_SIZE = 25;
 
-export default PROJECTS_PAGE_SIZE;

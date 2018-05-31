@@ -5,33 +5,14 @@ import Table, {
   TableHead,
   TableRow,
   TableSortLabel,
-  TablePagination,
   TableCell,
 } from 'material-ui/Table';
-import PROJECTS_PAGE_SIZE from '../../utils/constants';
 
-const columns = [
-  { label: 'Project' },
-  {
-    label: 'Summary',
-  },
-  { label: 'Tag' },
-  {
-    label: 'Assignee',
-  },
-  {
-    label: 'Last Updated',
-  },
-];
+const columns = ['Project', 'Summary', 'Tag', 'Assignee', 'Last Updated'];
 const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-  },
   table: {
+    marginTop: theme.spacing.unit * 3,
     width: '100%',
-  },
-  tableWrapper: {
     overflowX: 'auto',
   },
   summary: {
@@ -141,9 +122,7 @@ class BugsTable extends Component {
         assignee: 'None',
         lastUpdated: '2017-12-04',
       },
-    ].sort((a, b) => (a.lastUpdated > b.lastUpdated ? -1 : 1)),
-    page: 0,
-    rowsPerPage: PROJECTS_PAGE_SIZE,
+    ],
   };
 
   createSortHandler = property => event => {
@@ -166,71 +145,45 @@ class BugsTable extends Component {
     this.setState({ data, order, orderBy });
   };
 
-  handlePageChange = (event, page) => {
-    this.setState({ page });
-  };
-
   render() {
     const { classes } = this.props;
-    const { data, order, orderBy, rowsPerPage, page } = this.state;
+    const { data, order, orderBy } = this.state;
 
     return (
-      <div className={classes.root}>
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <TableHead>
-              <TableRow>
-                {columns.map(column => (
-                  <TableCell
-                    key={column.label}
-                    sortDirection={orderBy === column.label ? order : false}>
-                    <TableSortLabel
-                      active={orderBy === column.label}
-                      direction={order}
-                      onClick={this.createSortHandler(column.label)}>
-                      {column.label}
-                    </TableSortLabel>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {data
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(item => (
-                  <TableRow
-                    hover
-                    tabIndex={-1}
-                    key={`${item.project}-${item.summary}`}>
-                    <TableCell component="th" scope="row">
-                      {item.project}
-                    </TableCell>
-                    <TableCell className={classes.summary}>
-                      {item.summary}
-                    </TableCell>
-                    <TableCell>{item.tag}</TableCell>
-                    <TableCell>{item.assignee}</TableCell>
-                    <TableCell>{item.lastUpdated}</TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </div>
-        <TablePagination
-          component="div"
-          count={data.length}
-          rowsPerPage={PROJECTS_PAGE_SIZE}
-          rowsPerPageOptions={[PROJECTS_PAGE_SIZE]}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.handlePageChange}
-        />
-      </div>
+      <Table className={classes.table} aria-labelledby="tableTitle">
+        <TableHead>
+          <TableRow>
+            {columns.map(column => (
+              <TableCell
+                key={column}
+                sortDirection={orderBy === column ? order : false}>
+                <TableSortLabel
+                  active={orderBy === column}
+                  direction={order}
+                  onClick={this.createSortHandler(column)}>
+                  {column}
+                </TableSortLabel>
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map(item => (
+            <TableRow
+              hover
+              tabIndex={-1}
+              key={`${item.project}-${item.summary}`}>
+              <TableCell component="th" scope="row">
+                {item.project}
+              </TableCell>
+              <TableCell className={classes.summary}>{item.summary}</TableCell>
+              <TableCell>{item.tag}</TableCell>
+              <TableCell>{item.assignee}</TableCell>
+              <TableCell>{item.lastUpdated}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     );
   }
 }

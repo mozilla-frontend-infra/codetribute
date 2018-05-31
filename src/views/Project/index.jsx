@@ -15,10 +15,12 @@ export default class Project extends Component {
     return (
       <Fragment>
         <header>
-          <Typography variant="display1" align="center">
+          <Typography variant="display2" align="center">
             {projectInfo.name}
           </Typography>
-          <Typography align="center">Bugs & Issues</Typography>
+          <Typography variant="subheading" align="center">
+            Bugs & Issues
+          </Typography>
         </header>
         <BugsTable />
       </Fragment>
