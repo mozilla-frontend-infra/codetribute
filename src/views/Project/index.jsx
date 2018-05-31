@@ -9,6 +9,7 @@ import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import Issues from './issues.graphql';
+import Bugs from './bugs.graphql';
 
 const githubQuery = fileName => {
   const projectInfo = projects[fileName];
@@ -99,6 +100,67 @@ class Project extends Component {
       loading: nextProps.githubData.loading,
     };
   }
+
+  fetchBugs(variables) {
+    const { client } = this.props;
+
+    client
+      .query({
+        query: Bugs,
+        variables,
+        context: { link: 'bugzilla' },
+      })
+      .catch(
+        () =>
+          new Promise(resolve => {
+            resolve(false);
+          })
+      )
+      .then(({ data, loading, error }) => {
+        const bugsData = data.bug.edges.map(edge => edge.node).map(bug => ({
+          assignedto: bug.assignedTo.name || 'None',
+          project: bug.component,
+          id: bug.id,
+          tag: bug.tags || '',
+          description: `${bug.id} - ${bug.summary}`,
+          lastupdate: bug.lastChanged,
+        }));
+
+        this.setState({
+          data: _.uniqBy([...this.state.data, ...bugsData], 'description').sort(
+            (a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)
+          ),
+          loading,
+          error,
+        });
+      });
+  }
+  fetchBugzillaDataNext() {
+    const { productList, productComponentList } = this.state;
+    const variables = {
+      searchProduct: {
+        products: productList,
+        tags: ['good-first-bug'],
+        statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
+      },
+      paging: {
+        page: 0,
+        pageSize: 100,
+      },
+    };
+
+    // fetch bugs for products with no components
+    this.fetchBugs(variables, 'products');
+
+    // fetch bugs for each product that has components
+    productComponentList.forEach(item => {
+      variables.searchProduct.products = item.products;
+      variables.searchProduct.components = item.components;
+
+      this.fetchBugs(variables, item.products);
+    });
+  }
+
 
   render() {
     const project = projects[this.props.match.params.project];
