@@ -46,6 +46,12 @@ const githubQuery = fileName => {
       {
       ...Issues
       }\n`;
+      const cursorQuery = `_${idx}: search(first:20, type:ISSUE, query:"${
+        tag.query
+      }", after:${tag.after})\n
+      {
+      ...Issues
+      }\n`;
 
     allQuery = allQuery.concat(noCursorQuery);
   });
