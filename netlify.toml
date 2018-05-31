@@ -1,0 +1,11 @@
+[build]
+  command = "yarn build"
+  publish = "build"
+
+[build.environment]
+  YARN_FLAGS = "--frozen-lockfile"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
