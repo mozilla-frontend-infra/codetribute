@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import projects from '../../data/loader';
 import BugsTable from '../../components/BugsTable';
 import Issues from './issues.graphql';
+import Bugs from './bugs.graphql';
 
 class Project extends Component {
   constructor(props) {
@@ -41,6 +42,20 @@ class Project extends Component {
         query: value.join(' '),
       })
     );
+    // list of product with no component specified for Bugzilla Query
+    const productList = projectInfo.products.filter(
+      product => typeof product === 'string'
+    );
+    // list of product with its component specified for Bugzilla Query
+    const productTemp = projectInfo.products
+      .filter(product => typeof product !== 'string')
+      .reduce((prev, cur) => ({ ...prev, ...cur }), {});
+    const productComponentList = Object.entries(productTemp).map(
+      ([key, value]) => ({
+        products: [key],
+        components: value,
+      })
+    );
 
     this.state = {
       projectInfo,
@@ -48,12 +63,15 @@ class Project extends Component {
       error: false,
       loading: true,
       data: [],
+      productList,
+      productComponentList,
     };
   }
   componentDidMount() {
     const { tagRepoList } = this.state;
 
     this.fetchGithubDataNext(tagRepoList);
+    this.fetchBugzillaDataNext();
   }
 
   fetchGithubDataNext(tagRepoList) {
@@ -118,6 +136,67 @@ class Project extends Component {
         });
       });
   }
+
+  fetchBugs(variables) {
+    const { client } = this.props;
+
+    client
+      .query({
+        query: Bugs,
+        variables,
+        context: { link: 'bugzilla' },
+      })
+      .catch(
+        () =>
+          new Promise(resolve => {
+            resolve(false);
+          })
+      )
+      .then(({ data, loading, error }) => {
+        const bugsData = data.bug.edges.map(edge => edge.node).map(bug => ({
+          assignedto: bug.assignedTo.name || 'None',
+          project: bug.component,
+          id: bug.id,
+          tag: bug.tags || '',
+          description: `${bug.id} - ${bug.summary}`,
+          lastupdate: bug.lastChanged,
+        }));
+
+        this.setState({
+          data: _.uniqBy([...this.state.data, ...bugsData], 'description').sort(
+            (a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)
+          ),
+          loading,
+          error,
+        });
+      });
+  }
+  fetchBugzillaDataNext() {
+    const { productList, productComponentList } = this.state;
+    const variables = {
+      searchProduct: {
+        products: productList,
+        tags: ['good-first-bug'],
+        statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
+      },
+      paging: {
+        page: 0,
+        pageSize: 100,
+      },
+    };
+
+    // fetch bugs for products with no components
+    this.fetchBugs(variables, 'products');
+
+    // fetch bugs for each product that has components
+    productComponentList.forEach(item => {
+      variables.searchProduct.products = item.products;
+      variables.searchProduct.components = item.components;
+
+      this.fetchBugs(variables, item.products);
+    });
+  }
+
   render() {
     const { projectInfo, loading, error, data } = this.state;
 
