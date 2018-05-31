@@ -1,7 +1,7 @@
-query Issues($searchQuery: String!) {
-  search(first: 100, type: ISSUE, query: $searchQuery) {
-    nodes {
-      ... on Issue {
+fragment Issues on SearchResultItemConnection {
+  	issueCount
+    nodes{
+      ...on Issue  {
         title
         updatedAt
         number
@@ -9,18 +9,21 @@ query Issues($searchQuery: String!) {
           name
         }
         url
-        labels(last:5) {
-          nodes {
+        labels(last:2){
+          nodes{
             name
+            color
           }
         }
         assignees(last:1) {
-          nodes {
+          nodes{
             login
           }
         }
       }
     }
-  }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
 }
-
