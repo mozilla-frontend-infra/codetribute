@@ -6,6 +6,7 @@ module.exports = {
       }
     }],
     (neutrino) => {
+      neutrino.config.output.publicPath('/');
       neutrino.config.module
         .rule('js-yaml')
         .test(/\.(yaml|yml)$/)
