@@ -1,21 +1,19 @@
 import { Component } from 'react';
-import { ApolloConsumer } from 'react-apollo';
-import Grid from '@material-ui/core/Grid';
+import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import ReactMarkdown from 'react-markdown';
+import { ApolloConsumer } from 'react-apollo';
+import _ from 'lodash';
+import gql from 'graphql-tag';
 import projects from '../../data/loader';
 import BugsTable from '../../components/BugsTable';
+import Issues from './issues.graphql';
+import { PROJECTS_PAGE_SIZE, BUG_ENTRY_THRESHOLD } from '../../utils/constants';
 
 class Project extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      fileName: props.match.params.projectKey,
-      projects,
-    };
-  }
-  render() {
-    const { fileName, projects } = this.state;
+    const fileName = props.match.params.projectKey;
     const projectInfo = projects[fileName];
     // dictionary with repo as key and tag as value
     const tmp = projectInfo.repositories
@@ -45,6 +43,115 @@ class Project extends Component {
       })
     );
 
+    this.state = {
+      projectInfo,
+      tagRepoList,
+      githubNextPageList: [],
+      error: false,
+      loading: true,
+      data: [],
+    };
+  }
+  componentDidMount() {
+    const { tagRepoList } = this.state;
+
+    this.fetchGithubDataNext(tagRepoList);
+  }
+
+  handlePageChange = page => {
+    const { githubNextPageList, data } = this.state;
+
+    if (
+      data.length - PROJECTS_PAGE_SIZE * page < BUG_ENTRY_THRESHOLD &&
+      githubNextPageList.length > 0
+    ) {
+      this.fetchGithubDataNext(githubNextPageList);
+    }
+  };
+
+  fetchGithubDataNext(tagRepoList) {
+    const { client } = this.props;
+    let allQuery = '';
+
+    if (tagRepoList.length === 0) return;
+
+    tagRepoList.forEach((tag, idx) => {
+      const noCursorQuery = `_${idx}: search(first:20, type:ISSUE, query:"${
+        tag.query
+      }")\n
+      {
+      ...Issues
+      }\n`;
+      const cursorQuery = `_${idx}: search(first:20, type:ISSUE, query:"${
+        tag.query
+      }", after:${tag.after})\n
+      {
+      ...Issues
+      }\n`;
+
+      allQuery = tag.after
+        ? allQuery.concat(cursorQuery)
+        : allQuery.concat(noCursorQuery);
+    });
+
+    client
+      .query({ query: gql`{${allQuery}}\n${Issues}` })
+      .catch(
+        () =>
+          new Promise(resolve => {
+            resolve(false);
+          })
+      )
+      .then(({ data, error, loading }) => {
+        const repositoriesData = Object.entries(data).map(([key, value]) => ({
+          ...value,
+          ...tagRepoList[parseInt(key.split('_')[1], 10)],
+        }));
+        // issueData is formatted like data in the state
+        const issuesData = repositoriesData.reduce(
+          (previous, repoData) => [
+            ...previous,
+            ...repoData.nodes.map(issue => {
+              const obj = {
+                project: issue.repository.name,
+                id: issue.number,
+                description: `${issue.number} - ${issue.title}`,
+                tag: issue.labels.nodes.map(node => node.name).join(','),
+                lastupdate: issue.updatedAt,
+                assignedto: issue.assignees.nodes[0]
+                  ? issue.assignees.nodes[0].login
+                  : 'None',
+              };
+
+              return obj;
+            }),
+          ],
+          []
+        );
+        // list of object with same format as tagRepoList,
+        // to fetch next data
+        const githubNextPageList = repositoriesData
+          .filter(repoData => repoData.pageInfo.hasNextPage)
+          .map(repoData => ({
+            query: repoData.query,
+            label: repoData.label,
+            after: repoData.pageInfo.endCursor,
+          }));
+
+        this.setState({
+          data: _.uniqBy(
+            [...this.state.data, ...issuesData],
+            'description'
+          ).sort((a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)),
+          githubNextPageList,
+          error,
+          loading,
+        });
+      });
+  }
+  render() {
+    const { projectInfo, loading, error, data } = this.state;
+
     return (
       <div>
         <header>
@@ -71,19 +178,23 @@ class Project extends Component {
               </div>
             </Grid>
           </Grid>
-          <ApolloConsumer>
-            {client => (
-              <BugsTable
-                client={client}
-                projectName={projectInfo.name}
-                tagRepoList={tagRepoList}
-              />
-            )}
-          </ApolloConsumer>
+          <BugsTable
+            projectName={projectInfo.name}
+            error={error}
+            onPageChange={this.handlePageChange}
+            loading={loading}
+            data={data}
+          />
         </header>
       </div>
     );
   }
 }
 
-export default Project;
+const ProjectClient = props => (
+  <ApolloConsumer>
+    {client => <Project client={client} match={props.match} />}
+  </ApolloConsumer>
+);
+
+export default ProjectClient;
