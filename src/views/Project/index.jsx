@@ -8,7 +8,6 @@ import gql from 'graphql-tag';
 import projects from '../../data/loader';
 import BugsTable from '../../components/BugsTable';
 import Issues from './issues.graphql';
-import { PROJECTS_PAGE_SIZE, BUG_ENTRY_THRESHOLD } from '../../utils/constants';
 
 class Project extends Component {
   constructor(props) {
@@ -46,7 +45,6 @@ class Project extends Component {
     this.state = {
       projectInfo,
       tagRepoList,
-      githubNextPageList: [],
       error: false,
       loading: true,
       data: [],
@@ -58,17 +56,6 @@ class Project extends Component {
     this.fetchGithubDataNext(tagRepoList);
   }
 
-  handlePageChange = page => {
-    const { githubNextPageList, data } = this.state;
-
-    if (
-      data.length - PROJECTS_PAGE_SIZE * page < BUG_ENTRY_THRESHOLD &&
-      githubNextPageList.length > 0
-    ) {
-      this.fetchGithubDataNext(githubNextPageList);
-    }
-  };
-
   fetchGithubDataNext(tagRepoList) {
     const { client } = this.props;
     let allQuery = '';
@@ -76,22 +63,14 @@ class Project extends Component {
     if (tagRepoList.length === 0) return;
 
     tagRepoList.forEach((tag, idx) => {
-      const noCursorQuery = `_${idx}: search(first:20, type:ISSUE, query:"${
+      const noCursorQuery = `_${idx}: search(first:100, type:ISSUE, query:"${
         tag.query
       }")\n
       {
       ...Issues
       }\n`;
-      const cursorQuery = `_${idx}: search(first:20, type:ISSUE, query:"${
-        tag.query
-      }", after:${tag.after})\n
-      {
-      ...Issues
-      }\n`;
 
-      allQuery = tag.after
-        ? allQuery.concat(cursorQuery)
-        : allQuery.concat(noCursorQuery);
+      allQuery = allQuery.concat(noCursorQuery);
     });
 
     client
@@ -128,22 +107,12 @@ class Project extends Component {
           ],
           []
         );
-        // list of object with same format as tagRepoList,
-        // to fetch next data
-        const githubNextPageList = repositoriesData
-          .filter(repoData => repoData.pageInfo.hasNextPage)
-          .map(repoData => ({
-            query: repoData.query,
-            label: repoData.label,
-            after: repoData.pageInfo.endCursor,
-          }));
 
         this.setState({
           data: _.uniqBy(
             [...this.state.data, ...issuesData],
             'description'
           ).sort((a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)),
-          githubNextPageList,
           error,
           loading,
         });
@@ -181,7 +150,6 @@ class Project extends Component {
           <BugsTable
             projectName={projectInfo.name}
             error={error}
-            onPageChange={this.handlePageChange}
             loading={loading}
             data={data}
           />
