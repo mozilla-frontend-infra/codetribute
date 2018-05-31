@@ -1,8 +1,6 @@
 import { Component, Fragment } from 'react';
 import { withStyles } from 'material-ui/styles';
-import { Link } from 'react-router-dom';
 import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import TextField from 'material-ui/TextField';
 import projects from '../../data/loader';
@@ -20,7 +18,7 @@ import ProjectCard from '../../components/ProjectCard';
     paddingBottom: 2 * theme.spacing.unit,
   },
 }))
-export default class Index extends Component {
+export default class Projects extends Component {
   state = {
     projects,
     search: '',
@@ -31,7 +29,6 @@ export default class Index extends Component {
   };
 
   render() {
-    console.log('rendering', this.props.match.url);
     const { classes } = this.props;
     const { projects, search } = this.state;
     const selectedProjects = Object.keys(projects)
@@ -78,14 +75,7 @@ export default class Index extends Component {
                 <ProjectCard
                   title={info.name}
                   description={info.description}
-                  footer={
-                    <Button
-                      component={Link}
-                      to={`${this.props.match.url}${project}`}
-                      color="primary">
-                      VIEW PROJECT
-                    </Button>
-                  }
+                  url={`${this.props.match.url}${project}`}
                 />
               </Grid>
             ))}

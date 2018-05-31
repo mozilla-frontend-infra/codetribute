@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { object } from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Table, {
   TableBody,
@@ -9,21 +8,18 @@ import Table, {
   TablePagination,
   TableCell,
 } from 'material-ui/Table';
-import { PROJECTS_PAGE_SIZE } from '../../utils/constants';
+import PROJECTS_PAGE_SIZE from '../../utils/constants';
 
 const columns = [
-  { numeric: false, label: 'Project' },
+  { label: 'Project' },
   {
-    numeric: false,
     label: 'Summary',
   },
-  { numeric: false, label: 'Tag' },
+  { label: 'Tag' },
   {
-    numeric: false,
     label: 'Assignee',
   },
   {
-    numeric: false,
     label: 'Last Updated',
   },
 ];
@@ -44,120 +40,111 @@ const styles = theme => ({
 });
 
 class BugsTable extends Component {
-  static propTypes = {
-    classes: object.isRequired,
+  state = {
+    order: 'desc',
+    orderBy: 'Last Updated',
+    data: [
+      {
+        project: 'Servo',
+        summary: '1436212 - Add pagination to listClients',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-05-20',
+      },
+      {
+        project: 'Taskcluster',
+        summary:
+          '1443017 - Use a mock AWS library to test publishing API definitions',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-05-14',
+      },
+      {
+        project: 'Servo',
+        summary: '1443016 - Create a fake version of azure-blob-storage',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-05-12',
+      },
+      {
+        project: 'Servo',
+        summary: '1441960 - Add measure of time to start processing a task',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-05-06',
+      },
+      {
+        project: 'Taskcluster',
+        summary:
+          '1451548 - Return 404 for indexes and namespaces that are expired',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-05-04',
+      },
+      {
+        project: 'Taskcluster',
+        summary:
+          '1441977 - Run tests for taskcluster-treeherder in Taskcluster',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-05-03',
+      },
+      {
+        project: 'Servo',
+        summary: '1446768 - Only post "No taskcluster jobs.." to a PR once',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-05-01',
+      },
+      {
+        project: 'Taskcluster',
+        summary:
+          '1457126 - Authorization failures should state which clientId lacks scopes',
+        tag: 'Rust',
+        assignee: 'None',
+        lastUpdated: '2018-04-05',
+      },
+      {
+        project: 'Taskcluster',
+        summary: '44 - Add pagination to auth.listRoles',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-03-05',
+      },
+      {
+        project: 'Taskcluster',
+        summary:
+          '1306494 - Add a diff+commit submit button to some text areas in tc-tools',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-02-12',
+      },
+      {
+        project: 'Taskcluster',
+        summary:
+          '333 - Make azure-entities and azure-blob0-storage independent of tc-lib-monitor',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-02-04',
+      },
+      {
+        project: 'Taskcluster',
+        summary: '1344912 - Support tag events, too',
+        tag: 'JS',
+        assignee: 'None',
+        lastUpdated: '2018-01-01',
+      },
+      {
+        project: 'Taskcluster',
+        summary: '1453714 - Return http 424 instead of 403 for error artifacts',
+        tag: 'Python',
+        assignee: 'None',
+        lastUpdated: '2017-12-04',
+      },
+    ].sort((a, b) => (a.lastUpdated > b.lastUpdated ? -1 : 1)),
+    page: 0,
+    rowsPerPage: PROJECTS_PAGE_SIZE,
   };
-
-  constructor(props, context) {
-    super(props, context);
-
-    this.state = {
-      order: 'desc',
-      orderBy: 'Last Updated',
-      data: [
-        {
-          project: 'Servo',
-          summary: '1436212 - Add pagination to listClients',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-05-20',
-        },
-        {
-          project: 'Taskcluster',
-          summary:
-            '1443017 - Use a mock AWS library to test publishing API definitions',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-05-14',
-        },
-        {
-          project: 'Servo',
-          summary: '1443016 - Create a fake version of azure-blob-storage',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-05-12',
-        },
-        {
-          project: 'Servo',
-          summary: '1441960 - Add measure of time to start processing a task',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-05-06',
-        },
-        {
-          project: 'Taskcluster',
-          summary:
-            '1451548 - Return 404 for indexes and namespaces that are expired',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-05-04',
-        },
-        {
-          project: 'Taskcluster',
-          summary:
-            '1441977 - Run tests for taskcluster-treeherder in Taskcluster',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-05-03',
-        },
-        {
-          project: 'Servo',
-          summary: '1446768 - Only post "No taskcluster jobs.." to a PR once',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-05-01',
-        },
-        {
-          project: 'Taskcluster',
-          summary:
-            '1457126 - Authorization failures should state which clientId lacks scopes',
-          tag: 'Rust',
-          assignee: 'None',
-          lastUpdated: '2018-04-05',
-        },
-        {
-          project: 'Taskcluster',
-          summary: '44 - Add pagination to auth.listRoles',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-03-05',
-        },
-        {
-          project: 'Taskcluster',
-          summary:
-            '1306494 - Add a diff+commit submit button to some text areas in tc-tools',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-02-12',
-        },
-        {
-          project: 'Taskcluster',
-          summary:
-            '333 - Make azure-entities and azure-blob0-storage independent of tc-lib-monitor',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-02-04',
-        },
-        {
-          project: 'Taskcluster',
-          summary: '1344912 - Support tag events, too',
-          tag: 'JS',
-          assignee: 'None',
-          lastUpdated: '2018-01-01',
-        },
-        {
-          project: 'Taskcluster',
-          summary:
-            '1453714 - Return http 424 instead of 403 for error artifacts',
-          tag: 'Python',
-          assignee: 'None',
-          lastUpdated: '2017-12-04',
-        },
-      ].sort((a, b) => (a.lastUpdated > b.lastUpdated ? -1 : 1)),
-      page: 0,
-      rowsPerPage: PROJECTS_PAGE_SIZE,
-    };
-  }
 
   createSortHandler = property => event => {
     this.handleRequestSort(event, property);
@@ -196,7 +183,6 @@ class BugsTable extends Component {
                 {columns.map(column => (
                   <TableCell
                     key={column.label}
-                    numeric={column.numeric}
                     sortDirection={orderBy === column.label ? order : false}>
                     <TableSortLabel
                       active={orderBy === column.label}
@@ -211,20 +197,20 @@ class BugsTable extends Component {
             <TableBody>
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => (
+                .map(item => (
                   <TableRow
                     hover
                     tabIndex={-1}
-                    key={`${n.project}-${n.summary}`}>
+                    key={`${item.project}-${item.summary}`}>
                     <TableCell component="th" scope="row">
-                      {n.project}
+                      {item.project}
                     </TableCell>
                     <TableCell className={classes.summary}>
-                      {n.summary}
+                      {item.summary}
                     </TableCell>
-                    <TableCell>{n.tag}</TableCell>
-                    <TableCell>{n.assignee}</TableCell>
-                    <TableCell>{n.lastUpdated}</TableCell>
+                    <TableCell>{item.tag}</TableCell>
+                    <TableCell>{item.assignee}</TableCell>
+                    <TableCell>{item.lastUpdated}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>

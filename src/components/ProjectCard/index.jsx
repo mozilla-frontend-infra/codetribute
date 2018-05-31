@@ -45,6 +45,7 @@ export default class ProjectCard extends Component {
   static propTypes = {
     title: string.isRequired,
     description: string,
+    url: string.isRequired,
   };
 
   static defaultProps = {
@@ -52,7 +53,7 @@ export default class ProjectCard extends Component {
   };
 
   render() {
-    const { classes, title, description } = this.props;
+    const { classes, title, description, url } = this.props;
 
     return (
       <Card className={classes.card}>
@@ -67,7 +68,9 @@ export default class ProjectCard extends Component {
           )}
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <Button color="primary">VIEW PROJECT</Button>
+          <Button component={Link} to={url} color="primary">
+            VIEW PROJECT
+          </Button>
         </CardActions>
       </Card>
     );
