@@ -1,4 +1,5 @@
 fragment Issues on SearchResultItemConnection {
+  	issueCount
     nodes{
       ...on Issue  {
         title
@@ -20,5 +21,9 @@ fragment Issues on SearchResultItemConnection {
           }
         }
       }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
     }
 }

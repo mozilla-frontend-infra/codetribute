@@ -12,11 +12,9 @@ import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import gql from 'graphql-tag';
-import _ from 'lodash';
 import BugsTableHead from './BugsTableHead';
 import BugsTableEntry from './BugsTableEntry';
-import Issues from './issues.graphql';
+import { PROJECTS_PAGE_SIZE } from '../../utils/constants';
 
 const toolbarStyles = theme => ({
   root: {
@@ -81,99 +79,9 @@ class BugsTable extends Component {
     this.state = {
       order: 'desc',
       orderBy: 'lastupdate',
-      selected: [],
-      data: [],
       page: 0,
-      rowsPerPage: 5,
-      loading: true,
-      error: false,
+      rowsPerPage: PROJECTS_PAGE_SIZE,
     };
-  }
-
-  fetchDataNext(tagRepoList) {
-    const { client } = this.props;
-    let allQuery = '';
-
-    if (tagRepoList.length === 0) return;
-
-    tagRepoList.forEach((tag, idx) => {
-      const noCursorQuery = `_${idx}: search(first:50, type:ISSUE, query:"${
-        tag.query
-      }")\n
-      {
-      ...Issues
-      }\n`;
-      const cursorQuery = `_${idx}: search(first:50, type:ISSUE, query:"${
-        tag.query
-      }", after:${tag.after})\n
-      {
-      ...Issues
-      }\n`;
-
-      allQuery = tag.after
-        ? allQuery.concat(cursorQuery)
-        : allQuery.concat(noCursorQuery);
-    });
-    client
-      .query({ query: gql`{${allQuery}}\n${Issues}` })
-      .catch(
-        () =>
-          new Promise(resolve => {
-            resolve(false);
-          })
-      )
-      .then(({ data, error, loading }) => {
-        const repositoriesData = Object.entries(data).map(([key, value]) => ({
-          ...value,
-          ...tagRepoList[parseInt(key.split('_')[1], 10)],
-        }));
-        // issueData is formatted like data in the state
-        const issuesData = repositoriesData.reduce(
-          (previous, repoData) => [
-            ...previous,
-            ...repoData.nodes.map(issue => {
-              const obj = {
-                project: issue.repository.name,
-                id: issue.number,
-                description: `${issue.number} - ${issue.title}`,
-                tag: issue.labels.nodes.map(node => node.name).join(','),
-                lastupdate: issue.updatedAt,
-                assignedto: issue.assignees.nodes[0]
-                  ? issue.assignees.nodes[0].login
-                  : 'None',
-              };
-
-              return obj;
-            }),
-          ],
-          []
-        );
-        // list of object with same format as tagRepoList,
-        // to fetch next data
-        const hasNextPageList = repositoriesData
-          .filter(repoData => repoData.pageInfo.hasNextPage)
-          .map(repoData => ({
-            query: repoData.query,
-            label: repoData.label,
-            after: repoData.pageInfo.endCursor,
-          }));
-
-        this.setState({
-          data: _.uniqBy(
-            [...this.state.data, ...issuesData],
-            'description'
-          ).sort((a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)),
-          hasNextPageList,
-          error,
-          loading,
-        });
-      });
-  }
-
-  componentDidMount() {
-    const { tagRepoList } = this.props;
-
-    this.fetchDataNext(tagRepoList);
   }
 
   handleRequestSort = (event, property) => {
@@ -184,45 +92,19 @@ class BugsTable extends Component {
       order = 'asc';
     }
 
-    const data =
-      order === 'desc'
-        ? this.state.data.sort((a, b) => (b[orderBy] < a[orderBy] ? -1 : 1))
-        : this.state.data.sort((a, b) => (a[orderBy] < b[orderBy] ? -1 : 1));
-
-    this.setState({ data, order, orderBy });
+    this.setState({ order, orderBy });
   };
 
   handleChangePage = (event, page) => {
-    const threshold = 40;
-    const { rowsPerPage, data, hasNextPageList } = this.state;
+    const { onPageChange } = this.props;
 
     this.setState({ page });
-
-    if (
-      data.length - rowsPerPage * page < threshold &&
-      hasNextPageList.length > 0
-    ) {
-      this.fetchDataNext(hasNextPageList);
-    }
+    onPageChange(page);
   };
-
-  handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
-
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes } = this.props;
-    const {
-      data,
-      order,
-      orderBy,
-      rowsPerPage,
-      page,
-      loading,
-      error,
-    } = this.state;
+    const { classes, data, loading, error } = this.props;
+    const { order, orderBy, rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
@@ -247,7 +129,7 @@ class BugsTable extends Component {
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map(n => (
                       <BugsTableEntry
-                        key={n.id}
+                        key={`${n.description}`}
                         project={n.project}
                         description={n.description}
                         tag={n.tag}
@@ -276,7 +158,6 @@ class BugsTable extends Component {
                 'aria-label': 'Next Page',
               }}
               onChangePage={this.handleChangePage}
-              onChangeRowsPerPage={this.handleChangeRowsPerPage}
             />
           </Paper>
         )}
