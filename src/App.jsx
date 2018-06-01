@@ -5,13 +5,18 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { CachePersistor } from 'apollo-cache-persist';
+import storage from 'localforage';
 import Projects from './views/Projects';
 import Project from './views/Project';
 
 @hot(module)
 export default class App extends Component {
   cache = new InMemoryCache();
+  persistence = new CachePersistor({
+    cache: this.cache,
+    storage,
+  });
   apolloClient = new ApolloClient({
     cache: this.cache,
     link: new HttpLink({
