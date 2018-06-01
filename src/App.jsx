@@ -10,7 +10,7 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/:projectKey" component={Project} />
+          <Route path="/:project" component={Project} />
           <Route exact path="/" component={Projects} />
         </Switch>
       </BrowserRouter>

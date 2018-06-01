@@ -7,7 +7,7 @@ import BugsTable from '../../components/BugsTable';
 @hot(module)
 export default class Project extends Component {
   state = {
-    fileName: this.props.match.params.projectKey,
+    fileName: this.props.match.params.project,
     projects,
     data: [
       {
