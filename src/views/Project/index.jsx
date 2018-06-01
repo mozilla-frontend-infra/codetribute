@@ -1,5 +1,5 @@
 import { Component, Fragment } from 'react';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 import projects from '../../data/loader';
 import BugsTable from '../../components/BugsTable';
 

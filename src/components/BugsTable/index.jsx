@@ -1,12 +1,11 @@
 import { Component } from 'react';
-import { withStyles } from 'material-ui/styles';
-import Table, {
-  TableBody,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-  TableCell,
-} from 'material-ui/Table';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const columns = ['Project', 'Summary', 'Tag', 'Assignee', 'Last Updated'];
 const styles = theme => ({

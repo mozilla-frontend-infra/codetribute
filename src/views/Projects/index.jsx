@@ -1,11 +1,13 @@
+import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
-import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
-import TextField from 'material-ui/TextField';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 
+@hot(module)
 @withStyles(theme => ({
   container: {
     paddingRight: 15,
@@ -17,30 +19,26 @@ import ProjectCard from '../../components/ProjectCard';
     paddingTop: theme.spacing.unit,
     paddingBottom: 2 * theme.spacing.unit,
   },
+  search: {
+    marginBottom: 4 * theme.spacing.unit,
+  },
 }))
 export default class Projects extends Component {
   state = {
-    projects,
-    search: '',
+    searchTerm: '',
   };
 
   handleTextInputChange = event => {
-    this.setState({ search: event.target.value });
+    this.setState({ searchTerm: event.target.value });
   };
 
   render() {
     const { classes } = this.props;
-    const { projects, search } = this.state;
-    const selectedProjects = Object.keys(projects)
-      .filter(fileName => {
-        const found =
-          fileName.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
-          projects[fileName].name
-            .toLowerCase()
-            .indexOf(search.toLowerCase()) !== -1;
-
-        return found;
-      })
+    const { searchTerm } = this.state;
+    const filteredProjects = Object.keys(projects)
+      .filter(fileName =>
+        projects[fileName].name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
       .reduce(
         (prev, key) => ({
           ...prev,
@@ -62,20 +60,18 @@ export default class Projects extends Component {
         <main className={classes.container}>
           <TextField
             label="Search"
-            id="margin-normal"
             fullWidth
-            value={this.state.search}
-            className={classes.textField}
-            helperText="Project name, Keyword"
+            value={this.state.searchTerm}
+            className={classes.search}
             onChange={this.handleTextInputChange}
           />
           <Grid container spacing={16}>
-            {Object.entries(selectedProjects).map(([project, info]) => (
+            {Object.entries(filteredProjects).map(([project, info]) => (
               <Grid item key={project} xs={12} sm={12} md={4} lg={3}>
                 <ProjectCard
                   title={info.name}
-                  description={info.description}
                   url={`${this.props.match.url}${project}`}
+                  description={info.description}
                 />
               </Grid>
             ))}
