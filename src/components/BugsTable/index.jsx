@@ -4,8 +4,14 @@ import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
-import { memoizeWith } from 'ramda';
+import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
 import DataTable from '../DataTable';
+import sort from '../../utils/sort';
+
+const sorted = pipe(
+  rSort((a, b) => sort(a.summary, b.summary)),
+  map(({ project, summary }) => `${summary}-${project}`)
+);
 
 @withStyles(() => ({
   summary: {
@@ -27,8 +33,12 @@ export default class BugsTable extends Component {
   };
 
   getTableData = memoizeWith(
-    ({ sortBy, sortDirection }) => `${sortBy}-${sortDirection}`,
-    ({ sortBy, sortDirection, items }) => {
+    (sortBy, sortDirection, items) => {
+      const ids = sorted(items);
+
+      return `${ids.join('-')}-${sortBy}-${sortDirection}`;
+    },
+    (sortBy, sortDirection, items) => {
       const sortByProperty = camelCase(sortBy);
 
       if (!items) {
@@ -40,10 +50,12 @@ export default class BugsTable extends Component {
       }
 
       return items.sort((a, b) => {
-        if (sortDirection === 'desc')
-          return b[sortByProperty] < a[sortByProperty] ? -1 : 1;
+        const firstElement =
+          sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
+        const secondElement =
+          sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
 
-        return a[sortByProperty] < b[sortByProperty] ? -1 : 1;
+        return sort(firstElement, secondElement);
       });
     }
   );
@@ -58,7 +70,7 @@ export default class BugsTable extends Component {
   render() {
     const { items, classes } = this.props;
     const { sortBy, sortDirection } = this.state;
-    const data = this.getTableData({ sortBy, sortDirection, items });
+    const data = this.getTableData(sortBy, sortDirection, items);
 
     return (
       <DataTable
