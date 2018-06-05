@@ -105,13 +105,13 @@ const data = [
 @hot(module)
 export default class Project extends Component {
   render() {
-    const projectInfo = projects[this.props.match.params.project];
+    const project = projects[this.props.match.params.project];
 
     return (
       <Fragment>
         <header>
           <Typography variant="display2" align="center">
-            {projectInfo.name}
+            {project.name}
           </Typography>
           <Typography variant="subheading" align="center">
             Bugs & Issues

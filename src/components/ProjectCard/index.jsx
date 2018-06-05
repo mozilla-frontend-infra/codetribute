@@ -18,26 +18,9 @@ import Markdown from 'react-markdown';
   textAlign: {
     textAlign: 'center',
   },
-  cardSubtitle: {
-    color: '#999999',
-    fontWeight: 300,
-    lineHeight: '1.5em',
-    fontSize: '1em',
-    textTransform: 'uppercase',
-    marginTop: 10,
-    marginBottom: 10,
-  },
   cardDescription: {
     fontWeight: 300,
     padding: 2 * theme.spacing.unit,
-  },
-  cardActions: {
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    bottom: 0,
-    display: 'flex',
-    justifyContent: 'center',
   },
   navlink: {
     textDecoration: 'none',
@@ -46,9 +29,9 @@ import Markdown from 'react-markdown';
 export default class ProjectCard extends Component {
   static propTypes = {
     project: shape({
-      name: string,
+      name: string.isRequired,
       description: string,
-      fileName: string,
+      fileName: string.isRequired,
     }).isRequired,
   };
 
