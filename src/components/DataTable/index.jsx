@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { hot } from 'react-hot-loader';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { arrayOf, func, string, oneOf, object } from 'prop-types';
 
-@hot(module)
 @withStyles(theme => ({
   table: {
     marginTop: theme.spacing.unit * 3,
@@ -95,7 +93,7 @@ class DataTable extends Component {
           {items.length === 0 ? (
             <TableRow>
               <TableCell colSpan={colSpan}>
-                <em>No bug and issue for this project.</em>
+                <em>No items for this page.</em>
               </TableCell>
             </TableRow>
           ) : (

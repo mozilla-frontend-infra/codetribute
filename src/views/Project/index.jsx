@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import projects from '../../data/loader';
-import BugsTable from '../../components/BugsTable';
+import TasksTable from '../../components/TasksTable';
 
 @hot(module)
 export default class Project extends Component {
@@ -123,7 +123,7 @@ export default class Project extends Component {
             Bugs & Issues
           </Typography>
         </header>
-        <BugsTable items={data} />
+        <TasksTable items={data} />
       </Fragment>
     );
   }

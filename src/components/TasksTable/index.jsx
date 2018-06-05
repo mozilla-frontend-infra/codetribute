@@ -17,8 +17,11 @@ const sorted = pipe(
   summary: {
     whiteSpace: 'nowrap',
   },
+  tableWrapper: {
+    overflowX: 'auto',
+  },
 }))
-export default class BugsTable extends Component {
+export default class TasksTable extends Component {
   static propTypes = {
     /**
      * A list of objects to display. Each element in the list is represented
@@ -41,15 +44,11 @@ export default class BugsTable extends Component {
     (sortBy, sortDirection, items) => {
       const sortByProperty = camelCase(sortBy);
 
-      if (!items) {
-        return null;
-      }
-
       if (!sortBy) {
         return items;
       }
 
-      return items.sort((a, b) => {
+      return [...items].sort((a, b) => {
         const firstElement =
           sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
         const secondElement =
@@ -73,24 +72,26 @@ export default class BugsTable extends Component {
     const data = this.getTableData(sortBy, sortDirection, items);
 
     return (
-      <DataTable
-        items={data}
-        renderRow={item => (
-          <TableRow hover tabIndex={-1} key={`${item.project}-${item.summary}`}>
-            <TableCell component="th" scope="row">
-              {item.project}
-            </TableCell>
-            <TableCell className={classes.summary}>{item.summary}</TableCell>
-            <TableCell>{item.tag}</TableCell>
-            <TableCell>{item.assignee}</TableCell>
-            <TableCell>{item.lastUpdated}</TableCell>
-          </TableRow>
-        )}
-        headers={['Project', 'Summary', 'Tag', 'Assignee', 'Last Updated']}
-        sortByHeader={sortBy}
-        sortDirection={sortDirection}
-        onHeaderClick={this.handleHeaderClick}
-      />
+      <div className={classes.tableWrapper}>
+        <DataTable
+          items={data}
+          renderRow={item => (
+            <TableRow hover tabIndex={-1} key={`${item.summary}`}>
+              <TableCell component="th" scope="row">
+                {item.project}
+              </TableCell>
+              <TableCell className={classes.summary}>{item.summary}</TableCell>
+              <TableCell>{item.tag}</TableCell>
+              <TableCell>{item.assignee}</TableCell>
+              <TableCell>{item.lastUpdated}</TableCell>
+            </TableRow>
+          )}
+          headers={['Project', 'Summary', 'Tag', 'Assignee', 'Last Updated']}
+          sortByHeader={sortBy}
+          sortDirection={sortDirection}
+          onHeaderClick={this.handleHeaderClick}
+        />
+      </div>
     );
   }
 }
