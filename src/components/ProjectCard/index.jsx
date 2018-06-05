@@ -49,7 +49,7 @@ export default class ProjectCard extends Component {
       name: string,
       description: string,
       fileName: string,
-    }),
+    }).isRequired,
   };
 
   static defaultProps = {
