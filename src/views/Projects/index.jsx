@@ -68,7 +68,7 @@ export default class Projects extends Component {
           <Grid container spacing={16}>
             {Object.entries(filteredProjects).map(([name, project]) => (
               <Grid item key={name} xs={12} sm={12} md={4} lg={3}>
-                <ProjectCard project={project} match={this.props.match} />
+                <ProjectCard project={project} />
               </Grid>
             ))}
           </Grid>
