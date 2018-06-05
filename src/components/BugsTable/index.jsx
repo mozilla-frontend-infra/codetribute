@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -100,65 +100,58 @@ class BugsTable extends Component {
   };
 
   render() {
-    const { classes, data, loading, error } = this.props;
+    const { classes, data } = this.props;
     const { order, orderBy, rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-      <Fragment>
-        {loading && <div>loading...</div>}
-        {error ? (
-          <div>error...</div>
-        ) : (
-          <Paper className={classes.root}>
-            <BugsTableToolbar />
-            <div className={classes.tableWrapper}>
-              <Table className={classes.table} aria-labelledby="tableTitle">
-                <BugsTableHead
-                  order={order}
-                  orderBy={orderBy}
-                  onRequestSort={this.handleRequestSort}
-                  rowCount={data.length}
-                />
-                <TableBody>
-                  {data
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map(n => (
-                      <BugsTableEntry
-                        key={`${n.description}`}
-                        project={n.project}
-                        description={n.description}
-                        tag={n.tag}
-                        assignedto={n.assignedto}
-                        lastupdate={n.lastupdate}
-                      />
-                    ))}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 49 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
-            <TablePagination
-              component="div"
-              labelDisplayedRows={({ from, to }) => `${from}-${to}`}
-              count={data.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              backIconButtonProps={{
-                'aria-label': 'Previous Page',
-              }}
-              nextIconButtonProps={{
-                'aria-label': 'Next Page',
-              }}
-              onChangePage={this.handleChangePage}
+      <Paper className={classes.root}>
+        <BugsTableToolbar />
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table} aria-labelledby="tableTitle">
+            <BugsTableHead
+              order={order}
+              orderBy={orderBy}
+              onRequestSort={this.handleRequestSort}
+              rowCount={data.length}
             />
-          </Paper>
-        )}
-      </Fragment>
+            <TableBody>
+              {data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map(n => (
+                  <BugsTableEntry
+                    key={`${n.description}`}
+                    project={n.project}
+                    description={n.description}
+                    tag={n.tag}
+                    assignedto={n.assignedto}
+                    lastupdate={n.lastupdate}
+                  />
+                ))}
+              {emptyRows > 0 && (
+                <TableRow style={{ height: 49 * emptyRows }}>
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </div>
+        <TablePagination
+          component="div"
+          labelDisplayedRows={({ from, to }) => `${from}-${to}`}
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          backIconButtonProps={{
+            'aria-label': 'Previous Page',
+          }}
+          nextIconButtonProps={{
+            'aria-label': 'Next Page',
+          }}
+          onChangePage={this.handleChangePage}
+        />
+      </Paper>
     );
   }
 }
