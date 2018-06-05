@@ -60,11 +60,10 @@ export default class ProjectCard extends Component {
     const {
       classes,
       project: { name, description, fileName },
-      match,
     } = this.props;
 
     return (
-      <NavLink className={classes.navlink} to={`${match.url}${fileName}`}>
+      <NavLink className={classes.navlink} to={`/projects/${fileName}`}>
         <Card className={classes.card}>
           <CardContent className={classes.textAlign}>
             <Typography gutterBottom variant="title" component="h4">
