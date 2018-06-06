@@ -10,7 +10,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 export default class Spinner extends PureComponent {
   render() {
     const { classes } = this.props;
-    const progress = <CircularProgress color="primary" thickness="7" />;
+    const progress = <CircularProgress color="primary" thickness={7} />;
 
     return <div className={classes.center}>{progress}</div>;
   }

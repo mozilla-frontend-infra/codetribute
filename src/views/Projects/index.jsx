@@ -66,13 +66,9 @@ export default class Projects extends Component {
             onChange={this.handleTextInputChange}
           />
           <Grid container spacing={16}>
-            {Object.entries(filteredProjects).map(([project, info]) => (
-              <Grid item key={project} xs={12} sm={12} md={4} lg={3}>
-                <ProjectCard
-                  title={info.name}
-                  description={info.description}
-                  url={`${this.props.match.url}${project}`}
-                />
+            {Object.entries(filteredProjects).map(([name, project]) => (
+              <Grid item key={name} xs={12} sm={12} md={4} lg={3}>
+                <ProjectCard project={project} />
               </Grid>
             ))}
           </Grid>

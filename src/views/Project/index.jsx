@@ -53,6 +53,7 @@ const githubQuery = fileName => {
   return allQuery;
 };
 
+@hot(module)
 class Project extends Component {
   state = {
     error: false,
@@ -70,10 +71,10 @@ class Project extends Component {
           const obj = {
             project: issue.repository.name,
             id: issue.number,
-            description: `${issue.number} - ${issue.title}`,
+            summary: `${issue.number} - ${issue.title}`,
             tag: issue.labels.nodes.map(node => node.name).join(','),
-            lastupdate: issue.updatedAt,
-            assignedto: issue.assignees.nodes[0]
+            lastUpdated: issue.updatedAt,
+            assignee: issue.assignees.nodes[0]
               ? issue.assignees.nodes[0].login
               : 'None',
           };
@@ -85,7 +86,7 @@ class Project extends Component {
     );
 
     return {
-      data: _.uniqBy([...prevState.data, ...issuesData], 'description').sort(
+      data: _.uniqBy([...prevState.data, ...issuesData], 'summary').sort(
         (a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)
       ),
       error: nextProps.githubData.error,
@@ -117,8 +118,8 @@ class Project extends Component {
 
 const ProjectClient = props => (
   <Query
-    query={gql`{${githubQuery(props.match.params.projectKey)}}\n${Issues}`}
-    skip={projects[props.match.params.projectKey].repositories === undefined}>
+    query={gql`{${githubQuery(props.match.params.project)}}\n${Issues}`}
+    skip={projects[props.match.params.project].repositories === undefined}>
     {githubData => <Project match={props.match} githubData={githubData} />}
   </Query>
 );
