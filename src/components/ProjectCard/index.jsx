@@ -1,11 +1,10 @@
 import { Component } from 'react';
-import { string } from 'prop-types';
+import { string, shape } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom';
 import Markdown from 'react-markdown';
 
 @withStyles(theme => ({
@@ -19,32 +18,21 @@ import Markdown from 'react-markdown';
   textAlign: {
     textAlign: 'center',
   },
-  cardSubtitle: {
-    color: '#999999',
-    fontWeight: 300,
-    lineHeight: '1.5em',
-    fontSize: '1em',
-    textTransform: 'uppercase',
-    marginTop: 10,
-    marginBottom: 10,
-  },
   cardDescription: {
     fontWeight: 300,
     padding: 2 * theme.spacing.unit,
   },
-  cardActions: {
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    bottom: 0,
-    display: 'flex',
-    justifyContent: 'center',
+  navlink: {
+    textDecoration: 'none',
   },
 }))
 export default class ProjectCard extends Component {
   static propTypes = {
-    title: string.isRequired,
-    description: string,
+    project: shape({
+      name: string.isRequired,
+      description: string,
+      fileName: string.isRequired,
+    }).isRequired,
   };
 
   static defaultProps = {
@@ -52,24 +40,26 @@ export default class ProjectCard extends Component {
   };
 
   render() {
-    const { classes, title, description } = this.props;
+    const {
+      classes,
+      project: { name, description, fileName },
+    } = this.props;
 
     return (
-      <Card className={classes.card}>
-        <CardContent className={classes.textAlign}>
-          <Typography gutterBottom variant="title" component="h4">
-            {title}
-          </Typography>
-          {description && (
-            <Typography className={classes.cardDescription}>
-              <Markdown source={description} />
+      <NavLink className={classes.navlink} to={`/projects/${fileName}`}>
+        <Card className={classes.card}>
+          <CardContent className={classes.textAlign}>
+            <Typography gutterBottom variant="title" component="h4">
+              {name}
             </Typography>
-          )}
-        </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button color="primary">VIEW PROJECT</Button>
-        </CardActions>
-      </Card>
+            {description && (
+              <Typography className={classes.cardDescription}>
+                <Markdown source={description} />
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      </NavLink>
     );
   }
 }
