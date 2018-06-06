@@ -23,7 +23,7 @@ export default class App extends Component {
     new HttpLink({
       uri: 'https://api.github.com/graphql',
       headers: {
-        authorization: 'Bearer 2365e5be2b67c4a07335ceafd64273211995c7a2',
+        authorization: `Bearer ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN}`,
       },
     }),
     new HttpLink({ uri: 'http://localhost:3090' })

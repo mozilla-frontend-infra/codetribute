@@ -47,14 +47,56 @@ const githubQuery = fileName => {
       {
       ...Issues
       }\n`;
-      const cursorQuery = `_${idx}: search(first:20, type:ISSUE, query:"${
-        tag.query
-      }", after:${tag.after})\n
-      {
-      ...Issues
-      }\n`;
 
     allQuery = allQuery.concat(noCursorQuery);
+  });
+
+  return allQuery;
+};
+
+const bugzillaQuery = fileName => {
+  const project = projects[fileName];
+  // combine queries for product with no component
+  const productList = project.products.filter(
+    product => typeof product === 'string'
+  );
+  const productTemp = project.products
+    .filter(product => typeof product !== 'string')
+    .reduce((prev, cur) => ({ ...prev, ...cur }), {});
+  const productComponentList = Object.entries(productTemp).map(
+    ([key, value]) => ({ products: [key], components: value })
+  );
+  const variable = {
+    search: {
+      products: productList,
+      tags: ['good-first-bug'],
+      statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
+    },
+    paging: {
+      page: 0,
+      pageSize: 100,
+    },
+  };
+  // put the product without component into query
+  let allQuery = `_0: bugs(search: ${JSON.stringify(
+    variable.search
+  )}, paging:${JSON.stringify(variable.paging)}){...Bugs}\n`.replace(
+    /"([^(")"]+)":/g,
+    '$1:'
+  );
+
+  // add product with component into query
+  productComponentList.forEach((item, idx) => {
+    variable.search.products = item.products;
+    variable.search.components = item.components;
+    const thisQuery = `_${idx + 1}: bugs(search: ${JSON.stringify(
+      variable.search
+    )}, paging:${JSON.stringify(variable.paging)}){...Bugs}\n`.replace(
+      /"([^(")"]+)":/g,
+      '$1:'
+    );
+
+    allQuery += thisQuery;
   });
 
   return allQuery;
@@ -69,98 +111,50 @@ class Project extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (!nextProps.githubData) return;
+    if (!nextProps.githubData || !nextProps.bugzillaData) return;
 
-    const issuesData = Object.values(nextProps.githubData.data).reduce(
-      (previous, repoData) => [
-        ...previous,
-        ...repoData.nodes.map(issue => {
-          const obj = {
-            project: issue.repository.name,
-            id: issue.number,
-            summary: `${issue.number} - ${issue.title}`,
-            tag: issue.labels.nodes.map(node => node.name).join(','),
-            lastUpdated: issue.updatedAt,
-            assignee: issue.assignees.nodes[0]
-              ? issue.assignees.nodes[0].login
-              : 'None',
-          };
+    const issuesData =
+      Object.values(nextProps.githubData.data).reduce(
+        (previous, repoData) => [
+          ...previous,
+          ...repoData.nodes.map(issue => {
+            const obj = {
+              project: issue.repository.name,
+              id: issue.number,
+              summary: `${issue.number} - ${issue.title}`,
+              tag: issue.labels.nodes.map(node => node.name).join(','),
+              lastUpdated: issue.updatedAt,
+              assignee: issue.assignees.nodes[0]
+                ? issue.assignees.nodes[0].login
+                : 'None',
+            };
 
-          return obj;
-        }),
-      ],
-      []
-    );
+            return obj;
+          }),
+        ],
+        []
+      ) || [];
+    const bugzillaData = Object.values(nextProps.bugzillaData.data)
+      .map(data => data.edges)
+      .reduce((prev, curr) => [...prev, ...curr.map(cur => cur.node)], [])
+      .map(bug => ({
+        assignee: bug.assignedTo.name || 'None',
+        project: bug.component,
+        id: bug.id,
+        tag: bug.tags || '',
+        summary: `${bug.id} - ${bug.summary}`,
+        lastUpdated: bug.lastChanged,
+      }));
 
     return {
-      data: _.uniqBy([...prevState.data, ...issuesData], 'summary').sort(
-        (a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)
-      ),
-      error: nextProps.githubData.error,
-      loading: nextProps.githubData.loading,
+      data: _.uniqBy(
+        [...prevState.data, ...issuesData, ...bugzillaData],
+        'summary'
+      ).sort((a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)),
+      error: nextProps.githubData.error || nextProps.bugzillaData.error,
+      loading: nextProps.githubData.loading && nextProps.bugzillaData.loading,
     };
   }
-
-  fetchBugs(variables) {
-    const { client } = this.props;
-
-    client
-      .query({
-        query: Bugs,
-        variables,
-        context: { link: 'bugzilla' },
-      })
-      .catch(
-        () =>
-          new Promise(resolve => {
-            resolve(false);
-          })
-      )
-      .then(({ data, loading, error }) => {
-        const bugsData = data.bug.edges.map(edge => edge.node).map(bug => ({
-          assignedto: bug.assignedTo.name || 'None',
-          project: bug.component,
-          id: bug.id,
-          tag: bug.tags || '',
-          description: `${bug.id} - ${bug.summary}`,
-          lastupdate: bug.lastChanged,
-        }));
-
-        this.setState({
-          data: _.uniqBy([...this.state.data, ...bugsData], 'description').sort(
-            (a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)
-          ),
-          loading,
-          error,
-        });
-      });
-  }
-  fetchBugzillaDataNext() {
-    const { productList, productComponentList } = this.state;
-    const variables = {
-      searchProduct: {
-        products: productList,
-        tags: ['good-first-bug'],
-        statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
-      },
-      paging: {
-        page: 0,
-        pageSize: 100,
-      },
-    };
-
-    // fetch bugs for products with no components
-    this.fetchBugs(variables, 'products');
-
-    // fetch bugs for each product that has components
-    productComponentList.forEach(item => {
-      variables.searchProduct.products = item.products;
-      variables.searchProduct.components = item.components;
-
-      this.fetchBugs(variables, item.products);
-    });
-  }
-
 
   render() {
     const project = projects[this.props.match.params.project];
@@ -186,9 +180,25 @@ class Project extends Component {
 
 const ProjectClient = props => (
   <Query
-    query={gql`{${githubQuery(props.match.params.project)}}\n${Issues}`}
-    skip={projects[props.match.params.project].repositories === undefined}>
-    {githubData => <Project match={props.match} githubData={githubData} />}
+    query={gql`{${bugzillaQuery(props.match.params.project)}}
+      ${Bugs}
+    `}
+    skip={projects[props.match.params.project].products === undefined}
+    context={{ link: 'bugzilla' }}>
+    {bugzillaData => (
+      <Query
+        query={gql`{${githubQuery(props.match.params.project)}}\n${Issues}`}
+        skip={projects[props.match.params.project].repositories === undefined}
+        context={{ link: 'github' }}>
+        {githubData => (
+          <Project
+            match={props.match}
+            githubData={githubData}
+            bugzillaData={bugzillaData}
+          />
+        )}
+      </Query>
+    )}
   </Query>
 );
 

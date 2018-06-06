@@ -1,23 +1,17 @@
-query Bugs($searchProduct: BugSearch!, $paging: Paging) {
-  bug: bugs(search: $searchProduct, paging: $paging) {
-    pageInfo {
-      hasNextPage
-      nextPage
+fragment Bugs on BugPager{
+      edges {
+          node {
+            assignedTo {
+              name
+            }
+            component
+            lastChanged
+            id
+            summary
+            status
+            resolution
+            url
+            tags
+          }
     }
-    edges {
-      node {
-        assignedTo {
-          name
-        }
-        tags
-        component
-        lastChanged
-        id
-        summary
-        status
-        resolution
-        url
-      }
-    }
-  }
 }
