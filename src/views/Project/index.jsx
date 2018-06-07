@@ -4,19 +4,20 @@ import Typography from '@material-ui/core/Typography';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import uniqBy from 'lodash.uniqby';
+import { withRouter } from 'react-router-dom';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
-import Issues from './issues.graphql';
+import issuesQuery from './issues.graphql';
 
 const getProject = fileName => projects[fileName] || {};
 /*
 Example input:
-{ ["mozilla/butter": "mentored"],
-  ["mozilla/memchaser: "mentored"],
-  ["mozilla/coversheet":"good-first-bug"]
-}
+[ {"mozilla/butter": "mentored"},
+  {"mozilla/memchaser: "mentored"},
+  {"mozilla/coversheet":"good-first-bug"}
+]
 Output:
 { "mozilla/butter": "mentored",
   "mozilla/memchaser: "mentored",
@@ -50,11 +51,11 @@ const githubQuery = fileName => {
   const project = getProject(fileName);
   const repositories = mergeListOfObjects(project.repositories);
   // Group the project based on tag / label
-  const tagRepositoriesObject = reversePropertyValue(repositories);
+  const tagReposMapping = reversePropertyValue(repositories);
   let queryString = '';
   const repoStateString = 'state:open';
 
-  Object.entries(tagRepositoriesObject).forEach(([tag, repos], idx) => {
+  Object.entries(tagReposMapping).forEach(([tag, repos], idx) => {
     const repoString = repos.map(repo => `repo:${repo}`).join(' ');
     const tagString = `label:${tag}`;
     const queryVariables = [repoString, tagString, repoStateString].join(' ');
@@ -73,11 +74,10 @@ const githubQuery = fileName => {
   return queryString;
 };
 
+@withRouter
 @hot(module)
 class Project extends Component {
   state = {
-    error: false,
-    loading: false,
     data: [],
   };
 
@@ -112,14 +112,13 @@ class Project extends Component {
       data: uniqBy([...prevState.data, ...issuesData], 'summary').sort(
         (a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)
       ),
-      error: nextProps.githubData.error,
-      loading: nextProps.githubData.loading,
     };
   }
 
   render() {
     const project = projects[this.props.match.params.project];
-    const { loading, error, data } = this.state;
+    const { data } = this.state;
+    const { loading, error } = this.props.githubData;
 
     return (
       <Fragment>
@@ -141,9 +140,9 @@ class Project extends Component {
 
 const ProjectClient = props => (
   <Query
-    query={gql`{${githubQuery(props.match.params.project)}}\n${Issues}`}
+    query={gql`{${githubQuery(props.match.params.project)}}\n${issuesQuery}`}
     skip={!projects[props.match.params.project].repositories}>
-    {githubData => <Project match={props.match} githubData={githubData} />}
+    {githubData => <Project githubData={githubData} />}
   </Query>
 );
 
