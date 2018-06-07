@@ -3,54 +3,74 @@ import { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import _ from 'lodash';
+import uniqBy from 'lodash.uniqby';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import Issues from './issues.graphql';
 
-const githubQuery = fileName => {
-  const projectInfo = projects[fileName];
-  // dictionary with repo as key and tag as value
-  const tmp = projectInfo.repositories
-    ? projectInfo.repositories.reduce((prev, cur) => ({ ...prev, ...cur }), {})
-    : {};
-  // initial query search for all repo
-  const repoQuerySearch = ['state:open'];
-  // a dictionary of tag (string) and list of repository in that tag
-  const tagRepoDictionary = Object.keys(tmp).reduce((prev, key) => {
-    const curr = [
-      ...(prev[tmp[key]] || [...repoQuerySearch, `label:${tmp[key]}`]),
-      `repo:${key}`,
-    ];
+const getProject = fileName => projects[fileName] || {};
+/*
+Example input:
+{ ["mozilla/butter": "mentored"],
+  ["mozilla/memchaser: "mentored"],
+  ["mozilla/coversheet":"good-first-bug"]
+}
+Output:
+{ "mozilla/butter": "mentored",
+  "mozilla/memchaser: "mentored",
+  "mozilla/coversheet":"good-first-bug"
+}
+ */
+const mergeListOfObjects = objects =>
+  objects ? objects.reduce((prev, cur) => ({ ...prev, ...cur }), {}) : {};
+/*
+Example input:
+{ "mozilla/butter": "mentored",
+  "mozilla/memchaser: "mentored",
+  "mozilla/coversheet":"good-first-bug"
+}
+Output:
+{
+  "mentored" : ["mozilla/butter", "mozilla/memchaser"],
+  "good-first-bug" : ["mozilla/coversheet"]
+}
+ */
+const reversePropertyValue = object =>
+  Object.keys(object).reduce((prev, key) => {
+    const curr = [...(prev[object[key]] || []), key];
 
     return {
       ...prev,
-      [tmp[key]]: curr,
+      [object[key]]: curr,
     };
   }, {});
-  const tagRepoList = Object.entries(tagRepoDictionary).map(([key, value]) => ({
-    label: key,
-    query: value.join(' '),
-  }));
+const githubQuery = fileName => {
+  const project = getProject(fileName);
+  const repositories = mergeListOfObjects(project.repositories);
+  // Group the project based on tag / label
+  const tagRepositoriesObject = reversePropertyValue(repositories);
+  let queryString = '';
+  const repoStateString = 'state:open';
 
-  if (tagRepoList.length === 0) return;
-
-  let allQuery = '';
-
-  tagRepoList.forEach((tag, idx) => {
-    const noCursorQuery = `_${idx}: search(first:100, type:ISSUE, query:"${
-      tag.query
-    }")\n
+  Object.entries(tagRepositoriesObject).forEach(([tag, repos], idx) => {
+    const repoString = repos.map(repo => `repo:${repo}`).join(' ');
+    const tagString = `label:${tag}`;
+    const queryVariables = [repoString, tagString, repoStateString].join(' ');
+    const query = `_${idx}: search(first:100, type:ISSUE, query:"${queryVariables}")\n
       {
       ...Issues
       }\n`;
 
-    allQuery = allQuery.concat(noCursorQuery);
+    queryString = queryString.concat(query);
   });
 
-  return allQuery;
+  if (queryString.length === 0) {
+    return;
+  }
+
+  return queryString;
 };
 
 @hot(module)
@@ -62,7 +82,9 @@ class Project extends Component {
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (!nextProps.githubData) return;
+    if (!nextProps.githubData) {
+      return;
+    }
 
     const issuesData = Object.values(nextProps.githubData.data).reduce(
       (previous, repoData) => [
@@ -86,7 +108,7 @@ class Project extends Component {
     );
 
     return {
-      data: _.uniqBy([...prevState.data, ...issuesData], 'summary').sort(
+      data: uniqBy([...prevState.data, ...issuesData], 'summary').sort(
         (a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)
       ),
       error: nextProps.githubData.error,
@@ -119,7 +141,7 @@ class Project extends Component {
 const ProjectClient = props => (
   <Query
     query={gql`{${githubQuery(props.match.params.project)}}\n${Issues}`}
-    skip={projects[props.match.params.project].repositories === undefined}>
+    skip={!projects[props.match.params.project].repositories}>
     {githubData => <Project match={props.match} githubData={githubData} />}
   </Query>
 );

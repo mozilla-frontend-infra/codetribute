@@ -12,7 +12,7 @@ import ErrorBox from './ErrorBox';
 
 @withStyles(theme => ({
   paper: {
-    padding: `0 ${theme.spacing.double}px`,
+    padding: `0 ${2 * theme.spacing.unit / 3}px`,
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -23,7 +23,7 @@ import ErrorBox from './ErrorBox';
   error: {
     backgroundColor: theme.palette.error.dark,
     borderColor: theme.palette.error.light,
-    marginBottom: theme.spacing.triple,
+    marginBottom: theme.spacing.unit,
   },
   disabled: {
     opacity: 1,
