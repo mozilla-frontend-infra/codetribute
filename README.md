@@ -25,6 +25,18 @@ cd bug-issue-ui
 yarn
 ```
 
+### Environment variables
+
+To get started with local development, create a file in the root of the repo named
+`.env` with the following content. You can also set the variables in your shell environment.
+
+```bash
+GITHUB_PERSONAL_API_TOKEN=<your_github_api_token>
+```
+
+Generate a GitHub personal access token [here](https://github.com/settings/tokens). When prompted
+about scopes, access to public repositories is the only one required.
+
 ### Code Organization
 
 - `src/`: source code
