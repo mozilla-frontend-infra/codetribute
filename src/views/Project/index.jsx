@@ -11,6 +11,21 @@ import TasksTable from '../../components/TasksTable';
 import Issues from './issues.graphql';
 import Bugs from './bugs.graphql';
 
+const getProject = fileName => projects[fileName] || {};
+/*
+Example input:
+{ ["mozilla/butter": "mentored"],
+  ["mozilla/memchaser: "mentored"],
+  ["mozilla/coversheet":"good-first-bug"]
+}
+Output:
+{ "mozilla/butter": "mentored",
+  "mozilla/memchaser: "mentored",
+  "mozilla/coversheet":"good-first-bug"
+}
+ */
+const mergeListOfObjects = objects =>
+  objects ? objects.reduce((prev, cur) => ({ ...prev, ...cur }), {}) : {};
 const githubQuery = fileName => {
   const projectInfo = projects[fileName];
   // dictionary with repo as key and tag as value
@@ -54,18 +69,18 @@ const githubQuery = fileName => {
   return allQuery;
 };
 
-const bugzillaQuery = fileName => {
-  const project = projects[fileName];
+const bugzillaQuery = projectName => {
+  // get the project based on the filename
+  const project = getProject(projectName);
   // combine queries for product with no component
   const productList = project.products.filter(
     product => typeof product === 'string'
   );
-  const productTemp = project.products
-    .filter(product => typeof product !== 'string')
-    .reduce((prev, cur) => ({ ...prev, ...cur }), {});
-  const productComponentList = Object.entries(productTemp).map(
-    ([key, value]) => ({ products: [key], components: value })
+  // get product that has component and merged into an object
+  const productWithComponentList = mergeListOfObjects(
+    project.products.filter(product => typeof product !== 'string')
   );
+  // variable to put into the query, initiated with products without component
   const variable = {
     search: {
       products: productList,
@@ -77,29 +92,33 @@ const bugzillaQuery = fileName => {
       pageSize: 100,
     },
   };
-  // put the product without component into query
-  let allQuery = `_0: bugs(search: ${JSON.stringify(
+  // initiate the query string with products that has no component
+  let queries = `_0: bugs(search: ${JSON.stringify(
     variable.search
   )}, paging:${JSON.stringify(variable.paging)}){...Bugs}\n`.replace(
     /"([^(")"]+)":/g,
     '$1:'
   );
 
-  // add product with component into query
-  productComponentList.forEach((item, idx) => {
-    variable.search.products = item.products;
-    variable.search.components = item.components;
-    const thisQuery = `_${idx + 1}: bugs(search: ${JSON.stringify(
-      variable.search
-    )}, paging:${JSON.stringify(variable.paging)}){...Bugs}\n`.replace(
-      /"([^(")"]+)":/g,
-      '$1:'
-    );
+  /* add product with component to the query, remove the " " in front
+     of attributes using the replace method
+  */
+  Object.entries(productWithComponentList).forEach(
+    ([products, components], idx) => {
+      variable.search.products = [products];
+      variable.search.components = components;
+      const query = `_${idx + 1}: bugs(search: ${JSON.stringify(
+        variable.search
+      )}, paging:${JSON.stringify(variable.paging)}){...Bugs}\n`.replace(
+        /"([^(")"]+)":/g,
+        '$1:'
+      );
 
-    allQuery += thisQuery;
-  });
+      queries += query;
+    }
+  );
 
-  return allQuery;
+  return queries;
 };
 
 @hot(module)
@@ -134,17 +153,19 @@ class Project extends Component {
         ],
         []
       ) || [];
-    const bugzillaData = Object.values(nextProps.bugzillaData.data)
-      .map(data => data.edges)
-      .reduce((prev, curr) => [...prev, ...curr.map(cur => cur.node)], [])
-      .map(bug => ({
-        assignee: bug.assignedTo.name || 'None',
-        project: bug.component,
-        id: bug.id,
-        tag: bug.tags || '',
-        summary: `${bug.id} - ${bug.summary}`,
-        lastUpdated: bug.lastChanged,
-      }));
+    const bugzillaData = nextProps.bugzillaData.data
+      ? Object.values(nextProps.bugzillaData.data)
+          .map(data => data.edges)
+          .reduce((prev, curr) => [...prev, ...curr.map(cur => cur.node)], [])
+          .map(bug => ({
+            assignee: bug.assignedTo.name || 'None',
+            project: bug.component,
+            id: bug.id,
+            tag: bug.tags || '',
+            summary: `${bug.id} - ${bug.summary}`,
+            lastUpdated: bug.lastChanged,
+          }))
+      : [];
 
     return {
       data: _.uniqBy(

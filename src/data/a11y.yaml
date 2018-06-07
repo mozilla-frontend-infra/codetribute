@@ -3,4 +3,4 @@ description: Get involved with the [Accessibility](https://wiki.mozilla.org/Acce
 products: 
  - Core: ['Disability Access APIs']
  - Firefox: ['Disability Access']
- - additional: {'keywords': ['access']}
+additional: {'keywords': ['access']}
