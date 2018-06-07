@@ -1,6 +1,6 @@
-# Bug Issue UI
+# Codetribute
 
-Bug Issue is a site that guides contributors to 
+Codetribute is a site that guides contributors to
 their first contribution. It helps new contributors 
 find a project they want to work with, learn about 
 that project, and then find a task that is suitable 
@@ -20,8 +20,8 @@ First, fork this repository to another GitHub account (your account).
 Then you can clone and install:
 
 ```
-git clone https://github.com/<YOUR_ACCOUNT>/bug-issue-ui.git
-cd bug-issue-ui
+git clone https://github.com/<YOUR_ACCOUNT>/codetribute.git
+cd codetribute
 yarn
 ```
 
