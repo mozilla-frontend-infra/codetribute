@@ -99,6 +99,7 @@ class Project extends Component {
             assignee: issue.assignees.nodes[0]
               ? issue.assignees.nodes[0].login
               : 'None',
+            url: issue.url,
           };
 
           return obj;
