@@ -1,22 +1,24 @@
-fragment Issues on SearchResultItemConnection {
-  nodes{
-    ...on Issue  {
-      title
-      updatedAt
-      number
-      repository {
-        name
-      }
-      url
-      labels(last:5){
-        nodes{
+query Issues($searchQuery: String!) {
+  search(first: 100, type: ISSUE, query: $searchQuery) {
+    nodes {
+      ... on Issue {
+        title
+        updatedAt
+        number
+        repository {
           name
-          color
         }
-      }
-      assignees(last:1) {
-        nodes{
-          login
+        url
+        labels(last:5) {
+          nodes {
+            name
+            color
+          }
+        }
+        assignees(last:1) {
+          nodes {
+            login
+          }
         }
       }
     }
