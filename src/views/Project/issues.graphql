@@ -8,7 +8,7 @@ fragment Issues on SearchResultItemConnection {
           name
         }
         url
-        labels(last:2){
+        labels(last:5){
           nodes{
             name
             color
