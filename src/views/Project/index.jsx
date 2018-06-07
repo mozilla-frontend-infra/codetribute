@@ -11,6 +11,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-05-20',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -19,6 +20,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-05-14',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Servo',
@@ -26,6 +28,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-05-12',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Servo',
@@ -33,6 +36,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-05-06',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -40,6 +44,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-05-04',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -47,6 +52,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-05-03',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Servo',
@@ -54,6 +60,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-05-01',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -62,6 +69,7 @@ const data = [
     tag: 'Rust',
     assignee: 'None',
     lastUpdated: '2018-04-05',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -69,6 +77,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-03-05',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -77,6 +86,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-02-12',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -85,6 +95,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-02-04',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -92,6 +103,7 @@ const data = [
     tag: 'JS',
     assignee: 'None',
     lastUpdated: '2018-01-01',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
   {
     project: 'Taskcluster',
@@ -99,6 +111,7 @@ const data = [
     tag: 'Python',
     assignee: 'None',
     lastUpdated: '2017-12-04',
+    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
   },
 ];
 

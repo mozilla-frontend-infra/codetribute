@@ -20,6 +20,9 @@ const sorted = pipe(
   tableWrapper: {
     overflowX: 'auto',
   },
+  link: {
+    textDecoration: 'none',
+  },
 }))
 export default class TasksTable extends Component {
   static propTypes = {
@@ -76,7 +79,15 @@ export default class TasksTable extends Component {
         <DataTable
           items={data}
           renderRow={item => (
-            <TableRow hover tabIndex={-1} key={`${item.summary}`}>
+            <TableRow
+              hover
+              target="_blank"
+              rel="noopener noreferrer"
+              tabIndex={-1}
+              key={item.summary}
+              component="a"
+              href={item.url}
+              className={classes.link}>
               <TableCell component="th" scope="row">
                 {item.project}
               </TableCell>
