@@ -2,7 +2,7 @@ module.exports = {
   use: [
     ['neutrino-preset-mozilla-frontend-infra/react', {
       html: {
-        title: 'Mozilla Bugs and Issues'
+        title: 'Codetribute'
       }
     }],
     ['@neutrinojs/env', ['GITHUB_PERSONAL_ACCESS_TOKEN', 'NODE_ENV']],
