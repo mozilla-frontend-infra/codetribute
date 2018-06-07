@@ -160,10 +160,10 @@ class Project extends Component {
           .map(bug => ({
             assignee: bug.assignedTo.name || 'None',
             project: bug.component,
-            id: bug.id,
-            tag: bug.tags || '',
+            tag: bug.keywords.join(',') || '',
             summary: `${bug.id} - ${bug.summary}`,
             lastUpdated: bug.lastChanged,
+            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           }))
       : [];
 

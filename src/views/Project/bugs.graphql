@@ -10,8 +10,7 @@ fragment Bugs on BugPager{
             summary
             status
             resolution
-            url
-            tags
+            keywords
           }
     }
 }
