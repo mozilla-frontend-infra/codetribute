@@ -1,16 +1,16 @@
 fragment Bugs on BugPager{
-      edges {
-          node {
-            assignedTo {
-              name
-            }
-            component
-            lastChanged
-            id
-            summary
-            status
-            resolution
-            keywords
-          }
+  edges {
+    node {
+      assignedTo {
+        name
+      }
+      component
+      lastChanged
+      id
+      summary
+      status
+      resolution
+      keywords
     }
+  }
 }

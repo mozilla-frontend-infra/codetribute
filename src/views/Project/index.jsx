@@ -9,15 +9,15 @@ import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import Issues from './issues.graphql';
-import Bugs from './bugs.graphql';
+import bugsQuery from './bugs.graphql';
 
 const getProject = fileName => projects[fileName] || {};
 /*
 Example input:
-{ ["mozilla/butter": "mentored"],
-  ["mozilla/memchaser: "mentored"],
-  ["mozilla/coversheet":"good-first-bug"]
-}
+[ {"mozilla/butter": "mentored"},
+  {"mozilla/memchaser: "mentored"},
+  {"mozilla/coversheet":"good-first-bug"}
+]
 Output:
 { "mozilla/butter": "mentored",
   "mozilla/memchaser: "mentored",
@@ -124,8 +124,6 @@ const bugzillaQuery = projectName => {
 @hot(module)
 class Project extends Component {
   state = {
-    error: false,
-    loading: false,
     data: [],
   };
 
@@ -172,14 +170,15 @@ class Project extends Component {
         [...prevState.data, ...issuesData, ...bugzillaData],
         'summary'
       ).sort((a, b) => (a.lastupdate > b.lastupdate ? -1 : 1)),
-      error: nextProps.githubData.error || nextProps.bugzillaData.error,
-      loading: nextProps.githubData.loading && nextProps.bugzillaData.loading,
     };
   }
 
   render() {
     const project = projects[this.props.match.params.project];
-    const { loading, error, data } = this.state;
+    const { data } = this.state;
+    const error = this.props.githubData.error || this.props.bugzillaData.error;
+    const loading =
+      this.props.githubData.loading && this.props.bugzillaData.loading;
 
     return (
       <Fragment>
@@ -202,7 +201,7 @@ class Project extends Component {
 const ProjectClient = props => (
   <Query
     query={gql`{${bugzillaQuery(props.match.params.project)}}
-      ${Bugs}
+      ${bugsQuery}
     `}
     skip={projects[props.match.params.project].products === undefined}
     context={{ link: 'bugzilla' }}>
