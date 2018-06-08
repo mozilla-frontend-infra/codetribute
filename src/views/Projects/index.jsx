@@ -51,10 +51,10 @@ export default class Projects extends Component {
       <Fragment>
         <header className={classes.header}>
           <Typography variant="display2" align="center">
-            Bug Issue
+            Codetribute
           </Typography>
           <Typography variant="subheading" align="center">
-            Find your first contribution with Mozilla
+            Find your first code contribution with Mozilla
           </Typography>
         </header>
         <main className={classes.container}>

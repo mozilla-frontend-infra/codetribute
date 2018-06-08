@@ -21,7 +21,7 @@ import ErrorBox from './ErrorBox';
     paddingBottom: 9,
   },
   error: {
-    backgroundColor: theme.palette.error.dark,
+    backgroundColor: theme.palette.error.main,
     borderColor: theme.palette.error.light,
     marginBottom: theme.spacing.unit,
   },
