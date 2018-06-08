@@ -23,9 +23,10 @@ const tagReposMapping = repositories =>
 
 @hot(module)
 @graphql(issuesQuery, {
-  options: props => ({
+  options: () => ({
+    fetchPolicy: 'network-only',
     variables: {
-      searchQuery: `${props.match.params.project.repeat(10)}`,
+      searchQuery: '',
     },
   }),
 })
