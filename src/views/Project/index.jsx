@@ -23,6 +23,7 @@ const tagReposMapping = repositories =>
 
 @hot(module)
 @graphql(issuesQuery, {
+  skip: props => !projects[props.match.params.project].repositories,
   options: () => ({
     fetchPolicy: 'network-only',
     variables: {
@@ -86,9 +87,9 @@ export default class Project extends Component {
   };
 
   render() {
-    const {
-      data: { error, search },
-    } = this.props;
+    const { data } = this.props;
+    const search = (data && data.search) || { nodes: [] };
+    const error = (data && data.error) || undefined;
     const { loading } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
