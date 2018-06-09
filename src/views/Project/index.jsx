@@ -88,26 +88,26 @@ export default class Project extends Component {
 
   render() {
     const { data } = this.props;
-    const search = (data && data.search) || { nodes: [] };
-    const error = (data && data.error) || undefined;
     const { loading } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
-      search &&
-      uniqBy(
-        search.nodes.map(issue => ({
-          project: issue.repository.name,
-          id: issue.number,
-          summary: `${issue.number} - ${issue.title}`,
-          tag: issue.labels.nodes.map(node => node.name).join(','),
-          lastUpdated: issue.updatedAt,
-          assignee: issue.assignees.nodes[0]
-            ? issue.assignees.nodes[0].login
-            : '-',
-          url: issue.url,
-        })),
-        'summary'
-      );
+      (data &&
+        data.search &&
+        uniqBy(
+          data.search.nodes.map(issue => ({
+            project: issue.repository.name,
+            id: issue.number,
+            summary: `${issue.number} - ${issue.title}`,
+            tag: issue.labels.nodes.map(node => node.name).join(','),
+            lastUpdated: issue.updatedAt,
+            assignee: issue.assignees.nodes[0]
+              ? issue.assignees.nodes[0].login
+              : '-',
+            url: issue.url,
+          })),
+          'summary'
+        )) ||
+      [];
 
     return (
       <Fragment>
@@ -118,9 +118,9 @@ export default class Project extends Component {
           <Typography variant="subheading" align="center">
             Bugs & Issues
           </Typography>
-          {error && <ErrorPanel error={error} />}
+          {data && data.error && <ErrorPanel error={data.error} />}
           {loading && <Spinner />}
-          {!error && !loading && <TasksTable items={issues} />}
+          {issues && <TasksTable items={issues} />}
         </header>
       </Fragment>
     );
