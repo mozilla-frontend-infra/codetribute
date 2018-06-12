@@ -120,7 +120,7 @@ export default class Project extends Component {
           </Typography>
           {data && data.error && <ErrorPanel error={data.error} />}
           {loading && <Spinner />}
-          {issues && <TasksTable items={issues} />}
+          {!loading && <TasksTable items={issues} />}
         </header>
       </Fragment>
     );
