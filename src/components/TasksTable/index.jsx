@@ -4,6 +4,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
+import { formatDistance } from 'date-fns';
 import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
@@ -94,7 +95,11 @@ export default class TasksTable extends Component {
               <TableCell className={classes.summary}>{item.summary}</TableCell>
               <TableCell>{item.tag}</TableCell>
               <TableCell>{item.assignee}</TableCell>
-              <TableCell>{item.lastUpdated}</TableCell>
+              <TableCell>
+                {formatDistance(item.lastUpdated, new Date(), {
+                  addSuffix: true,
+                })}
+              </TableCell>
             </TableRow>
           )}
           headers={['Project', 'Summary', 'Tag', 'Assignee', 'Last Updated']}
