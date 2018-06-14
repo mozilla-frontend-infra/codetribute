@@ -1,124 +1,113 @@
 import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
+import { graphql } from 'react-apollo';
+import dotProp from 'dot-prop-immutable';
+import { mergeAll } from 'ramda';
+import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
 import projects from '../../data/loader';
+import Spinner from '../../components/Spinner';
+import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
+import issuesQuery from './issues.graphql';
 
-const data = [
-  {
-    project: 'Servo',
-    summary: '1436212 - Add pagination to listClients',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-05-20T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary:
-      '1443017 - Use a mock AWS library to test publishing API definitions',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-05-14T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Servo',
-    summary: '1443016 - Create a fake version of azure-blob-storage',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-05-12T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Servo',
-    summary: '1441960 - Add measure of time to start processing a task',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-05-06T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary: '1451548 - Return 404 for indexes and namespaces that are expired',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-05-04T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary: '1441977 - Run tests for taskcluster-treeherder in Taskcluster',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-05-03T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Servo',
-    summary: '1446768 - Only post "No taskcluster jobs.." to a PR once',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-05-01T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary:
-      '1457126 - Authorization failures should state which clientId lacks scopes',
-    tag: 'Rust',
-    assignee: 'None',
-    lastUpdated: '2018-04-05T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary: '44 - Add pagination to auth.listRoles',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-03-05T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary:
-      '1306494 - Add a diff+commit submit button to some text areas in tc-tools',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-02-12T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary:
-      '333 - Make azure-entities and azure-blob0-storage independent of tc-lib-monitor',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-02-04T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary: '1344912 - Support tag events, too',
-    tag: 'JS',
-    assignee: 'None',
-    lastUpdated: '2018-01-01T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-  {
-    project: 'Taskcluster',
-    summary: '1453714 - Return http 424 instead of 403 for error artifacts',
-    tag: 'Python',
-    assignee: 'None',
-    lastUpdated: '2017-12-04T21:58:21Z',
-    url: 'https://bugzilla.mozilla.org/show_bug.cgi?id=1436212',
-  },
-];
+const tagReposMapping = repositories =>
+  Object.keys(repositories).reduce((prev, key) => {
+    const curr = [...(prev[repositories[key]] || []), key];
+
+    return {
+      ...prev,
+      [repositories[key]]: curr,
+    };
+  }, {});
 
 @hot(module)
+@graphql(issuesQuery, {
+  skip: props => !projects[props.match.params.project].repositories,
+  options: () => ({
+    fetchPolicy: 'network-only',
+    variables: {
+      searchQuery: '',
+    },
+  }),
+})
 export default class Project extends Component {
-  render() {
+  state = {
+    loading: true,
+  };
+
+  componentDidMount() {
+    this.load();
+  }
+
+  fetch = searchQuery => {
+    const {
+      data: { fetchMore },
+    } = this.props;
+
+    return fetchMore({
+      query: issuesQuery,
+      variables: {
+        searchQuery,
+      },
+      updateQuery(previousResult, { fetchMoreResult }) {
+        const moreNodes = fetchMoreResult.search.nodes;
+
+        if (!moreNodes.length) {
+          return previousResult;
+        }
+
+        return dotProp.set(
+          previousResult,
+          'search.nodes',
+          moreNodes.concat(previousResult.search.nodes)
+        );
+      },
+    });
+  };
+
+  load = async () => {
     const project = projects[this.props.match.params.project];
+    const repositories = mergeAll(project.repositories);
+    const tagsMapping = tagReposMapping(repositories);
+
+    await Promise.all(
+      Object.entries(tagsMapping).map(([tag, repos]) => {
+        const searchQuery = [
+          repos.map(repo => `repo:${repo}`).join(' '),
+          `label:${tag}`,
+          'state:open',
+        ].join(' ');
+
+        return this.fetch(searchQuery);
+      })
+    );
+
+    this.setState({ loading: false });
+  };
+
+  render() {
+    const { data } = this.props;
+    const { loading } = this.state;
+    const project = projects[this.props.match.params.project];
+    const issues =
+      (data &&
+        data.search &&
+        uniqBy(
+          data.search.nodes.map(issue => ({
+            project: issue.repository.name,
+            id: issue.number,
+            summary: `${issue.number} - ${issue.title}`,
+            tag: issue.labels.nodes.map(node => node.name).join(','),
+            lastUpdated: issue.updatedAt,
+            assignee: issue.assignees.nodes[0]
+              ? issue.assignees.nodes[0].login
+              : '-',
+            url: issue.url,
+          })),
+          'summary'
+        )) ||
+      [];
 
     return (
       <Fragment>
@@ -129,8 +118,10 @@ export default class Project extends Component {
           <Typography variant="subheading" align="center">
             Bugs & Issues
           </Typography>
+          {data && data.error && <ErrorPanel error={data.error} />}
+          {loading && <Spinner />}
+          {!loading && <TasksTable items={issues} />}
         </header>
-        <TasksTable items={data} />
       </Fragment>
     );
   }
