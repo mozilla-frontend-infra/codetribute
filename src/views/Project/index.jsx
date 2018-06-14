@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader';
 import { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
@@ -20,6 +20,7 @@ import AppBar from '../../components/AppBar';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
+import bugsQuery from './bugs.graphql';
 
 const tagReposMapping = repositories =>
   Object.keys(repositories).reduce((prev, key) => {
@@ -32,15 +33,53 @@ const tagReposMapping = repositories =>
   }, {});
 
 @hot(module)
-@graphql(issuesQuery, {
-  skip: props => !projects[props.match.params.project].repositories,
-  options: () => ({
-    fetchPolicy: 'network-only',
-    variables: {
-      searchQuery: '',
-    },
+@compose(
+  graphql(issuesQuery, {
+    skip: props => !projects[props.match.params.project].repositories,
+    name: 'github',
+    options: () => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        searchQuery: '',
+      },
+      context: {
+        client: 'github',
+      },
+    }),
   }),
-})
+  graphql(bugsQuery, {
+    skip: props => !projects[props.match.params.project].products,
+    name: 'bugzilla',
+    options: props => ({
+      variables: {
+        search: {
+          products:
+            projects[props.match.params.project].products.filter(
+              product => typeof product === 'string'
+            ).length > 0
+              ? projects[props.match.params.project].products.filter(
+                  product => typeof product === 'string'
+                )
+              : Object.keys(
+                  projects[props.match.params.project].products[0]
+                )[0],
+          components:
+            projects[props.match.params.project].products.filter(
+              product => typeof product === 'string'
+            ).length > 0
+              ? undefined
+              : Object.values(
+                  projects[props.match.params.project].products[0]
+                )[0],
+          statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
+        },
+      },
+      context: {
+        client: 'bugzilla',
+      },
+    }),
+  })
+)
 @withStyles(theme => ({
   root: {
     background: theme.palette.background.default,
@@ -74,15 +113,49 @@ export default class Project extends Component {
     this.load();
   }
 
-  fetch = searchQuery => {
+  fetchBugzilla = variable => {
     const {
-      data: { fetchMore },
+      bugzilla: { fetchMore },
+    } = this.props;
+
+    return fetchMore({
+      query: bugsQuery,
+      variables: variable,
+      context: {
+        client: 'bugzilla',
+      },
+      updateQuery(previousResult, { fetchMoreResult }) {
+        const moreNodes = fetchMoreResult.bugs.edges;
+
+        if (!moreNodes.length) {
+          return previousResult;
+        }
+
+        if (!previousResult.bugs) {
+          return fetchMoreResult;
+        }
+
+        return dotProp.set(
+          previousResult,
+          'bugs.edges',
+          moreNodes.concat(previousResult.bugs.edges)
+        );
+      },
+    });
+  };
+
+  fetchGithub = searchQuery => {
+    const {
+      github: { fetchMore },
     } = this.props;
 
     return fetchMore({
       query: issuesQuery,
       variables: {
         searchQuery,
+      },
+      context: {
+        client: 'github',
       },
       updateQuery(previousResult, { fetchMoreResult }) {
         const moreNodes = fetchMoreResult.search.nodes;
@@ -113,7 +186,29 @@ export default class Project extends Component {
           'state:open',
         ].join(' ');
 
-        return this.fetch(searchQuery);
+        return this.fetchGithub(searchQuery);
+      })
+    );
+    const variable = {
+      search: {
+        tags: ['good-first-bug'],
+        statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
+      },
+      paging: {
+        page: 0,
+        pageSize: 100,
+      },
+    };
+    const productWithComponentList = mergeAll(
+      project.products.filter(product => typeof product !== 'string') || []
+    );
+
+    await Promise.all(
+      Object.entries(productWithComponentList).map(([products, components]) => {
+        variable.search.products = [products];
+        variable.search.components = components;
+
+        return this.fetchBugzilla(variable);
       })
     );
 
@@ -121,14 +216,15 @@ export default class Project extends Component {
   };
 
   render() {
-    const { data, classes } = this.props;
+    const { classes } = this.props;
+    const githubData = this.props.github;
     const { loading } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
-      (data &&
-        data.search &&
+      (githubData &&
+        githubData.search &&
         uniqBy(
-          data.search.nodes.map(issue => ({
+          githubData.search.nodes.map(issue => ({
             project: issue.repository.name,
             id: issue.number,
             summary: `${issue.number} - ${issue.title}`,
@@ -138,6 +234,22 @@ export default class Project extends Component {
               ? issue.assignees.nodes[0].login
               : '-',
             url: issue.url,
+          })),
+          'summary'
+        )) ||
+      [];
+    const bugzillaData = this.props.bugzilla;
+    const bugs =
+      (bugzillaData &&
+        bugzillaData.bugs &&
+        uniqBy(
+          bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
+            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            project: bug.component,
+            tags: bug.keywords.join(',') || '',
+            summary: `${bug.id} - ${bug.summary}`,
+            lastUpdated: bug.lastChanged,
+            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           })),
           'summary'
         )) ||
@@ -170,12 +282,14 @@ export default class Project extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )}
-          {data && data.error && <ErrorPanel error={data.error} />}
+          {githubData &&
+            githubData.error && <ErrorPanel error={githubData.error} />}
+          {bugzillaData &&
+            bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
           {loading && <Spinner />}
-          {!loading && <TasksTable items={issues} />}
+          {!loading && <TasksTable items={[...issues, ...bugs]}
         </div>
       </div>
     );
   }
 }
-
