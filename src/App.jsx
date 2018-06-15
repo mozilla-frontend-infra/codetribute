@@ -6,9 +6,12 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { CachePersistor } from 'apollo-cache-persist';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import storage from 'localforage';
 import Projects from './views/Projects';
 import Project from './views/Project';
+import theme from './theme';
+import FontStager from './components/FontStager';
 
 @hot(module)
 export default class App extends Component {
@@ -28,14 +31,17 @@ export default class App extends Component {
   });
   render() {
     return (
-      <ApolloProvider client={this.apolloClient}>
-        <BrowserRouter>
-          <Switch>
-            <Route path="/projects/:project" component={Project} />
-            <Route exact path="/" component={Projects} />
-          </Switch>
-        </BrowserRouter>
-      </ApolloProvider>
+      <MuiThemeProvider theme={theme}>
+        <FontStager />
+        <ApolloProvider client={this.apolloClient}>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/projects/:project" component={Project} />
+              <Route exact path="/" component={Projects} />
+            </Switch>
+          </BrowserRouter>
+        </ApolloProvider>
+      </MuiThemeProvider>
     );
   }
 }
