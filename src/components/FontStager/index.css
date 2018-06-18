@@ -1,26 +1,26 @@
 @font-face {
-    font-family: Roboto500;
-    src:
-            url('~typeface-roboto/files/roboto-latin-500.woff2') format('woff2'),
-            url('~typeface-roboto/files/roboto-latin-500.woff') format('woff');
-    font-weight: 500;
-    font-style: normal;
+  font-family: Roboto400;
+  src:
+    url('~typeface-roboto/files/roboto-latin-400.woff2') format('woff2'),
+    url('~typeface-roboto/files/roboto-latin-400.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
 }
 @font-face {
-    font-family: Roboto300;
-    src:
-            url('~typeface-roboto/files/roboto-latin-300.woff2') format('woff2'),
-            url('~typeface-roboto/files/roboto-latin-300.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
+  font-family: Roboto300;
+  src:
+    url('~typeface-roboto/files/roboto-latin-300.woff2') format('woff2'),
+    url('~typeface-roboto/files/roboto-latin-300.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
 }
 @font-face {
-    font-family: Roboto700;
-    src:
-            url('~typeface-roboto/files/roboto-latin-700.woff2') format('woff2'),
-            url('~typeface-roboto/files/roboto-latin-700.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
+  font-family: Roboto500;
+  src:
+    url('~typeface-roboto/files/roboto-latin-500.woff2') format('woff2'),
+    url('~typeface-roboto/files/roboto-latin-500.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
 }
 
 /*
@@ -30,9 +30,10 @@
   and progressively re-render.
 */
 html, body {
-    font-family: sans-serif;
-    font-weight: 500;
-    -webkit-font-smoothing: antialiased;
+  font-family: sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /*
@@ -46,13 +47,13 @@ html, body {
 */
 .font-stage-primary html,
 .font-stage-primary body {
-    font-family: Roboto500, sans-serif;
+  font-family: Roboto400, sans-serif;
 }
 
 /* Prevent the secondary fonts from being tree-shaken away */
 .font-stage-secondary .roboto300 {
-    font-family: Roboto300, sans-serif;
+  font-family: Roboto300, sans-serif;
 }
-.font-stage-secondary .roboto700 {
-    font-family: Roboto700, sans-serif;
+.font-stage-secondary .roboto500 {
+  font-family: Roboto500, sans-serif;
 }

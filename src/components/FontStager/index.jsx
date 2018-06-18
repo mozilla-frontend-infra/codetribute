@@ -13,13 +13,13 @@ export default class FontStager extends Component {
         stages={[
           {
             className: 'font-stage-primary',
-            families: [{ family: 'Roboto500' }],
+            families: [{ family: 'Roboto400' }],
             stages: [
               {
                 className: 'font-stage-secondary',
                 families: [
                   { family: 'Roboto300', options: { weight: 300 } },
-                  { family: 'Roboto700', options: { weight: 700 } },
+                  { family: 'Roboto500', options: { weight: 500 } },
                 ],
               },
             ],
