@@ -14,6 +14,10 @@ import Markdown from 'react-markdown';
     width: '100%',
     boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
     minHeight: 250,
+    '&:hover': {
+      transform: 'scale(1.05)',
+      boxShadow: `0 1px 4px 0 ${theme.palette.primary.dark}`,
+    },
   },
   textAlign: {
     textAlign: 'center',
@@ -61,7 +65,8 @@ export default class ProjectCard extends Component {
             {summary && (
               <Typography
                 className={classes.projectSummary}
-                onClick={this.handleSummaryClick}>
+                onClick={this.handleSummaryClick}
+                color="textSecondary">
                 <Markdown source={summary} />
               </Typography>
             )}

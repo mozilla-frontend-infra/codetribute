@@ -3,7 +3,20 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const Roboto300 = { fontFamily: 'Roboto300, sans-serif' };
 const Roboto400 = { fontFamily: 'Roboto400, sans-serif' };
 const Roboto500 = { fontFamily: 'Roboto500, sans-serif' };
+const AQUA = '#51AAD4';
 const theme = createMuiTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      light: '#f7f9fa',
+      main: '#ecffff',
+      dark: AQUA,
+      contrastText: '#222222',
+    },
+    secondary: {
+      contrastText: '#A0A0A0',
+    },
+  },
   typography: {
     ...Roboto400,
     display4: Roboto300,
@@ -22,6 +35,22 @@ const theme = createMuiTheme({
     MuiChip: {
       root: {
         height: 24,
+      },
+    },
+    MuiTypography: {
+      display2: {
+        color: AQUA,
+      },
+    },
+    MuiTableCell: {
+      head: {
+        fontSize: 16,
+        color: '#64A4C9',
+      },
+    },
+    MuiCircularProgress: {
+      colorPrimary: {
+        color: AQUA,
       },
     },
   },

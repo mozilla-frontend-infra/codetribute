@@ -1,10 +1,11 @@
 import { hot } from 'react-hot-loader';
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import { graphql } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -36,6 +37,12 @@ const tagReposMapping = repositories =>
     },
   }),
 })
+@withStyles(theme => ({
+  root: {
+    background: theme.palette.primary.light,
+    height: '100vh',
+  },
+}))
 export default class Project extends Component {
   state = {
     loading: true,
@@ -92,7 +99,7 @@ export default class Project extends Component {
   };
 
   render() {
-    const { data } = this.props;
+    const { data, classes } = this.props;
     const { loading } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
@@ -115,31 +122,29 @@ export default class Project extends Component {
       [];
 
     return (
-      <Fragment>
-        <header>
-          <Typography variant="display2" align="center">
-            {project.name}
-          </Typography>
-          {project.introduction && (
-            <ExpansionPanel defaultExpanded>
-              <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-                <Typography variant="display1">Project Introduction</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography variant="body1">
-                  <Markdown source={project.introduction} />
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          )}
-          <Typography variant="subheading" align="center">
-            Bugs & Issues
-          </Typography>
-          {data && data.error && <ErrorPanel error={data.error} />}
-          {loading && <Spinner />}
-          {!loading && <TasksTable items={issues} />}
-        </header>
-      </Fragment>
+      <div className={classes.root}>
+        <Typography variant="display2" align="center">
+          {project.name}
+        </Typography>
+        {project.introduction && (
+          <ExpansionPanel defaultExpanded>
+            <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
+              <Typography variant="display1">Project Introduction</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography variant="body1">
+                <Markdown source={project.introduction} />
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        )}
+        <Typography variant="subheading" align="center" color="textSecondary">
+          Bugs & Issues
+        </Typography>
+        {data && data.error && <ErrorPanel error={data.error} />}
+        {loading && <Spinner />}
+        {!loading && <TasksTable items={issues} />}
+      </div>
     );
   }
 }

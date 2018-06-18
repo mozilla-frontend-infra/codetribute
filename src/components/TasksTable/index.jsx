@@ -27,6 +27,9 @@ const sorted = pipe(
   },
   link: {
     textDecoration: 'none',
+    '&:nth-of-type(odd)': {
+      backgroundColor: '#ecffff',
+    },
   },
   chip: {
     marginRight: 1,
