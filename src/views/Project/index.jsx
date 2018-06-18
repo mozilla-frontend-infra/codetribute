@@ -22,6 +22,16 @@ import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
 import bugsQuery from './bugs.graphql';
 
+const componentsFromProduct = product => {
+  // if it has no components, return empty array
+  if (typeof product === 'string') {
+    return [];
+  }
+
+  // otherwise, return the components
+  return Object.values(product)[0];
+};
+
 const tagReposMapping = repositories =>
   Object.keys(repositories).reduce((prev, key) => {
     const curr = [...(prev[repositories[key]] || []), key];
@@ -53,25 +63,25 @@ const tagReposMapping = repositories =>
     options: props => ({
       variables: {
         search: {
-          tags: ['good-first-bug'],
+          keywords: ['good-first-bug'],
           products:
             projects[props.match.params.project].products.filter(
-              product => typeof product === 'string'
+              product => !componentsFromProduct(product).length
             ).length > 0
               ? projects[props.match.params.project].products.filter(
-                  product => typeof product === 'string'
+                  product => !componentsFromProduct(product).length
                 )
               : Object.keys(
                   projects[props.match.params.project].products[0]
                 )[0],
           components:
             projects[props.match.params.project].products.filter(
-              product => typeof product === 'string'
+              product => !componentsFromProduct(product).length
             ).length > 0
               ? undefined
-              : Object.values(
+              : componentsFromProduct(
                   projects[props.match.params.project].products[0]
-                )[0],
+                ),
           statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
         },
         paging: {
@@ -127,7 +137,7 @@ export default class Project extends Component {
       query: bugsQuery,
       variables: {
         search: {
-          tags: ['good-first-bug'],
+          keywords: ['good-first-bug'],
           products,
           components,
           statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
@@ -206,8 +216,10 @@ export default class Project extends Component {
       })
     );
     const productWithComponentList = mergeAll(
-      projects.products
-        ? project.products.filter(product => typeof product !== 'string')
+      project.products
+        ? project.products.filter(
+            product => componentsFromProduct(product).length
+          )
         : []
     );
 
