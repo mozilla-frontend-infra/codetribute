@@ -53,6 +53,7 @@ const tagReposMapping = repositories =>
     options: props => ({
       variables: {
         search: {
+          tags: ['good-first-bug'],
           products:
             projects[props.match.params.project].products.filter(
               product => typeof product === 'string'
@@ -72,6 +73,10 @@ const tagReposMapping = repositories =>
                   projects[props.match.params.project].products[0]
                 )[0],
           statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
+        },
+        paging: {
+          page: 0,
+          pageSize: 100,
         },
       },
       context: {
@@ -113,14 +118,25 @@ export default class Project extends Component {
     this.load();
   }
 
-  fetchBugzilla = variable => {
+  fetchBugzilla = (products, components) => {
     const {
       bugzilla: { fetchMore },
     } = this.props;
 
     return fetchMore({
       query: bugsQuery,
-      variables: variable,
+      variables: {
+        search: {
+          tags: ['good-first-bug'],
+          products,
+          components,
+          statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
+        },
+        paging: {
+          page: 0,
+          pageSize: 100,
+        },
+      },
       context: {
         client: 'bugzilla',
       },
@@ -189,27 +205,16 @@ export default class Project extends Component {
         return this.fetchGithub(searchQuery);
       })
     );
-    const variable = {
-      search: {
-        tags: ['good-first-bug'],
-        statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
-      },
-      paging: {
-        page: 0,
-        pageSize: 100,
-      },
-    };
     const productWithComponentList = mergeAll(
-      project.products.filter(product => typeof product !== 'string') || []
+      projects.products
+        ? project.products.filter(product => typeof product !== 'string')
+        : []
     );
 
     await Promise.all(
-      Object.entries(productWithComponentList).map(([products, components]) => {
-        variable.search.products = [products];
-        variable.search.components = components;
-
-        return this.fetchBugzilla(variable);
-      })
+      Object.entries(productWithComponentList).map(([products, components]) =>
+        this.fetchBugzilla([products], components)
+      )
     );
 
     this.setState({ loading: false });
