@@ -31,17 +31,17 @@ export default class App extends Component {
   });
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <FontStager />
-        <ApolloProvider client={this.apolloClient}>
+      <ApolloProvider client={this.apolloClient}>
+        <MuiThemeProvider theme={theme}>
+          <FontStager />
           <BrowserRouter>
             <Switch>
               <Route path="/projects/:project" component={Project} />
               <Route exact path="/" component={Projects} />
             </Switch>
           </BrowserRouter>
-        </ApolloProvider>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+      </ApolloProvider>
     );
   }
 }
