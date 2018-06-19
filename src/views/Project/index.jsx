@@ -22,16 +22,8 @@ import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
 import bugsQuery from './bugs.graphql';
 
-const componentsFromProduct = product => {
-  // if it has no components, return empty array
-  if (typeof product === 'string') {
-    return [];
-  }
-
-  // otherwise, return the components
-  return Object.values(product)[0];
-};
-
+const productsList = products =>
+  products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
   Object.keys(repositories).reduce((prev, key) => {
     const curr = [...(prev[repositories[key]] || []), key];
@@ -65,23 +57,19 @@ const tagReposMapping = repositories =>
         search: {
           keywords: ['good-first-bug'],
           products:
-            projects[props.match.params.project].products.filter(
-              product => !componentsFromProduct(product).length
-            ).length > 0
-              ? projects[props.match.params.project].products.filter(
-                  product => !componentsFromProduct(product).length
-                )
+            productsList(projects[props.match.params.project].products).length >
+            0
+              ? productsList(projects[props.match.params.project].products)
               : Object.keys(
                   projects[props.match.params.project].products[0]
                 )[0],
           components:
-            projects[props.match.params.project].products.filter(
-              product => !componentsFromProduct(product).length
-            ).length > 0
+            productsList(projects[props.match.params.project].products).length >
+            0
               ? undefined
-              : componentsFromProduct(
+              : Object.values(
                   projects[props.match.params.project].products[0]
-                ),
+                )[0],
           statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
         },
         paging: {
@@ -217,9 +205,7 @@ export default class Project extends Component {
     );
     const productWithComponentList = mergeAll(
       project.products
-        ? project.products.filter(
-            product => componentsFromProduct(product).length
-          )
+        ? project.products.filter(product => typeof product !== 'string')
         : []
     );
 

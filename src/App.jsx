@@ -6,7 +6,7 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { RetryLink } from 'apollo-link-retry';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { CachePersistor } from 'apollo-cache-persist';
+import { persistCache } from 'apollo-cache-persist';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import storage from 'localforage';
@@ -14,6 +14,13 @@ import Projects from './views/Projects';
 import Project from './views/Project';
 import theme from './theme';
 import FontStager from './components/FontStager';
+
+const cache = new InMemoryCache();
+
+persistCache({
+  cache,
+  storage,
+});
 
 @hot(module)
 @withStyles({
@@ -24,11 +31,6 @@ import FontStager from './components/FontStager';
   },
 })
 export default class App extends Component {
-  cache = new InMemoryCache();
-  persistence = new CachePersistor({
-    cache: this.cache,
-    storage,
-  });
   link = new RetryLink().split(
     operation => operation.getContext().client === 'github',
     new HttpLink({
@@ -40,7 +42,7 @@ export default class App extends Component {
     new HttpLink({ uri: 'http://localhost:3090' })
   );
   apolloClient = new ApolloClient({
-    cache: this.cache,
+    cache,
     link: this.link,
   });
   render() {
