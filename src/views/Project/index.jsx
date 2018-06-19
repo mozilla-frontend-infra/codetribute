@@ -37,7 +37,11 @@ const tagReposMapping = repositories =>
 @hot(module)
 @compose(
   graphql(issuesQuery, {
-    skip: props => !projects[props.match.params.project].repositories,
+    skip: ({
+      match: {
+        params: { project },
+      },
+    }) => !projects[project].repositories,
     name: 'github',
     options: () => ({
       fetchPolicy: 'network-only',
@@ -50,26 +54,26 @@ const tagReposMapping = repositories =>
     }),
   }),
   graphql(bugsQuery, {
-    skip: props => !projects[props.match.params.project].products,
+    skip: ({
+      match: {
+        params: { project },
+      },
+    }) => !projects[project].products,
     name: 'bugzilla',
-    options: props => ({
+    options: ({
+      match: {
+        params: { project },
+      },
+    }) => ({
       variables: {
         search: {
           keywords: ['good-first-bug'],
-          products:
-            productsList(projects[props.match.params.project].products).length >
-            0
-              ? productsList(projects[props.match.params.project].products)
-              : Object.keys(
-                  projects[props.match.params.project].products[0]
-                )[0],
-          components:
-            productsList(projects[props.match.params.project].products).length >
-            0
-              ? undefined
-              : Object.values(
-                  projects[props.match.params.project].products[0]
-                )[0],
+          products: productsList(projects[project].products).length
+            ? productsList(projects[project].products)
+            : Object.keys(projects[project].products[0])[0],
+          components: productsList(projects[project].products).length
+            ? undefined
+            : Object.values(projects[project].products[0])[0],
           statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
         },
         paging: {
