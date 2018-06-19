@@ -59,7 +59,7 @@ export default class ProjectCard extends Component {
       <NavLink className={classes.navlink} to={`/projects/${fileName}`}>
         <Card className={classes.card}>
           <CardContent className={classes.textAlign}>
-            <Typography gutterBottom variant="title" component="h4">
+            <Typography gutterBottom variant="headline" component="h4">
               {name}
             </Typography>
             {summary && (
