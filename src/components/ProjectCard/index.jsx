@@ -39,7 +39,7 @@ export default class ProjectCard extends Component {
     summary: null,
   };
 
-  handleTextClicked = event => {
+  handleSummaryClick = event => {
     if (event.target.href) {
       event.stopPropagation();
     }
@@ -61,7 +61,7 @@ export default class ProjectCard extends Component {
             {summary && (
               <Typography
                 className={classes.projectSummary}
-                onClick={this.handleTextClicked}>
+                onClick={this.handleSummaryClick}>
                 <Markdown source={summary} />
               </Typography>
             )}
