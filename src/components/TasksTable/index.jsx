@@ -26,7 +26,10 @@ const sorted = pipe(
     textDecoration: 'none',
   },
   chip: {
-    margin: 1,
+    marginRight: 1,
+  },
+  tags: {
+    whiteSpace: 'nowrap',
   },
 }))
 export default class TasksTable extends Component {
@@ -97,7 +100,7 @@ export default class TasksTable extends Component {
                 {item.project}
               </TableCell>
               <TableCell className={classes.summary}>{item.summary}</TableCell>
-              <TableCell>
+              <TableCell className={classes.tags}>
                 {item.tag.map(tag => (
                   <Chip key={tag} label={tag} className={classes.chip} />
                 ))}

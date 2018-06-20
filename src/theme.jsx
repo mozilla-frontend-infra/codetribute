@@ -21,13 +21,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiChip: {
       root: {
-        fontSize: 12,
         height: 24,
-        borderRadius: 12,
-      },
-      label: {
-        paddingLeft: 6,
-        paddingRight: 6,
       },
     },
   },
