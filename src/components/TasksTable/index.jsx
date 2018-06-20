@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
@@ -23,6 +24,9 @@ const sorted = pipe(
   },
   link: {
     textDecoration: 'none',
+  },
+  chip: {
+    margin: 1,
   },
 }))
 export default class TasksTable extends Component {
@@ -93,7 +97,11 @@ export default class TasksTable extends Component {
                 {item.project}
               </TableCell>
               <TableCell className={classes.summary}>{item.summary}</TableCell>
-              <TableCell>{item.tag}</TableCell>
+              <TableCell>
+                {item.tag.map(tag => (
+                  <Chip key={tag} label={tag} className={classes.chip} />
+                ))}
+              </TableCell>
               <TableCell>{item.assignee}</TableCell>
               <TableCell>
                 {formatDistance(item.lastUpdated, new Date(), {

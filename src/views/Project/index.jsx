@@ -98,7 +98,7 @@ export default class Project extends Component {
             project: issue.repository.name,
             id: issue.number,
             summary: `${issue.number} - ${issue.title}`,
-            tag: issue.labels.nodes.map(node => node.name).join(','),
+            tag: issue.labels.nodes.map(node => node.name),
             lastUpdated: issue.updatedAt,
             assignee: issue.assignees.nodes[0]
               ? issue.assignees.nodes[0].login

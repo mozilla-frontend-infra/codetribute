@@ -18,6 +18,19 @@ const theme = createMuiTheme({
     caption: Roboto400,
     button: Roboto500,
   },
+  overrides: {
+    MuiChip: {
+      root: {
+        fontSize: 12,
+        height: 24,
+        borderRadius: 12,
+      },
+      label: {
+        paddingLeft: 6,
+        paddingRight: 6,
+      },
+    },
+  },
 });
 
 export default theme;
