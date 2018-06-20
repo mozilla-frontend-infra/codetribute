@@ -31,7 +31,7 @@ To get started with local development, create a file in the root of the repo nam
 `.env` with the following content. You can also set the variables in your shell environment.
 
 ```bash
-GITHUB_PERSONAL_ACCESS_TOKEN=<your_github_api_token>
+GITHUB_PERSONAL_API_TOKEN=<your_github_api_token>
 ```
 
 Generate a GitHub personal access token [here](https://github.com/settings/tokens). When prompted
