@@ -21,7 +21,23 @@ import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
 import bugsQuery from './bugs.graphql';
+import {
+  GOOD_FIRST_BUG,
+  BUGZILLA_STATUSES,
+  BUGZILLA_DEFAULT_PAGE,
+  BUGZILLA_PAGE_SIZE,
+  BUGZILLA_ORDER,
+} from '../../utils/constants';
 
+const bugzillaSearchOptions = {
+  keywords: [GOOD_FIRST_BUG],
+  statuses: Object.values(BUGZILLA_STATUSES),
+  order: BUGZILLA_ORDER,
+};
+const bugzillaPagingOptions = {
+  page: BUGZILLA_DEFAULT_PAGE,
+  pageSize: BUGZILLA_PAGE_SIZE,
+};
 const productsList = products =>
   products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
@@ -67,18 +83,16 @@ const tagReposMapping = repositories =>
     }) => ({
       variables: {
         search: {
-          keywords: ['good-first-bug'],
+          ...bugzillaSearchOptions,
           products: productsList(projects[project].products).length
             ? productsList(projects[project].products)
             : Object.keys(projects[project].products[0])[0],
           components: productsList(projects[project].products).length
-            ? undefined
+            ? null
             : Object.values(projects[project].products[0])[0],
-          statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
         },
         paging: {
-          page: 0,
-          pageSize: 100,
+          ...bugzillaPagingOptions,
         },
       },
       context: {
@@ -129,14 +143,12 @@ export default class Project extends Component {
       query: bugsQuery,
       variables: {
         search: {
-          keywords: ['good-first-bug'],
+          ...bugzillaSearchOptions,
           products,
           components,
-          statuses: ['NEW', 'UNCONFIRMED', 'ASSIGNED', 'REOPENED'],
         },
         paging: {
-          page: 0,
-          pageSize: 100,
+          ...bugzillaPagingOptions,
         },
       },
       context: {
