@@ -1,4 +1,4 @@
-import { compareDesc } from 'date-fns';
+import { compareAsc } from 'date-fns';
 import { or } from 'ramda';
 
 /**
@@ -19,7 +19,7 @@ const sort = (referenceElement, compareElement) => {
 
     return diff < 0 ? -1 : 1;
   } else if (Date.parse(referenceElement) || Date.parse(compareElement)) {
-    return compareDesc(referenceElement, compareElement);
+    return compareAsc(referenceElement, compareElement);
   } else if (
     referenceElement.match(/^\d+ -/) &&
     compareElement.match(/^\d+ -/)

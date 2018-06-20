@@ -29,6 +29,7 @@
     "lodash.uniqby": "^4.7.0",
     "mdi-react": "^3.4.0",
     "prop-types": "^15.6.1",
+    "qs": "^6.5.2",
     "ramda": "^0.25.0",
     "react": "^16.3.2",
     "react-apollo": "^2.1.4",
