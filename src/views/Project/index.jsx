@@ -24,7 +24,7 @@ import bugsQuery from './bugs.graphql';
 import {
   GOOD_FIRST_BUG,
   BUGZILLA_STATUSES,
-  BUGZILLA_DEFAULT_PAGE,
+  BUGZILLA_PAGE_NUMBER,
   BUGZILLA_PAGE_SIZE,
   BUGZILLA_ORDER,
 } from '../../utils/constants';
@@ -35,10 +35,10 @@ const bugzillaSearchOptions = {
   order: BUGZILLA_ORDER,
 };
 const bugzillaPagingOptions = {
-  page: BUGZILLA_DEFAULT_PAGE,
+  page: BUGZILLA_PAGE_NUMBER,
   pageSize: BUGZILLA_PAGE_SIZE,
 };
-const productsList = products =>
+const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
   Object.keys(repositories).reduce((prev, key) => {
@@ -84,11 +84,12 @@ const tagReposMapping = repositories =>
       variables: {
         search: {
           ...bugzillaSearchOptions,
-          products: productsList(projects[project].products).length
-            ? productsList(projects[project].products)
+          products: productsWithNoComponents(projects[project].products).length
+            ? productsWithNoComponents(projects[project].products)
             : Object.keys(projects[project].products[0])[0],
-          components: productsList(projects[project].products).length
-            ? null
+          components: productsWithNoComponents(projects[project].products)
+            .length
+            ? undefined
             : Object.values(projects[project].products[0])[0],
         },
         paging: {
