@@ -4,11 +4,15 @@ const Roboto300 = { fontFamily: 'Roboto300, sans-serif' };
 const Roboto400 = { fontFamily: 'Roboto400, sans-serif' };
 const Roboto500 = { fontFamily: 'Roboto500, sans-serif' };
 const AQUA = '#51AAD4';
+const LIGHT_GREY = '#f7f9fa';
 const theme = createMuiTheme({
   palette: {
+    background: {
+      default: LIGHT_GREY,
+    },
     type: 'light',
     primary: {
-      light: '#f7f9fa',
+      light: LIGHT_GREY,
       main: '#ecffff',
       dark: AQUA,
       contrastText: '#222222',

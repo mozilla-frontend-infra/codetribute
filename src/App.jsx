@@ -6,7 +6,8 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { CachePersistor } from 'apollo-cache-persist';
-import { MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import storage from 'localforage';
 import Projects from './views/Projects';
 import Project from './views/Project';
@@ -14,6 +15,13 @@ import theme from './theme';
 import FontStager from './components/FontStager';
 
 @hot(module)
+@withStyles({
+  '@global': {
+    a: {
+      color: theme.palette.primary.dark,
+    },
+  },
+})
 export default class App extends Component {
   cache = new InMemoryCache();
   persistence = new CachePersistor({
@@ -34,6 +42,7 @@ export default class App extends Component {
       <ApolloProvider client={this.apolloClient}>
         <MuiThemeProvider theme={theme}>
           <FontStager />
+          <CssBaseline />
           <BrowserRouter>
             <Switch>
               <Route path="/projects/:project" component={Project} />
