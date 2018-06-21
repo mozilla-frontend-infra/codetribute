@@ -18,7 +18,7 @@ import Markdown from 'react-markdown';
   textAlign: {
     textAlign: 'center',
   },
-  cardDescription: {
+  projectSummary: {
     fontWeight: 300,
     padding: 2 * theme.spacing.unit,
   },
@@ -30,19 +30,19 @@ export default class ProjectCard extends Component {
   static propTypes = {
     project: shape({
       name: string.isRequired,
-      description: string,
+      summary: string,
       fileName: string.isRequired,
     }).isRequired,
   };
 
   static defaultProps = {
-    description: null,
+    summary: null,
   };
 
   render() {
     const {
       classes,
-      project: { name, description, fileName },
+      project: { name, summary, fileName },
     } = this.props;
 
     return (
@@ -52,9 +52,9 @@ export default class ProjectCard extends Component {
             <Typography gutterBottom variant="title" component="h4">
               {name}
             </Typography>
-            {description && (
-              <Typography className={classes.cardDescription}>
-                <Markdown source={description} />
+            {summary && (
+              <Typography className={classes.projectSummary}>
+                <Markdown source={summary} />
               </Typography>
             )}
           </CardContent>

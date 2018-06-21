@@ -1,5 +1,5 @@
 name: Instantbird
-description: Get involved with the [Instantbird project](https://wiki.instantbird.org/Main_Page)
+summary: Get involved with the [Instantbird project](https://wiki.instantbird.org/Main_Page)
 products: 
  - Instantbird
  - Chat Core

@@ -1,3 +1,50 @@
-name: TaskCluster
+name: Taskcluster
+summary: Taskcluster is Mozilla's platform for building, testing, and releasing software.
+introduction: |
+  ## About Taskcluster
+ 
+  Taskcluster is a distributed platform for executing tasks, such as running tests.
+  Every day, it runs hundreds of thousands of tasks to support Firefox and lots of other projects at Mozilla.
+  It is written in Javascript and Go and has lots of opportunities to help out.
+
+  You can learn a bit about Taskcluster in its [documentation](http://docs.taskcluster.net/) -- the tutorial makes a good place to start.
+
+  ## Who Works on Taskcluster?
+
+  Many of the project participants, past and present, are listed on [our people page](https://docs.taskcluster.net/docs/people).
+  The team assigned to work on Taskcluster at Mozilla is about 10 people, distributed around Europe, North America, and South America.
+  You will likely see the names of team members listed as mentors in the bugs and issues on this site.
+  We are always excited to meet new Mozillians!
+
+  ## How Do I Get Started?
+
+  If you are working on a bug (in Bugzilla), you may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi).
+  If you are working on an issue (in Github), you will need a Github account.
+
+  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time.
+  But do your research!
+  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first.
+  This helps you learn more about Taskcluster and understand better the bug you're fixing or feature you're adding.
+
+  ### How Do I Write the Code?
+ 
+  All of the Taskcluster code is in Github repositories in the [taskcluster organization](https://github.com/taskcluster).
+  For example, the queue service is in the [taskcluster-queue](https://github.com/taskcluster/taskcluster-queue) repository.
+  Once you've figured out which repository to use, clone it and -- before you change anything -- run the tests.
+  The repository's README file will describe how to set up and run tests.
+
+  From there, follow the Github pull-request process: make a fork of the repository, make your changes on a branch, and then create a pull request from that branch.
+  The Internet is full of guides for this process, and of course we are happy to help as well.
+
+  ## How Do I Get Help?
+
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  Each bug has a mentor, and that person will usually be the one to reply.
+
+  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#taskcluster-contributors` channel.
+  That's a great place to get quick help or work through issues with Git or Node.
+
 products: 
- - TaskCluster
+ - Taskcluster

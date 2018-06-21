@@ -5,6 +5,7 @@ import dotProp from 'dot-prop-immutable';
 import { mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
+import Markdown from 'react-markdown';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
@@ -118,6 +119,11 @@ export default class Project extends Component {
           <Typography variant="subheading" align="center">
             Bugs & Issues
           </Typography>
+          {project.introduction && (
+            <Typography variant="body1">
+              <Markdown source={project.introduction} />
+            </Typography>
+          )}
           {data && data.error && <ErrorPanel error={data.error} />}
           {loading && <Spinner />}
           {!loading && <TasksTable items={issues} />}

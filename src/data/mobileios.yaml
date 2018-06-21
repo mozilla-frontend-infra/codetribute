@@ -1,4 +1,4 @@
 name: Firefox - Mobile (iOS)
-description: Find out more at the [GitHub page](https://github.com/mozilla/firefox-ios)
+summary: Find out more at the [GitHub page](https://github.com/mozilla/firefox-ios)
 products: 
  - Firefox for iOS
