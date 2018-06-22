@@ -3,10 +3,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import { formatDistance } from 'date-fns';
 import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
+import { stringify, parse } from 'qs';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 
@@ -15,6 +17,7 @@ const sorted = pipe(
   map(({ project, summary }) => `${summary}-${project}`)
 );
 
+@withRouter
 @withStyles(() => ({
   summary: {
     whiteSpace: 'nowrap',
@@ -41,11 +44,6 @@ export default class TasksTable extends Component {
     items: arrayOf(object).isRequired,
   };
 
-  state = {
-    sortBy: null,
-    sortDirection: null,
-  };
-
   getTableData = memoizeWith(
     (sortBy, sortDirection, items) => {
       const ids = sorted(items);
@@ -70,16 +68,32 @@ export default class TasksTable extends Component {
     }
   );
 
-  handleHeaderClick = sortBy => {
-    const toggled = this.state.sortDirection === 'desc' ? 'asc' : 'desc';
-    const sortDirection = this.state.sortBy === sortBy ? toggled : 'desc';
+  getQuery() {
+    const { location } = this.props;
+    const query = parse(location.search.slice(1));
 
-    this.setState({ sortBy, sortDirection });
+    return {
+      sortBy: query.sortBy ? query.sortBy : 'Last Updated',
+      sortDirection: query.sortDirection ? query.sortDirection : 'desc',
+    };
+  }
+
+  handleHeaderClick = sortBy => {
+    const query = this.getQuery();
+    const toggled = query.sortDirection === 'desc' ? 'asc' : 'desc';
+    const sortDirection = query.sortBy === sortBy ? toggled : 'desc';
+
+    this.props.history.push({
+      search: `?${stringify({
+        sortBy,
+        sortDirection,
+      })}`,
+    });
   };
 
   render() {
     const { items, classes } = this.props;
-    const { sortBy, sortDirection } = this.state;
+    const { sortBy, sortDirection } = this.getQuery();
     const data = this.getTableData(sortBy, sortDirection, items);
 
     return (
