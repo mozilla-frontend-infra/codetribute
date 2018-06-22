@@ -8,7 +8,6 @@ import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import { formatDistance } from 'date-fns';
 import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 import { stringify, parse } from 'qs';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
@@ -28,15 +27,23 @@ const sorted = pipe(
   },
   link: {
     textDecoration: 'none',
-    '&:nth-of-type(odd)': {
-      backgroundColor: fade(theme.palette.primary.light, 0.7),
-    },
-    '&:nth-of-type(even)': {
-      backgroundColor: theme.palette.primary.light,
-    },
   },
   chip: {
     marginRight: 1,
+    '&:nth-of-type(4n+0)': {
+      backgroundColor: theme.palette.primary.dark,
+      color: 'white',
+    },
+    '&:nth-of-type(4n+1)': {
+      backgroundColor: theme.palette.secondary.dark,
+      color: 'white',
+    },
+    '&:nth-of-type(4n+2)': {
+      backgroundColor: theme.palette.secondary.main,
+    },
+    '&:nth-of-type(4n+3)': {
+      backgroundColor: theme.palette.secondary.light,
+    },
   },
   tags: {
     whiteSpace: 'nowrap',

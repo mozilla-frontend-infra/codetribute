@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const Roboto300 = { fontFamily: 'Roboto300, sans-serif' };
 const Roboto400 = { fontFamily: 'Roboto400, sans-serif' };
@@ -56,7 +57,7 @@ const theme = createMuiTheme({
         color: BLUE,
       },
       body: {
-        color: '#fff',
+        color: '#000',
       },
     },
     MuiCircularProgress: {
@@ -67,7 +68,7 @@ const theme = createMuiTheme({
     MuiTableRow: {
       root: {
         '&$hover:hover': {
-          backgroundColor: '#686868',
+          backgroundColor: fade('#4f83cc', 0.5),
         },
       },
     },
