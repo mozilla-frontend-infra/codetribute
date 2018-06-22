@@ -3,7 +3,7 @@ import { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
+import AppBar from '../../components/AppBar';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 import SearchBox from '../../components/SearchBox';
@@ -11,17 +11,13 @@ import SearchBox from '../../components/SearchBox';
 @hot(module)
 @withStyles(theme => ({
   container: {
-    paddingTop: 1 * theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
     backgroundColor: theme.palette.background,
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
   },
   header: {
-    paddingTop: theme.spacing.unit,
     height: 180,
-    background: `linear-gradient(45deg, ${theme.palette.primary.main},
-     ${theme.palette.secondary.main}
-      90%)`,
   },
   search: {
     marginBottom: 4 * theme.spacing.unit,

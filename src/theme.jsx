@@ -1,28 +1,36 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 
 const Roboto300 = { fontFamily: 'Roboto300, sans-serif' };
 const Roboto400 = { fontFamily: 'Roboto400, sans-serif' };
 const Roboto500 = { fontFamily: 'Roboto500, sans-serif' };
 const LIGHT_GREY = '#F5F5F6';
-const AQUA = '#80deea';
-const BLUE = '#01579b';
+const PRIMARY = {
+  LIGHT: '#4f83cc',
+  MAIN: '#01579b',
+  DARK: '#002f6c',
+};
+const SECONDARY = {
+  LIGHT: '#b4ffff',
+  MAIN: '#80deea',
+  DARK: '#4bacb8',
+};
 const theme = createMuiTheme({
   palette: {
+    divider: PRIMARY.DARK,
     background: {
       default: LIGHT_GREY,
     },
     type: 'light',
     primary: {
-      light: '#4f83cc',
-      main: BLUE,
-      dark: '#002f6c',
+      light: PRIMARY.LIGHT,
+      main: PRIMARY.MAIN,
+      dark: PRIMARY.DARK,
       contrastText: '#fff',
     },
     secondary: {
-      light: '#b4ffff',
-      main: AQUA,
-      dark: '#4bacb8',
+      light: SECONDARY.LIGHT,
+      main: SECONDARY.MAIN,
+      dark: SECONDARY.DARK,
       contrastText: '#000',
     },
   },
@@ -52,23 +60,22 @@ const theme = createMuiTheme({
       },
     },
     MuiTableCell: {
-      head: {
-        fontSize: 16,
-        color: BLUE,
+      root: {
+        borderBottomWidth: 2,
       },
-      body: {
+      head: {
         color: '#000',
       },
     },
     MuiCircularProgress: {
       colorPrimary: {
-        color: AQUA,
+        color: SECONDARY.MAIN,
       },
     },
     MuiTableRow: {
       root: {
         '&$hover:hover': {
-          backgroundColor: fade('#4f83cc', 0.5),
+          backgroundColor: SECONDARY.MAIN,
         },
       },
     },

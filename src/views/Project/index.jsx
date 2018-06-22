@@ -5,6 +5,7 @@ import dotProp from 'dot-prop-immutable';
 import { mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -13,6 +14,7 @@ import Markdown from 'react-markdown';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
+import AppBar from '../../components/AppBar';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
@@ -40,7 +42,17 @@ const tagReposMapping = repositories =>
 @withStyles(theme => ({
   root: {
     background: theme.palette.background,
-    height: '100vh',
+  },
+  header: {
+    height: 70,
+  },
+  container: {
+    marginTop: 70,
+    paddingTop: theme.spacing.unit,
+    minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
+  },
+  link: {
+    textDecoration: 'none',
   },
 }))
 export default class Project extends Component {
@@ -123,10 +135,21 @@ export default class Project extends Component {
 
     return (
       <div className={classes.root}>
-        <Typography variant="display2" align="center" color="primary">
-          {project.name}
-        </Typography>
-        {project.introduction && (
+        <AppBar position="absolute" className={classes.header}>
+          <Typography
+            variant="display2"
+            align="left"
+            className={classes.link}
+            component={NavLink}
+            to="/">
+            Codetribute
+          </Typography>
+        </AppBar>
+        <div className={classes.container}>
+          <Typography variant="display2" align="center" color="primary">
+            {project.name}
+          </Typography>
+          {project.introduction && (
           <ExpansionPanel defaultExpanded>
             <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
               <Typography variant="display1">Project Introduction</Typography>
@@ -138,12 +161,13 @@ export default class Project extends Component {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         )}
-        <Typography variant="subheading" align="center" color="textSecondary">
-          Bugs & Issues
-        </Typography>
-        {data && data.error && <ErrorPanel error={data.error} />}
-        {loading && <Spinner />}
-        {!loading && <TasksTable items={issues} />}
+          <Typography variant="subheading" align="center" color="textSecondary">
+            Bugs & Issues
+          </Typography>
+          {data && data.error && <ErrorPanel error={data.error} />}
+          {loading && <Spinner />}
+          {!loading && <TasksTable items={issues} />}
+        </div>
       </div>
     );
   }
