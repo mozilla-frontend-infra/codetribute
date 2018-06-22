@@ -29,10 +29,10 @@ const sorted = pipe(
   link: {
     textDecoration: 'none',
     '&:nth-of-type(odd)': {
-      backgroundColor: fade(theme.palette.primary.main, 0.3),
+      backgroundColor: fade(theme.palette.primary.light, 0.7),
     },
     '&:nth-of-type(even)': {
-      backgroundColor: theme.palette.common.white,
+      backgroundColor: theme.palette.primary.light,
     },
   },
   chip: {

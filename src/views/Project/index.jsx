@@ -39,7 +39,7 @@ const tagReposMapping = repositories =>
 })
 @withStyles(theme => ({
   root: {
-    background: theme.palette.primary.light,
+    background: theme.palette.background,
     height: '100vh',
   },
 }))
@@ -123,7 +123,7 @@ export default class Project extends Component {
 
     return (
       <div className={classes.root}>
-        <Typography variant="display2" align="center">
+        <Typography variant="display2" align="center" color="primary">
           {project.name}
         </Typography>
         {project.introduction && (

@@ -16,7 +16,7 @@ import Markdown from 'react-markdown';
     minHeight: 250,
     '&:hover': {
       transform: 'scale(1.05)',
-      boxShadow: `0 1px 4px 0 ${theme.palette.primary.dark}`,
+      boxShadow: `0 1px 4px 0 ${theme.palette.primary.light}`,
     },
   },
   textAlign: {

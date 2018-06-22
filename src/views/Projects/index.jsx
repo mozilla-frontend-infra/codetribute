@@ -12,31 +12,31 @@ import SearchBox from '../../components/SearchBox';
 @withStyles(theme => ({
   container: {
     paddingTop: 1 * theme.spacing.unit,
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.background,
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
   },
   header: {
     paddingTop: theme.spacing.unit,
     height: 180,
-    background: 'linear-gradient(45deg, #364598, #6AE5F4 90%)',
+    background: `linear-gradient(45deg, ${theme.palette.primary.main},
+     ${theme.palette.secondary.main}
+      90%)`,
   },
   search: {
     marginBottom: 4 * theme.spacing.unit,
   },
   highlightedText: {
     backgroundColor: theme.palette.common.black,
-    color: theme.palette.primary.main,
+    color: 'white',
   },
   flexContainer: {
     display: 'flex',
     justifyContent: 'center',
   },
-  '@media (min-width: 1024px)': {
-    container: {
-      paddingRight: 100,
-      paddingLeft: 100,
-    },
+  grid: {
+    width: '90vw',
+    margin: '0 auto',
   },
 }))
 export default class Projects extends Component {
@@ -66,7 +66,7 @@ export default class Projects extends Component {
     return (
       <Fragment>
         <AppBar position="absolute" className={classes.header}>
-          <Typography variant="display2" align="center" color="primary">
+          <Typography variant="display2" align="center">
             Codetribute
           </Typography>
           <div className={classes.flexContainer}>
@@ -83,7 +83,7 @@ export default class Projects extends Component {
           />
         </AppBar>
         <main className={classes.container}>
-          <Grid container spacing={24}>
+          <Grid container spacing={24} className={classes.grid}>
             {Object.entries(filteredProjects).map(([name, project]) => (
               <Grid item key={name} xs={12} sm={12} md={4} lg={3}>
                 <ProjectCard project={project} />

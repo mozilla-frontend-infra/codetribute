@@ -9,7 +9,7 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
     marginLeft: 15,
     marginRight: 15,
     marginTop: 25,
-    background: theme.palette.primary.main,
+    background: theme.palette.common.white,
     borderRadius: 2,
     '&:hover': {
       background: fade(theme.palette.common.white, 0.9),
@@ -44,9 +44,9 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
     whiteSpace: 'normal',
     background: 'none',
     margin: 0, // Reset for Safari
-    color: fade(theme.palette.primary.contrastText, 0.5),
+    color: fade(theme.palette.common.black, 0.5),
     '&:focus': {
-      color: fade(theme.palette.primary.contrastText, 0.9),
+      color: fade(theme.palette.common.black, 0.9),
       outline: 0,
     },
   },
