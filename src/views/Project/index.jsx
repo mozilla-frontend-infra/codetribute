@@ -84,13 +84,12 @@ const tagReposMapping = repositories =>
       variables: {
         search: {
           ...bugzillaSearchOptions,
-          products: productsWithNoComponents(projects[project].products).length
-            ? productsWithNoComponents(projects[project].products)
-            : Object.keys(projects[project].products[0])[0],
-          components: productsWithNoComponents(projects[project].products)
-            .length
-            ? undefined
-            : Object.values(projects[project].products[0])[0],
+          ...(productsWithNoComponents(projects[project].products).length
+            ? { products: productsWithNoComponents(projects[project].products) }
+            : {
+                products: Object.keys(projects[project].products[0])[0],
+                components: Object.values(projects[project].products[0])[0],
+              }),
         },
         paging: {
           ...bugzillaPagingOptions,
