@@ -18,7 +18,7 @@ const sorted = pipe(
 );
 
 @withRouter
-@withStyles(theme => ({
+@withStyles(() => ({
   summary: {
     whiteSpace: 'nowrap',
   },
@@ -27,23 +27,6 @@ const sorted = pipe(
   },
   link: {
     textDecoration: 'none',
-  },
-  chip: {
-    marginRight: 1,
-    '&:nth-of-type(4n+0)': {
-      backgroundColor: theme.palette.primary.dark,
-      color: 'white',
-    },
-    '&:nth-of-type(4n+1)': {
-      backgroundColor: theme.palette.secondary.dark,
-      color: 'white',
-    },
-    '&:nth-of-type(4n+2)': {
-      backgroundColor: theme.palette.secondary.main,
-    },
-    '&:nth-of-type(4n+3)': {
-      backgroundColor: theme.palette.secondary.light,
-    },
   },
   tags: {
     whiteSpace: 'nowrap',

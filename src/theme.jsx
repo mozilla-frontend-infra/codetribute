@@ -52,6 +52,9 @@ const theme = createMuiTheme({
     MuiChip: {
       root: {
         height: 24,
+        marginRight: 1,
+        backgroundColor: SECONDARY.DARK,
+        color: 'white',
       },
     },
     MuiTypography: {

@@ -7,10 +7,12 @@ import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
 import { NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Markdown from 'react-markdown';
+import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
@@ -53,6 +55,10 @@ const tagReposMapping = repositories =>
   },
   link: {
     textDecoration: 'none',
+    position: 'absolute',
+    '& svg': {
+      fill: theme.palette.common.white,
+    },
   },
 }))
 export default class Project extends Component {
@@ -136,31 +142,26 @@ export default class Project extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="absolute" className={classes.header}>
-          <Typography
-            variant="display2"
-            align="left"
-            className={classes.link}
-            component={NavLink}
-            to="/">
-            Codetribute
+          <IconButton className={classes.link} component={NavLink} to="/">
+            <ArrowLeftIcon />
+          </IconButton>
+          <Typography variant="display2" align="center">
+            {project.name}
           </Typography>
         </AppBar>
         <div className={classes.container}>
-          <Typography variant="display2" align="center" color="primary">
-            {project.name}
-          </Typography>
           {project.introduction && (
-          <ExpansionPanel defaultExpanded>
-            <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-              <Typography variant="display1">Project Introduction</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography variant="body1">
-                <Markdown source={project.introduction} />
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-        )}
+            <ExpansionPanel defaultExpanded>
+              <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
+                <Typography variant="display1">Project Introduction</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <Typography variant="body1">
+                  <Markdown source={project.introduction} />
+                </Typography>
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+          )}
           <Typography variant="subheading" align="center" color="textSecondary">
             Bugs & Issues
           </Typography>

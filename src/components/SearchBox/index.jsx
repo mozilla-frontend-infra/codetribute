@@ -29,9 +29,6 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
       fill: fade(theme.palette.common.black, 0.9),
     },
   },
-  '.mdi-icon': {
-    fill: theme.palette.common.black,
-  },
   input: {
     width: `calc(100% - ${theme.spacing.unit * 6}px)`,
     font: 'inherit',
