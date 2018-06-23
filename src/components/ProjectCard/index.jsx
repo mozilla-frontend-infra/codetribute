@@ -39,6 +39,12 @@ export default class ProjectCard extends Component {
     summary: null,
   };
 
+  handleSummaryClick = event => {
+    if (event.target.href) {
+      event.stopPropagation();
+    }
+  };
+
   render() {
     const {
       classes,
@@ -53,7 +59,9 @@ export default class ProjectCard extends Component {
               {name}
             </Typography>
             {summary && (
-              <Typography className={classes.projectSummary}>
+              <Typography
+                className={classes.projectSummary}
+                onClick={this.handleSummaryClick}>
                 <Markdown source={summary} />
               </Typography>
             )}
