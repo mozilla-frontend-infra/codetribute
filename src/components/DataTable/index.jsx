@@ -54,7 +54,7 @@ class DataTable extends Component {
   };
 
   handleHeaderClick = ({ target }) => {
-    if (this.props.onHeaderClick) {
+    if (this.props.onHeaderClick && target.id !== 'Tags') {
       this.props.onHeaderClick(target.id);
     }
   };

@@ -63,10 +63,6 @@ export default class TasksTable extends Component {
         const secondElement =
           sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
 
-        if (Array.isArray(firstElement) && Array.isArray(secondElement)) {
-          return sort(firstElement.toString(), secondElement.toString());
-        }
-
         return sort(firstElement, secondElement);
       });
     }
@@ -119,7 +115,7 @@ export default class TasksTable extends Component {
               </TableCell>
               <TableCell className={classes.summary}>{item.summary}</TableCell>
               <TableCell className={classes.tags}>
-                {item.tag.map(tag => (
+                {item.tags.map(tag => (
                   <Chip key={tag} label={tag} className={classes.chip} />
                 ))}
               </TableCell>
@@ -131,7 +127,7 @@ export default class TasksTable extends Component {
               </TableCell>
             </TableRow>
           )}
-          headers={['Project', 'Summary', 'Tag', 'Assignee', 'Last Updated']}
+          headers={['Project', 'Summary', 'Tags', 'Assignee', 'Last Updated']}
           sortByHeader={sortBy}
           sortDirection={sortDirection}
           onHeaderClick={this.handleHeaderClick}
