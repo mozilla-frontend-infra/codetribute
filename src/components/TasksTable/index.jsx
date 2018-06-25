@@ -63,6 +63,10 @@ export default class TasksTable extends Component {
         const secondElement =
           sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
 
+        if (Array.isArray(firstElement) && Array.isArray(secondElement)) {
+          return sort(firstElement.toString(), secondElement.toString());
+        }
+
         return sort(firstElement, secondElement);
       });
     }
