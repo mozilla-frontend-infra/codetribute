@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { arrayOf, func, string, oneOf, object } from 'prop-types';
 import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
 
 @withStyles(theme => ({
   table: {
@@ -79,9 +80,9 @@ class DataTable extends Component {
     return (
       <Fragment>
         {title && (
-          <Typography variant="subheading" align="center" color="textSecondary">
-            {title}
-          </Typography>
+          <Toolbar>
+            <Typography variant="title">{title}</Typography>
+          </Toolbar>
         )}
         <Table className={classes.table} aria-labelledby="tableTitle">
           {headers && (
