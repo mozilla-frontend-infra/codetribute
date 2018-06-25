@@ -81,6 +81,7 @@ const tagReposMapping = repositories =>
         params: { project },
       },
     }) => ({
+      fetchPolicy: 'no-cache',
       variables: {
         search: {
           ...bugzillaSearchOptions,
