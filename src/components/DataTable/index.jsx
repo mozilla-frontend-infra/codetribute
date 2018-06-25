@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { arrayOf, func, string, oneOf, object } from 'prop-types';
+import Typography from '@material-ui/core/Typography';
 
 @withStyles(theme => ({
   table: {
@@ -46,6 +47,10 @@ class DataTable extends Component {
      * by a row and each element's key-value pair represents a column.
      */
     items: arrayOf(object).isRequired,
+    /**
+     * The title of the table.
+     */
+    title: string,
   };
 
   static defaultProps = {
@@ -67,40 +72,48 @@ class DataTable extends Component {
       sortDirection,
       headers,
       items,
+      title,
     } = this.props;
     const colSpan = (headers && headers.length) || 0;
 
     return (
-      <Table className={classes.table} aria-labelledby="tableTitle">
-        {headers && (
-          <TableHead>
-            <TableRow>
-              {headers.map(header => (
-                <TableCell key={`table-header-${header}`}>
-                  <TableSortLabel
-                    id={header}
-                    active={header === sortByHeader}
-                    direction={sortDirection || 'desc'}
-                    onClick={this.handleHeaderClick}>
-                    {header}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+      <Fragment>
+        {title && (
+          <Typography variant="subheading" align="center" color="textSecondary">
+            {title}
+          </Typography>
         )}
-        <TableBody>
-          {items.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={colSpan}>
-                <em>No items for this page.</em>
-              </TableCell>
-            </TableRow>
-          ) : (
-            items.map(renderRow)
+        <Table className={classes.table} aria-labelledby="tableTitle">
+          {headers && (
+            <TableHead>
+              <TableRow>
+                {headers.map(header => (
+                  <TableCell key={`table-header-${header}`}>
+                    <TableSortLabel
+                      id={header}
+                      active={header === sortByHeader}
+                      direction={sortDirection || 'desc'}
+                      onClick={this.handleHeaderClick}>
+                      {header}
+                    </TableSortLabel>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
           )}
-        </TableBody>
-      </Table>
+          <TableBody>
+            {items.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={colSpan}>
+                  <em>No items for this page.</em>
+                </TableCell>
+              </TableRow>
+            ) : (
+              items.map(renderRow)
+            )}
+          </TableBody>
+        </Table>
+      </Fragment>
     );
   }
 }

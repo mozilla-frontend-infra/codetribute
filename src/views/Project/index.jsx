@@ -46,19 +46,24 @@ const tagReposMapping = repositories =>
     background: theme.palette.background,
   },
   header: {
-    height: 70,
+    height: 60,
+    paddingBottom: theme.spacing.unit,
   },
   container: {
-    marginTop: 70,
+    marginTop: 60,
     paddingTop: theme.spacing.unit,
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
   },
   link: {
     textDecoration: 'none',
     position: 'absolute',
+    alignItems: 'center',
     '& svg': {
       fill: theme.palette.common.white,
     },
+  },
+  title: {
+    marginLeft: 41,
   },
 }))
 export default class Project extends Component {
@@ -145,7 +150,11 @@ export default class Project extends Component {
           <IconButton className={classes.link} component={NavLink} to="/">
             <ArrowLeftIcon />
           </IconButton>
-          <Typography variant="display2" align="center">
+          <Typography
+            className={classes.title}
+            variant="display1"
+            align="center"
+            noWrap>
             {project.name}
           </Typography>
         </AppBar>
@@ -162,9 +171,6 @@ export default class Project extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )}
-          <Typography variant="subheading" align="center" color="textSecondary">
-            Bugs & Issues
-          </Typography>
           {data && data.error && <ErrorPanel error={data.error} />}
           {loading && <Spinner />}
           {!loading && <TasksTable items={issues} />}

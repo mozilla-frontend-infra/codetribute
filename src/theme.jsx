@@ -61,6 +61,9 @@ const theme = createMuiTheme({
       display2: {
         color: '#fff',
       },
+      display1: {
+        color: '#fff',
+      },
     },
     MuiTableCell: {
       root: {
@@ -80,6 +83,12 @@ const theme = createMuiTheme({
         '&$hover:hover': {
           backgroundColor: SECONDARY.MAIN,
         },
+      },
+    },
+    MuiIconButton: {
+      root: {
+        width: 41,
+        height: 41,
       },
     },
   },
