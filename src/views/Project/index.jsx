@@ -121,9 +121,9 @@ export default class Project extends Component {
             {project.name}
           </Typography>
           {project.introduction && (
-            <ExpansionPanel>
+            <ExpansionPanel defaultExpanded>
               <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-                <Typography>Project Introduction</Typography>
+                <Typography variant="display1">Project Introduction</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography variant="body1">
