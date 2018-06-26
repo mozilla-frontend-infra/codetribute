@@ -43,7 +43,7 @@ const tagReposMapping = repositories =>
 })
 @withStyles(theme => ({
   root: {
-    background: theme.palette.background,
+    background: theme.palette.background.default,
   },
   header: {
     height: 60,
@@ -51,7 +51,7 @@ const tagReposMapping = repositories =>
   },
   container: {
     marginTop: 60,
-    paddingTop: theme.spacing.unit,
+    padding: 2 * theme.spacing.unit,
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
   },
   link: {
@@ -162,7 +162,9 @@ export default class Project extends Component {
           {project.introduction && (
             <ExpansionPanel defaultExpanded>
               <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-                <Typography variant="display1">Project Introduction</Typography>
+                <Typography variant="display1" color="textSecondary">
+                  Project Introduction
+                </Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography variant="body1">
