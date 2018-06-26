@@ -103,7 +103,7 @@ export default class Project extends Component {
             project: issue.repository.name,
             id: issue.number,
             summary: `${issue.number} - ${issue.title}`,
-            tag: issue.labels.nodes.map(node => node.name),
+            tags: issue.labels.nodes.map(node => node.name).sort(),
             lastUpdated: issue.updatedAt,
             assignee: issue.assignees.nodes[0]
               ? issue.assignees.nodes[0].login
