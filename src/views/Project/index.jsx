@@ -162,9 +162,7 @@ export default class Project extends Component {
           {project.introduction && (
             <ExpansionPanel defaultExpanded>
               <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-                <Typography variant="display1" color="textSecondary">
-                  Project Introduction
-                </Typography>
+                <Typography variant="headline">Project Introduction</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography variant="body1">
