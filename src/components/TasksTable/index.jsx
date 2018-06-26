@@ -42,19 +42,23 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy, sortDirection, items) => {
+    (sortBy, sortDirection, items, displayAssigned) => {
       const ids = sorted(items);
 
-      return `${ids.join('-')}-${sortBy}-${sortDirection}`;
+      return `${ids.join('-')}-${sortBy}-${sortDirection}-${displayAssigned}`;
     },
-    (sortBy, sortDirection, items) => {
+    (sortBy, sortDirection, items, displayAssigned) => {
       const sortByProperty = camelCase(sortBy);
 
       if (!sortBy) {
         return items;
       }
 
-      return [...items].sort((a, b) => {
+      const filteredItems = displayAssigned
+        ? items
+        : items.filter(item => item.assignee === '-');
+
+      return [...filteredItems].sort((a, b) => {
         const firstElement =
           sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
         const secondElement =
@@ -72,6 +76,9 @@ export default class TasksTable extends Component {
     return {
       sortBy: query.sortBy ? query.sortBy : 'Last Updated',
       sortDirection: query.sortDirection ? query.sortDirection : 'desc',
+      displayAssigned: query.displayAssigned
+        ? query.displayAssigned.toLowerCase() === 'true'
+        : false,
     };
   }
 
@@ -86,6 +93,7 @@ export default class TasksTable extends Component {
 
     this.props.history.push({
       search: `?${stringify({
+        ...query,
         sortBy,
         sortDirection,
       })}`,
@@ -94,8 +102,13 @@ export default class TasksTable extends Component {
 
   render() {
     const { items, classes } = this.props;
-    const { sortBy, sortDirection } = this.getQuery();
-    const data = this.getTableData(sortBy, sortDirection, items);
+    const { sortBy, sortDirection, displayAssigned } = this.getQuery();
+    const data = this.getTableData(
+      sortBy,
+      sortDirection,
+      items,
+      displayAssigned
+    );
 
     return (
       <div className={classes.tableWrapper}>
