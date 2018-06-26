@@ -79,6 +79,10 @@ export default class TasksTable extends Component {
   }
 
   handleHeaderClick = sortBy => {
+    if (sortBy === 'Tags') {
+      return;
+    }
+
     const query = this.getQuery();
     const toggled = query.sortDirection === 'desc' ? 'asc' : 'desc';
     const sortDirection = query.sortBy === sortBy ? toggled : 'desc';
