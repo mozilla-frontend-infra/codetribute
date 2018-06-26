@@ -20,6 +20,7 @@ import AppBar from '../../components/AppBar';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
+import FilterForm from '../../components/FilterForm';
 
 const tagReposMapping = repositories =>
   Object.keys(repositories).reduce((prev, key) => {
@@ -170,6 +171,7 @@ export default class Project extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )}
+          <FilterForm />
           {data && data.error && <ErrorPanel error={data.error} />}
           {loading && <Spinner />}
           {!loading && <TasksTable items={issues} />}
