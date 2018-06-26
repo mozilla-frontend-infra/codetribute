@@ -4,8 +4,14 @@ import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { parse, stringify } from 'qs';
+import { withStyles } from '@material-ui/core/styles';
 
 @withRouter
+@withStyles(theme => ({
+  root: {
+    margin: `0px ${3 * theme.spacing.unit}px`,
+  },
+}))
 export default class FilterForm extends Component {
   getQuery() {
     const { location } = this.props;
@@ -30,9 +36,10 @@ export default class FilterForm extends Component {
 
   render() {
     const { displayAssigned } = this.getQuery();
+    const { classes } = this.props;
 
     return (
-      <FormGroup row>
+      <FormGroup row className={classes.root}>
         <FormControlLabel
           control={
             <Switch
