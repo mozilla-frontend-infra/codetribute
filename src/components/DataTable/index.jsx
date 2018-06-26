@@ -6,15 +6,24 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { arrayOf, func, string, oneOf, object } from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
+import { arrayOf, func, string, oneOf, object } from 'prop-types';
+import { arrayOf, func, string, oneOf, object, node } from 'prop-types';
 
 @withStyles(theme => ({
   table: {
     marginTop: theme.spacing.unit * 3,
     width: '100%',
     overflowX: 'auto',
+  },
+  title: {
+    flex: '0 0 auto',
+  },
+  spacer: {
+    flex: '1 1 100%',
   },
 }))
 class DataTable extends Component {
@@ -49,6 +58,14 @@ class DataTable extends Component {
      */
     items: arrayOf(object).isRequired,
     /**
+     * Node that carry filter options.
+     */
+    filters: node,
+    /**
+     * A function to execute when the filter icon is clicked.
+     */
+    onFilterClick: func,
+    /**
      * The title of the table.
      */
     title: string,
@@ -57,11 +74,18 @@ class DataTable extends Component {
   static defaultProps = {
     sortByHeader: null,
     sortDirection: 'desc',
+    filters: undefined,
   };
 
   handleHeaderClick = ({ target }) => {
     if (this.props.onHeaderClick) {
       this.props.onHeaderClick(target.id);
+    }
+  };
+
+  handleFilterClick = () => {
+    if (this.props.onFilterClick) {
+      this.props.onFilterClick();
     }
   };
 
@@ -74,6 +98,7 @@ class DataTable extends Component {
       headers,
       items,
       title,
+      filters,
     } = this.props;
     const colSpan = (headers && headers.length) || 0;
 
@@ -81,9 +106,16 @@ class DataTable extends Component {
       <Fragment>
         {title && (
           <Toolbar>
-            <Typography variant="title">{title}</Typography>
+            <Typography variant="title" className={classes.title}>
+              {title}
+            </Typography>
+            <div className={classes.spacer} />
+            <IconButton onClick={this.handleFilterClick}>
+              <FilterVariantIcon onClick={this.handleFilterClick} />
+            </IconButton>
           </Toolbar>
         )}
+        {filters}
         <Table className={classes.table} aria-labelledby="tableTitle">
           {headers && (
             <TableHead>

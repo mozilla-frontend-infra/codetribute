@@ -11,6 +11,7 @@ import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
+import FilterForm from '../../components/FilterForm';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -33,6 +34,10 @@ const sorted = pipe(
   },
 }))
 export default class TasksTable extends Component {
+  state = {
+    displayFilter: false,
+  };
+
   static propTypes = {
     /**
      * A list of objects to display. Each element in the list is represented
@@ -82,6 +87,10 @@ export default class TasksTable extends Component {
     };
   }
 
+  handleFilterClick = () => {
+    this.setState({ displayFilter: !this.state.displayFilter });
+  };
+
   handleHeaderClick = sortBy => {
     if (sortBy === 'Tags') {
       return;
@@ -102,6 +111,7 @@ export default class TasksTable extends Component {
 
   render() {
     const { items, classes } = this.props;
+    const { displayFilter } = this.state;
     const { sortBy, sortDirection, displayAssigned } = this.getQuery();
     const data = this.getTableData(
       sortBy,
@@ -146,6 +156,8 @@ export default class TasksTable extends Component {
           sortByHeader={sortBy}
           sortDirection={sortDirection}
           onHeaderClick={this.handleHeaderClick}
+          filters={displayFilter && <FilterForm />}
+          onFilterClick={this.handleFilterClick}
         />
       </div>
     );
