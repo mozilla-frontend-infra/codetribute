@@ -25,7 +25,7 @@ export default class App extends Component {
     link: new HttpLink({
       uri: 'https://api.github.com/graphql',
       headers: {
-        authorization: `Bearer ${process.env.GITHUB_PERSONAL_ACCESS_TOKEN}`,
+        authorization: `Bearer ${process.env.GITHUB_PERSONAL_API_TOKEN}`,
       },
     }),
   });

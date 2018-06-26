@@ -5,7 +5,7 @@ module.exports = {
         title: 'Codetribute'
       }
     }],
-    ['@neutrinojs/env', ['GITHUB_PERSONAL_ACCESS_TOKEN', 'NODE_ENV']],
+    ['@neutrinojs/env', ['GITHUB_PERSONAL_API_TOKEN', 'NODE_ENV']],
     (neutrino) => {
       neutrino.config.output.publicPath('/');
       neutrino.config.module

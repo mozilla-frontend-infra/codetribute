@@ -45,7 +45,7 @@ about scopes, access to public repositories is the only one required.
 
 ### Tasks and Configuration
 
-Building this project uses [Neutrino](https://github.com/mozilla-neutrino/neutrino),
+Building this project uses [Neutrino](https://github.com/mozilla-neutrino/neutrino-dev),
 [neutrino-preset-mozilla-frontend-infra](https://github.com/mozilla-frontend-infra/neutrino-preset-mozilla-frontend-infra)
 
 ### Testing changes
