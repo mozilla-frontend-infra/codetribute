@@ -57,13 +57,12 @@ const tagReposMapping = repositories =>
   link: {
     textDecoration: 'none',
     position: 'absolute',
-    alignItems: 'center',
     '& svg': {
       fill: theme.palette.common.white,
     },
   },
   title: {
-    marginLeft: 41,
+    padding: '0 41px',
   },
 }))
 export default class Project extends Component {
