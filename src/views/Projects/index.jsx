@@ -2,25 +2,37 @@ import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import AppBar from '../../components/AppBar';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
+import SearchBox from '../../components/SearchBox';
 
 @hot(module)
 @withStyles(theme => ({
   container: {
-    paddingRight: 15,
-    paddingLeft: 15,
-    marginRight: 'auto',
-    marginLeft: 'auto',
+    paddingTop: theme.spacing.unit,
+    backgroundColor: theme.palette.background,
+    minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
+    marginTop: `calc(180px + ${theme.spacing.unit}px)`,
   },
   header: {
-    paddingTop: theme.spacing.unit,
-    paddingBottom: 2 * theme.spacing.unit,
+    height: 180,
   },
   search: {
     marginBottom: 4 * theme.spacing.unit,
+  },
+  highlightedText: {
+    backgroundColor: theme.palette.common.black,
+    color: 'white',
+  },
+  flexContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  grid: {
+    width: '90vw',
+    margin: '0 auto',
   },
 }))
 export default class Projects extends Component {
@@ -49,23 +61,25 @@ export default class Projects extends Component {
 
     return (
       <Fragment>
-        <header className={classes.header}>
+        <AppBar position="absolute" className={classes.header}>
           <Typography variant="display2" align="center">
             Codetribute
           </Typography>
-          <Typography variant="subheading" align="center">
-            Find your first code contribution with Mozilla
-          </Typography>
-        </header>
-        <main className={classes.container}>
-          <TextField
-            label="Search"
-            fullWidth
+          <div className={classes.flexContainer}>
+            <Typography
+              className={classes.highlightedText}
+              variant="subheading"
+              align="center">
+              Find your first code contribution with Mozilla
+            </Typography>
+          </div>
+          <SearchBox
             value={this.state.searchTerm}
-            className={classes.search}
             onChange={this.handleTextInputChange}
           />
-          <Grid container spacing={16}>
+        </AppBar>
+        <main className={classes.container}>
+          <Grid container spacing={24} className={classes.grid}>
             {Object.entries(filteredProjects).map(([name, project]) => (
               <Grid item key={name} xs={12} sm={12} md={4} lg={3}>
                 <ProjectCard project={project} />

@@ -1,17 +1,22 @@
 import { hot } from 'react-hot-loader';
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import { graphql } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
+import { NavLink } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Markdown from 'react-markdown';
+import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
+import AppBar from '../../components/AppBar';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
@@ -36,6 +41,30 @@ const tagReposMapping = repositories =>
     },
   }),
 })
+@withStyles(theme => ({
+  root: {
+    background: theme.palette.background.default,
+  },
+  header: {
+    height: 60,
+    paddingBottom: theme.spacing.unit,
+  },
+  container: {
+    marginTop: 60,
+    padding: 2 * theme.spacing.unit,
+    minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
+  },
+  link: {
+    textDecoration: 'none',
+    position: 'absolute',
+    '& svg': {
+      fill: theme.palette.common.white,
+    },
+  },
+  title: {
+    padding: '0 41px',
+  },
+}))
 export default class Project extends Component {
   state = {
     loading: true,
@@ -92,7 +121,7 @@ export default class Project extends Component {
   };
 
   render() {
-    const { data } = this.props;
+    const { data, classes } = this.props;
     const { loading } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
@@ -115,15 +144,24 @@ export default class Project extends Component {
       [];
 
     return (
-      <Fragment>
-        <header>
-          <Typography variant="display2" align="center">
+      <div className={classes.root}>
+        <AppBar position="absolute" className={classes.header}>
+          <IconButton className={classes.link} component={NavLink} to="/">
+            <ArrowLeftIcon />
+          </IconButton>
+          <Typography
+            className={classes.title}
+            variant="display1"
+            align="center"
+            noWrap>
             {project.name}
           </Typography>
+        </AppBar>
+        <div className={classes.container}>
           {project.introduction && (
             <ExpansionPanel defaultExpanded>
               <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-                <Typography variant="display1">Project Introduction</Typography>
+                <Typography variant="headline">Project Introduction</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography variant="body1">
@@ -132,14 +170,11 @@ export default class Project extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )}
-          <Typography variant="subheading" align="center">
-            Bugs & Issues
-          </Typography>
           {data && data.error && <ErrorPanel error={data.error} />}
           {loading && <Spinner />}
           {!loading && <TasksTable items={issues} />}
-        </header>
-      </Fragment>
+        </div>
+      </div>
     );
   }
 }

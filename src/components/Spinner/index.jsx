@@ -13,7 +13,7 @@ export default class Spinner extends PureComponent {
 
     return (
       <div className={classes.center}>
-        <CircularProgress thickness={5} />
+        <CircularProgress thickness={5} color="primary" />
       </div>
     );
   }

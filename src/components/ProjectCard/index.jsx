@@ -14,6 +14,10 @@ import Markdown from 'react-markdown';
     width: '100%',
     boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
     minHeight: 250,
+    '&:hover': {
+      transform: 'scale(1.05)',
+      boxShadow: `0 1px 4px 0 ${theme.palette.primary.light}`,
+    },
   },
   textAlign: {
     textAlign: 'center',
@@ -55,13 +59,14 @@ export default class ProjectCard extends Component {
       <NavLink className={classes.navlink} to={`/projects/${fileName}`}>
         <Card className={classes.card}>
           <CardContent className={classes.textAlign}>
-            <Typography gutterBottom variant="title" component="h4">
+            <Typography gutterBottom variant="headline" component="h4">
               {name}
             </Typography>
             {summary && (
               <Typography
                 className={classes.projectSummary}
-                onClick={this.handleSummaryClick}>
+                onClick={this.handleSummaryClick}
+                color="textSecondary">
                 <Markdown source={summary} />
               </Typography>
             )}

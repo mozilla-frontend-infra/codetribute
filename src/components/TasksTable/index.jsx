@@ -28,9 +28,6 @@ const sorted = pipe(
   link: {
     textDecoration: 'none',
   },
-  chip: {
-    marginRight: 1,
-  },
   tags: {
     whiteSpace: 'nowrap',
   },
@@ -103,6 +100,7 @@ export default class TasksTable extends Component {
     return (
       <div className={classes.tableWrapper}>
         <DataTable
+          title="Bugs & Issues"
           items={data}
           renderRow={item => (
             <TableRow
