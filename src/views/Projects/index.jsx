@@ -12,7 +12,7 @@ import SearchBox from '../../components/SearchBox';
 @withStyles(theme => ({
   container: {
     paddingTop: theme.spacing.unit,
-    backgroundColor: theme.palette.background,
+    backgroundColor: theme.palette.background.default,
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
   },
