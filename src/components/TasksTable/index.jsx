@@ -9,8 +9,9 @@ import { camelCase } from 'change-case';
 import { formatDistance } from 'date-fns';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
+import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
+import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { ASSIGNEE } from '../../utils/constants';
@@ -31,6 +32,12 @@ const assignments = Object.values(ASSIGNEE);
   },
   link: {
     textDecoration: 'none',
+  },
+  chip: {
+    marginRight: 1,
+  },
+  clickedChip: {
+    backgroundColor: theme.palette.primary.main,
   },
   tags: {
     whiteSpace: 'nowrap',
@@ -56,12 +63,12 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
+    (sortBy, sortDirection, tag, items, assignee) => {
       const ids = sorted(items);
 
-      return `${ids.join('-')}-${sortBy}-${sortDirection}-${assignee}`;
+      return `${ids.join('-')}-${sortBy}-${sortDirection}-${tag}-${assignee}`;
     },
-    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
+    (sortBy, sortDirection, tag, items, assignee) => {
       const sortByProperty = camelCase(sortBy);
       let filteredItems = [];
 
@@ -73,7 +80,9 @@ export default class TasksTable extends Component {
         filteredItems = items.filter(item => item.assignee === '-');
       }
 
-      return [...filteredItems].sort((a, b) => {
+      return [
+        ...filteredItems.filter(item => !tag || item.tags.indexOf(tag) > -1),
+      ].sort((a, b) => {
         const firstElement =
           sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
         const secondElement =
@@ -119,14 +128,24 @@ export default class TasksTable extends Component {
     this.setQuery({ ...query, sortBy, sortDirection });
   };
 
+  handleChipClick = tag => event => {
+    const query = this.getQuery();
+    const newQuery =
+      query.tag === tag ? omit(['tag'], query) : { ...query, tag };
+
+    this.setQuery(newQuery);
+
+    event.preventDefault();
+  };
+
   render() {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
-    const { sortBy, sortDirection, assignee } = this.getQuery();
+    const { sortBy, sortDirection, tag, assignee } = this.getQuery();
     const assignment = assignments.includes(assignee)
       ? assignee
       : ASSIGNEE.UNASSIGNED;
-    const data = this.getTableData(sortBy, sortDirection, items, assignee);
+    const data = this.getTableData(sortBy, sortDirection, tag, items, assignee);
 
     return (
       <div className={classes.tableWrapper}>
@@ -149,7 +168,14 @@ export default class TasksTable extends Component {
               <TableCell className={classes.summary}>{item.summary}</TableCell>
               <TableCell className={classes.tags}>
                 {item.tags.map(tag => (
-                  <Chip key={tag} label={tag} className={classes.chip} />
+                  <Chip
+                    key={tag}
+                    label={tag}
+                    className={classNames(classes.chip, {
+                      [classes.clickedChip]: tag === query.tag,
+                    })}
+                    onClick={this.handleChipClick(tag)}
+                  />
                 ))}
               </TableCell>
               <TableCell>{item.assignee}</TableCell>
