@@ -10,8 +10,9 @@ import { formatDistance } from 'date-fns';
 import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import DataTable from '../DataTable';
+import FilterForm from '../FilterForm';
 import sort from '../../utils/sort';
-import FilterForm from '../../components/FilterForm';
+import { ASSIGNEE } from '../../utils/constants';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -47,21 +48,27 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy, sortDirection, items, displayAssigned) => {
+    (sortBy, sortDirection, items, assignee) => {
       const ids = sorted(items);
 
-      return `${ids.join('-')}-${sortBy}-${sortDirection}-${displayAssigned}`;
+      return `${ids.join('-')}-${sortBy}-${sortDirection}-${assignee}`;
     },
-    (sortBy, sortDirection, items, displayAssigned) => {
+    (sortBy, sortDirection, items, assignee) => {
       const sortByProperty = camelCase(sortBy);
 
       if (!sortBy) {
         return items;
       }
 
-      const filteredItems = displayAssigned
-        ? items
-        : items.filter(item => item.assignee === '-');
+      let filteredItems = [];
+
+      if (assignee === ASSIGNEE.ANY) {
+        filteredItems = items;
+      } else if (assignee === ASSIGNEE.ASSIGNED) {
+        filteredItems = items.filter(item => item.assignee !== '-');
+      } else {
+        filteredItems = items.filter(item => item.assignee === '-');
+      }
 
       return [...filteredItems].sort((a, b) => {
         const firstElement =
@@ -79,11 +86,9 @@ export default class TasksTable extends Component {
     const query = parse(location.search.slice(1));
 
     return {
+      ...query,
       sortBy: query.sortBy ? query.sortBy : 'Last Updated',
       sortDirection: query.sortDirection ? query.sortDirection : 'desc',
-      displayAssigned: query.displayAssigned
-        ? query.displayAssigned.toLowerCase() === 'true'
-        : false,
     };
   }
 
@@ -112,13 +117,8 @@ export default class TasksTable extends Component {
   render() {
     const { items, classes } = this.props;
     const { displayFilter } = this.state;
-    const { sortBy, sortDirection, displayAssigned } = this.getQuery();
-    const data = this.getTableData(
-      sortBy,
-      sortDirection,
-      items,
-      displayAssigned
-    );
+    const { sortBy, sortDirection, assignee } = this.getQuery();
+    const data = this.getTableData(sortBy, sortDirection, items, assignee);
 
     return (
       <div className={classes.tableWrapper}>

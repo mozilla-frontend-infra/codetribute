@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
-import { arrayOf, func, string, oneOf, object } from 'prop-types';
 import { arrayOf, func, string, oneOf, object, node } from 'prop-types';
 
 @withStyles(theme => ({
@@ -20,9 +19,6 @@ import { arrayOf, func, string, oneOf, object, node } from 'prop-types';
     overflowX: 'auto',
   },
   title: {
-    flex: '0 0 auto',
-  },
-  spacer: {
     flex: '1 1 100%',
   },
 }))
@@ -109,7 +105,6 @@ class DataTable extends Component {
             <Typography variant="title" className={classes.title}>
               {title}
             </Typography>
-            <div className={classes.spacer} />
             <IconButton onClick={this.handleFilterClick}>
               <FilterVariantIcon onClick={this.handleFilterClick} />
             </IconButton>
