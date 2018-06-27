@@ -70,7 +70,7 @@ class DataTable extends Component {
   static defaultProps = {
     sortByHeader: null,
     sortDirection: 'desc',
-    filters: undefined,
+    filters: null,
   };
 
   handleHeaderClick = ({ target }) => {

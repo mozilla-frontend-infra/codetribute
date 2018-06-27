@@ -36,7 +36,7 @@ const sorted = pipe(
 }))
 export default class TasksTable extends Component {
   state = {
-    displayFilter: false,
+    showFilterContent: false,
   };
 
   static propTypes = {
@@ -92,8 +92,20 @@ export default class TasksTable extends Component {
     };
   }
 
+  setQuery = query => {
+    this.props.history.push({
+      search: `?${stringify(query)}`,
+    });
+  };
+
   handleFilterClick = () => {
-    this.setState({ displayFilter: !this.state.displayFilter });
+    this.setState({ showFilterContent: !this.state.showFilterContent });
+  };
+
+  handleFilterItemClick = item => {
+    const query = this.getQuery();
+
+    this.setQuery({ ...query, ...item });
   };
 
   handleHeaderClick = sortBy => {
@@ -105,18 +117,12 @@ export default class TasksTable extends Component {
     const toggled = query.sortDirection === 'desc' ? 'asc' : 'desc';
     const sortDirection = query.sortBy === sortBy ? toggled : 'desc';
 
-    this.props.history.push({
-      search: `?${stringify({
-        ...query,
-        sortBy,
-        sortDirection,
-      })}`,
-    });
+    this.setQuery({ ...query, sortBy, sortDirection });
   };
 
   render() {
     const { items, classes } = this.props;
-    const { displayFilter } = this.state;
+    const { showFilterContent } = this.state;
     const { sortBy, sortDirection, assignee } = this.getQuery();
     const data = this.getTableData(sortBy, sortDirection, items, assignee);
 
@@ -156,7 +162,14 @@ export default class TasksTable extends Component {
           sortByHeader={sortBy}
           sortDirection={sortDirection}
           onHeaderClick={this.handleHeaderClick}
-          filters={displayFilter && <FilterForm />}
+          filters={
+            showFilterContent && (
+              <FilterForm
+                assignee={assignee}
+                onFilterItemClick={this.handleFilterItemClick}
+              />
+            )
+          }
           onFilterClick={this.handleFilterClick}
         />
       </div>
