@@ -266,7 +266,7 @@ export default class Project extends Component {
           bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
-            tags: bug.keywords.join(',') || '',
+            tags: bug.keywords || [],
             summary: `${bug.id} - ${bug.summary}`,
             lastUpdated: bug.lastChanged,
             url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
@@ -307,7 +307,7 @@ export default class Project extends Component {
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
           {loading && <Spinner />}
-          {!loading && <TasksTable items={[...issues, ...bugs]}
+          {!loading && <TasksTable items={[...issues, ...bugs]} />}
         </div>
       </div>
     );
