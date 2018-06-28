@@ -1,8 +1,0 @@
-Languages: !!seq
-- Python
-- JavaScript
-- Rust
-Projs: !!pairs
-- Taskcluster: taskcluster.yml
-- Bugzilla: bugzilla.yml
-- Servo: servo.yml
