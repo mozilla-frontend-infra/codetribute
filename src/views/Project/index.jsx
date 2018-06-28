@@ -81,7 +81,11 @@ const tagReposMapping = repositories =>
         params: { project },
       },
     }) => ({
-      fetchPolicy: 'no-cache',
+      fetchPolicy:
+        productsWithNoComponents(projects[project].products).length ===
+        projects[project].products.length
+          ? 'cache-and-network'
+          : 'no-cache',
       variables: {
         search: {
           ...bugzillaSearchOptions,
