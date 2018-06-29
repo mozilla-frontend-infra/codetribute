@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
+import withWidth from '@material-ui/core/withWidth';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
@@ -56,6 +57,7 @@ const sorted = pipe(
 const assignments = Object.values(ASSIGNEE);
 
 @withRouter
+@withWidth()
 @withStyles(theme => ({
   summary: {
     display: 'inline-block',
@@ -320,7 +322,7 @@ export default class TasksTable extends Component {
         </div>
         <Toolbar className={classes.toolbar}>
           <Typography variant="title">Bugs & Issues</Typography>
-          {this.renderViewOptions()}
+          {this.props.width !== 'xs' && this.renderViewOptions()}
           <IconButton onClick={this.handleFilterToggle}>
             <FilterVariantIcon />
           </IconButton>
@@ -362,7 +364,7 @@ export default class TasksTable extends Component {
             </Button>
           </div>
         )}
-        {displayCard ? (
+        {displayCard || this.props.width === 'xs' ? (
           <TasksList data={data} />
         ) : (
           <Fragment>
