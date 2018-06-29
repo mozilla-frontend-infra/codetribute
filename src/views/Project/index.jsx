@@ -140,7 +140,7 @@ const tagReposMapping = repositories =>
 }))
 export default class Project extends Component {
   state = {
-    loading: true,
+    loading: false,
   };
 
   componentDidUpdate(prevProps) {

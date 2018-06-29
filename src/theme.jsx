@@ -93,6 +93,11 @@ const theme = createMuiTheme({
         height: 41,
       },
     },
+    MuiDivider: {
+      root: {
+        margin: '1px 0',
+      },
+    },
   },
 });
 
