@@ -50,6 +50,10 @@ const assignments = Object.values(ASSIGNEE);
   tableCell: {
     whiteSpace: 'nowrap',
   },
+  icon: {
+    verticalAlign: 'super',
+    marginLeft: 2,
+  },
   summaryItem: {
     marginLeft: -theme.spacing.unit,
     padding: theme.spacing.unit,
