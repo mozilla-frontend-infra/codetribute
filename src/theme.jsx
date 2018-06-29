@@ -56,6 +56,11 @@ const theme = createMuiTheme({
         backgroundColor: SECONDARY.DARK,
         color: 'white',
       },
+      clickable: {
+        '&:focus': {
+          backgroundColor: SECONDARY.DARK,
+        },
+      },
     },
     MuiTypography: {
       display2: {

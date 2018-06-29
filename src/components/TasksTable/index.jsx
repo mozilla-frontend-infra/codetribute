@@ -3,6 +3,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 import { withStyles } from '@material-ui/core/styles';
+import LinkIcon from 'mdi-react/LinkIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
@@ -30,17 +31,18 @@ const assignments = Object.values(ASSIGNEE);
   tableWrapper: {
     overflowX: 'auto',
   },
-  link: {
-    textDecoration: 'none',
-  },
-  chip: {
-    marginRight: 1,
-  },
   clickedChip: {
     backgroundColor: theme.palette.primary.main,
+    '&:focus': {
+      backgroundColor: theme.palette.primary.main,
+    },
   },
   tags: {
     whiteSpace: 'nowrap',
+  },
+  icon: {
+    verticalAlign: 'super',
+    marginLeft: 2,
   },
   dropdown: {
     minWidth: 200,
@@ -63,12 +65,12 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy, sortDirection, tag, items, assignee) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
       const ids = sorted(items);
 
       return `${ids.join('-')}-${sortBy}-${sortDirection}-${tag}-${assignee}`;
     },
-    (sortBy, sortDirection, tag, items, assignee) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
       const sortByProperty = camelCase(sortBy);
       let filteredItems = [];
 
@@ -80,16 +82,16 @@ export default class TasksTable extends Component {
         filteredItems = items.filter(item => item.assignee === '-');
       }
 
-      return [
-        ...filteredItems.filter(item => !tag || item.tags.indexOf(tag) > -1),
-      ].sort((a, b) => {
-        const firstElement =
-          sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
-        const secondElement =
-          sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
+      return filteredItems
+        .filter(item => !tag || item.tags.includes(tag))
+        .sort((a, b) => {
+          const firstElement =
+            sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
+          const secondElement =
+            sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
 
-        return sort(firstElement, secondElement);
-      });
+          return sort(firstElement, secondElement);
+        });
     }
   );
 
@@ -141,11 +143,13 @@ export default class TasksTable extends Component {
   render() {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
-    const { sortBy, sortDirection, tag, assignee } = this.getQuery();
+    const query = this.getQuery();
+    const { sortBy, sortDirection, tag, assignee } = query;
     const assignment = assignments.includes(assignee)
       ? assignee
       : ASSIGNEE.UNASSIGNED;
     const data = this.getTableData(sortBy, sortDirection, tag, items, assignee);
+    const iconSize = 14;
 
     return (
       <div className={classes.tableWrapper}>
@@ -153,25 +157,25 @@ export default class TasksTable extends Component {
           title="Bugs & Issues"
           items={data}
           renderRow={item => (
-            <TableRow
-              hover
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex={-1}
-              key={item.summary}
-              component="a"
-              href={item.url}
-              className={classes.link}>
+            <TableRow hover tabIndex={-1} key={item.summary}>
               <TableCell component="th" scope="row">
                 {item.project}
               </TableCell>
-              <TableCell className={classes.summary}>{item.summary}</TableCell>
+              <TableCell
+                className={classes.summary}
+                target="_blank"
+                rel="noopener noreferrer"
+                component="a"
+                href={item.url}>
+                {item.summary}
+                <LinkIcon size={iconSize} className={classes.icon} />
+              </TableCell>
               <TableCell className={classes.tags}>
                 {item.tags.map(tag => (
                   <Chip
                     key={tag}
                     label={tag}
-                    className={classNames(classes.chip, {
+                    className={classNames({
                       [classes.clickedChip]: tag === query.tag,
                     })}
                     onClick={this.handleChipClick(tag)}
