@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
+import CheckIcon from 'mdi-react/CheckIcon';
 import { func, string } from 'prop-types';
 import { ASSIGNEE } from '../../utils/constants';
 
@@ -12,7 +13,12 @@ const assigneeList = Object.values(ASSIGNEE);
 @withStyles(theme => ({
   root: {
     margin: `0px ${3 * theme.spacing.unit}px`,
-    maxWidth: 360,
+  },
+  icon: {
+    verticalAlign: 'middle',
+  },
+  dropdown: {
+    minWidth: 200,
   },
 }))
 export default class FilterForm extends Component {
@@ -24,33 +30,33 @@ export default class FilterForm extends Component {
     /**
      * The handler for clicking filter items to update the query string.
      */
-    onFilterItemClick: func,
+    onFilterChange: func,
   };
 
-  getSelectedAssignee() {
-    const { assignee } = this.props;
-
-    return assigneeList.indexOf(assignee) > -1 ? assignee : ASSIGNEE.UNASSIGNED;
-  }
-
-  handleFilterItemClick = event => {
-    this.props.onFilterItemClick({ assignee: event.target.value });
+  handleFilterChange = event => {
+    this.props.onFilterChange({ assignee: event.target.value });
   };
 
   render() {
-    const selectedAssignee = this.getSelectedAssignee();
-    const { classes } = this.props;
+    const { classes, assignee } = this.props;
+    const assignment = assigneeList.includes(assignee)
+      ? assignee
+      : ASSIGNEE.UNASSIGNED;
 
     return (
       <div className={classes.root}>
         <TextField
           select
           label="Assignee"
-          value={selectedAssignee}
-          onChange={this.handleFilterItemClick}>
+          value={assignment}
+          className={classes.dropdown}
+          onChange={this.handleFilterChange}>
           {assigneeList.map(assignee => (
             <MenuItem key={assignee} value={assignee}>
               {assignee}
+              {assignee === assignment && (
+                <CheckIcon className={classes.icon} />
+              )}
             </MenuItem>
           ))}
         </TextField>

@@ -102,7 +102,7 @@ export default class TasksTable extends Component {
     this.setState({ showFilterContent: !this.state.showFilterContent });
   };
 
-  handleFilterItemClick = item => {
+  handleFilterChange = item => {
     const query = this.getQuery();
 
     this.setQuery({ ...query, ...item });
@@ -166,7 +166,7 @@ export default class TasksTable extends Component {
             showFilterContent && (
               <FilterForm
                 assignee={assignee}
-                onFilterItemClick={this.handleFilterItemClick}
+                onFilterChange={this.handleFilterChange}
               />
             )
           }
