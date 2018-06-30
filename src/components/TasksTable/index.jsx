@@ -19,7 +19,7 @@ const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
   map(({ project, summary }) => `${summary}-${project}`)
 );
-const assigneeList = Object.values(ASSIGNEE);
+const assignments = Object.values(ASSIGNEE);
 
 @withRouter
 @withStyles(theme => ({
@@ -106,7 +106,7 @@ export default class TasksTable extends Component {
     });
   };
 
-  handleFilterClick = () => {
+  handleFilterToggle = () => {
     this.setState({ showFilterContent: !this.state.showFilterContent });
   };
 
@@ -132,7 +132,7 @@ export default class TasksTable extends Component {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
     const { sortBy, sortDirection, assignee } = this.getQuery();
-    const assignment = assigneeList.includes(assignee)
+    const assignment = assignments.includes(assignee)
       ? assignee
       : ASSIGNEE.UNASSIGNED;
     const data = this.getTableData(sortBy, sortDirection, items, assignee);
@@ -182,7 +182,7 @@ export default class TasksTable extends Component {
                   value={assignment}
                   className={classes.dropdown}
                   onChange={this.handleFilterChange}>
-                  {assigneeList.map(assignee => (
+                  {assignments.map(assignee => (
                     <MenuItem key={assignee} value={assignee}>
                       {assignee}
                     </MenuItem>
@@ -191,7 +191,7 @@ export default class TasksTable extends Component {
               </div>
             )
           }
-          onFilterClick={this.handleFilterClick}
+          onFilterClick={this.handleFilterToggle}
         />
       </div>
     );
