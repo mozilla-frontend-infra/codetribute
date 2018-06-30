@@ -56,18 +56,13 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy, sortDirection, items, assignee) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
       const ids = sorted(items);
 
       return `${ids.join('-')}-${sortBy}-${sortDirection}-${assignee}`;
     },
-    (sortBy, sortDirection, items, assignee) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
       const sortByProperty = camelCase(sortBy);
-
-      if (!sortBy) {
-        return items;
-      }
-
       let filteredItems = [];
 
       if (assignee === ASSIGNEE.ANY) {
@@ -93,11 +88,7 @@ export default class TasksTable extends Component {
     const { location } = this.props;
     const query = parse(location.search.slice(1));
 
-    return {
-      ...query,
-      sortBy: query.sortBy ? query.sortBy : 'Last Updated',
-      sortDirection: query.sortDirection ? query.sortDirection : 'desc',
-    };
+    return query;
   }
 
   setQuery = query => {
