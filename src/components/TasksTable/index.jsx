@@ -256,13 +256,12 @@ export default class TasksTable extends Component {
   };
 
   renderViewOptions() {
+    const { displayCard } = this.state;
+
     return (
       <Fragment>
-        <IconButton value onClick={this.handleViewOptionsClick}>
-          <TableColumnIcon />
-        </IconButton>
-        <IconButton value={false} onClick={this.handleViewOptionsClick}>
-          <TableLargeIcon />
+        <IconButton value={!displayCard} onClick={this.handleViewOptionsClick}>
+          {displayCard ? <TableLargeIcon /> : <TableColumnIcon />}
         </IconButton>
       </Fragment>
     );
