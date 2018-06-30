@@ -7,10 +7,11 @@ import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import { formatDistance } from 'date-fns';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import DataTable from '../DataTable';
-import FilterForm from '../FilterForm';
 import sort from '../../utils/sort';
 import { ASSIGNEE } from '../../utils/constants';
 
@@ -18,9 +19,10 @@ const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
   map(({ project, summary }) => `${summary}-${project}`)
 );
+const assigneeList = Object.values(ASSIGNEE);
 
 @withRouter
-@withStyles(() => ({
+@withStyles(theme => ({
   summary: {
     whiteSpace: 'nowrap',
   },
@@ -32,6 +34,12 @@ const sorted = pipe(
   },
   tags: {
     whiteSpace: 'nowrap',
+  },
+  dropdown: {
+    minWidth: 200,
+  },
+  filter: {
+    padding: `0px ${3 * theme.spacing.unit}px`,
   },
 }))
 export default class TasksTable extends Component {
@@ -102,10 +110,10 @@ export default class TasksTable extends Component {
     this.setState({ showFilterContent: !this.state.showFilterContent });
   };
 
-  handleFilterChange = item => {
+  handleFilterChange = event => {
     const query = this.getQuery();
 
-    this.setQuery({ ...query, ...item });
+    this.setQuery({ ...query, assignee: event.target.value });
   };
 
   handleHeaderClick = sortBy => {
@@ -124,6 +132,9 @@ export default class TasksTable extends Component {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
     const { sortBy, sortDirection, assignee } = this.getQuery();
+    const assignment = assigneeList.includes(assignee)
+      ? assignee
+      : ASSIGNEE.UNASSIGNED;
     const data = this.getTableData(sortBy, sortDirection, items, assignee);
 
     return (
@@ -164,10 +175,20 @@ export default class TasksTable extends Component {
           onHeaderClick={this.handleHeaderClick}
           filters={
             showFilterContent && (
-              <FilterForm
-                assignee={assignee}
-                onFilterChange={this.handleFilterChange}
-              />
+              <div className={classes.filter}>
+                <TextField
+                  select
+                  label="Assignee"
+                  value={assignment}
+                  className={classes.dropdown}
+                  onChange={this.handleFilterChange}>
+                  {assigneeList.map(assignee => (
+                    <MenuItem key={assignee} value={assignee}>
+                      {assignee}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
             )
           }
           onFilterClick={this.handleFilterClick}
