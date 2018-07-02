@@ -40,9 +40,9 @@ const assignments = Object.values(ASSIGNEE);
     overflowX: 'auto',
   },
   clickedChip: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.secondary.dark,
     '&:focus': {
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.secondary.dark,
     },
   },
   tags: {
