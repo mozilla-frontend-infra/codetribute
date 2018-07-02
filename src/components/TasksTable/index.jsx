@@ -2,6 +2,9 @@ import { Component } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
 import LinkIcon from 'mdi-react/LinkIcon';
 import { withRouter } from 'react-router-dom';
@@ -13,6 +16,7 @@ import TextField from '@material-ui/core/TextField';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
+import transitions from '@material-ui/core/styles/transitions';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { ASSIGNEE } from '../../utils/constants';
@@ -27,6 +31,10 @@ const assignments = Object.values(ASSIGNEE);
 @withStyles(theme => ({
   summary: {
     whiteSpace: 'nowrap',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -40,9 +48,18 @@ const assignments = Object.values(ASSIGNEE);
   tags: {
     whiteSpace: 'nowrap',
   },
-  icon: {
-    verticalAlign: 'super',
-    marginLeft: 2,
+  summaryItem: {
+    marginLeft: -theme.spacing.unit,
+    padding: theme.spacing.unit,
+  },
+  summaryButton: {
+    '& svg': {
+      transition: transitions.create('fill'),
+      fill: theme.palette.primary.main,
+    },
+    '&:hover svg': {
+      fill: 'white',
+    },
   },
   dropdown: {
     minWidth: 200,
@@ -161,14 +178,22 @@ export default class TasksTable extends Component {
               <TableCell component="th" scope="row">
                 {item.project}
               </TableCell>
-              <TableCell
-                className={classes.summary}
-                target="_blank"
-                rel="noopener noreferrer"
-                component="a"
-                href={item.url}>
-                {item.summary}
-                <LinkIcon size={iconSize} className={classes.icon} />
+              <TableCell>
+                <List className={classes.summary}>
+                  <ListItem
+                    classes={{
+                      gutters: classes.summaryItem,
+                      button: classes.summaryButton,
+                    }}
+                    button
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    component="a"
+                    href={item.url}>
+                    <ListItemText>{item.summary}</ListItemText>
+                    <LinkIcon size={iconSize} />
+                  </ListItem>
+                </List>
               </TableCell>
               <TableCell className={classes.tags}>
                 {item.tags.map(tag => (
