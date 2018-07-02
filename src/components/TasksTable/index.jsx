@@ -2,6 +2,7 @@ import { Component, Fragment } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
+import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -12,10 +13,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
+import InformationIcon from 'mdi-react/InformationIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
-import { formatDistance } from 'date-fns';
+import { formatDistance, differenceInCalendarDays } from 'date-fns';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -25,6 +27,23 @@ import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
 import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
+
+const getSuggestions = item => {
+  const dayElapsedSinceLastUpdate = differenceInCalendarDays(
+    new Date(),
+    item.lastUpdated
+  );
+
+  if (item.assignee === '-' && dayElapsedSinceLastUpdate < 90) {
+    return 'The bug is unassigned. Go ahead!';
+  } else if (item.assignee === '-') {
+    return 'The bug is unassigned but a few months has passed. Ask the mentor / creator of the bug if the bug is still relevant';
+  } else if (dayElapsedSinceLastUpdate > 30) {
+    return "Even though this bug is assigned, it hasn't been touched for more than a month. Ask if you can grab it";
+  }
+
+  return 'Please find another bug, there are tons of them in Mozilla!';
+};
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -49,10 +68,6 @@ const assignments = Object.values(ASSIGNEE);
   },
   tableCell: {
     whiteSpace: 'nowrap',
-  },
-  icon: {
-    verticalAlign: 'super',
-    marginLeft: 2,
   },
   summaryItem: {
     marginLeft: -theme.spacing.unit,
@@ -84,10 +99,19 @@ const assignments = Object.values(ASSIGNEE);
   icon: {
     flexShrink: 0,
   },
+  infoButton: {
+    padding: '0px 4px',
+    minWidth: 'auto',
+  },
+  drawer: {
+    width: 250,
+  },
 }))
 export default class TasksTable extends Component {
   state = {
     showFilterContent: false,
+    drawerOpen: false,
+    drawerIssue: null,
   };
 
   static propTypes = {
@@ -213,9 +237,27 @@ export default class TasksTable extends Component {
     this.setQuery({});
   };
 
+  handleDrawerOpen = ({ target: { name } }) => {
+    memoizeWith(
+      name => name,
+      name =>
+        this.setState({
+          drawerOpen: true,
+          drawerIssue: this.props.items.find(item => item.summary === name),
+        })
+    )(name);
+  };
+
+  handleDrawerClose = () => {
+    this.setState({
+      drawerOpen: false,
+      drawerIssue: null,
+    });
+  };
+
   render() {
     const { items, classes } = this.props;
-    const { showFilterContent } = this.state;
+    const { showFilterContent, drawerOpen, drawerIssue } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
@@ -297,7 +339,13 @@ export default class TasksTable extends Component {
                   {item.project}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  <List dense className={classNames(classes.summary)}>
+                  <Button
+                    name={item.summary}
+                    className={classes.infoButton}
+                    onClick={this.handleDrawerOpen}>
+                    <InformationIcon />
+                  </Button>
+                  <List dense className={classes.summary}>
                     <ListItem
                       classes={{
                         gutters: classes.summaryItem,
@@ -348,6 +396,41 @@ export default class TasksTable extends Component {
             onHeaderClick={this.handleHeaderClick}
           />
         </div>
+        <Drawer
+          anchor="right"
+          open={drawerOpen}
+          onClose={this.handleDrawerClose}>
+          <div className={classes.drawer}>
+            <List>
+              <ListItem>
+                {drawerIssue &&
+                  drawerIssue.summary && (
+                    <ListItemText
+                      primary="Summary"
+                      secondary={drawerIssue.summary}
+                    />
+                  )}
+              </ListItem>
+              <ListItem>
+                {drawerIssue &&
+                  drawerIssue.description && (
+                    <ListItemText
+                      primary="Description"
+                      secondary={drawerIssue.description}
+                    />
+                  )}
+              </ListItem>
+              <ListItem>
+                {drawerIssue && (
+                  <ListItemText
+                    primary="Suggestion"
+                    secondary={getSuggestions(drawerIssue)}
+                  />
+                )}
+              </ListItem>
+            </List>
+          </div>
+        </Drawer>
       </Fragment>
     );
   }

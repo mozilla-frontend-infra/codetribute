@@ -3,6 +3,7 @@ query Issues($searchQuery: String!) {
     nodes {
       ... on Issue {
         title
+        body
         updatedAt
         number
         repository {
