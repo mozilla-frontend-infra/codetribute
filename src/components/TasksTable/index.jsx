@@ -18,7 +18,7 @@ import { stringify, parse } from 'qs';
 import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
-import { ASSIGNEE } from '../../utils/constants';
+import { ASSIGNEE, ALL } from '../../utils/constants';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -50,6 +50,8 @@ const assignments = Object.values(ASSIGNEE);
   },
   dropdown: {
     minWidth: 200,
+    marginRight: 2 * theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
   },
   filter: {
     ...theme.mixins.gutters(),
@@ -69,12 +71,28 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
+    (
+      sortBy = 'Last Updated',
+      sortDirection = 'desc',
+      tag,
+      items,
+      assignee,
+      project
+    ) => {
       const ids = sorted(items);
 
-      return `${ids.join('-')}-${sortBy}-${sortDirection}-${tag}-${assignee}`;
+      return `${ids.join(
+        '-'
+      )}-${sortBy}-${sortDirection}-${tag}-${assignee}-${project}`;
     },
-    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
+    (
+      sortBy = 'Last Updated',
+      sortDirection = 'desc',
+      tag,
+      items,
+      assignee,
+      project
+    ) => {
       const sortByProperty = camelCase(sortBy);
       let filteredItems = [];
 
@@ -88,6 +106,9 @@ export default class TasksTable extends Component {
 
       return filteredItems
         .filter(item => !tag || item.tags.includes(tag))
+        .filter(
+          item => !project || project === 'All' || item.project === project
+        )
         .sort((a, b) => {
           const firstElement =
             sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
@@ -116,10 +137,10 @@ export default class TasksTable extends Component {
     this.setState({ showFilterContent: !this.state.showFilterContent });
   };
 
-  handleFilterChange = event => {
+  handleFilterChange = filter => event => {
     const query = this.getQuery();
 
-    this.setQuery({ ...query, assignee: event.target.value });
+    this.setQuery({ ...query, [filter]: event.target.value });
   };
 
   handleHeaderClick = sortBy => {
@@ -147,12 +168,20 @@ export default class TasksTable extends Component {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
     const query = this.getQuery();
-    const { sortBy, sortDirection, tag, assignee } = query;
+    const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
       ? assignee
       : ASSIGNEE.UNASSIGNED;
-    const data = this.getTableData(sortBy, sortDirection, tag, items, assignee);
+    const data = this.getTableData(
+      sortBy,
+      sortDirection,
+      tag,
+      items,
+      assignee,
+      project
+    );
     const iconSize = 14;
+    const projects = [...new Set(items.map(item => item.project))];
 
     return (
       <div className={classes.tableWrapper}>
@@ -213,10 +242,25 @@ export default class TasksTable extends Component {
                   label="Assignee"
                   value={assignment}
                   className={classes.dropdown}
-                  onChange={this.handleFilterChange}>
+                  onChange={this.handleFilterChange('assignee')}>
                   {assignments.map(assignee => (
                     <MenuItem key={assignee} value={assignee}>
                       {assignee}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  select
+                  label="Project"
+                  value={project || ALL}
+                  className={classes.dropdown}
+                  onChange={this.handleFilterChange('project')}>
+                  <MenuItem key={ALL} value={ALL}>
+                    {ALL}
+                  </MenuItem>
+                  {projects.map(project => (
+                    <MenuItem key={project} value={project}>
+                      {project}
                     </MenuItem>
                   ))}
                 </TextField>

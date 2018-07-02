@@ -5,3 +5,4 @@ export const ASSIGNEE = {
   UNASSIGNED: 'Unassigned',
   ASSIGNED: 'Assigned',
 };
+export const ALL = 'All';
