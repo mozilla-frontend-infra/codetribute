@@ -104,7 +104,7 @@ class DataTable extends Component {
           <Toolbar className={classes.toolbar}>
             <Typography variant="title">{title}</Typography>
             <IconButton onClick={this.handleFilterClick}>
-              <FilterVariantIcon onClick={this.handleFilterClick} />
+              <FilterVariantIcon />
             </IconButton>
           </Toolbar>
         )}
