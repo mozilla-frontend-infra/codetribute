@@ -12,7 +12,7 @@ import ErrorBox from './ErrorBox';
 
 @withStyles(theme => ({
   paper: {
-    padding: `0 ${2 * theme.spacing.unit / 3}px`,
+    padding: `0 ${2 * theme.spacing.unit}px`,
     display: 'flex',
     justifyContent: 'space-between',
   },
