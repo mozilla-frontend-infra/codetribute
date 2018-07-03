@@ -16,7 +16,6 @@ import TextField from '@material-ui/core/TextField';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
-import transitions from '@material-ui/core/styles/transitions';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { ASSIGNEE } from '../../utils/constants';
@@ -51,15 +50,6 @@ const assignments = Object.values(ASSIGNEE);
   summaryItem: {
     marginLeft: -theme.spacing.unit,
     padding: theme.spacing.unit,
-  },
-  summaryButton: {
-    '& svg': {
-      transition: transitions.create('fill'),
-      fill: theme.palette.primary.main,
-    },
-    '&:hover svg': {
-      fill: 'white',
-    },
   },
   dropdown: {
     minWidth: 200,
@@ -147,14 +137,12 @@ export default class TasksTable extends Component {
     this.setQuery({ ...query, sortBy, sortDirection });
   };
 
-  handleChipClick = tag => event => {
+  handleChipClick = tag => () => {
     const query = this.getQuery();
     const newQuery =
       query.tag === tag ? omit(['tag'], query) : { ...query, tag };
 
     this.setQuery(newQuery);
-
-    event.preventDefault();
   };
 
   render() {
@@ -174,7 +162,7 @@ export default class TasksTable extends Component {
           title="Bugs & Issues"
           items={data}
           renderRow={item => (
-            <TableRow hover tabIndex={-1} key={item.summary}>
+            <TableRow tabIndex={-1} key={item.summary}>
               <TableCell component="th" scope="row">
                 {item.project}
               </TableCell>
@@ -183,7 +171,6 @@ export default class TasksTable extends Component {
                   <ListItem
                     classes={{
                       gutters: classes.summaryItem,
-                      button: classes.summaryButton,
                     }}
                     button
                     target="_blank"

@@ -53,7 +53,7 @@ const theme = createMuiTheme({
     MuiChip: {
       root: {
         height: 24,
-        marginRight: 1,
+        marginRight: 4,
         backgroundColor: PRIMARY.MAIN,
         color: 'white',
       },
@@ -85,13 +85,6 @@ const theme = createMuiTheme({
     MuiCircularProgress: {
       colorPrimary: {
         color: SECONDARY.MAIN,
-      },
-    },
-    MuiTableRow: {
-      root: {
-        '&$hover:hover': {
-          backgroundColor: SECONDARY.MAIN,
-        },
       },
     },
     MuiIconButton: {
