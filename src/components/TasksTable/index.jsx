@@ -39,7 +39,7 @@ const assignments = Object.values(ASSIGNEE);
     minWidth: 200,
   },
   filter: {
-    padding: `0px ${3 * theme.spacing.unit}px`,
+    ...theme.mixins.gutters(),
   },
 }))
 export default class TasksTable extends Component {

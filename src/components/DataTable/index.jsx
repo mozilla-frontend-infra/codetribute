@@ -18,8 +18,8 @@ import { arrayOf, func, string, oneOf, object, node } from 'prop-types';
     width: '100%',
     overflowX: 'auto',
   },
-  title: {
-    flex: '1 1 100%',
+  toolbar: {
+    justifyContent: 'space-between',
   },
 }))
 class DataTable extends Component {
@@ -101,10 +101,8 @@ class DataTable extends Component {
     return (
       <Fragment>
         {title && (
-          <Toolbar>
-            <Typography variant="title" className={classes.title}>
-              {title}
-            </Typography>
+          <Toolbar className={classes.toolbar}>
+            <Typography variant="title">{title}</Typography>
             <IconButton onClick={this.handleFilterClick}>
               <FilterVariantIcon onClick={this.handleFilterClick} />
             </IconButton>
