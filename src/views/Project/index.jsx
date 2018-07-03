@@ -81,11 +81,7 @@ const tagReposMapping = repositories =>
         params: { project },
       },
     }) => ({
-      fetchPolicy:
-        productsWithNoComponents(projects[project].products).length ===
-        projects[project].products.length
-          ? 'cache-and-network'
-          : 'no-cache',
+      fetchPolicy: 'network-only',
       variables: {
         search: {
           ...bugzillaSearchOptions,
@@ -136,8 +132,18 @@ export default class Project extends Component {
   };
 
   componentDidMount() {
-    this.load();
+    this.loadMore();
   }
+
+  loadMore = () => {
+    if (this.props.bugzilla && this.props.bugzilla.loading) {
+      setTimeout(this.loadMore, 50);
+
+      return;
+    }
+
+    this.load();
+  };
 
   fetchBugzilla = (products, components) => {
     const {
