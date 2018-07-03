@@ -131,20 +131,18 @@ export default class Project extends Component {
     loading: true,
   };
 
-  componentDidMount() {
-    this.loadMore();
-  }
-
-  loadMore = () => {
-    if (this.props.bugzilla && this.props.bugzilla.loading) {
-      setTimeout(this.loadMore, 50);
-
-      return;
+  componentDidUpdate(prevProps) {
+    if (
+      (prevProps.bugzilla &&
+        prevProps.bugzilla.loading &&
+        !this.props.bugzilla.loading) ||
+      (!prevProps.bugzilla &&
+        prevProps.github.loading &&
+        !this.props.github.loading)
+    ) {
+      this.load();
     }
-
-    this.load();
-  };
-
+  }
   fetchBugzilla = (products, components) => {
     const {
       bugzilla: { fetchMore },
