@@ -80,9 +80,7 @@ class DataTable extends Component {
   };
 
   handleFilterClick = () => {
-    if (this.props.onFilterClick) {
-      this.props.onFilterClick();
-    }
+    this.props.onFilterClick();
   };
 
   render() {
@@ -95,6 +93,7 @@ class DataTable extends Component {
       items,
       title,
       filters,
+      onFilterClick,
     } = this.props;
     const colSpan = (headers && headers.length) || 0;
 
@@ -103,9 +102,11 @@ class DataTable extends Component {
         {title && (
           <Toolbar className={classes.toolbar}>
             <Typography variant="title">{title}</Typography>
-            <IconButton onClick={this.handleFilterClick}>
-              <FilterVariantIcon />
-            </IconButton>
+            {onFilterClick && (
+              <IconButton onClick={this.handleFilterClick}>
+                <FilterVariantIcon />
+              </IconButton>
+            )}
           </Toolbar>
         )}
         {filters}
