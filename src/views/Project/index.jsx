@@ -85,9 +85,13 @@ const tagReposMapping = repositories =>
       variables: {
         search: {
           ...bugzillaSearchOptions,
+          // get all the product with no component as it can be
+          // merged as an OR query if it exists
           ...(productsWithNoComponents(projects[project].products).length
             ? { products: productsWithNoComponents(projects[project].products) }
             : {
+                // otherwise, get only the first product and its components
+                // as component is not unique for product thus can't be merged
                 products: Object.keys(projects[project].products[0])[0],
                 components: Object.values(projects[project].products[0])[0],
               }),
@@ -234,6 +238,8 @@ export default class Project extends Component {
         : []
     );
 
+    // fetch only the product with component list, since product without
+    // component would have been fetched by the initial graphql decorator query
     await Promise.all(
       Object.entries(productWithComponentList).map(([products, components]) =>
         this.fetchBugzilla([products], components)

@@ -14,5 +14,3 @@ export const ASSIGNEE = {
   ASSIGNED: 'Assigned',
 };
 export const ALL_PROJECTS = 'All';
-
-
