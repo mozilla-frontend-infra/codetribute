@@ -31,9 +31,6 @@ const assignments = Object.values(ASSIGNEE);
   summary: {
     whiteSpace: 'nowrap',
     display: 'inline-block',
-    verticalAlign: 'middle',
-    paddingTop: 0,
-    paddingBottom: 0,
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -137,7 +134,8 @@ export default class TasksTable extends Component {
     this.setQuery({ ...query, sortBy, sortDirection });
   };
 
-  handleChipClick = tag => () => {
+  handleTagClick = ({ currentTarget }) => {
+    const tag = currentTarget.getAttribute('name');
     const query = this.getQuery();
     const newQuery =
       query.tag === tag ? omit(['tag'], query) : { ...query, tag };
@@ -167,7 +165,7 @@ export default class TasksTable extends Component {
                 {item.project}
               </TableCell>
               <TableCell>
-                <List className={classes.summary}>
+                <List dense className={classes.summary}>
                   <ListItem
                     classes={{
                       gutters: classes.summaryItem,
@@ -185,12 +183,13 @@ export default class TasksTable extends Component {
               <TableCell className={classes.tags}>
                 {item.tags.map(tag => (
                   <Chip
+                    name={tag}
                     key={tag}
                     label={tag}
                     className={classNames({
                       [classes.clickedChip]: tag === query.tag,
                     })}
-                    onClick={this.handleChipClick(tag)}
+                    onClick={this.handleTagClick}
                   />
                 ))}
               </TableCell>
