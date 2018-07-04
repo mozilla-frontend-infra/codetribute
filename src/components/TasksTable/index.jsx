@@ -29,20 +29,20 @@ import { unassigned, assigned } from '../../utils/assignmentFilters';
 import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
 
 const getSuggestions = item => {
-  const dayElapsedSinceLastUpdate = differenceInCalendarDays(
+  const daysSinceLastUpdate = differenceInCalendarDays(
     new Date(),
     item.lastUpdated
   );
 
-  if (item.assignee === '-' && dayElapsedSinceLastUpdate < 90) {
-    return 'The bug is unassigned. Go ahead!';
+  if (item.assignee === '-' && daysSinceLastUpdate < 90) {
+    return 'The task is unassigned. Go ahead!';
   } else if (item.assignee === '-') {
-    return 'The bug is unassigned but a few months has passed. Ask the mentor / creator of the bug if the bug is still relevant';
-  } else if (dayElapsedSinceLastUpdate > 30) {
-    return "Even though this bug is assigned, it hasn't been touched for more than a month. Ask if you can grab it";
+    return 'The task is unassigned but a few months has passed. Ask the mentor / creator of the task if the task is still relevant';
+  } else if (daysSinceLastUpdate > 30) {
+    return "Even though this task is assigned, it hasn't been touched for more than a month. Ask if you can grab it";
   }
 
-  return 'Please find another bug, there are tons of them in Mozilla!';
+  return `This was recently assigned to ${item.assignee}.`;
 };
 
 const sorted = pipe(
@@ -111,7 +111,7 @@ export default class TasksTable extends Component {
   state = {
     showFilterContent: false,
     drawerOpen: false,
-    drawerIssue: null,
+    drawerItem: null,
   };
 
   static propTypes = {
@@ -243,7 +243,7 @@ export default class TasksTable extends Component {
       name =>
         this.setState({
           drawerOpen: true,
-          drawerIssue: this.props.items.find(item => item.summary === name),
+          drawerItem: this.props.items.find(item => item.summary === name),
         })
     )(name);
   };
@@ -251,13 +251,13 @@ export default class TasksTable extends Component {
   handleDrawerClose = () => {
     this.setState({
       drawerOpen: false,
-      drawerIssue: null,
+      drawerItem: null,
     });
   };
 
   render() {
     const { items, classes } = this.props;
-    const { showFilterContent, drawerOpen, drawerIssue } = this.state;
+    const { showFilterContent, drawerOpen, drawerItem } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
@@ -403,28 +403,28 @@ export default class TasksTable extends Component {
           <div className={classes.drawer}>
             <List>
               <ListItem>
-                {drawerIssue &&
-                  drawerIssue.summary && (
+                {drawerItem &&
+                  drawerItem.summary && (
                     <ListItemText
                       primary="Summary"
-                      secondary={drawerIssue.summary}
+                      secondary={drawerItem.summary}
                     />
                   )}
               </ListItem>
               <ListItem>
-                {drawerIssue &&
-                  drawerIssue.description && (
+                {drawerItem &&
+                  drawerItem.description && (
                     <ListItemText
                       primary="Description"
-                      secondary={drawerIssue.description}
+                      secondary={drawerItem.description}
                     />
                   )}
               </ListItem>
               <ListItem>
-                {drawerIssue && (
+                {drawerItem && (
                   <ListItemText
                     primary="Suggestion"
-                    secondary={getSuggestions(drawerIssue)}
+                    secondary={getSuggestions(drawerItem)}
                   />
                 )}
               </ListItem>
