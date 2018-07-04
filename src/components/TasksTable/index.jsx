@@ -7,18 +7,22 @@ import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import { formatDistance } from 'date-fns';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
+import { ASSIGNEE } from '../../utils/constants';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
   map(({ project, summary }) => `${summary}-${project}`)
 );
+const assignments = Object.values(ASSIGNEE);
 
 @withRouter
-@withStyles(() => ({
+@withStyles(theme => ({
   summary: {
     whiteSpace: 'nowrap',
   },
@@ -31,8 +35,18 @@ const sorted = pipe(
   tags: {
     whiteSpace: 'nowrap',
   },
+  dropdown: {
+    minWidth: 200,
+  },
+  filter: {
+    ...theme.mixins.gutters(),
+  },
 }))
 export default class TasksTable extends Component {
+  state = {
+    showFilterContent: false,
+  };
+
   static propTypes = {
     /**
      * A list of objects to display. Each element in the list is represented
@@ -42,19 +56,24 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy, sortDirection, items) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
       const ids = sorted(items);
 
-      return `${ids.join('-')}-${sortBy}-${sortDirection}`;
+      return `${ids.join('-')}-${sortBy}-${sortDirection}-${assignee}`;
     },
-    (sortBy, sortDirection, items) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
       const sortByProperty = camelCase(sortBy);
+      let filteredItems = [];
 
-      if (!sortBy) {
-        return items;
+      if (assignee === ASSIGNEE.ANY) {
+        filteredItems = items;
+      } else if (assignee === ASSIGNEE.ASSIGNED) {
+        filteredItems = items.filter(item => item.assignee !== '-');
+      } else {
+        filteredItems = items.filter(item => item.assignee === '-');
       }
 
-      return [...items].sort((a, b) => {
+      return [...filteredItems].sort((a, b) => {
         const firstElement =
           sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
         const secondElement =
@@ -69,11 +88,24 @@ export default class TasksTable extends Component {
     const { location } = this.props;
     const query = parse(location.search.slice(1));
 
-    return {
-      sortBy: query.sortBy ? query.sortBy : 'Last Updated',
-      sortDirection: query.sortDirection ? query.sortDirection : 'desc',
-    };
+    return query;
   }
+
+  setQuery = query => {
+    this.props.history.push({
+      search: `?${stringify(query)}`,
+    });
+  };
+
+  handleFilterToggle = () => {
+    this.setState({ showFilterContent: !this.state.showFilterContent });
+  };
+
+  handleFilterChange = event => {
+    const query = this.getQuery();
+
+    this.setQuery({ ...query, assignee: event.target.value });
+  };
 
   handleHeaderClick = sortBy => {
     if (sortBy === 'Tags') {
@@ -84,18 +116,17 @@ export default class TasksTable extends Component {
     const toggled = query.sortDirection === 'desc' ? 'asc' : 'desc';
     const sortDirection = query.sortBy === sortBy ? toggled : 'desc';
 
-    this.props.history.push({
-      search: `?${stringify({
-        sortBy,
-        sortDirection,
-      })}`,
-    });
+    this.setQuery({ ...query, sortBy, sortDirection });
   };
 
   render() {
     const { items, classes } = this.props;
-    const { sortBy, sortDirection } = this.getQuery();
-    const data = this.getTableData(sortBy, sortDirection, items);
+    const { showFilterContent } = this.state;
+    const { sortBy, sortDirection, assignee } = this.getQuery();
+    const assignment = assignments.includes(assignee)
+      ? assignee
+      : ASSIGNEE.UNASSIGNED;
+    const data = this.getTableData(sortBy, sortDirection, items, assignee);
 
     return (
       <div className={classes.tableWrapper}>
@@ -133,6 +164,25 @@ export default class TasksTable extends Component {
           sortByHeader={sortBy}
           sortDirection={sortDirection}
           onHeaderClick={this.handleHeaderClick}
+          filters={
+            showFilterContent && (
+              <div className={classes.filter}>
+                <TextField
+                  select
+                  label="Assignee"
+                  value={assignment}
+                  className={classes.dropdown}
+                  onChange={this.handleFilterChange}>
+                  {assignments.map(assignee => (
+                    <MenuItem key={assignee} value={assignee}>
+                      {assignee}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </div>
+            )
+          }
+          onFilterClick={this.handleFilterToggle}
         />
       </div>
     );
