@@ -1,10 +1,11 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import LinkIcon from 'mdi-react/LinkIcon';
 import { withRouter } from 'react-router-dom';
@@ -53,6 +54,11 @@ const assignments = Object.values(ASSIGNEE);
   },
   filter: {
     ...theme.mixins.gutters(),
+  },
+  flexContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: theme.spacing.unit,
   },
 }))
 export default class TasksTable extends Component {
@@ -143,6 +149,18 @@ export default class TasksTable extends Component {
     this.setQuery(newQuery);
   };
 
+  handleRandomButtonClick = () => {
+    const { items } = this.props;
+    const unassignedItems = items.filter(item => item.assignee === '-');
+    const url = unassignedItems.length
+      ? unassignedItems[Math.floor(Math.random() * unassignedItems.length)].url
+      : items[Math.floor(Math.random() * items.length)].url;
+
+    if (url) {
+      window.open(url, '_blank', 'noopener');
+    }
+  };
+
   render() {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
@@ -155,77 +173,88 @@ export default class TasksTable extends Component {
     const iconSize = 14;
 
     return (
-      <div className={classes.tableWrapper}>
-        <DataTable
-          title="Bugs & Issues"
-          items={data}
-          renderRow={item => (
-            <TableRow tabIndex={-1} key={item.summary}>
-              <TableCell component="th" scope="row">
-                {item.project}
-              </TableCell>
-              <TableCell>
-                <List dense className={classes.summary}>
-                  <ListItem
-                    classes={{
-                      gutters: classes.summaryItem,
-                    }}
-                    button
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    component="a"
-                    href={item.url}>
-                    <ListItemText>{item.summary}</ListItemText>
-                    <LinkIcon size={iconSize} />
-                  </ListItem>
-                </List>
-              </TableCell>
-              <TableCell className={classes.tags}>
-                {item.tags.map(tag => (
-                  <Chip
-                    name={tag}
-                    key={tag}
-                    label={tag}
-                    className={classNames({
-                      [classes.clickedChip]: tag === query.tag,
-                    })}
-                    onClick={this.handleTagClick}
-                  />
-                ))}
-              </TableCell>
-              <TableCell>{item.assignee}</TableCell>
-              <TableCell>
-                {formatDistance(item.lastUpdated, new Date(), {
-                  addSuffix: true,
-                })}
-              </TableCell>
-            </TableRow>
-          )}
-          headers={['Project', 'Summary', 'Tags', 'Assignee', 'Last Updated']}
-          sortByHeader={sortBy}
-          sortDirection={sortDirection}
-          onHeaderClick={this.handleHeaderClick}
-          filters={
-            showFilterContent && (
-              <div className={classes.filter}>
-                <TextField
-                  select
-                  label="Assignee"
-                  value={assignment}
-                  className={classes.dropdown}
-                  onChange={this.handleFilterChange}>
-                  {assignments.map(assignee => (
-                    <MenuItem key={assignee} value={assignee}>
-                      {assignee}
-                    </MenuItem>
+      <Fragment>
+        <div className={classes.flexContainer}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={!items.length}
+            onClick={this.handleRandomButtonClick}>
+            I’m Feeling Adventurous
+          </Button>
+        </div>
+        <div className={classes.tableWrapper}>
+          <DataTable
+            title="Bugs & Issues"
+            items={data}
+            renderRow={item => (
+              <TableRow tabIndex={-1} key={item.summary}>
+                <TableCell component="th" scope="row">
+                  {item.project}
+                </TableCell>
+                <TableCell>
+                  <List dense className={classes.summary}>
+                    <ListItem
+                      classes={{
+                        gutters: classes.summaryItem,
+                      }}
+                      button
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      component="a"
+                      href={item.url}>
+                      <ListItemText>{item.summary}</ListItemText>
+                      <LinkIcon size={iconSize} />
+                    </ListItem>
+                  </List>
+                </TableCell>
+                <TableCell className={classes.tags}>
+                  {item.tags.map(tag => (
+                    <Chip
+                      name={tag}
+                      key={tag}
+                      label={tag}
+                      className={classNames({
+                        [classes.clickedChip]: tag === query.tag,
+                      })}
+                      onClick={this.handleTagClick}
+                    />
                   ))}
-                </TextField>
-              </div>
-            )
-          }
-          onFilterClick={this.handleFilterToggle}
-        />
-      </div>
+                </TableCell>
+                <TableCell>{item.assignee}</TableCell>
+                <TableCell>
+                  {formatDistance(item.lastUpdated, new Date(), {
+                    addSuffix: true,
+                  })}
+                </TableCell>
+              </TableRow>
+            )}
+            headers={['Project', 'Summary', 'Tags', 'Assignee', 'Last Updated']}
+            sortByHeader={sortBy}
+            sortDirection={sortDirection}
+            onHeaderClick={this.handleHeaderClick}
+            filters={
+              showFilterContent && (
+                <div className={classes.filter}>
+                  <TextField
+                    select
+                    label="Assignee"
+                    value={assignment}
+                    className={classes.dropdown}
+                    onChange={this.handleFilterChange}>
+                    {assignments.map(assignee => (
+                      <MenuItem key={assignee} value={assignee}>
+                        {assignee}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </div>
+              )
+            }
+            onFilterClick={this.handleFilterToggle}
+          />
+        </div>
+      </Fragment>
     );
   }
 }
