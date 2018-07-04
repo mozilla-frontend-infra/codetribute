@@ -14,7 +14,7 @@ import Markdown from 'react-markdown';
     width: '100%',
     boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
     minHeight: 250,
-    '&:hover': {
+    '&:hover, &:focus': {
       transform: 'scale(1.05)',
       boxShadow: `0 1px 4px 0 ${theme.palette.primary.light}`,
     },
@@ -57,7 +57,7 @@ export default class ProjectCard extends Component {
 
     return (
       <NavLink className={classes.navlink} to={`/projects/${fileName}`}>
-        <Card className={classes.card}>
+        <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
             <Typography gutterBottom variant="headline" component="h4">
               {name}
