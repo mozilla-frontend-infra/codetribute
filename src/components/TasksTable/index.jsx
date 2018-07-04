@@ -2,15 +2,20 @@ import { Component } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import { withStyles } from '@material-ui/core/styles';
+import LinkIcon from 'mdi-react/LinkIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import { formatDistance } from 'date-fns';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import { memoizeWith, pipe, sort as rSort, map } from 'ramda';
+import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
+import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { ASSIGNEE } from '../../utils/constants';
@@ -25,15 +30,23 @@ const assignments = Object.values(ASSIGNEE);
 @withStyles(theme => ({
   summary: {
     whiteSpace: 'nowrap',
+    display: 'inline-block',
   },
   tableWrapper: {
     overflowX: 'auto',
   },
-  link: {
-    textDecoration: 'none',
+  clickedChip: {
+    backgroundColor: theme.palette.secondary.dark,
+    '&:focus': {
+      backgroundColor: theme.palette.secondary.dark,
+    },
   },
   tags: {
     whiteSpace: 'nowrap',
+  },
+  summaryItem: {
+    marginLeft: -theme.spacing.unit,
+    padding: theme.spacing.unit,
   },
   dropdown: {
     minWidth: 200,
@@ -56,12 +69,12 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
       const ids = sorted(items);
 
-      return `${ids.join('-')}-${sortBy}-${sortDirection}-${assignee}`;
+      return `${ids.join('-')}-${sortBy}-${sortDirection}-${tag}-${assignee}`;
     },
-    (sortBy = 'Last Updated', sortDirection = 'desc', items, assignee) => {
+    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
       const sortByProperty = camelCase(sortBy);
       let filteredItems = [];
 
@@ -73,14 +86,16 @@ export default class TasksTable extends Component {
         filteredItems = items.filter(item => item.assignee === '-');
       }
 
-      return [...filteredItems].sort((a, b) => {
-        const firstElement =
-          sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
-        const secondElement =
-          sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
+      return filteredItems
+        .filter(item => !tag || item.tags.includes(tag))
+        .sort((a, b) => {
+          const firstElement =
+            sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
+          const secondElement =
+            sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
 
-        return sort(firstElement, secondElement);
-      });
+          return sort(firstElement, secondElement);
+        });
     }
   );
 
@@ -119,14 +134,25 @@ export default class TasksTable extends Component {
     this.setQuery({ ...query, sortBy, sortDirection });
   };
 
+  handleTagClick = ({ currentTarget }) => {
+    const tag = currentTarget.getAttribute('name');
+    const query = this.getQuery();
+    const newQuery =
+      query.tag === tag ? omit(['tag'], query) : { ...query, tag };
+
+    this.setQuery(newQuery);
+  };
+
   render() {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
-    const { sortBy, sortDirection, assignee } = this.getQuery();
+    const query = this.getQuery();
+    const { sortBy, sortDirection, tag, assignee } = query;
     const assignment = assignments.includes(assignee)
       ? assignee
       : ASSIGNEE.UNASSIGNED;
-    const data = this.getTableData(sortBy, sortDirection, items, assignee);
+    const data = this.getTableData(sortBy, sortDirection, tag, items, assignee);
+    const iconSize = 14;
 
     return (
       <div className={classes.tableWrapper}>
@@ -134,22 +160,37 @@ export default class TasksTable extends Component {
           title="Bugs & Issues"
           items={data}
           renderRow={item => (
-            <TableRow
-              hover
-              target="_blank"
-              rel="noopener noreferrer"
-              tabIndex={-1}
-              key={item.summary}
-              component="a"
-              href={item.url}
-              className={classes.link}>
+            <TableRow tabIndex={-1} key={item.summary}>
               <TableCell component="th" scope="row">
                 {item.project}
               </TableCell>
-              <TableCell className={classes.summary}>{item.summary}</TableCell>
+              <TableCell>
+                <List dense className={classes.summary}>
+                  <ListItem
+                    classes={{
+                      gutters: classes.summaryItem,
+                    }}
+                    button
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    component="a"
+                    href={item.url}>
+                    <ListItemText>{item.summary}</ListItemText>
+                    <LinkIcon size={iconSize} />
+                  </ListItem>
+                </List>
+              </TableCell>
               <TableCell className={classes.tags}>
                 {item.tags.map(tag => (
-                  <Chip key={tag} label={tag} className={classes.chip} />
+                  <Chip
+                    name={tag}
+                    key={tag}
+                    label={tag}
+                    className={classNames({
+                      [classes.clickedChip]: tag === query.tag,
+                    })}
+                    onClick={this.handleTagClick}
+                  />
                 ))}
               </TableCell>
               <TableCell>{item.assignee}</TableCell>

@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import { emphasize } from '@material-ui/core/styles/colorManipulator';
 
 const Roboto300 = { fontFamily: 'Roboto300, sans-serif' };
 const Roboto400 = { fontFamily: 'Roboto400, sans-serif' };
@@ -52,9 +53,17 @@ const theme = createMuiTheme({
     MuiChip: {
       root: {
         height: 24,
-        marginRight: 1,
-        backgroundColor: SECONDARY.DARK,
+        marginRight: 4,
+        backgroundColor: PRIMARY.MAIN,
         color: 'white',
+      },
+      clickable: {
+        '&:focus': {
+          backgroundColor: PRIMARY.MAIN,
+        },
+        '&:hover': {
+          backgroundColor: emphasize(SECONDARY.DARK),
+        },
       },
     },
     MuiTypography: {
@@ -76,13 +85,6 @@ const theme = createMuiTheme({
     MuiCircularProgress: {
       colorPrimary: {
         color: SECONDARY.MAIN,
-      },
-    },
-    MuiTableRow: {
-      root: {
-        '&$hover:hover': {
-          backgroundColor: SECONDARY.MAIN,
-        },
       },
     },
     MuiIconButton: {
