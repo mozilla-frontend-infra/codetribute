@@ -20,6 +20,7 @@ import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { ASSIGNEE } from '../../utils/constants';
+import { unassigned, assigned } from '../../utils/assignment_filters';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -87,9 +88,9 @@ export default class TasksTable extends Component {
       if (assignee === ASSIGNEE.ANY) {
         filteredItems = items;
       } else if (assignee === ASSIGNEE.ASSIGNED) {
-        filteredItems = items.filter(item => item.assignee !== '-');
+        filteredItems = items.filter(assigned);
       } else {
-        filteredItems = items.filter(item => item.assignee === '-');
+        filteredItems = items.filter(unassigned);
       }
 
       return filteredItems
@@ -151,7 +152,7 @@ export default class TasksTable extends Component {
 
   handleRandomButtonClick = () => {
     const { items } = this.props;
-    const unassignedItems = items.filter(item => item.assignee === '-');
+    const unassignedItems = items.filter(unassigned);
     const url = unassignedItems.length
       ? unassignedItems[Math.floor(Math.random() * unassignedItems.length)].url
       : items[Math.floor(Math.random() * items.length)].url;
@@ -176,7 +177,7 @@ export default class TasksTable extends Component {
       <Fragment>
         <div className={classes.flexContainer}>
           <Button
-            variant="contained"
+            variant="raised"
             color="primary"
             disabled={!items.length}
             onClick={this.handleRandomButtonClick}>
