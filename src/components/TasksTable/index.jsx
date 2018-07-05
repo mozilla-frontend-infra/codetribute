@@ -11,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationIcon from 'mdi-react/InformationIcon';
