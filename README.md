@@ -57,31 +57,28 @@ Install npm dependencies and start it up:
 
 This will start a local development server on port 5000 (http://localhost:5000).
 
-### Contributing
-
-This project welcomes contributors. If you are interested, please feel free to
-join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
-
-## Add a project
+## Adding a project
 
 Each of the projects is a file in the [data](https://github.com/mozilla-frontend-infra/codetribute/tree/master/src/data)
 folder - to add a new one, create a new file named after the project, ending in `.yaml`. Ensure all spaces and special
 characters are replaced with `-`. Make sure too that the project hasn't already been inside the [data](https://github.com/mozilla-frontend-infra/codetribute/tree/master/src/data)
 folder
 
-The contents of the file are just some details about the project:
+Codetribute can read from both GitHub and Bugzilla. To add a new entry to the site, create a file `<project-name>.yml` 
+in `src/data` using the [template example](#template-example) as the initial setup. For inspiration, check out the 
+[Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/master/src/data/taskcluster.yaml) yaml file.
+
+### Template Example
 
 ```yaml
-name: [project name]
-summary: [a brief description of the project]
-[ The introduction contains more information about the projects in markdown format.
-Below are the suggestions on how to write the introduction. ]
+name: <Project Name>
+summary: A short summary of the project
 introduction: |
-  ## About [project name]
+  ## About <Project Name>
 
   ...
 
-  ## Who Works on [project name]?
+  ## Who Works on <Project Name>?
 
   ...
 
@@ -98,17 +95,22 @@ introduction: |
   ...
 
 products:
-- [bugzilla product] OR
-- [bugzilla product] : [bugzilla component, specify this if it is not going to be for all component]
-repositories:
-- [repository name] : [issues' tag / label to get the bug]
+ - <Bugzilla Product>
+ - <Bugzilla Product>: [<Bugzilla Componet 1>, <Bugzilla Component 2>]
+ repositories:
+- <Organization Name>/<Repository Name> : <Label to get the issue>
 [
     if there is more than one tag for a repository, list them in a different line, e.g
-    - taskcluster/taskcluster-queue: good-first-bug
-    - taskcluster/taskcluster-queue: easy-fix
+      repositories:
+      - <Organization Name>/<Repository Name>: good-first-bug
+      - <Organization Name>/<Repository Name>: easy-fix
 ]
 ```
 
-Check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/master/src/data/taskcluster.yaml)
-file for an example of this project structure.
+
+### Contributing
+
+This project welcomes contributors. If you are interested, please feel free to
+join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
+
 
