@@ -137,10 +137,10 @@ export default class TasksTable extends Component {
     this.setState({ showFilterContent: !this.state.showFilterContent });
   };
 
-  handleFilterChange = filter => event => {
+  handleFilterChange = ({ target: { name, value } }) => {
     const query = this.getQuery();
 
-    this.setQuery({ ...query, [filter]: event.target.value });
+    this.setQuery({ ...query, [name]: value });
   };
 
   handleHeaderClick = sortBy => {
@@ -239,10 +239,11 @@ export default class TasksTable extends Component {
               <div className={classes.filter}>
                 <TextField
                   select
+                  name="assignee"
                   label="Assignee"
                   value={assignment}
                   className={classes.dropdown}
-                  onChange={this.handleFilterChange('assignee')}>
+                  onChange={this.handleFilterChange}>
                   {assignments.map(assignee => (
                     <MenuItem key={assignee} value={assignee}>
                       {assignee}
@@ -251,10 +252,11 @@ export default class TasksTable extends Component {
                 </TextField>
                 <TextField
                   select
+                  name="project"
                   label="Project"
                   value={project || ALL}
                   className={classes.dropdown}
-                  onChange={this.handleFilterChange('project')}>
+                  onChange={this.handleFilterChange}>
                   <MenuItem key={ALL} value={ALL}>
                     {ALL}
                   </MenuItem>
