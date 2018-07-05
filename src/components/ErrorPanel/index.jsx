@@ -24,6 +24,9 @@ import ErrorBox from './ErrorBox';
     backgroundColor: theme.palette.error.main,
     borderColor: theme.palette.error.light,
     marginBottom: theme.spacing.unit,
+    '& svg': {
+      fill: theme.palette.common.white,
+    },
   },
   disabled: {
     opacity: 1,
@@ -31,6 +34,9 @@ import ErrorBox from './ErrorBox';
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
+  },
+  errorText: {
+    color: theme.palette.common.white,
   },
 }))
 /**
@@ -51,7 +57,7 @@ export default class ErrorPanel extends Component {
       process.env.NODE_ENV === 'development' && error instanceof Error;
     const markdown = (
       <Markdown
-        className={classNames({
+        className={classNames(classes.errorText, {
           [classes.pad]: !showStack,
         })}>
         {typeof error === 'string' ? error : error.message}
