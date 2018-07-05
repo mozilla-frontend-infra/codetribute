@@ -18,7 +18,7 @@ import { stringify, parse } from 'qs';
 import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
-import { ASSIGNEE, ALL } from '../../utils/constants';
+import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -105,9 +105,10 @@ export default class TasksTable extends Component {
       }
 
       return filteredItems
-        .filter(item => !tag || item.tags.includes(tag))
         .filter(
-          item => !project || project === 'All' || item.project === project
+          item =>
+            (!tag || item.tags.includes(tag)) &&
+            (!project || project === ALL_PROJECTS || item.project === project)
         )
         .sort((a, b) => {
           const firstElement =
@@ -254,12 +255,10 @@ export default class TasksTable extends Component {
                   select
                   name="project"
                   label="Project"
-                  value={project || ALL}
+                  value={project || ALL_PROJECTS}
                   className={classes.dropdown}
                   onChange={this.handleFilterChange}>
-                  <MenuItem key={ALL} value={ALL}>
-                    {ALL}
-                  </MenuItem>
+                  <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
                   {projects.map(project => (
                     <MenuItem key={project} value={project}>
                       {project}
