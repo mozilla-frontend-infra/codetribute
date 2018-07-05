@@ -20,7 +20,7 @@ import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { ASSIGNEE } from '../../utils/constants';
-import { unassigned, assigned } from '../../utils/assignment_filters';
+import { unassigned, assigned } from '../../utils/assignmentFilters';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -150,7 +150,7 @@ export default class TasksTable extends Component {
     this.setQuery(newQuery);
   };
 
-  handleRandomButtonClick = () => {
+  handleRandomTaskClick = () => {
     const { items } = this.props;
     const unassignedItems = items.filter(unassigned);
     const url = unassignedItems.length
@@ -177,10 +177,9 @@ export default class TasksTable extends Component {
       <Fragment>
         <div className={classes.flexContainer}>
           <Button
-            variant="raised"
             color="primary"
             disabled={!items.length}
-            onClick={this.handleRandomButtonClick}>
+            onClick={this.handleRandomTaskClick}>
             I’m Feeling Adventurous
           </Button>
         </div>
