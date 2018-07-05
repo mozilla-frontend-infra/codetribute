@@ -3,6 +3,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -14,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationIcon from 'mdi-react/InformationIcon';
+import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
@@ -104,7 +106,11 @@ const assignments = Object.values(ASSIGNEE);
     minWidth: 'auto',
   },
   drawer: {
-    width: 250,
+    maxWidth: 400,
+  },
+  drawerHeader: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 }))
 export default class TasksTable extends Component {
@@ -401,6 +407,11 @@ export default class TasksTable extends Component {
           open={drawerOpen}
           onClose={this.handleDrawerClose}>
           <div className={classes.drawer}>
+            <div className={classes.drawerHeader}>
+              <IconButton onClick={this.handleDrawerClose}>
+                <CloseIcon />
+              </IconButton>
+            </div>
             <List>
               <ListItem>
                 {drawerItem &&
