@@ -1,12 +1,13 @@
 import { Component } from 'react';
 import { string, shape } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { NavLink } from 'react-router-dom';
 import Markdown from 'react-markdown';
 
+@withRouter
 @withStyles(theme => ({
   card: {
     textAlign: 'center',
@@ -49,30 +50,49 @@ export default class ProjectCard extends Component {
     }
   };
 
+  handleCardClick = event => {
+    const {
+      project: { fileName },
+    } = this.props;
+
+    if (event.type === 'keypress') {
+      const code = event.charCode || event.keyCode;
+
+      if (code !== 32 && code !== 13) {
+        return;
+      }
+    }
+
+    this.props.history.push(`/projects/${fileName}`);
+  };
+
   render() {
     const {
       classes,
-      project: { name, summary, fileName },
+      project: { name, summary },
     } = this.props;
 
     return (
-      <NavLink className={classes.navlink} to={`/projects/${fileName}`}>
-        <Card className={classes.card} tabIndex={0}>
-          <CardContent className={classes.textAlign}>
-            <Typography gutterBottom variant="headline" component="h4">
-              {name}
+      <Card
+        className={classes.card}
+        tabIndex={0}
+        onClick={this.handleCardClick}
+        onKeyPress={this.handleCardClick}>
+        <CardContent className={classes.textAlign}>
+          <Typography gutterBottom variant="headline" component="h4">
+            {name}
+          </Typography>
+          {summary && (
+            <Typography
+              className={classes.projectSummary}
+              onClick={this.handleSummaryClick}
+              component="span"
+              color="textSecondary">
+              <Markdown source={summary} />
             </Typography>
-            {summary && (
-              <Typography
-                className={classes.projectSummary}
-                onClick={this.handleSummaryClick}
-                color="textSecondary">
-                <Markdown source={summary} />
-              </Typography>
-            )}
-          </CardContent>
-        </Card>
-      </NavLink>
+          )}
+        </CardContent>
+      </Card>
     );
   }
 }
