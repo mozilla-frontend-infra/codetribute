@@ -9,7 +9,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import withWidth from '@material-ui/core/withWidth';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
@@ -19,12 +18,14 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
+import Divider from '@material-ui/core/Divider';
 import TableLargeIcon from 'mdi-react/TableLargeIcon';
 import TableColumnIcon from 'mdi-react/TableColumnIcon';
 import { formatDistance, differenceInCalendarDays } from 'date-fns';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
 import DataTable from '../DataTable';
@@ -89,6 +90,11 @@ const assignments = Object.values(ASSIGNEE);
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
+  },
+  link: {
+    textDecoration: 'none',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   flexContainer: {
     display: 'flex',
@@ -364,7 +370,44 @@ export default class TasksTable extends Component {
           </div>
         )}
         {displayCard || this.props.width === 'xs' ? (
-          <TasksList data={data} />
+          <TasksList
+            data={data}
+            renderRow={item => (
+              <div>
+                <Typography
+                  variant="title"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  component="a"
+                  href={item.url}
+                  className={classes.link}>
+                  {item.summary}
+                  <LinkIcon size={14} />
+                </Typography>
+                <Divider light />
+                <Typography component="p" gutterBottom>
+                  Project: <strong>{item.project}</strong> | Assignee:{' '}
+                  <strong>{item.assignee}</strong> | Last Update:{' '}
+                  {formatDistance(item.lastUpdated, new Date(), {
+                    addSuffix: true,
+                  })}
+                </Typography>
+                <div className={classes.chips}>
+                  {item.tags.map(tag => (
+                    <Chip
+                      name={tag}
+                      key={tag}
+                      label={tag}
+                      className={classNames({
+                        [classes.clickedChip]: tag === query.tag,
+                      })}
+                      onClick={this.handleTagClick}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          />
         ) : (
           <Fragment>
             <div className={classes.tableWrapper}>
