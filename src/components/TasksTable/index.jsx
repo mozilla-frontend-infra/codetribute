@@ -57,6 +57,9 @@ const assignments = Object.values(ASSIGNEE);
   },
   filter: {
     ...theme.mixins.gutters(),
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },
   flexContainer: {
     display: 'flex',
@@ -184,6 +187,10 @@ export default class TasksTable extends Component {
     }
   };
 
+  handleResetClick = () => {
+    this.setQuery({});
+  };
+
   render() {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
@@ -293,6 +300,13 @@ export default class TasksTable extends Component {
                       </MenuItem>
                     ))}
                   </TextField>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    mini
+                    onClick={this.handleResetClick}>
+                    Reset
+                  </Button>
                 </div>
               )
             }
