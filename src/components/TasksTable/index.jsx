@@ -14,6 +14,7 @@ import { camelCase } from 'change-case';
 import { formatDistance } from 'date-fns';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
@@ -33,6 +34,7 @@ const assignments = Object.values(ASSIGNEE);
   summary: {
     whiteSpace: 'nowrap',
     display: 'inline-block',
+    width: 450,
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -60,6 +62,13 @@ const assignments = Object.values(ASSIGNEE);
     display: 'flex',
     justifyContent: 'center',
     paddingTop: theme.spacing.unit,
+  },
+  summaryText: {
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
+  },
+  icon: {
+    flex: '1 0 auto',
   },
 }))
 export default class TasksTable extends Component {
@@ -193,20 +202,28 @@ export default class TasksTable extends Component {
                   {item.project}
                 </TableCell>
                 <TableCell>
-                  <List dense className={classes.summary}>
-                    <ListItem
-                      classes={{
-                        gutters: classes.summaryItem,
-                      }}
-                      button
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      component="a"
-                      href={item.url}>
-                      <ListItemText>{item.summary}</ListItemText>
-                      <LinkIcon size={iconSize} />
-                    </ListItem>
-                  </List>
+                  <Tooltip title={item.summary}>
+                    <List dense className={classes.summary}>
+                      <ListItem
+                        classes={{
+                          gutters: classes.summaryItem,
+                        }}
+                        button
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        component="a"
+                        href={item.url}>
+                        <ListItemText
+                          primary={
+                            <div className={classes.summaryText}>
+                              {item.summary}
+                            </div>
+                          }
+                        />
+                        <LinkIcon className={classes.icon} size={iconSize} />
+                      </ListItem>
+                    </List>
+                  </Tooltip>
                 </TableCell>
                 <TableCell className={classes.tags}>
                   {item.tags.map(tag => (
