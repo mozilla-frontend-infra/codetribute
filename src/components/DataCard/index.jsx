@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import classNames from 'classnames';
-import { arrayOf, object, string, node } from 'prop-types';
+import { arrayOf, object } from 'prop-types';
 
 @withStyles(theme => ({
   paper: {
@@ -30,14 +30,6 @@ export default class TasksList extends Component {
      * by a row and each element's key-value pair represents a column.
      */
     data: arrayOf(object),
-    /**
-     * Icon Buttons for user to select display options
-     */
-    viewOptions: node,
-    /**
-     * The title of the list.
-     */
-    title: string,
   };
 
   render() {

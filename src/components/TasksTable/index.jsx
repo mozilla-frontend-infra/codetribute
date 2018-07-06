@@ -9,9 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import Toolbar from '@material-ui/core/Toolbar';
 import withWidth from '@material-ui/core/withWidth';
-import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
@@ -22,15 +20,17 @@ import Divider from '@material-ui/core/Divider';
 import TableLargeIcon from 'mdi-react/TableLargeIcon';
 import TableColumnIcon from 'mdi-react/TableColumnIcon';
 import { formatDistance, differenceInCalendarDays } from 'date-fns';
-import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
+import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
-import TasksList from '../../components/TasksList';
+import DataCard from '../DataCard';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
 import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
 
@@ -96,6 +96,9 @@ const assignments = Object.values(ASSIGNEE);
     overflow: 'hidden',
     textOverflow: 'ellipsis',
   },
+  title: {
+    flex: 1,
+  },
   flexContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -128,7 +131,7 @@ const assignments = Object.values(ASSIGNEE);
 }))
 export default class TasksTable extends Component {
   state = {
-    displayCard: false,
+    displayCardLayout: false,
     showFilterContent: false,
     drawerOpen: false,
     drawerItem: null,
@@ -258,18 +261,18 @@ export default class TasksTable extends Component {
   };
 
   handleViewOptionsClick = event => {
-    this.setState({ displayCard: event.target.value === 'true' });
+    this.setState({ displayCardLayout: event.target.value === 'true' });
   };
 
   renderViewOptions() {
-    const { displayCard } = this.state;
+    const { displayCardLayout } = this.state;
 
     return (
-      <Fragment>
-        <IconButton value={!displayCard} onClick={this.handleViewOptionsClick}>
-          {displayCard ? <TableLargeIcon /> : <TableColumnIcon />}
-        </IconButton>
-      </Fragment>
+      <IconButton
+        value={!displayCardLayout}
+        onClick={this.handleViewOptionsClick}>
+        {displayCardLayout ? <TableLargeIcon /> : <TableColumnIcon />}
+      </IconButton>
     );
   }
 
@@ -297,7 +300,7 @@ export default class TasksTable extends Component {
       showFilterContent,
       drawerOpen,
       drawerItem,
-      displayCard,
+      displayCardLayout,
     } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
@@ -325,8 +328,10 @@ export default class TasksTable extends Component {
             I’m Feeling Adventurous
           </Button>
         </div>
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="title">Bugs & Issues</Typography>
+        <Toolbar>
+          <Typography variant="title" className={classes.title}>
+            Bugs & Issues
+          </Typography>
           {this.props.width !== 'xs' && this.renderViewOptions()}
           <IconButton onClick={this.handleFilterToggle}>
             <FilterVariantIcon />
@@ -369,8 +374,8 @@ export default class TasksTable extends Component {
             </Button>
           </div>
         )}
-        {displayCard || this.props.width === 'xs' ? (
-          <TasksList
+        {displayCardLayout || this.props.width === 'xs' ? (
+          <DataCard
             data={data}
             renderRow={item => (
               <div>
@@ -392,19 +397,17 @@ export default class TasksTable extends Component {
                     addSuffix: true,
                   })}
                 </Typography>
-                <div className={classes.chips}>
-                  {item.tags.map(tag => (
-                    <Chip
-                      name={tag}
-                      key={tag}
-                      label={tag}
-                      className={classNames({
-                        [classes.clickedChip]: tag === query.tag,
-                      })}
-                      onClick={this.handleTagClick}
-                    />
-                  ))}
-                </div>
+                {item.tags.map(tag => (
+                  <Chip
+                    name={tag}
+                    key={tag}
+                    label={tag}
+                    className={classNames({
+                      [classes.clickedChip]: tag === query.tag,
+                    })}
+                    onClick={this.handleTagClick}
+                  />
+                ))}
               </div>
             )}
           />
