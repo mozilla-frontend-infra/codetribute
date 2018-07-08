@@ -60,8 +60,7 @@ This will start a local development server on port 5000 (http://localhost:5000).
 ## Adding a project
 
 Codetribute can read from both GitHub and Bugzilla. To add a new entry to the site, create a file `<project-name>.yml` 
-in `src/data` using the [template example](#template-example) as the initial setup. Ensure all spaces and special
-characters are replaced with `-`. Make sure that the project is not already in the `src/data` folder.
+in `src/data` using the [template example](#template-example) as the initial setup. 
 For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/master/src/data/taskcluster.yaml) yaml file.
 
 ### Template Example
@@ -89,8 +88,7 @@ introduction: |
   ## How Do I Get Help?
 
   <Suggestions for how, and when, to ask for help -- mailing lists, irc channels, bug or issue comments, etc.>
-  
-  NB: introduction is written in Markdown.
+
 
 products:
  - <Bugzilla Product>
@@ -104,7 +102,7 @@ products:
       - <Organization Name>/<Repository Name>: easy-fix
 ]
 ```
-
+_Note: The `introduction` field is to be rendered as markdown, allowing for bullet points, links and other simple formatting._
 
 ### Contributing
 
