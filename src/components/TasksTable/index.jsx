@@ -19,8 +19,8 @@ import { stringify, parse } from 'qs';
 import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
-import { ASSIGNEE } from '../../utils/constants';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
+import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -52,6 +52,8 @@ const assignments = Object.values(ASSIGNEE);
   },
   dropdown: {
     minWidth: 200,
+    marginRight: 2 * theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
   },
   filter: {
     ...theme.mixins.gutters(),
@@ -76,12 +78,28 @@ export default class TasksTable extends Component {
   };
 
   getTableData = memoizeWith(
-    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
+    (
+      sortBy = 'Last Updated',
+      sortDirection = 'desc',
+      tag,
+      items,
+      assignee,
+      project
+    ) => {
       const ids = sorted(items);
 
-      return `${ids.join('-')}-${sortBy}-${sortDirection}-${tag}-${assignee}`;
+      return `${ids.join(
+        '-'
+      )}-${sortBy}-${sortDirection}-${tag}-${assignee}-${project}`;
     },
-    (sortBy = 'Last Updated', sortDirection = 'desc', tag, items, assignee) => {
+    (
+      sortBy = 'Last Updated',
+      sortDirection = 'desc',
+      tag,
+      items,
+      assignee,
+      project
+    ) => {
       const sortByProperty = camelCase(sortBy);
       let filteredItems = [];
 
@@ -94,7 +112,11 @@ export default class TasksTable extends Component {
       }
 
       return filteredItems
-        .filter(item => !tag || item.tags.includes(tag))
+        .filter(
+          item =>
+            (!tag || item.tags.includes(tag)) &&
+            (!project || project === ALL_PROJECTS || item.project === project)
+        )
         .sort((a, b) => {
           const firstElement =
             sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
@@ -123,10 +145,10 @@ export default class TasksTable extends Component {
     this.setState({ showFilterContent: !this.state.showFilterContent });
   };
 
-  handleFilterChange = event => {
+  handleFilterChange = ({ target: { name, value } }) => {
     const query = this.getQuery();
 
-    this.setQuery({ ...query, assignee: event.target.value });
+    this.setQuery({ ...query, [name]: value });
   };
 
   handleHeaderClick = sortBy => {
@@ -166,12 +188,20 @@ export default class TasksTable extends Component {
     const { items, classes } = this.props;
     const { showFilterContent } = this.state;
     const query = this.getQuery();
-    const { sortBy, sortDirection, tag, assignee } = query;
+    const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
       ? assignee
       : ASSIGNEE.UNASSIGNED;
-    const data = this.getTableData(sortBy, sortDirection, tag, items, assignee);
+    const data = this.getTableData(
+      sortBy,
+      sortDirection,
+      tag,
+      items,
+      assignee,
+      project
+    );
     const iconSize = 14;
+    const projects = [...new Set(items.map(item => item.project))];
 
     return (
       <Fragment>
@@ -238,6 +268,7 @@ export default class TasksTable extends Component {
                 <div className={classes.filter}>
                   <TextField
                     select
+                    name="assignee"
                     label="Assignee"
                     value={assignment}
                     className={classes.dropdown}
@@ -245,6 +276,20 @@ export default class TasksTable extends Component {
                     {assignments.map(assignee => (
                       <MenuItem key={assignee} value={assignee}>
                         {assignee}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  <TextField
+                    select
+                    name="project"
+                    label="Project"
+                    value={project || ALL_PROJECTS}
+                    className={classes.dropdown}
+                    onChange={this.handleFilterChange}>
+                    <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
+                    {projects.map(project => (
+                      <MenuItem key={project} value={project}>
+                        {project}
                       </MenuItem>
                     ))}
                   </TextField>
