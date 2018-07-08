@@ -1,13 +1,12 @@
 import { Component } from 'react';
 import { string, shape } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Markdown from 'react-markdown';
 
-@withRouter
 @withStyles(theme => ({
   card: {
     textAlign: 'center',
@@ -27,7 +26,7 @@ import Markdown from 'react-markdown';
     fontWeight: 300,
     padding: 2 * theme.spacing.unit,
   },
-  navlink: {
+  link: {
     textDecoration: 'none',
   },
 }))
@@ -50,49 +49,31 @@ export default class ProjectCard extends Component {
     }
   };
 
-  handleCardClick = event => {
-    const {
-      project: { fileName },
-    } = this.props;
-
-    if (event.type === 'keypress') {
-      const code = event.charCode || event.keyCode;
-
-      if (code !== 32 && code !== 13) {
-        return;
-      }
-    }
-
-    this.props.history.push(`/projects/${fileName}`);
-  };
-
   render() {
     const {
       classes,
-      project: { name, summary },
+      project: { name, summary, fileName },
     } = this.props;
 
     return (
-      <Card
-        className={classes.card}
-        tabIndex={0}
-        onClick={this.handleCardClick}
-        onKeyPress={this.handleCardClick}>
-        <CardContent className={classes.textAlign}>
-          <Typography gutterBottom variant="headline" component="h4">
-            {name}
-          </Typography>
-          {summary && (
-            <Typography
-              className={classes.projectSummary}
-              onClick={this.handleSummaryClick}
-              component="span"
-              color="textSecondary">
-              <Markdown source={summary} />
+      <Link className={classes.link} to={`projects/${fileName}`}>
+        <Card className={classes.card} tabIndex={0}>
+          <CardContent className={classes.textAlign}>
+            <Typography gutterBottom variant="headline" component="h4">
+              {name}
             </Typography>
-          )}
-        </CardContent>
-      </Card>
+            {summary && (
+              <Typography
+                className={classes.projectSummary}
+                onClick={this.handleSummaryClick}
+                component="object"
+                color="textSecondary">
+                <Markdown source={summary} />
+              </Typography>
+            )}
+          </CardContent>
+        </Card>
+      </Link>
     );
   }
 }
