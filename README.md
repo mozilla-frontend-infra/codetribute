@@ -91,16 +91,15 @@ introduction: |
 
 
 products:
- - <Bugzilla Product>
- - <Bugzilla Product>: [<Bugzilla Component 1>, <Bugzilla Component 2>]
- repositories:
+- <Bugzilla Product>
+- <Bugzilla Product>: [<Bugzilla Component 1>, <Bugzilla Component 2>]
+repositories:
 - <Organization Name>/<Repository Name> : <Label to get the issue>
-[
-    if there is more than one tag for a repository, list them in a different line, e.g
-      repositories:
-      - <Organization Name>/<Repository Name>: good-first-bug
-      - <Organization Name>/<Repository Name>: easy-fix
-]
+e.g:
+repositories:
+- <Organization Name>/<Repository Name>: good-first-bug
+- <Organization Name>/<Repository Name>: easy-fix
+
 ```
 _Note: The `introduction` field is to be rendered as markdown, allowing for bullet points, links and other simple formatting._
 
