@@ -103,6 +103,7 @@ const assignments = Object.values(ASSIGNEE);
     display: 'flex',
     justifyContent: 'center',
     paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
   },
   summaryText: {
     overflowX: 'hidden',
