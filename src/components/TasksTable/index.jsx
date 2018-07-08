@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
-import InformationIcon from 'mdi-react/InformationIcon';
+import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
@@ -101,15 +101,15 @@ const assignments = Object.values(ASSIGNEE);
     flexShrink: 0,
   },
   infoButton: {
-    padding: '0px 4px',
-    minWidth: 'auto',
+    marginRight: theme.spacing.unit,
   },
-  drawer: {
+  drawerPaper: {
     maxWidth: 400,
   },
-  drawerHeader: {
-    display: 'flex',
-    justifyContent: 'flex-end',
+  drawerCloseButton: {
+    position: 'absolute',
+    right: 0,
+    zIndex: theme.zIndex.drawer + 1,
   },
 }))
 export default class TasksTable extends Component {
@@ -344,12 +344,12 @@ export default class TasksTable extends Component {
                   {item.project}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  <Button
+                  <IconButton
                     name={item.summary}
                     className={classes.infoButton}
                     onClick={this.handleDrawerOpen}>
-                    <InformationIcon />
-                  </Button>
+                    <InformationVariantIcon />
+                  </IconButton>
                   <List dense className={classes.summary}>
                     <ListItem
                       classes={{
@@ -404,42 +404,39 @@ export default class TasksTable extends Component {
         <Drawer
           anchor="right"
           open={drawerOpen}
-          onClose={this.handleDrawerClose}>
-          <div className={classes.drawer}>
-            <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawerClose}>
-                <CloseIcon />
-              </IconButton>
-            </div>
-            <List>
-              <ListItem>
-                {drawerItem &&
-                  drawerItem.summary && (
-                    <ListItemText
-                      primary="Summary"
-                      secondary={drawerItem.summary}
-                    />
-                  )}
-              </ListItem>
-              <ListItem>
-                {drawerItem &&
-                  drawerItem.description && (
+          onClose={this.handleDrawerClose}
+          classes={{ paper: classes.drawerPaper }}>
+          <Fragment>
+            <IconButton
+              className={classes.drawerCloseButton}
+              onClick={this.handleDrawerClose}>
+              <CloseIcon />
+            </IconButton>
+            {drawerItem && (
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary="Summary"
+                    secondary={drawerItem.summary}
+                  />
+                </ListItem>
+                {drawerItem.description && (
+                  <ListItem>
                     <ListItemText
                       primary="Description"
                       secondary={drawerItem.description}
                     />
-                  )}
-              </ListItem>
-              <ListItem>
-                {drawerItem && (
+                  </ListItem>
+                )}
+                <ListItem>
                   <ListItemText
                     primary="Suggestion"
                     secondary={getSuggestions(drawerItem)}
                   />
-                )}
-              </ListItem>
-            </List>
-          </div>
+                </ListItem>
+              </List>
+            )}
+          </Fragment>
         </Drawer>
       </Fragment>
     );
