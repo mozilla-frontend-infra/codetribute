@@ -94,11 +94,8 @@ products:
 - <Bugzilla Product>
 - <Bugzilla Product>: [<Bugzilla Component 1>, <Bugzilla Component 2>]
 repositories:
-- <Organization Name>/<Repository Name> : <Label to get the issue>
-e.g:
-repositories:
-- <Organization Name>/<Repository Name>: good-first-bug
-- <Organization Name>/<Repository Name>: easy-fix
+- <Organization Name>/<Repository Name> : <Github Label 1>
+- <Organization Name>/<Repository Name> : <Github Label 2>
 
 ```
 _Note: The `introduction` field is to be rendered as markdown, allowing for bullet points, links and other simple formatting._
