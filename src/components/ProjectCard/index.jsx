@@ -1,10 +1,10 @@
 import { Component } from 'react';
 import { string, shape } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { NavLink } from 'react-router-dom';
 import Markdown from 'react-markdown';
 
 @withStyles(theme => ({
@@ -26,7 +26,7 @@ import Markdown from 'react-markdown';
     fontWeight: 300,
     padding: 2 * theme.spacing.unit,
   },
-  navlink: {
+  link: {
     textDecoration: 'none',
   },
 }))
@@ -56,7 +56,7 @@ export default class ProjectCard extends Component {
     } = this.props;
 
     return (
-      <NavLink className={classes.navlink} to={`/projects/${fileName}`}>
+      <Link className={classes.link} to={`projects/${fileName}`}>
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
             <Typography gutterBottom variant="headline" component="h4">
@@ -66,13 +66,14 @@ export default class ProjectCard extends Component {
               <Typography
                 className={classes.projectSummary}
                 onClick={this.handleSummaryClick}
+                component="object"
                 color="textSecondary">
                 <Markdown source={summary} />
               </Typography>
             )}
           </CardContent>
         </Card>
-      </NavLink>
+      </Link>
     );
   }
 }
