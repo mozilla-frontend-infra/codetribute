@@ -89,7 +89,6 @@ introduction: |
 
   <Suggestions for how, and when, to ask for help -- mailing lists, irc channels, bug or issue comments, etc.>
 
-
 products:
 - <Bugzilla Product>
 - <Bugzilla Product>: [<Bugzilla Component 1>, <Bugzilla Component 2>]
@@ -100,7 +99,7 @@ repositories:
 ```
 _Note: The `introduction` field is to be rendered as markdown, allowing for bullet points, links and other simple formatting._
 
-### Contributing
+## Contributing
 
 This project welcomes contributors. If you are interested, please feel free to
 join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
