@@ -57,7 +57,49 @@ Install npm dependencies and start it up:
 
 This will start a local development server on port 5000 (http://localhost:5000).
 
-### Contributing
+## Adding a project
+
+Codetribute can read from both GitHub and Bugzilla. To add a new entry to the site, create a file `<project-name>.yml` 
+in `src/data` using the [template example](#template-example) as the initial setup. 
+For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/master/src/data/taskcluster.yaml) yaml file.
+
+### Template Example
+
+```yaml
+name: <Project Name>
+summary: A short summary of the project
+introduction: |
+  ## About <Project Name>
+
+  <A short summary to capture the curiosity of interested contributors>
+
+  ## Who Works on <Project Name>?
+
+  <Give a contributor an idea of what kind of people they'll meet>
+
+  ## How Do I Get Started?
+
+  <General advice - tutorials to learn about the project, development setup, repo to clone if there is only one>
+
+  ### How Do I Write the Code?
+
+  <Summary of the development and patch-submission process -- pull requests? patches on bugzilla? tests?>
+
+  ## How Do I Get Help?
+
+  <Suggestions for how, and when, to ask for help -- mailing lists, irc channels, bug or issue comments, etc.>
+
+products:
+- <Bugzilla Product>
+- <Bugzilla Product>: [<Bugzilla Component 1>, <Bugzilla Component 2>]
+repositories:
+- <Organization Name>/<Repository Name> : <Github Label 1>
+- <Organization Name>/<Repository Name> : <Github Label 2>
+
+```
+_Note: The `introduction` field is to be rendered as markdown, allowing for bullet points, links and other simple formatting._
+
+## Contributing
 
 This project welcomes contributors. If you are interested, please feel free to
 join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
