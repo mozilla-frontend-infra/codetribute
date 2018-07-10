@@ -303,7 +303,6 @@ export default class TasksTable extends Component {
                   <Button
                     variant="outlined"
                     size="small"
-                    mini
                     onClick={this.handleResetClick}>
                     Reset
                   </Button>
