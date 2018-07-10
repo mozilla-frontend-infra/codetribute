@@ -109,7 +109,7 @@ export default class Project extends Component {
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
           repos.map(repo => `repo:${repo}`).join(' '),
-          `label:${tag}`,
+          `label:"${tag}"`,
           'state:open',
         ].join(' ');
 
