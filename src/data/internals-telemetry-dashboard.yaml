@@ -1,0 +1,40 @@
+name: Telemetry Dashboards
+summary: Help us with public data at the [Telemetry Portal](https://telemetry.mozilla.org) and some of its hosted dashboards.
+introduction: |
+  ## About the Telemetry Portal
+  
+  The [Telemetry Portal](https://telemetry.mozilla.org/) is a one-stop shop for accessing public and mozilla-specific
+  data dashboards and documentation. There you can explore aggregated Firefox anonymous usage statistics on the
+  Measurement Dashboard, learn what data is collected on which versions in the Probe Dictionary, and more.
+  
+  ## Who Works On the Telemetry Portal?
+  
+  The Data Engineering team, a group of developers spanning timezones UTC+2 to UTC-8, maintain and develop the index,
+  documentation, and some of the tools and dashboards hosted on [https://telemetry.mozilla.org](https://telemetry.mozilla.org).
+  We do [other things](https://docs.telemetry.mozilla.org/concepts/pipeline/data_pipeline.html), too.
+  
+  ## How Do I Get Started?
+  
+  The code for the Telemetry Portal is in its [GitHub repository](https://github.com/mozilla/telemetry-dashboard/).
+  There you can find open issues that need work. Volunteer by commenting on an issue and we'll assign it to you.
+  
+  ## How Do I Write the Code?
+  
+  Fork the telemetry-dashboard repository, prepare your commits locally, and push to your GitHub Pages branch so we can get
+  a live picture of your changes. File a Pull Request including a link to your GitHub Pages where the live website is rendering,
+  marking one or two of us for review. 
+  
+  We should get back to you within two business days. If we haven't, we've probably missed your Pull Request, so please remind
+  us by @-mentioning the reviewers' names in the PR or visiting us on the #telemetry channel on [IRC](https://wiki.mozilla.org/Irc/).
+  
+  ## How Do I Get Help?
+  
+  Commenting on Issues and Pull Requests will get our attention eventually, but if your question would benefit from
+  more direct communication, please connect to the #telemetry channel on [IRC](https://wiki.mozilla.org/Irc). Most hours
+  of the day someone will be there to help you. Introduce yourself, include a link of the Issue or Pull Request, and give us
+  a couple of minutes to get back to you.
+
+repositories:
+  - mozilla/telemetry-dashboard : mentored
+  - mozilla/telemetry-dashboard : good first issue
+  
