@@ -66,9 +66,6 @@ const assignments = Object.values(ASSIGNEE);
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
   },
-  icon: {
-    flex: '1 0 auto',
-  },
 }))
 export default class TasksTable extends Component {
   state = {
@@ -219,7 +216,7 @@ export default class TasksTable extends Component {
                           </div>
                         }
                       />
-                      <LinkIcon className={classes.icon} size={iconSize} />
+                      <LinkIcon size={iconSize} />
                     </ListItem>
                   </List>
                 </TableCell>
