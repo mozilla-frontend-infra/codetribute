@@ -102,13 +102,16 @@ const assignments = Object.values(ASSIGNEE);
   },
   infoButton: {
     marginRight: theme.spacing.unit,
+    marginLeft: -2 * theme.spacing.unit,
   },
   drawerPaper: {
-    maxWidth: 400,
+    width: 400,
+    maxWidth: '100%',
   },
   drawerCloseButton: {
     position: 'absolute',
-    right: 0,
+    right: 8,
+    top: 8,
     zIndex: theme.zIndex.drawer + 1,
   },
 }))
