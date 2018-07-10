@@ -32,6 +32,7 @@ To get started with local development, create a file in the root of the repo nam
 
 ```bash
 GITHUB_PERSONAL_API_TOKEN=<your_github_api_token>
+BUGZILLA_ENDPOINT=http://localhost:3090
 ```
 
 Generate a GitHub personal access token [here](https://github.com/settings/tokens). When prompted
@@ -55,7 +56,13 @@ Install npm dependencies and start it up:
 - `yarn`
 - `yarn start`
 
-This will start a local development server on port 5000 (http://localhost:5000).
+This will start a local development server on port 5000 (http://localhost:5000). 
+
+**Note**: For fetching from Bugzilla, this application rely on 
+[bugzilla-graphql-gateway](http://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway).
+Clone the repo and follow the instruction for starting it prior to launching this application.
+You will need to launch the bugzilla-graphql-gateway in a terminal instance separate from this application in order
+to run both simultaneously.
 
 ### Contributing
 
