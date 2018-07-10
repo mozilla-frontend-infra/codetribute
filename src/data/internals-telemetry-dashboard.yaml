@@ -1,17 +1,17 @@
 name: Telemetry Dashboards
-summary: Help us with public data at https://telemetry.mozilla.org and some of its hosted dashboards.
+summary: Help us with public data at the [Telemetry Portal](https://telemetry.mozilla.org) and some of its hosted dashboards.
 introduction: |
   ## About the Telemetry Portal
   
-  The [Telemetry Portal](https://telemetry.mozilla.org/) is a one-stop shop for indexing public and mozilla-specific
+  The [Telemetry Portal](https://telemetry.mozilla.org/) is a one-stop shop for accessing public and mozilla-specific
   data dashboards and documentation. There you can explore aggregated Firefox anonymous usage statistics on the
   Measurement Dashboard, learn what data is collected on which versions in the Probe Dictionary, and more.
   
   ## Who Works On the Telemetry Portal?
   
-  The Firefox Telemetry team, a group of developers spanning timezones UTC+2 to UTC-4, maintain and develop the index,
-  documentation, and some of the tools and dashboards hosted on https://telemetry.mozilla.org. Most of the time we work
-  on data collection modules within Firefox, but we're also responsible for these resources.
+  The Data Engineering team, a group of developers spanning timezones UTC+2 to UTC-8, maintain and develop the index,
+  documentation, and some of the tools and dashboards hosted on [https://telemetry.mozilla.org](https://telemetry.mozilla.org).
+  We do [other things](https://docs.telemetry.mozilla.org/concepts/pipeline/data_pipeline.html), too.
   
   ## How Do I Get Started?
   
