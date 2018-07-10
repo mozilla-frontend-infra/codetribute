@@ -33,6 +33,7 @@ const assignments = Object.values(ASSIGNEE);
   summary: {
     whiteSpace: 'nowrap',
     display: 'inline-block',
+    width: 450,
   },
   tableWrapper: {
     overflowX: 'auto',
@@ -62,6 +63,10 @@ const assignments = Object.values(ASSIGNEE);
     display: 'flex',
     justifyContent: 'center',
     paddingTop: theme.spacing.unit,
+  },
+  summaryText: {
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis',
   },
 }))
 export default class TasksTable extends Component {
@@ -228,12 +233,19 @@ export default class TasksTable extends Component {
                       classes={{
                         gutters: classes.summaryItem,
                       }}
+                      title={item.summary}
                       button
                       target="_blank"
                       rel="noopener noreferrer"
                       component="a"
                       href={item.url}>
-                      <ListItemText>{item.summary}</ListItemText>
+                      <ListItemText
+                        primary={
+                          <div className={classes.summaryText}>
+                            {item.summary}
+                          </div>
+                        }
+                      />
                       <LinkIcon size={iconSize} />
                     </ListItem>
                   </List>
