@@ -25,6 +25,14 @@ cd codetribute
 yarn
 ```
 
+### Web Server
+Codetribute relies on two servers, namely, GitHub’s GraphQL API v4 (managed by GitHub) and
+[bugzilla-graphql-gateway](http://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway). 
+The latter is required to perform queries to the Bugzilla API. For a local setup, clone the repo 
+and follow the instruction for starting it prior to launching this application. You will need to
+launch the bugzilla-graphql-gateway in a terminal instance separate from this application in order 
+to run both simultaneously.
+
 ### Environment variables
 
 To get started with local development, create a file in the root of the repo named
@@ -57,12 +65,6 @@ Install npm dependencies and start it up:
 - `yarn start`
 
 This will start a local development server on port 5000 (http://localhost:5000). 
-
-**Note**: For fetching from Bugzilla, this application rely on 
-[bugzilla-graphql-gateway](http://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway).
-Clone the repo and follow the instruction for starting it prior to launching this application.
-You will need to launch the bugzilla-graphql-gateway in a terminal instance separate from this application in order
-to run both simultaneously.
 
 ### Contributing
 
