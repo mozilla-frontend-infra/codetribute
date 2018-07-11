@@ -35,6 +35,5 @@ introduction: |
   a couple of minutes to get back to you.
 
 repositories:
-  - mozilla/telemetry-dashboard : mentored
-  - mozilla/telemetry-dashboard : good first issue
+  - mozilla/telemetry-dashboard: ['mentored', 'good first issue']
   
