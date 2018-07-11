@@ -78,6 +78,9 @@ const assignments = Object.values(ASSIGNEE);
   toolbar: {
     justifyContent: 'space-between',
   },
+  icon: {
+    flexShrink: 0,
+  },
 }))
 export default class TasksTable extends Component {
   state = {
@@ -306,7 +309,7 @@ export default class TasksTable extends Component {
                           </div>
                         }
                       />
-                      <LinkIcon size={iconSize} />
+                      <LinkIcon className={classes.icon} size={iconSize} />
                     </ListItem>
                   </List>
                 </TableCell>
