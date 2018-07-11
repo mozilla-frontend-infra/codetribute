@@ -42,11 +42,23 @@ const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
   Object.keys(repositories).reduce((prev, key) => {
-    const curr = [...(prev[repositories[key]] || []), key];
+    // standardize the shape to of labels be array
+    const labels =
+      typeof repositories[key] === 'string'
+        ? [repositories[key]]
+        : repositories[key];
+    // get tagRepoMapping for tag exist in current repo
+    const currTagRepo = labels.reduce(
+      (labels, label) => ({
+        ...labels,
+        [label]: [...(prev[label] || []), key],
+      }),
+      {}
+    );
 
     return {
       ...prev,
-      [repositories[key]]: curr,
+      ...currTagRepo,
     };
   }, {});
 
