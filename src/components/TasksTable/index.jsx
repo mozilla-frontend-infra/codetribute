@@ -7,6 +7,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
@@ -70,6 +74,9 @@ const assignments = Object.values(ASSIGNEE);
   summaryText: {
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
+  },
+  toolbar: {
+    justifyContent: 'space-between',
   },
 }))
 export default class TasksTable extends Component {
@@ -229,9 +236,51 @@ export default class TasksTable extends Component {
             I’m Feeling Adventurous
           </Button>
         </div>
+        <Toolbar className={classes.toolbar}>
+          <Typography variant="title">Bugs & Issues</Typography>
+          <IconButton onClick={this.handleFilterToggle}>
+            <FilterVariantIcon />
+          </IconButton>
+        </Toolbar>
+        {showFilterContent && (
+          <div className={classes.filter}>
+            <TextField
+              select
+              name="assignee"
+              label="Assignee"
+              value={assignment}
+              className={classes.dropdown}
+              onChange={this.handleFilterChange}>
+              {assignments.map(assignee => (
+                <MenuItem key={assignee} value={assignee}>
+                  {assignee}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              select
+              name="project"
+              label="Project"
+              value={project || ALL_PROJECTS}
+              className={classes.dropdown}
+              onChange={this.handleFilterChange}>
+              <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
+              {projects.map(project => (
+                <MenuItem key={project} value={project}>
+                  {project}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={this.handleResetClick}>
+              Reset
+            </Button>
+          </div>
+        )}
         <div className={classes.tableWrapper}>
           <DataTable
-            title="Bugs & Issues"
             items={data}
             renderRow={item => (
               <TableRow tabIndex={-1} key={item.summary}>
@@ -286,46 +335,6 @@ export default class TasksTable extends Component {
             sortByHeader={sortBy}
             sortDirection={sortDirection}
             onHeaderClick={this.handleHeaderClick}
-            filters={
-              showFilterContent && (
-                <div className={classes.filter}>
-                  <TextField
-                    select
-                    name="assignee"
-                    label="Assignee"
-                    value={assignment}
-                    className={classes.dropdown}
-                    onChange={this.handleFilterChange}>
-                    {assignments.map(assignee => (
-                      <MenuItem key={assignee} value={assignee}>
-                        {assignee}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <TextField
-                    select
-                    name="project"
-                    label="Project"
-                    value={project || ALL_PROJECTS}
-                    className={classes.dropdown}
-                    onChange={this.handleFilterChange}>
-                    <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
-                    {projects.map(project => (
-                      <MenuItem key={project} value={project}>
-                        {project}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    onClick={this.handleResetClick}>
-                    Reset
-                  </Button>
-                </div>
-              )
-            }
-            onFilterClick={this.handleFilterToggle}
           />
         </div>
       </Fragment>
