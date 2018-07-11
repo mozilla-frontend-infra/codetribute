@@ -180,11 +180,11 @@ export default class TasksTable extends Component {
       : items[Math.floor(Math.random() * items.length)].url;
 
     if (url) {
-      const thisWindow = window.open();
-
-      thisWindow.opener = null;
-      thisWindow.location = url;
-      thisWindow.target = '_blank';
+      Object.assign(window.open(), {
+        opener: null,
+        location: url,
+        target: '_blank',
+      });
     }
   };
 
