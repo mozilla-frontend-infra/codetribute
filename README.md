@@ -97,7 +97,7 @@ repositories:
 - <Organization Name>/<Repository Name> : <Github Label 2>
 
 ```
-_Note: The `summary` and `introduction` field is to be rendered as markdown, allowing for bullet points, links and other simple formatting._
+_Note: The `summary` and `introduction` fields are to be rendered as markdown, allowing for bullet points, links and other simple formatting._
 
 ## Contributing
 
