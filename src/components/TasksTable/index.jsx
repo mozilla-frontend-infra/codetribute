@@ -188,7 +188,11 @@ export default class TasksTable extends Component {
       : items[Math.floor(Math.random() * items.length)].url;
 
     if (url) {
-      window.open(url, '_blank', 'noopener');
+      Object.assign(window.open(), {
+        opener: null,
+        location: url,
+        target: '_blank',
+      });
     }
   };
 
