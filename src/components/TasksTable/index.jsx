@@ -221,50 +221,9 @@ export default class TasksTable extends Component {
     );
     const iconSize = 14;
     const projects = [...new Set(items.map(item => item.project))];
-    const filters = (
-      <div className={classes.filter}>
-        <TextField
-          select
-          name="assignee"
-          label="Assignee"
-          value={assignment}
-          className={classes.dropdown}
-          onChange={this.handleFilterChange}>
-          {assignments.map(assignee => (
-            <MenuItem key={assignee} value={assignee}>
-              {assignee}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          select
-          name="project"
-          label="Project"
-          value={project || ALL_PROJECTS}
-          className={classes.dropdown}
-          onChange={this.handleFilterChange}>
-          <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
-          {projects.map(project => (
-            <MenuItem key={project} value={project}>
-              {project}
-            </MenuItem>
-          ))}
-        </TextField>
-        <Button variant="outlined" size="small" onClick={this.handleResetClick}>
-          Reset
-        </Button>
-      </div>
-    );
 
     return (
       <Fragment>
-        <Toolbar className={classes.toolbar}>
-          <Typography variant="title">Bugs & Issues</Typography>
-          <IconButton onClick={this.handleFilterToggle}>
-            <FilterVariantIcon />
-          </IconButton>
-        </Toolbar>
-        {showFilterContent && filters}
         <div className={classes.flexContainer}>
           <Button
             color="primary"
@@ -273,6 +232,49 @@ export default class TasksTable extends Component {
             I’m Feeling Adventurous
           </Button>
         </div>
+        <Toolbar className={classes.toolbar}>
+          <Typography variant="title">Bugs & Issues</Typography>
+          <IconButton onClick={this.handleFilterToggle}>
+            <FilterVariantIcon />
+          </IconButton>
+        </Toolbar>
+        {showFilterContent && (
+          <div className={classes.filter}>
+            <TextField
+              select
+              name="assignee"
+              label="Assignee"
+              value={assignment}
+              className={classes.dropdown}
+              onChange={this.handleFilterChange}>
+              {assignments.map(assignee => (
+                <MenuItem key={assignee} value={assignee}>
+                  {assignee}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              select
+              name="project"
+              label="Project"
+              value={project || ALL_PROJECTS}
+              className={classes.dropdown}
+              onChange={this.handleFilterChange}>
+              <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
+              {projects.map(project => (
+                <MenuItem key={project} value={project}>
+                  {project}
+                </MenuItem>
+              ))}
+            </TextField>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={this.handleResetClick}>
+              Reset
+            </Button>
+          </div>
+        )}
         <div className={classes.tableWrapper}>
           <DataTable
             items={data}
