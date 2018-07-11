@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader';
 import { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
@@ -20,7 +20,26 @@ import AppBar from '../../components/AppBar';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
+import bugsQuery from './bugs.graphql';
+import {
+  GOOD_FIRST_BUG,
+  BUGZILLA_STATUSES,
+  BUGZILLA_PAGE_NUMBER,
+  BUGZILLA_PAGE_SIZE,
+  BUGZILLA_ORDER,
+} from '../../utils/constants';
 
+const bugzillaSearchOptions = {
+  keywords: [GOOD_FIRST_BUG],
+  statuses: Object.values(BUGZILLA_STATUSES),
+  order: BUGZILLA_ORDER,
+};
+const bugzillaPagingOptions = {
+  page: BUGZILLA_PAGE_NUMBER,
+  pageSize: BUGZILLA_PAGE_SIZE,
+};
+const productsWithNoComponents = products =>
+  products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
   Object.keys(repositories).reduce((prev, key) => {
     const curr = [...(prev[repositories[key]] || []), key];
@@ -32,15 +51,61 @@ const tagReposMapping = repositories =>
   }, {});
 
 @hot(module)
-@graphql(issuesQuery, {
-  skip: props => !projects[props.match.params.project].repositories,
-  options: () => ({
-    fetchPolicy: 'network-only',
-    variables: {
-      searchQuery: '',
-    },
+@compose(
+  graphql(issuesQuery, {
+    skip: ({
+      match: {
+        params: { project },
+      },
+    }) => !projects[project].repositories,
+    name: 'github',
+    options: () => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        searchQuery: '',
+      },
+      context: {
+        client: 'github',
+      },
+    }),
   }),
-})
+  graphql(bugsQuery, {
+    skip: ({
+      match: {
+        params: { project },
+      },
+    }) => !projects[project].products,
+    name: 'bugzilla',
+    options: ({
+      match: {
+        params: { project },
+      },
+    }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        search: {
+          ...bugzillaSearchOptions,
+          // get all the product with no component as it can be
+          // merged as an OR query if it exists
+          ...(productsWithNoComponents(projects[project].products).length
+            ? { products: productsWithNoComponents(projects[project].products) }
+            : {
+                // otherwise, get only the first product and its components
+                // as component is not unique for product thus can't be merged
+                products: Object.keys(projects[project].products[0])[0],
+                components: Object.values(projects[project].products[0])[0],
+              }),
+        },
+        paging: {
+          ...bugzillaPagingOptions,
+        },
+      },
+      context: {
+        client: 'bugzilla',
+      },
+    }),
+  })
+)
 @withStyles(theme => ({
   root: {
     background: theme.palette.background.default,
@@ -70,19 +135,70 @@ export default class Project extends Component {
     loading: true,
   };
 
-  componentDidMount() {
-    this.load();
+  componentDidUpdate(prevProps) {
+    if (
+      (prevProps.bugzilla &&
+        prevProps.bugzilla.loading &&
+        !this.props.bugzilla.loading) ||
+      (!prevProps.bugzilla &&
+        prevProps.github.loading &&
+        !this.props.github.loading)
+    ) {
+      this.load();
+    }
   }
-
-  fetch = searchQuery => {
+  fetchBugzilla = (products, components) => {
     const {
-      data: { fetchMore },
+      bugzilla: { fetchMore },
+    } = this.props;
+
+    return fetchMore({
+      query: bugsQuery,
+      variables: {
+        search: {
+          ...bugzillaSearchOptions,
+          products,
+          components,
+        },
+        paging: {
+          ...bugzillaPagingOptions,
+        },
+      },
+      context: {
+        client: 'bugzilla',
+      },
+      updateQuery(previousResult, { fetchMoreResult }) {
+        const moreNodes = fetchMoreResult.bugs.edges;
+
+        if (!moreNodes.length) {
+          return previousResult;
+        }
+
+        if (!previousResult.bugs) {
+          return fetchMoreResult;
+        }
+
+        return dotProp.set(
+          previousResult,
+          'bugs.edges',
+          moreNodes.concat(previousResult.bugs.edges)
+        );
+      },
+    });
+  };
+
+  fetchGithub = searchQuery => {
+    const {
+      github: { fetchMore },
     } = this.props;
 
     return fetchMore({
       query: issuesQuery,
       variables: {
         searchQuery,
+      },
+      context: {
+        client: 'github',
       },
       updateQuery(previousResult, { fetchMoreResult }) {
         const moreNodes = fetchMoreResult.search.nodes;
@@ -113,22 +229,36 @@ export default class Project extends Component {
           'state:open',
         ].join(' ');
 
-        return this.fetch(searchQuery);
+        return this.fetchGithub(searchQuery);
       })
+    );
+    const productWithComponentList = mergeAll(
+      project.products
+        ? project.products.filter(product => typeof product !== 'string')
+        : []
+    );
+
+    // fetch only the product with component list, since product without
+    // component would have been fetched by the initial graphql decorator query
+    await Promise.all(
+      Object.entries(productWithComponentList).map(([products, components]) =>
+        this.fetchBugzilla([products], components)
+      )
     );
 
     this.setState({ loading: false });
   };
 
   render() {
-    const { data, classes } = this.props;
+    const { classes } = this.props;
+    const githubData = this.props.github;
     const { loading } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
-      (data &&
-        data.search &&
+      (githubData &&
+        githubData.search &&
         uniqBy(
-          data.search.nodes.map(issue => ({
+          githubData.search.nodes.map(issue => ({
             project: issue.repository.name,
             id: issue.number,
             summary: `${issue.number} - ${issue.title}`,
@@ -138,6 +268,22 @@ export default class Project extends Component {
               ? issue.assignees.nodes[0].login
               : '-',
             url: issue.url,
+          })),
+          'summary'
+        )) ||
+      [];
+    const bugzillaData = this.props.bugzilla;
+    const bugs =
+      (bugzillaData &&
+        bugzillaData.bugs &&
+        uniqBy(
+          bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
+            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            project: bug.component,
+            tags: bug.keywords || [],
+            summary: `${bug.id} - ${bug.summary}`,
+            lastUpdated: bug.lastChanged,
+            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           })),
           'summary'
         )) ||
@@ -170,9 +316,12 @@ export default class Project extends Component {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           )}
-          {data && data.error && <ErrorPanel error={data.error} />}
+          {githubData &&
+            githubData.error && <ErrorPanel error={githubData.error} />}
+          {bugzillaData &&
+            bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
           {loading && <Spinner />}
-          {!loading && <TasksTable items={issues} />}
+          {!loading && <TasksTable items={[...issues, ...bugs]} />}
         </div>
       </div>
     );

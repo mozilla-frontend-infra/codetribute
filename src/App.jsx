@@ -4,8 +4,9 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
+import { RetryLink } from 'apollo-link-retry';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { CachePersistor } from 'apollo-cache-persist';
+import { persistCache } from 'apollo-cache-persist';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import storage from 'localforage';
@@ -13,6 +14,13 @@ import Projects from './views/Projects';
 import Project from './views/Project';
 import theme from './theme';
 import FontStager from './components/FontStager';
+
+const cache = new InMemoryCache();
+
+persistCache({
+  cache,
+  storage,
+});
 
 @hot(module)
 @withStyles({
@@ -23,19 +31,19 @@ import FontStager from './components/FontStager';
   },
 })
 export default class App extends Component {
-  cache = new InMemoryCache();
-  persistence = new CachePersistor({
-    cache: this.cache,
-    storage,
-  });
-  apolloClient = new ApolloClient({
-    cache: this.cache,
-    link: new HttpLink({
+  link = new RetryLink().split(
+    operation => operation.getContext().client === 'github',
+    new HttpLink({
       uri: 'https://api.github.com/graphql',
       headers: {
         authorization: `Bearer ${process.env.GITHUB_PERSONAL_API_TOKEN}`,
       },
     }),
+    new HttpLink({ uri: process.env.BUGZILLA_ENDPOINT })
+  );
+  apolloClient = new ApolloClient({
+    cache,
+    link: this.link,
   });
   render() {
     return (
