@@ -99,19 +99,14 @@ const assignments = Object.values(ASSIGNEE);
   title: {
     flex: 1,
   },
-  flexContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
-  },
   summaryText: {
     whitespace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
   },
   toolbar: {
-    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   cardTitle: {
     width: '100%',
@@ -336,15 +331,7 @@ export default class TasksTable extends Component {
 
     return (
       <Fragment>
-        <div className={classes.flexContainer}>
-          <Button
-            color="primary"
-            disabled={!items.length}
-            onClick={this.handleRandomTaskClick}>
-            I’m Feeling Adventurous
-          </Button>
-        </div>
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <Typography variant="title" className={classes.title}>
             Bugs & Issues
           </Typography>
@@ -352,6 +339,12 @@ export default class TasksTable extends Component {
           <IconButton onClick={this.handleFilterToggle}>
             <FilterVariantIcon />
           </IconButton>
+          <Button
+            color="primary"
+            disabled={!items.length}
+            onClick={this.handleRandomTaskClick}>
+            I’m Feeling Adventurous
+          </Button>
         </Toolbar>
         {showFilterContent && (
           <div className={classes.filter}>
