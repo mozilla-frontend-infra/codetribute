@@ -41,12 +41,20 @@ const bugzillaPagingOptions = {
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
-  Object.keys(repositories).reduce((prev, key) => {
-    const curr = [...(prev[repositories[key]] || []), key];
+  Object.keys(repositories).reduce((previousMappings, repoName) => {
+    const tags = repositories[repoName];
+    const labels = typeof tags === 'string' ? [tags] : tags;
+    const mappings = labels.reduce(
+      (labels, label) => ({
+        ...labels,
+        [label]: [...(previousMappings[label] || []), repoName],
+      }),
+      {}
+    );
 
     return {
-      ...prev,
-      [repositories[key]]: curr,
+      ...previousMappings,
+      ...mappings,
     };
   }, {});
 
