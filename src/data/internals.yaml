@@ -4,5 +4,4 @@ products:
  - NSPR
  - NSS
  - Toolkit: ['Telemetry', 'Add-ons Manager']
-repositories: 
- - mozilla/telemetry-dashboard: mentored
+ 
