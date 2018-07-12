@@ -35,7 +35,6 @@ const assignments = Object.values(ASSIGNEE);
 @withRouter
 @withStyles(theme => ({
   summary: {
-    whiteSpace: 'nowrap',
     display: 'inline-block',
     width: 450,
   },
@@ -48,7 +47,7 @@ const assignments = Object.values(ASSIGNEE);
       backgroundColor: theme.palette.secondary.dark,
     },
   },
-  noWrap: {
+  tableCell: {
     whiteSpace: 'nowrap',
   },
   summaryItem: {
@@ -284,11 +283,14 @@ export default class TasksTable extends Component {
             items={data}
             renderRow={item => (
               <TableRow tabIndex={-1} key={item.summary}>
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  className={classes.tableCell}>
                   {item.project}
                 </TableCell>
-                <TableCell>
-                  <List dense className={classes.summary}>
+                <TableCell className={classes.tableCell}>
+                  <List dense className={classNames(classes.summary)}>
                     <ListItem
                       classes={{
                         gutters: classes.summaryItem,
@@ -310,7 +312,7 @@ export default class TasksTable extends Component {
                     </ListItem>
                   </List>
                 </TableCell>
-                <TableCell className={classes.noWrap}>
+                <TableCell className={classes.tableCell}>
                   {item.tags.map(tag => (
                     <Chip
                       name={tag}
@@ -323,8 +325,10 @@ export default class TasksTable extends Component {
                     />
                   ))}
                 </TableCell>
-                <TableCell>{item.assignee}</TableCell>
-                <TableCell className={classes.noWrap}>
+                <TableCell className={classes.tableCell}>
+                  {item.assignee}
+                </TableCell>
+                <TableCell className={classes.tableCell}>
                   {formatDistance(item.lastUpdated, new Date(), {
                     addSuffix: true,
                   })}
