@@ -36,11 +36,11 @@ const getSuggestions = item => {
   );
 
   if (item.assignee === '-' && daysSinceLastUpdate < 90) {
-    return 'The task is unassigned. Go ahead!';
+    return 'The task is assigned to nobody. Are you interested? Ask in the comments to have it assigned to you.';
   } else if (item.assignee === '-') {
-    return 'The task is unassigned but a few months has passed. Ask the mentor / creator of the task if the task is still relevant';
+    return 'The task is assigned to nobody but a few months have passed. Are you interested? Ask in the comments if this task is still relevant to tackle and whether you could have it assigned to you.';
   } else if (daysSinceLastUpdate > 30) {
-    return "Even though this task is assigned, it hasn't been touched for more than a month. Ask if you can grab it";
+    return 'The task is assigned but has not been touched for over a month. Are you interested? Ask in the comments if you can have it assigned to you.';
   }
 
   return `This was recently assigned to ${item.assignee}.`;
@@ -110,8 +110,8 @@ const assignments = Object.values(ASSIGNEE);
   },
   drawerCloseButton: {
     position: 'absolute',
-    right: 8,
-    top: 8,
+    right: theme.spacing.unit,
+    top: theme.spacing.unit,
     zIndex: theme.zIndex.drawer + 1,
   },
 }))
