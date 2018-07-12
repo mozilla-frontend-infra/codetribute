@@ -1,17 +1,18 @@
 import { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import classNames from 'classnames';
 import { arrayOf, object } from 'prop-types';
 
 @withStyles(theme => ({
   paper: {
     minHeight: 100,
-    padding: `${theme.spacing.unit}px ${2 * theme.spacing.unit}px`,
-    '&:hover': {
-      transform: 'scale(1.05)',
-      boxShadow: `0 1px 4px 0 ${theme.palette.primary.light}`,
+    padding: `0px ${2 * theme.spacing.unit}px`,
+    paddingBottom: theme.spacing.unit,
+  },
+  '@media screen and (max-width: 900px)': {
+    paper: {
+      width: '90vw',
     },
   },
   '@media screen and (min-width: 900px)': {
@@ -39,9 +40,9 @@ export default class TasksList extends Component {
       <Grid container direction="column" alignItems="center" spacing={16}>
         {data.map(item => (
           <Grid item xs={12} key={item.summary}>
-            <Paper className={classNames(classes.paper)}>
+            <Card raised className={classes.paper}>
               {renderRow(item)}
-            </Paper>
+            </Card>
           </Grid>
         ))}
       </Grid>

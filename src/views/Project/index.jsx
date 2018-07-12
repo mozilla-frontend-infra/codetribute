@@ -325,7 +325,7 @@ export default class Project extends Component {
                 <Typography variant="headline">Project Introduction</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography variant="body1">
+                <Typography component="div">
                   <Markdown
                     source={project.introduction}
                     renderers={{ link: this.linkRenderer }}

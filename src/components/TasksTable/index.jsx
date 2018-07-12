@@ -106,11 +106,26 @@ const assignments = Object.values(ASSIGNEE);
     paddingBottom: theme.spacing.unit,
   },
   summaryText: {
+    whitespace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
   },
   toolbar: {
     justifyContent: 'space-between',
+  },
+  cardTitle: {
+    width: '100%',
+    '&:hover': {
+      transform: 'scaleY(1.05) scaleX(1.01)',
+    },
+  },
+  cardDescription: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap',
+  },
+  cardSummaryItem: {
+    padding: '8px 0px',
   },
   icon: {
     flexShrink: 0,
@@ -380,23 +395,47 @@ export default class TasksTable extends Component {
             data={data}
             renderRow={item => (
               <div>
-                <Typography
-                  variant="title"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  component="a"
-                  href={item.url}
-                  className={classes.link}>
-                  {item.summary}
-                  <LinkIcon size={14} />
-                </Typography>
+                <List
+                  disablePadding
+                  dense={this.props.width === 'xs'}
+                  className={classNames(classes.summary, classes.cardTitle)}>
+                  <ListItem
+                    classes={{
+                      gutters: classes.cardSummaryItem,
+                    }}
+                    title={item.summary}
+                    button
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    component="a"
+                    href={item.url}>
+                    <ListItemText
+                      primary={
+                        <div className={classes.summaryText}>
+                          {item.summary}
+                        </div>
+                      }
+                    />
+                    <LinkIcon size={iconSize} />
+                  </ListItem>
+                </List>
                 <Divider light />
-                <Typography component="p" gutterBottom>
-                  Project: <strong>{item.project}</strong> | Assignee:{' '}
-                  <strong>{item.assignee}</strong> | Last Update:{' '}
-                  {formatDistance(item.lastUpdated, new Date(), {
-                    addSuffix: true,
-                  })}
+                <Typography
+                  component="p"
+                  gutterBottom
+                  className={classes.cardDescription}>
+                  <div>
+                    Project: <strong>{item.project}</strong>
+                  </div>
+                  <div>
+                    Assignee: <strong>{item.assignee}</strong>
+                  </div>
+                  <div>
+                    Last Updated:{' '}
+                    {formatDistance(item.lastUpdated, new Date(), {
+                      addSuffix: true,
+                    })}
+                  </div>
                 </Typography>
                 {item.tags.map(tag => (
                   <Chip
