@@ -48,7 +48,7 @@ const assignments = Object.values(ASSIGNEE);
       backgroundColor: theme.palette.secondary.dark,
     },
   },
-  tags: {
+  noWrap: {
     whiteSpace: 'nowrap',
   },
   summaryItem: {
@@ -310,7 +310,7 @@ export default class TasksTable extends Component {
                     </ListItem>
                   </List>
                 </TableCell>
-                <TableCell className={classes.tags}>
+                <TableCell className={classes.noWrap}>
                   {item.tags.map(tag => (
                     <Chip
                       name={tag}
@@ -324,7 +324,7 @@ export default class TasksTable extends Component {
                   ))}
                 </TableCell>
                 <TableCell>{item.assignee}</TableCell>
-                <TableCell>
+                <TableCell className={classes.noWrap}>
                   {formatDistance(item.lastUpdated, new Date(), {
                     addSuffix: true,
                   })}
