@@ -433,7 +433,7 @@ export default class TasksTable extends Component {
                 )}
                 <ListItem>
                   <ListItemText
-                    primary="Suggestion"
+                    primary="Are you interested?"
                     secondary={getTaskHelperText(drawerItem)}
                   />
                 </ListItem>
