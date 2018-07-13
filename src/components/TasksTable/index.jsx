@@ -29,18 +29,18 @@ import sort from '../../utils/sort';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
 import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
 
-const getSuggestions = item => {
+const getTaskHelperText = item => {
   const daysSinceLastUpdate = differenceInCalendarDays(
     new Date(),
     item.lastUpdated
   );
 
   if (item.assignee === '-' && daysSinceLastUpdate < 90) {
-    return 'The task is assigned to nobody. Are you interested? Ask in the comments to have it assigned to you.';
+    return 'The task is assigned to nobody. Ask in the comments to have it assigned to you.';
   } else if (item.assignee === '-') {
-    return 'The task is assigned to nobody but a few months have passed. Are you interested? Ask in the comments if this task is still relevant to tackle and whether you could have it assigned to you.';
+    return 'The task is assigned to nobody but a few months have passed. Ask in the comments if this task is still relevant to tackle and whether you could have it assigned to you.';
   } else if (daysSinceLastUpdate > 30) {
-    return 'The task is assigned but has not been touched for over a month. Are you interested? Ask in the comments if you can have it assigned to you.';
+    return 'The task is assigned but has not been touched for over a month. Ask in the comments if you can have it assigned to you.';
   }
 
   return `This was recently assigned to ${item.assignee}.`;
@@ -434,7 +434,7 @@ export default class TasksTable extends Component {
                 <ListItem>
                   <ListItemText
                     primary="Suggestion"
-                    secondary={getSuggestions(drawerItem)}
+                    secondary={getTaskHelperText(drawerItem)}
                   />
                 </ListItem>
               </List>
