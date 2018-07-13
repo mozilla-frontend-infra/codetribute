@@ -20,11 +20,13 @@ import Divider from '@material-ui/core/Divider';
 import TableLargeIcon from 'mdi-react/TableLargeIcon';
 import TableColumnIcon from 'mdi-react/TableColumnIcon';
 import { formatDistance, differenceInCalendarDays } from 'date-fns';
+import ArrowDownIcon from 'mdi-react/ArrowDownIcon';
+import ArrowUpIcon from 'mdi-react/ArrowUpIcon';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
+import DotsHorizontalIcon from 'mdi-react/DotsHorizontalIcon';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
@@ -32,7 +34,7 @@ import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import DataCard from '../DataCard';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
-import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
+import { ASSIGNEE, ALL_PROJECTS, HEADERS } from '../../utils/constants';
 
 const getTaskHelperText = item => {
   const daysSinceLastUpdate = differenceInCalendarDays(
@@ -90,6 +92,7 @@ const assignments = Object.values(ASSIGNEE);
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
+    marginBottom: theme.spacing.unit,
   },
   link: {
     textDecoration: 'none',
@@ -172,7 +175,7 @@ export default class TasksTable extends Component {
       )}-${sortBy}-${sortDirection}-${tag}-${assignee}-${project}`;
     },
     (
-      sortBy = 'Last Updated',
+      sortBy = HEADERS.LAST_UPDATED,
       sortDirection = 'desc',
       tag,
       items,
@@ -230,8 +233,8 @@ export default class TasksTable extends Component {
     this.setQuery({ ...query, [name]: value });
   };
 
-  handleHeaderClick = sortBy => {
-    if (sortBy === 'Tags') {
+  handleSortChange = sortBy => {
+    if (sortBy === HEADERS.TAGS) {
       return;
     }
 
@@ -273,6 +276,10 @@ export default class TasksTable extends Component {
 
   handleViewOptionsClick = event => {
     this.setState({ displayCardLayout: event.target.value === 'true' });
+  };
+
+  handleSortBy = ({ target: { value } }) => {
+    this.handleSortChange(value);
   };
 
   renderViewOptions() {
@@ -328,6 +335,7 @@ export default class TasksTable extends Component {
     );
     const iconSize = 14;
     const projects = [...new Set(items.map(item => item.project))];
+    const headers = Object.values(HEADERS);
 
     return (
       <Fragment>
@@ -337,7 +345,7 @@ export default class TasksTable extends Component {
           </Typography>
           {this.props.width !== 'xs' && this.renderViewOptions()}
           <IconButton onClick={this.handleFilterToggle}>
-            <FilterVariantIcon />
+            <DotsHorizontalIcon />
           </IconButton>
           <Button
             color="primary"
@@ -372,6 +380,28 @@ export default class TasksTable extends Component {
               {projects.map(project => (
                 <MenuItem key={project} value={project}>
                   {project}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              select
+              label="Sort by"
+              value={sortBy || HEADERS.LAST_UPDATED}
+              className={classes.dropdown}
+              onChange={this.handleSortBy}>
+              {headers.filter(header => header !== HEADERS.TAGS).map(header => (
+                <MenuItem key={header} value={header}>
+                  {header === sortBy &&
+                    (sortDirection === 'asc' ? (
+                      <ArrowUpIcon size={iconSize} />
+                    ) : (
+                      <ArrowDownIcon size={iconSize} />
+                    ))}
+                  {sortBy &&
+                    header !== sortBy && (
+                      <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
+                    )}
+                  {header}
                 </MenuItem>
               ))}
             </TextField>
@@ -509,13 +539,7 @@ export default class TasksTable extends Component {
                     </TableCell>
                   </TableRow>
                 )}
-                headers={[
-                  'Project',
-                  'Summary',
-                  'Tags',
-                  'Assignee',
-                  'Last Updated',
-                ]}
+                headers={headers}
                 sortByHeader={sortBy}
                 sortDirection={sortDirection}
                 onHeaderClick={this.handleHeaderClick}
