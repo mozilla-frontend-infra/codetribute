@@ -297,7 +297,13 @@ export default class Project extends Component {
           bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
-            tags: bug.keywords || [],
+            tags: [
+              ...(bug.keywords || []),
+              ...(
+                (bug.whiteboard && bug.whiteboard.match(/\[.+?\]/g)) ||
+                []
+              ).map(tag => tag.slice(1, -1)),
+            ],
             summary: bug.summary,
             lastUpdated: bug.lastChanged,
             url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
