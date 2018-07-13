@@ -113,9 +113,6 @@ const assignments = Object.values(ASSIGNEE);
   },
   cardTitle: {
     width: '100%',
-    '&:hover': {
-      transform: 'scaleY(1.05) scaleX(1.01)',
-    },
   },
   cardDescription: {
     display: 'flex',
@@ -123,7 +120,7 @@ const assignments = Object.values(ASSIGNEE);
     flexWrap: 'wrap',
   },
   cardSummaryItem: {
-    padding: '8px 0px',
+    padding: `${theme.spacing.unit}px ${2 * theme.spacing.unit}px`,
   },
   icon: {
     flexShrink: 0,
@@ -141,6 +138,9 @@ const assignments = Object.values(ASSIGNEE);
     right: theme.spacing.unit,
     top: theme.spacing.unit,
     zIndex: theme.zIndex.drawer + 1,
+  },
+  cardItem: {
+    padding: `0px ${2 * theme.spacing.unit}px`,
   },
 }))
 export default class TasksTable extends Component {
@@ -423,9 +423,12 @@ export default class TasksTable extends Component {
                   dense={this.props.width === 'xs'}
                   className={classNames(classes.summary, classes.cardTitle)}>
                   <ListItem
-                    classes={{
-                      gutters: classes.cardSummaryItem,
-                    }}
+                    classes={
+                      (classes.cardItem,
+                      {
+                        gutters: classes.cardSummaryItem,
+                      })
+                    }
                     title={item.summary}
                     button
                     target="_blank"
@@ -446,7 +449,10 @@ export default class TasksTable extends Component {
                 <Typography
                   component="p"
                   gutterBottom
-                  className={classes.cardDescription}>
+                  className={classNames(
+                    classes.cardItem,
+                    classes.cardDescription
+                  )}>
                   <div>
                     Project: <strong>{item.project}</strong>
                   </div>
@@ -460,17 +466,19 @@ export default class TasksTable extends Component {
                     })}
                   </div>
                 </Typography>
-                {item.tags.map(tag => (
-                  <Chip
-                    name={tag}
-                    key={tag}
-                    label={tag}
-                    className={classNames({
-                      [classes.clickedChip]: tag === query.tag,
-                    })}
-                    onClick={this.handleTagClick}
-                  />
-                ))}
+                <div className={classes.cardItem}>
+                  {item.tags.map(tag => (
+                    <Chip
+                      name={tag}
+                      key={tag}
+                      label={tag}
+                      className={classNames({
+                        [classes.clickedChip]: tag === query.tag,
+                      })}
+                      onClick={this.handleTagClick}
+                    />
+                  ))}
+                </div>
               </div>
             )}
           />
@@ -542,7 +550,7 @@ export default class TasksTable extends Component {
                 headers={headers}
                 sortByHeader={sortBy}
                 sortDirection={sortDirection}
-                onHeaderClick={this.handleHeaderClick}
+                onHeaderClick={this.handleSortChange}
               />
             </div>
             <Drawer

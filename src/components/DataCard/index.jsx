@@ -7,7 +7,6 @@ import { arrayOf, object } from 'prop-types';
 @withStyles(theme => ({
   paper: {
     minHeight: 100,
-    padding: `0px ${2 * theme.spacing.unit}px`,
     paddingBottom: theme.spacing.unit,
   },
   '@media screen and (max-width: 900px)': {
