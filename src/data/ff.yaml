@@ -1,6 +1,24 @@
-name: Firefox - User interface
-products: 
+name: Firefox Desktop Frontend
+summary: Get involved with the [Firefox](https://wiki.mozilla.org/Firefox) Frontend team.
+introduction: |
+  ## About Firefox Desktop Frontend
+
+  The Firefox Desktop has many parts. The frontend team looks after the components that drive the user interface, as well as the interface itself.
+
+  ## How Do I Get Started?
+
+  See our [developer documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Introduction) page for how to get the source code and start developing.
+
+  ## How Do I Get Help?
+
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  Each bug has a mentor, and that person will usually be the one to reply.
+
+  There is also help available on [irc](https://wiki.mozilla.org/IRC) in the `#introduction` channel.
+  That's a great place to get quick help or work through issues with Mercurial or git as well.
+products:
  - Firefox
  - Toolkit
  - Cloud Services: ['Firefox Sync: UI']
- - Input: ['Frontend', 'General']
