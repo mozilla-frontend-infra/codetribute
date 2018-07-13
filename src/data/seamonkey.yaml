@@ -1,4 +1,19 @@
 name: SeaMonkey
-summary: Get involved with the [SeaMonkey Project](http://www.seamonkey-project.org)
+summary: SeaMonkey is an all-in-one Internet application suite that includes the Browser, Mail, Web-authoring and irc components.
+introduction: |
+  The SeaMonkey project is at https://www.seamonkey-project.org.
+
+  Our IRC channel is #seamonkey at irc.mozilla.org
+
 products: 
- - SeaMonkey
+ - SeaMonkey: ['General', 'Security', 'Build Config', 'OS Integration', 'Preferences',
+     'Website', 'Composer', 'Help Viewer', 'Bookmarks & History', 'Installer',
+     'Search', 'Session Restore', 'Tabbed Browser', 'Help Documentation',
+     'Testing Infrastructure', 'Autocomplete', 'Download & File Handling',
+     'Feed Discovery and Preview', 'Find in Page', 'Location Bar',
+     'MailNews: Account Configuration', 'MailNews: Address Book & Contacts',
+     'MailNews: Backend', 'MailNews: Composition', 'MailNews: General',
+     'MailNews: Message Display', 'Page Info', 'Passwords & Permissions',
+     'Project Organization', 'Release Engineering', 'Sidebar',
+     'Startup & Profiles', 'Sync UI', 'Themes', 'UI Design']
+
