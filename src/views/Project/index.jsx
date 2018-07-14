@@ -276,6 +276,7 @@ export default class Project extends Component {
               ? issue.assignees.nodes[0].login
               : '-',
             url: issue.url,
+            description: issue.body,
           })),
           'summary'
         )) ||

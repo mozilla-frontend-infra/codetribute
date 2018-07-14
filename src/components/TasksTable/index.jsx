@@ -2,6 +2,8 @@ import { Component, Fragment } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -9,22 +11,40 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
+import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
+import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
-import { formatDistance } from 'date-fns';
+import { formatDistance, differenceInCalendarDays } from 'date-fns';
+import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
-import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
 import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
 import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
+
+const getTaskHelperText = item => {
+  const daysSinceLastUpdate = differenceInCalendarDays(
+    new Date(),
+    item.lastUpdated
+  );
+
+  if (item.assignee === '-' && daysSinceLastUpdate < 90) {
+    return 'The task is assigned to nobody. Ask in the comments to have it assigned to you.';
+  } else if (item.assignee === '-') {
+    return 'The task is assigned to nobody but a few months have passed. Ask in the comments if this task is still relevant to tackle and whether you could have it assigned to you.';
+  } else if (daysSinceLastUpdate > 30) {
+    return 'The task is assigned but has not been touched for over a month. Ask in the comments if you can have it assigned to you.';
+  }
+
+  return `This was recently assigned to ${item.assignee}.`;
+};
 
 const sorted = pipe(
   rSort((a, b) => sort(a.summary, b.summary)),
@@ -80,10 +100,26 @@ const assignments = Object.values(ASSIGNEE);
   icon: {
     flexShrink: 0,
   },
+  infoButton: {
+    marginRight: theme.spacing.unit,
+    marginLeft: -2 * theme.spacing.unit,
+  },
+  drawerPaper: {
+    width: 400,
+    maxWidth: '100%',
+  },
+  drawerCloseButton: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+    top: theme.spacing.unit,
+    zIndex: theme.zIndex.drawer + 1,
+  },
 }))
 export default class TasksTable extends Component {
   state = {
     showFilterContent: false,
+    drawerOpen: false,
+    drawerItem: null,
   };
 
   static propTypes = {
@@ -209,9 +245,27 @@ export default class TasksTable extends Component {
     this.setQuery({});
   };
 
+  handleDrawerOpen = ({ target: { name } }) => {
+    memoizeWith(
+      name => name,
+      name =>
+        this.setState({
+          drawerOpen: true,
+          drawerItem: this.props.items.find(item => item.summary === name),
+        })
+    )(name);
+  };
+
+  handleDrawerClose = () => {
+    this.setState({
+      drawerOpen: false,
+      drawerItem: null,
+    });
+  };
+
   render() {
     const { items, classes } = this.props;
-    const { showFilterContent } = this.state;
+    const { showFilterContent, drawerOpen, drawerItem } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
@@ -293,7 +347,13 @@ export default class TasksTable extends Component {
                   {item.project}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  <List dense className={classNames(classes.summary)}>
+                  <IconButton
+                    name={item.summary}
+                    className={classes.infoButton}
+                    onClick={this.handleDrawerOpen}>
+                    <InformationVariantIcon />
+                  </IconButton>
+                  <List dense className={classes.summary}>
                     <ListItem
                       classes={{
                         gutters: classes.summaryItem,
@@ -344,6 +404,43 @@ export default class TasksTable extends Component {
             onHeaderClick={this.handleHeaderClick}
           />
         </div>
+        <Drawer
+          anchor="right"
+          open={drawerOpen}
+          onClose={this.handleDrawerClose}
+          classes={{ paper: classes.drawerPaper }}>
+          <Fragment>
+            <IconButton
+              className={classes.drawerCloseButton}
+              onClick={this.handleDrawerClose}>
+              <CloseIcon />
+            </IconButton>
+            {drawerItem && (
+              <List>
+                <ListItem>
+                  <ListItemText
+                    primary="Summary"
+                    secondary={drawerItem.summary}
+                  />
+                </ListItem>
+                {drawerItem.description && (
+                  <ListItem>
+                    <ListItemText
+                      primary="Description"
+                      secondary={drawerItem.description}
+                    />
+                  </ListItem>
+                )}
+                <ListItem>
+                  <ListItemText
+                    primary="Are you interested?"
+                    secondary={getTaskHelperText(drawerItem)}
+                  />
+                </ListItem>
+              </List>
+            )}
+          </Fragment>
+        </Drawer>
       </Fragment>
     );
   }
