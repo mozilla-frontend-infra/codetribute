@@ -438,7 +438,7 @@ export default class TasksTable extends Component {
                     <ListItemText
                       primary={
                         <div className={classes.summaryText}>
-                          {item.summary}
+                          {`${item.project} - ${item.summary}`}
                         </div>
                       }
                     />
@@ -447,15 +447,12 @@ export default class TasksTable extends Component {
                 </List>
                 <Divider light />
                 <Typography
-                  component="p"
+                  component="div"
                   gutterBottom
                   className={classNames(
                     classes.cardItem,
                     classes.cardDescription
                   )}>
-                  <div>
-                    Project: <strong>{item.project}</strong>
-                  </div>
                   <div>
                     Assignee: <strong>{item.assignee}</strong>
                   </div>
@@ -516,7 +513,7 @@ export default class TasksTable extends Component {
                           <ListItemText
                             primary={
                               <div className={classes.summaryText}>
-                                {item.summary}
+                                {`${item.id} - ${item.summary}`}
                               </div>
                             }
                           />
