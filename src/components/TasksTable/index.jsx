@@ -9,7 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
+import Hidden from '@material-ui/core/Hidden';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
@@ -19,6 +19,7 @@ import { camelCase } from 'change-case';
 import Divider from '@material-ui/core/Divider';
 import TableLargeIcon from 'mdi-react/TableLargeIcon';
 import TableColumnIcon from 'mdi-react/TableColumnIcon';
+import AccountIcon from 'mdi-react/AccountIcon';
 import { formatDistance, differenceInCalendarDays } from 'date-fns';
 import ArrowDownIcon from 'mdi-react/ArrowDownIcon';
 import ArrowUpIcon from 'mdi-react/ArrowUpIcon';
@@ -60,7 +61,6 @@ const sorted = pipe(
 const assignments = Object.values(ASSIGNEE);
 
 @withRouter
-@withWidth()
 @withStyles(theme => ({
   summary: {
     display: 'inline-block',
@@ -85,7 +85,6 @@ const assignments = Object.values(ASSIGNEE);
   dropdown: {
     minWidth: 200,
     marginRight: 2 * theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
   },
   filter: {
     ...theme.mixins.gutters(),
@@ -141,6 +140,10 @@ const assignments = Object.values(ASSIGNEE);
   },
   cardItem: {
     padding: `0px ${2 * theme.spacing.unit}px`,
+  },
+  arrowIcon: {
+    verticalAlign: 'text-bottom',
+    marginRight: theme.spacing.unit / 2,
   },
 }))
 export default class TasksTable extends Component {
@@ -282,18 +285,6 @@ export default class TasksTable extends Component {
     this.handleSortChange(value);
   };
 
-  renderViewOptions() {
-    const { displayCardLayout } = this.state;
-
-    return (
-      <IconButton
-        value={!displayCardLayout}
-        onClick={this.handleViewOptionsClick}>
-        {displayCardLayout ? <TableLargeIcon /> : <TableColumnIcon />}
-      </IconButton>
-    );
-  }
-
   handleDrawerOpen = ({ target: { name } }) => {
     memoizeWith(
       name => name,
@@ -312,6 +303,76 @@ export default class TasksTable extends Component {
     });
   };
 
+  renderCard = data => {
+    const { classes } = this.props;
+    const query = this.getQuery();
+    const iconSize = 14;
+
+    return (
+      <DataCard
+        data={data}
+        renderRow={item => (
+          <div>
+            <List
+              disablePadding
+              className={classNames(classes.summary, classes.cardTitle)}>
+              <ListItem
+                classes={
+                  (classes.cardItem,
+                  {
+                    gutters: classes.cardSummaryItem,
+                  })
+                }
+                title={item.summary}
+                button
+                target="_blank"
+                rel="noopener noreferrer"
+                component="a"
+                href={item.url}>
+                <ListItemText
+                  primary={
+                    <div className={classes.summaryText}>
+                      {`${item.project} - ${item.summary}`}
+                    </div>
+                  }
+                />
+                <LinkIcon size={iconSize} />
+              </ListItem>
+            </List>
+            <Divider light />
+            <Typography
+              component="div"
+              gutterBottom
+              className={classNames(classes.cardItem, classes.cardDescription)}>
+              <div>
+                <AccountIcon className={classes.arrowIcon} size={iconSize} />:{' '}
+                <strong>{item.assignee}</strong>
+              </div>
+              <div>
+                Last Updated:{' '}
+                {formatDistance(item.lastUpdated, new Date(), {
+                  addSuffix: true,
+                })}
+              </div>
+            </Typography>
+            <div className={classes.cardItem}>
+              {item.tags.map(tag => (
+                <Chip
+                  name={tag}
+                  key={tag}
+                  label={tag}
+                  className={classNames({
+                    [classes.clickedChip]: tag === query.tag,
+                  })}
+                  onClick={this.handleTagClick}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+      />
+    );
+  };
   render() {
     const { items, classes } = this.props;
     const {
@@ -343,7 +404,13 @@ export default class TasksTable extends Component {
           <Typography variant="title" className={classes.title}>
             Bugs & Issues
           </Typography>
-          {this.props.width !== 'xs' && this.renderViewOptions()}
+          <Hidden smDown>
+            <IconButton
+              value={!displayCardLayout}
+              onClick={this.handleViewOptionsClick}>
+              {displayCardLayout ? <TableLargeIcon /> : <TableColumnIcon />}
+            </IconButton>
+          </Hidden>
           <IconButton onClick={this.handleFilterToggle}>
             <DotsHorizontalIcon />
           </IconButton>
@@ -393,13 +460,13 @@ export default class TasksTable extends Component {
                 <MenuItem key={header} value={header}>
                   {header === sortBy &&
                     (sortDirection === 'asc' ? (
-                      <ArrowUpIcon size={iconSize} />
+                      <ArrowUpIcon className={classes.arrowIcon} size={18} />
                     ) : (
-                      <ArrowDownIcon size={iconSize} />
+                      <ArrowDownIcon className={classes.arrowIcon} size={18} />
                     ))}
                   {sortBy &&
                     header !== sortBy && (
-                      <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
+                      <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
                     )}
                   {header}
                 </MenuItem>
@@ -413,182 +480,124 @@ export default class TasksTable extends Component {
             </Button>
           </div>
         )}
-        {displayCardLayout || this.props.width === 'xs' ? (
-          <DataCard
-            data={data}
-            renderRow={item => (
-              <div>
-                <List
-                  disablePadding
-                  dense={this.props.width === 'xs'}
-                  className={classNames(classes.summary, classes.cardTitle)}>
-                  <ListItem
-                    classes={
-                      (classes.cardItem,
-                      {
-                        gutters: classes.cardSummaryItem,
-                      })
-                    }
-                    title={item.summary}
-                    button
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    component="a"
-                    href={item.url}>
-                    <ListItemText
-                      primary={
-                        <div className={classes.summaryText}>
-                          {`${item.project} - ${item.summary}`}
-                        </div>
-                      }
-                    />
-                    <LinkIcon size={iconSize} />
-                  </ListItem>
-                </List>
-                <Divider light />
-                <Typography
-                  component="div"
-                  gutterBottom
-                  className={classNames(
-                    classes.cardItem,
-                    classes.cardDescription
-                  )}>
-                  <div>
-                    Assignee: <strong>{item.assignee}</strong>
-                  </div>
-                  <div>
-                    Last Updated:{' '}
-                    {formatDistance(item.lastUpdated, new Date(), {
-                      addSuffix: true,
-                    })}
-                  </div>
-                </Typography>
-                <div className={classes.cardItem}>
-                  {item.tags.map(tag => (
-                    <Chip
-                      name={tag}
-                      key={tag}
-                      label={tag}
-                      className={classNames({
-                        [classes.clickedChip]: tag === query.tag,
-                      })}
-                      onClick={this.handleTagClick}
-                    />
-                  ))}
-                </div>
-              </div>
-            )}
-          />
-        ) : (
-          <Fragment>
-            <div className={classes.tableWrapper}>
-              <DataTable
-                items={data}
-                renderRow={item => (
-                  <TableRow tabIndex={-1} key={item.summary}>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      className={classes.tableCell}>
-                      {item.project}
-                    </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      <IconButton
-                        name={item.summary}
-                        className={classes.infoButton}
-                        onClick={this.handleDrawerOpen}>
-                        <InformationVariantIcon />
-                      </IconButton>
-                      <List dense className={classes.summary}>
-                        <ListItem
-                          classes={{
-                            gutters: classes.summaryItem,
-                          }}
-                          title={item.summary}
-                          button
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          component="a"
-                          href={item.url}>
-                          <ListItemText
-                            primary={
-                              <div className={classes.summaryText}>
-                                {`${item.id} - ${item.summary}`}
-                              </div>
-                            }
+        <Hidden mdUp>{this.renderCard(data)}</Hidden>
+        <Hidden smDown>
+          {displayCardLayout ? (
+            <Fragment>{this.renderCard(data)}</Fragment>
+          ) : (
+            <Fragment>
+              <div className={classes.tableWrapper}>
+                <DataTable
+                  items={data}
+                  renderRow={item => (
+                    <TableRow tabIndex={-1} key={item.summary}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        className={classes.tableCell}>
+                        {item.project}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        <IconButton
+                          name={item.summary}
+                          className={classes.infoButton}
+                          onClick={this.handleDrawerOpen}>
+                          <InformationVariantIcon />
+                        </IconButton>
+                        <List dense className={classes.summary}>
+                          <ListItem
+                            classes={{
+                              gutters: classes.summaryItem,
+                            }}
+                            title={item.summary}
+                            button
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            component="a"
+                            href={item.url}>
+                            <ListItemText
+                              primary={
+                                <div className={classes.summaryText}>
+                                  {`${item.id} - ${item.summary}`}
+                                </div>
+                              }
+                            />
+                            <LinkIcon
+                              className={classes.icon}
+                              size={iconSize}
+                            />
+                          </ListItem>
+                        </List>
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {item.tags.map(tag => (
+                          <Chip
+                            name={tag}
+                            key={tag}
+                            label={tag}
+                            className={classNames({
+                              [classes.clickedChip]: tag === query.tag,
+                            })}
+                            onClick={this.handleTagClick}
                           />
-                          <LinkIcon className={classes.icon} size={iconSize} />
-                        </ListItem>
-                      </List>
-                    </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      {item.tags.map(tag => (
-                        <Chip
-                          name={tag}
-                          key={tag}
-                          label={tag}
-                          className={classNames({
-                            [classes.clickedChip]: tag === query.tag,
-                          })}
-                          onClick={this.handleTagClick}
-                        />
-                      ))}
-                    </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      {item.assignee}
-                    </TableCell>
-                    <TableCell className={classes.tableCell}>
-                      {formatDistance(item.lastUpdated, new Date(), {
-                        addSuffix: true,
-                      })}
-                    </TableCell>
-                  </TableRow>
-                )}
-                headers={headers}
-                sortByHeader={sortBy}
-                sortDirection={sortDirection}
-                onHeaderClick={this.handleSortChange}
-              />
-            </div>
-            <Drawer
-              anchor="right"
-              open={drawerOpen}
-              onClose={this.handleDrawerClose}
-              classes={{ paper: classes.drawerPaper }}>
-              <Fragment>
-                <IconButton
-                  className={classes.drawerCloseButton}
-                  onClick={this.handleDrawerClose}>
-                  <CloseIcon />
-                </IconButton>
-                {drawerItem && (
-                  <List>
-                    <ListItem>
-                      <ListItemText
-                        primary="Summary"
-                        secondary={drawerItem.summary}
-                      />
-                    </ListItem>
-                    {drawerItem.description && (
+                        ))}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {item.assignee}
+                      </TableCell>
+                      <TableCell className={classes.tableCell}>
+                        {formatDistance(item.lastUpdated, new Date(), {
+                          addSuffix: true,
+                        })}
+                      </TableCell>
+                    </TableRow>
+                  )}
+                  headers={headers}
+                  sortByHeader={sortBy}
+                  sortDirection={sortDirection}
+                  onHeaderClick={this.handleSortChange}
+                />
+              </div>
+              <Drawer
+                anchor="right"
+                open={drawerOpen}
+                onClose={this.handleDrawerClose}
+                classes={{ paper: classes.drawerPaper }}>
+                <Fragment>
+                  <IconButton
+                    className={classes.drawerCloseButton}
+                    onClick={this.handleDrawerClose}>
+                    <CloseIcon />
+                  </IconButton>
+                  {drawerItem && (
+                    <List>
                       <ListItem>
                         <ListItemText
-                          primary="Description"
-                          secondary={drawerItem.description}
+                          primary="Summary"
+                          secondary={drawerItem.summary}
                         />
                       </ListItem>
-                    )}
-                    <ListItem>
-                      <ListItemText
-                        primary="Are you interested?"
-                        secondary={getTaskHelperText(drawerItem)}
-                      />
-                    </ListItem>
-                  </List>
-                )}
-              </Fragment>
-            </Drawer>
-          </Fragment>
-        )}
+                      {drawerItem.description && (
+                        <ListItem>
+                          <ListItemText
+                            primary="Description"
+                            secondary={drawerItem.description}
+                          />
+                        </ListItem>
+                      )}
+                      <ListItem>
+                        <ListItemText
+                          primary="Are you interested?"
+                          secondary={getTaskHelperText(drawerItem)}
+                        />
+                      </ListItem>
+                    </List>
+                  )}
+                </Fragment>
+              </Drawer>
+            </Fragment>
+          )}
+        </Hidden>
       </Fragment>
     );
   }

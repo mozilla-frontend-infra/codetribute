@@ -9,24 +9,21 @@ import { arrayOf, object } from 'prop-types';
     minHeight: 100,
     paddingBottom: theme.spacing.unit,
   },
-  '@media screen and (max-width: 900px)': {
+  [theme.breakpoints.down('sm')]: {
     paper: {
       width: '90vw',
     },
   },
-  '@media screen and (min-width: 900px)': {
+  [theme.breakpoints.up('md')]: {
     paper: {
       width: 900,
     },
-  },
-  title: {
-    flex: '1 1 100%',
   },
 }))
 export default class TasksList extends Component {
   static propTypes = {
     /**
-     * A list of objects to display. Each element in the list is represented
+     * A list of tasks to display. Each element in the list is represented
      * by a row and each element's key-value pair represents a column.
      */
     data: arrayOf(object),
@@ -39,9 +36,7 @@ export default class TasksList extends Component {
       <Grid container direction="column" alignItems="center" spacing={16}>
         {data.map(item => (
           <Grid item xs={12} key={item.summary}>
-            <Card raised className={classes.paper}>
-              {renderRow(item)}
-            </Card>
+            <Card className={classes.paper}>{renderRow(item)}</Card>
           </Grid>
         ))}
       </Grid>
