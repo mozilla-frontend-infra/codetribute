@@ -105,6 +105,7 @@ const assignments = Object.values(ASSIGNEE);
     whitespace: 'nowrap',
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
+    color: theme.palette.secondary.contrastText,
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -330,7 +331,7 @@ export default class TasksTable extends Component {
                 component="a"
                 href={item.url}>
                 <ListItemText
-                  primary={
+                  secondary={
                     <div className={classes.summaryText}>
                       {`${item.project} - ${item.summary}`}
                     </div>
@@ -504,7 +505,7 @@ export default class TasksTable extends Component {
                           onClick={this.handleDrawerOpen}>
                           <InformationVariantIcon />
                         </IconButton>
-                        <List dense className={classes.summary}>
+                        <List disablePadding className={classes.summary}>
                           <ListItem
                             classes={{
                               gutters: classes.summaryItem,
@@ -516,7 +517,7 @@ export default class TasksTable extends Component {
                             component="a"
                             href={item.url}>
                             <ListItemText
-                              primary={
+                              secondary={
                                 <div className={classes.summaryText}>
                                   {item.summary}
                                 </div>
