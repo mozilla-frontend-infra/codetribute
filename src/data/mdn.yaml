@@ -1,4 +1,24 @@
 name: MDN / Developer Documentation
 summary: Get involved with the [MDN Community](https://developer.mozilla.org/en-US/docs/MDN/Getting_started)
+introduction: |
+  ## About MDN Web Docs
+
+  MDN Web Docs is an evolving learning platform for Web technologies and software that power the Web, including HTML, CSS, JavaScript and the various web standards and APIs.
+
+  ## Who Works on MDN?
+
+  We are an open community of developers and writers building resources for a better Web, regardless of brand, browser, or platform.
+  Anyone can contribute and each person who does makes us stronger.
+
+  ## How Do I Get Started?
+
+  You can just go ahead and pick one of the beginner-friendly tasks listed below.
+  All the tasks listed below have mentors assigned to them and besides that, there is an extremely friendly and supportive community of contributors always willing to help.
+  If you would like to know more about MDN and how to help out in general, check out our [Getting Started](https://developer.mozilla.org/en-US/docs/MDN/Getting_started) page.
+
+  ## How Do I Get Help?
+
+  The best place to get help are the [MDN Discourse channel](https://discourse.mozilla.org/c/mdn) or the `#mdn` [irc](https://wiki.mozilla.org/IRC) channel.
+
 products: 
  - Developer Documentation: ['Accessibility', 'Add-ons', 'API: CSSOM', 'API: Device API', 'API: DOM', 'API: File API', 'API: HTML', 'API: IndexedDB', 'API: Miscellaneous', 'API: SVG', 'API: Web Animations', 'API: Web Audio', 'API: Web Sockets', 'API: Web Workers', 'API: WebRTC', 'Apps', 'CSS', 'Developer Tools', 'Emscripten', 'Games', 'General', 'HTML', 'JavaScript', 'Learning Area', 'Localization', 'Macros/Templates', 'Marketplace', 'MathML', 'MDN Meta Docs', 'Mozilla Platform', 'Protocols', 'Security', 'SVG']
