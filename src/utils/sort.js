@@ -20,19 +20,6 @@ const sort = (referenceElement, compareElement) => {
     return diff < 0 ? -1 : 1;
   } else if (Date.parse(referenceElement) || Date.parse(compareElement)) {
     return compareAsc(referenceElement, compareElement);
-  } else if (
-    referenceElement.match(/^\d+ -/) &&
-    compareElement.match(/^\d+ -/)
-  ) {
-    const diff =
-      parseInt(referenceElement.match(/^\d+/)[0], 10) -
-      parseInt(compareElement.match(/^\d+/)[0], 10);
-
-    if (diff === 0) {
-      return 0;
-    }
-
-    return diff < 0 ? -1 : 1;
   }
 
   return or(referenceElement, '').localeCompare(compareElement);

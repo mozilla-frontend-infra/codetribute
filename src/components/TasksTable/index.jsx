@@ -518,7 +518,7 @@ export default class TasksTable extends Component {
                             <ListItemText
                               primary={
                                 <div className={classes.summaryText}>
-                                  {`${item.id} - ${item.summary}`}
+                                  {item.summary}
                                 </div>
                               }
                             />
