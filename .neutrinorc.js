@@ -21,6 +21,7 @@ module.exports = {
             .end()
           .use('gql-loader')
             .loader(require.resolve('graphql-tag/loader'));
-    }
+    },
+    '@neutrinojs/jest'
   ],
 };
