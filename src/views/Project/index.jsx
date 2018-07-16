@@ -57,6 +57,30 @@ const tagReposMapping = repositories =>
       ...mappings,
     };
   }, {});
+const extractWhiteboardTags = whiteboard => {
+  // find occurence like lang=perl,js or lang=perl/js
+  const re = /(\w+)=(\w+)[,|/](\w+)/;
+  // find all element within square bracket with minimum string inside
+  const keywords = whiteboard.match(/\[.+?\]/g).reduce((prev, item) => {
+    // remove the square bracket
+    const itemWithoutBracket = item.slice(1, -1);
+    const items = itemWithoutBracket.match(re);
+
+    // if there is no comma or /
+    if (!items) {
+      return [...prev, itemWithoutBracket];
+    }
+
+    // items=["lang=js/xul","lang","js","xul"]
+    // so start looping from 3rd element
+    return [
+      ...prev,
+      ...items.slice(2).map(element => `${items[1]}=${element}`),
+    ];
+  }, []);
+
+  return keywords;
+};
 
 @hot(module)
 @compose(
@@ -298,11 +322,11 @@ export default class Project extends Component {
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
             tags: [
-              ...(bug.keywords || []),
-              ...(
-                (bug.whiteboard && bug.whiteboard.match(/\[.+?\]/g)) ||
-                []
-              ).map(tag => tag.slice(1, -1)),
+              ...new Set([
+                ...(bug.keywords || []),
+                ...((bug.whiteboard && extractWhiteboardTags(bug.whiteboard)) ||
+                  []),
+              ]),
             ],
             summary: bug.summary,
             lastUpdated: bug.lastChanged,
