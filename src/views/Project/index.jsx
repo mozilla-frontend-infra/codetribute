@@ -314,7 +314,7 @@ export default class Project extends Component {
         </AppBar>
         <div className={classes.container}>
           {project.introduction && (
-            <ExpansionPanel defaultExpanded>
+            <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
                 <Typography variant="headline">Project Introduction</Typography>
               </ExpansionPanelSummary>
