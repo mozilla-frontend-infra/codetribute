@@ -21,6 +21,7 @@ import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
 import bugsQuery from './bugs.graphql';
+import commentsQuery from './comments.graphql';
 import {
   GOOD_FIRST_BUG,
   BUGZILLA_STATUSES,
@@ -159,6 +160,22 @@ export default class Project extends Component {
       this.load();
     }
   }
+
+  fetchComment = (client, id) =>
+    client
+      .query({
+        query: commentsQuery,
+        variables: { id },
+        context: { link: 'bugzilla' },
+      })
+      .catch(
+        () =>
+          new Promise(resolve => {
+            resolve(false);
+          })
+      )
+      .then(({ data: { comments } }) => comments[0].text);
+
   fetchBugzilla = (products, components) => {
     const {
       bugzilla: { fetchMore },
@@ -304,6 +321,7 @@ export default class Project extends Component {
             ],
             summary: bug.summary,
             lastUpdated: bug.lastChanged,
+            id: bug.id,
             url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           })),
           'summary'
@@ -345,7 +363,12 @@ export default class Project extends Component {
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
           {loading && <Spinner className={classes.spinner} />}
-          {!loading && <TasksTable items={[...issues, ...bugs]} />}
+          {!loading && (
+            <TasksTable
+              fetchComment={this.fetchComment}
+              items={[...issues, ...bugs]}
+            />
+          )}
         </div>
       </div>
     );

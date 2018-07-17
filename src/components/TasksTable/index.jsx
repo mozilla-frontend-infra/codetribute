@@ -1,4 +1,5 @@
 import { Component, Fragment } from 'react';
+import { ApolloConsumer } from 'react-apollo';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
@@ -251,15 +252,30 @@ export default class TasksTable extends Component {
     this.setQuery({});
   };
 
-  handleDrawerOpen = ({ currentTarget: { name } }) => {
+  handleDrawerOpen = ({ currentTarget: { name } }, client) => {
     memoizeWith(
       name => name,
-      name =>
-        this.setState({
-          drawerOpen: true,
-          drawerItem: this.props.items.find(item => item.summary === name),
-        })
-    )(name);
+      (name, client, fetchComment) => {
+        const item = this.props.items.find(item => item.summary === name);
+
+        if (item.url.indexOf('bugzilla') === -1) {
+          this.setState({
+            drawerOpen: true,
+            drawerItem: item,
+          });
+
+          return;
+        }
+
+        fetchComment(client, item.id).then(description => {
+          item.description = description;
+          this.setState({
+            drawerOpen: true,
+            drawerItem: item,
+          });
+        });
+      }
+    )(name, client, this.props.fetchComment);
   };
 
   handleDrawerClose = () => {
@@ -354,12 +370,17 @@ export default class TasksTable extends Component {
                   {item.project}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  <IconButton
-                    name={item.summary}
-                    className={classes.infoButton}
-                    onClick={this.handleDrawerOpen}>
-                    <InformationVariantIcon />
-                  </IconButton>
+                  <ApolloConsumer>
+                    {client => (
+                      <IconButton
+                        name={item.summary}
+                        client={client}
+                        className={classes.infoButton}
+                        onClick={e => this.handleDrawerOpen(e, client)}>
+                        <InformationVariantIcon />
+                      </IconButton>
+                    )}
+                  </ApolloConsumer>
                   <List dense disablePadding className={classes.summary}>
                     <ListItem
                       classes={{
