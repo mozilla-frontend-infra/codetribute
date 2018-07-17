@@ -49,6 +49,12 @@ export default class ProjectCard extends Component {
     }
   };
 
+  linkRenderer = props => (
+    <a href={props.href} target="_blank" rel="noopener noreferrer">
+      {props.children}
+    </a>
+  );
+
   render() {
     const {
       classes,
@@ -68,7 +74,10 @@ export default class ProjectCard extends Component {
                 onClick={this.handleSummaryClick}
                 component="object"
                 color="textSecondary">
-                <Markdown source={summary} />
+                <Markdown
+                  source={summary}
+                  renderers={{ link: this.linkRenderer }}
+                />
               </Typography>
             )}
           </CardContent>
