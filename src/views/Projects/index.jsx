@@ -3,6 +3,8 @@ import { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import GithubCircleIcon from 'mdi-react/GithubCircleIcon';
 import AppBar from '../../components/AppBar';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
@@ -34,6 +36,13 @@ import SearchBox from '../../components/SearchBox';
     width: '90vw',
     margin: '0 auto',
   },
+  appBarButton: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+    '& svg': {
+      fill: '#ecffff',
+    },
+  },
 }))
 export default class Projects extends Component {
   state = {
@@ -62,6 +71,14 @@ export default class Projects extends Component {
     return (
       <Fragment>
         <AppBar position="absolute" className={classes.header}>
+          <IconButton
+            className={classes.appBarButton}
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/mozilla-frontend-infra/codetribute"
+            title="Site Repository">
+            <GithubCircleIcon />
+          </IconButton>
           <Typography variant="display2" align="center">
             Codetribute
           </Typography>
