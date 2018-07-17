@@ -257,6 +257,12 @@ export default class Project extends Component {
     this.setState({ loading: false });
   };
 
+  linkRenderer = props => (
+    <a href={props.href} target="_blank" rel="noopener noreferrer">
+      {props.children}
+    </a>
+  );
+
   render() {
     const { classes } = this.props;
     const githubData = this.props.github;
@@ -320,7 +326,10 @@ export default class Project extends Component {
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography variant="body1">
-                  <Markdown source={project.introduction} />
+                  <Markdown
+                    source={project.introduction}
+                    renderers={{ link: this.linkRenderer }}
+                  />
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
