@@ -1,5 +1,4 @@
 import { Component, Fragment } from 'react';
-import { ApolloConsumer } from 'react-apollo';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
@@ -252,10 +251,10 @@ export default class TasksTable extends Component {
     this.setQuery({});
   };
 
-  handleDrawerOpen = ({ currentTarget: { name } }, client) => {
+  handleDrawerOpen = ({ currentTarget: { name } }) => {
     memoizeWith(
       name => name,
-      async (name, client, onBugInfoClick) => {
+      async (name, onBugInfoClick) => {
         const item = this.props.items.find(item => item.summary === name);
 
         if (item.url.indexOf('bugzilla') === -1) {
@@ -267,14 +266,14 @@ export default class TasksTable extends Component {
           return;
         }
 
-        const description = await onBugInfoClick(client, item.id);
+        const description = await onBugInfoClick(item.id);
 
         this.setState({
           drawerOpen: true,
           drawerItem: { ...item, description },
         });
       }
-    )(name, client, this.props.onBugInfoClick);
+    )(name, this.props.onBugInfoClick);
   };
 
   handleDrawerClose = () => {
@@ -369,16 +368,12 @@ export default class TasksTable extends Component {
                   {item.project}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  <ApolloConsumer>
-                    {client => (
-                      <IconButton
-                        name={item.summary}
-                        className={classes.infoButton}
-                        onClick={e => this.handleDrawerOpen(e, client)}>
-                        <InformationVariantIcon />
-                      </IconButton>
-                    )}
-                  </ApolloConsumer>
+                  <IconButton
+                    name={item.summary}
+                    className={classes.infoButton}
+                    onClick={this.handleDrawerOpen}>
+                    <InformationVariantIcon />
+                  </IconButton>
                   <List dense disablePadding className={classes.summary}>
                     <ListItem
                       classes={{

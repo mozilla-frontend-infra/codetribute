@@ -161,11 +161,11 @@ export default class Project extends Component {
     }
   }
 
-  handleFetchBugFirstComment = async (client, id) => {
+  handleFetchBugFirstComment = async id => {
     try {
       const {
         data: { comments },
-      } = await client.query({
+      } = await this.props.client.query({
         query: commentsQuery,
         variables: { id },
         context: { link: 'bugzilla' },
