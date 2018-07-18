@@ -137,6 +137,9 @@ const tagReposMapping = repositories =>
   title: {
     padding: '0 41px',
   },
+  spinner: {
+    marginTop: 3 * theme.spacing.unit,
+  },
 }))
 export default class Project extends Component {
   state = {
@@ -338,7 +341,7 @@ export default class Project extends Component {
             githubData.error && <ErrorPanel error={githubData.error} />}
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
-          {loading && <Spinner />}
+          {loading && <Spinner className={classes.spinner} />}
           {!loading && <TasksTable items={[...issues, ...bugs]} />}
         </div>
       </div>
