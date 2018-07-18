@@ -35,7 +35,7 @@ import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import DataCard from '../DataCard';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
-import { ASSIGNEE, ALL_PROJECTS, HEADERS } from '../../utils/constants';
+import { ASSIGNEE, ALL_PROJECTS, PROJECT_HEADERS } from '../../utils/constants';
 
 const getTaskHelperText = item => {
   const daysSinceLastUpdate = differenceInCalendarDays(
@@ -179,7 +179,7 @@ export default class TasksTable extends Component {
       )}-${sortBy}-${sortDirection}-${tag}-${assignee}-${project}`;
     },
     (
-      sortBy = HEADERS.LAST_UPDATED,
+      sortBy = PROJECT_HEADERS.LAST_UPDATED,
       sortDirection = 'desc',
       tag,
       items,
@@ -238,7 +238,7 @@ export default class TasksTable extends Component {
   };
 
   handleSortChange = sortBy => {
-    if (sortBy === HEADERS.TAGS) {
+    if (sortBy === PROJECT_HEADERS.TAGS) {
       return;
     }
 
@@ -311,9 +311,9 @@ export default class TasksTable extends Component {
 
     return (
       <DataCard
-        data={data}
+        items={data}
         renderRow={item => (
-          <div>
+          <Fragment>
             <List
               disablePadding
               className={classNames(classes.summary, classes.cardTitle)}>
@@ -369,7 +369,7 @@ export default class TasksTable extends Component {
                 />
               ))}
             </div>
-          </div>
+          </Fragment>
         )}
       />
     );
@@ -397,7 +397,7 @@ export default class TasksTable extends Component {
     );
     const iconSize = 14;
     const projects = [...new Set(items.map(item => item.project))];
-    const headers = Object.values(HEADERS);
+    const headers = Object.values(PROJECT_HEADERS);
 
     return (
       <Fragment>
@@ -454,24 +454,31 @@ export default class TasksTable extends Component {
             <TextField
               select
               label="Sort by"
-              value={sortBy || HEADERS.LAST_UPDATED}
+              value={sortBy || PROJECT_HEADERS.LAST_UPDATED}
               className={classes.dropdown}
               onChange={this.handleSortBy}>
-              {headers.filter(header => header !== HEADERS.TAGS).map(header => (
-                <MenuItem key={header} value={header}>
-                  {header === sortBy &&
-                    (sortDirection === 'asc' ? (
-                      <ArrowUpIcon className={classes.arrowIcon} size={18} />
-                    ) : (
-                      <ArrowDownIcon className={classes.arrowIcon} size={18} />
-                    ))}
-                  {sortBy &&
-                    header !== sortBy && (
-                      <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
-                    )}
-                  {header}
-                </MenuItem>
-              ))}
+              {headers
+                .filter(header => header !== PROJECT_HEADERS.TAGS)
+                .map(header => (
+                  <MenuItem key={header} value={header}>
+                    {header === sortBy &&
+                      (sortDirection === 'asc' ? (
+                        <ArrowUpIcon className={classes.arrowIcon} size={18} />
+                      ) : (
+                        <ArrowDownIcon
+                          className={classes.arrowIcon}
+                          size={18}
+                        />
+                      ))}
+                    {sortBy &&
+                      header !== sortBy && (
+                        <Fragment>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Fragment>
+                      )}
+                    {header}
+                  </MenuItem>
+                ))}
             </TextField>
             <Button
               variant="outlined"

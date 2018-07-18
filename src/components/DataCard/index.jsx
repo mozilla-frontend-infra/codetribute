@@ -2,7 +2,7 @@ import { Component } from 'react';
 import Card from '@material-ui/core/Card';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { arrayOf, object } from 'prop-types';
+import { arrayOf, func, object } from 'prop-types';
 
 @withStyles(theme => ({
   paper: {
@@ -26,15 +26,21 @@ export default class TasksList extends Component {
      * A list of tasks to display. Each element in the list is represented
      * by a row and each element's key-value pair represents a column.
      */
-    data: arrayOf(object),
+    items: arrayOf(object).isRequired,
+    /**
+     * A function to execute for each row to render in the table.
+     * Will be passed a datum from the table data. The function
+     * should return the JSX necessary to render the given row.
+     */
+    renderRow: func,
   };
 
   render() {
-    const { data, classes, renderRow } = this.props;
+    const { items, classes, renderRow } = this.props;
 
     return (
       <Grid container direction="column" alignItems="center" spacing={16}>
-        {data.map(item => (
+        {items.map(item => (
           <Grid item xs={12} key={item.summary}>
             <Card className={classes.paper}>{renderRow(item)}</Card>
           </Grid>

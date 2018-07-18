@@ -14,7 +14,7 @@ export const ASSIGNEE = {
   ASSIGNED: 'Assigned',
 };
 export const ALL_PROJECTS = 'All';
-export const HEADERS = {
+export const PROJECT_HEADERS = {
   PROJECT: 'Project',
   SUMMARY: 'Summary',
   TAGS: 'Tags',
