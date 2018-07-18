@@ -140,7 +140,7 @@ const tagReposMapping = repositories =>
 }))
 export default class Project extends Component {
   state = {
-    loading: true,
+    loading: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -274,8 +274,7 @@ export default class Project extends Component {
         uniqBy(
           githubData.search.nodes.map(issue => ({
             project: issue.repository.name,
-            id: issue.number,
-            summary: `${issue.number} - ${issue.title}`,
+            summary: issue.title,
             tags: issue.labels.nodes.map(node => node.name).sort(),
             lastUpdated: issue.updatedAt,
             assignee: issue.assignees.nodes[0]
@@ -296,7 +295,7 @@ export default class Project extends Component {
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
             tags: bug.keywords || [],
-            summary: `${bug.id} - ${bug.summary}`,
+            summary: bug.summary,
             lastUpdated: bug.lastChanged,
             url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           })),
@@ -325,7 +324,7 @@ export default class Project extends Component {
                 <Typography variant="headline">Project Introduction</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography variant="body1">
+                <Typography component="div">
                   <Markdown
                     source={project.introduction}
                     renderers={{ link: this.linkRenderer }}

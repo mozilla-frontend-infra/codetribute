@@ -14,3 +14,10 @@ export const ASSIGNEE = {
   ASSIGNED: 'Assigned',
 };
 export const ALL_PROJECTS = 'All';
+export const PROJECT_HEADERS = {
+  PROJECT: 'Project',
+  SUMMARY: 'Summary',
+  TAGS: 'Tags',
+  ASSIGNEE: 'Assignee',
+  LAST_UPDATED: 'Last Updated',
+};

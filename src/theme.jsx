@@ -52,7 +52,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiChip: {
       root: {
-        height: 24,
+        height: 20,
         marginRight: 4,
         backgroundColor: PRIMARY.MAIN,
         color: 'white',
@@ -91,6 +91,11 @@ const theme = createMuiTheme({
       root: {
         width: 41,
         height: 41,
+      },
+    },
+    MuiDivider: {
+      root: {
+        margin: '1px 0',
       },
     },
   },
