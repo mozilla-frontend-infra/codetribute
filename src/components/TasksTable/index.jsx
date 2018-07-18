@@ -255,7 +255,7 @@ export default class TasksTable extends Component {
   handleDrawerOpen = ({ currentTarget: { name } }, client) => {
     memoizeWith(
       name => name,
-      (name, client, fetchComment) => {
+      async (name, client, onBugInfoClick) => {
         const item = this.props.items.find(item => item.summary === name);
 
         if (item.url.indexOf('bugzilla') === -1) {
@@ -267,15 +267,14 @@ export default class TasksTable extends Component {
           return;
         }
 
-        fetchComment(client, item.id).then(description => {
-          item.description = description;
-          this.setState({
-            drawerOpen: true,
-            drawerItem: item,
-          });
+        const description = await onBugInfoClick(client, item.id);
+
+        this.setState({
+          drawerOpen: true,
+          drawerItem: { ...item, description },
         });
       }
-    )(name, client, this.props.fetchComment);
+    )(name, client, this.props.onBugInfoClick);
   };
 
   handleDrawerClose = () => {
@@ -374,7 +373,6 @@ export default class TasksTable extends Component {
                     {client => (
                       <IconButton
                         name={item.summary}
-                        client={client}
                         className={classes.infoButton}
                         onClick={e => this.handleDrawerOpen(e, client)}>
                         <InformationVariantIcon />

@@ -161,20 +161,21 @@ export default class Project extends Component {
     }
   }
 
-  fetchComment = (client, id) =>
-    client
-      .query({
+  handleFetchBugFirstComment = async (client, id) => {
+    try {
+      const {
+        data: { comments },
+      } = await client.query({
         query: commentsQuery,
         variables: { id },
         context: { link: 'bugzilla' },
-      })
-      .catch(
-        () =>
-          new Promise(resolve => {
-            resolve(false);
-          })
-      )
-      .then(({ data: { comments } }) => comments[0].text);
+      });
+
+      return comments[0].text;
+    } catch (err) {
+      return '';
+    }
+  };
 
   fetchBugzilla = (products, components) => {
     const {
@@ -365,7 +366,7 @@ export default class Project extends Component {
           {loading && <Spinner className={classes.spinner} />}
           {!loading && (
             <TasksTable
-              fetchComment={this.fetchComment}
+              onBugInfoClick={this.handleFetchBugFirstComment}
               items={[...issues, ...bugs]}
             />
           )}
