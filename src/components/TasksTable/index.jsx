@@ -27,7 +27,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
-import DotsHorizontalIcon from 'mdi-react/DotsHorizontalIcon';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import { stringify, parse } from 'qs';
 import classNames from 'classnames';
@@ -150,7 +149,6 @@ const assignments = Object.values(ASSIGNEE);
 export default class TasksTable extends Component {
   state = {
     displayCardLayout: false,
-    showFilterContent: false,
     drawerOpen: false,
     drawerItem: null,
   };
@@ -225,10 +223,6 @@ export default class TasksTable extends Component {
     this.props.history.push({
       search: `?${stringify(query)}`,
     });
-  };
-
-  handleFilterToggle = () => {
-    this.setState({ showFilterContent: !this.state.showFilterContent });
   };
 
   handleFilterChange = ({ target: { name, value } }) => {
@@ -376,12 +370,7 @@ export default class TasksTable extends Component {
   };
   render() {
     const { items, classes } = this.props;
-    const {
-      showFilterContent,
-      drawerOpen,
-      drawerItem,
-      displayCardLayout,
-    } = this.state;
+    const { drawerOpen, drawerItem, displayCardLayout } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
@@ -412,9 +401,6 @@ export default class TasksTable extends Component {
               {displayCardLayout ? <TableLargeIcon /> : <TableColumnIcon />}
             </IconButton>
           </Hidden>
-          <IconButton onClick={this.handleFilterToggle}>
-            <DotsHorizontalIcon />
-          </IconButton>
           <Button
             color="primary"
             disabled={!items.length}
@@ -422,72 +408,65 @@ export default class TasksTable extends Component {
             I’m Feeling Adventurous
           </Button>
         </Toolbar>
-        {showFilterContent && (
-          <div className={classes.filter}>
-            <TextField
-              select
-              name="assignee"
-              label="Assignee"
-              value={assignment}
-              className={classes.dropdown}
-              onChange={this.handleFilterChange}>
-              {assignments.map(assignee => (
-                <MenuItem key={assignee} value={assignee}>
-                  {assignee}
+        <div className={classes.filter}>
+          <TextField
+            select
+            name="assignee"
+            label="Assignee"
+            value={assignment}
+            className={classes.dropdown}
+            onChange={this.handleFilterChange}>
+            {assignments.map(assignee => (
+              <MenuItem key={assignee} value={assignee}>
+                {assignee}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            name="project"
+            label="Project"
+            value={project || ALL_PROJECTS}
+            className={classes.dropdown}
+            onChange={this.handleFilterChange}>
+            <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
+            {projects.map(project => (
+              <MenuItem key={project} value={project}>
+                {project}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            label="Sort by"
+            value={sortBy || PROJECT_HEADERS.LAST_UPDATED}
+            className={classes.dropdown}
+            onChange={this.handleSortBy}>
+            {headers
+              .filter(header => header !== PROJECT_HEADERS.TAGS)
+              .map(header => (
+                <MenuItem key={header} value={header}>
+                  {header === sortBy &&
+                    (sortDirection === 'asc' ? (
+                      <ArrowUpIcon className={classes.arrowIcon} size={18} />
+                    ) : (
+                      <ArrowDownIcon className={classes.arrowIcon} size={18} />
+                    ))}
+                  {sortBy &&
+                    header !== sortBy && (
+                      <Fragment>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</Fragment>
+                    )}
+                  {header}
                 </MenuItem>
               ))}
-            </TextField>
-            <TextField
-              select
-              name="project"
-              label="Project"
-              value={project || ALL_PROJECTS}
-              className={classes.dropdown}
-              onChange={this.handleFilterChange}>
-              <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
-              {projects.map(project => (
-                <MenuItem key={project} value={project}>
-                  {project}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              select
-              label="Sort by"
-              value={sortBy || PROJECT_HEADERS.LAST_UPDATED}
-              className={classes.dropdown}
-              onChange={this.handleSortBy}>
-              {headers
-                .filter(header => header !== PROJECT_HEADERS.TAGS)
-                .map(header => (
-                  <MenuItem key={header} value={header}>
-                    {header === sortBy &&
-                      (sortDirection === 'asc' ? (
-                        <ArrowUpIcon className={classes.arrowIcon} size={18} />
-                      ) : (
-                        <ArrowDownIcon
-                          className={classes.arrowIcon}
-                          size={18}
-                        />
-                      ))}
-                    {sortBy &&
-                      header !== sortBy && (
-                        <Fragment>
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Fragment>
-                      )}
-                    {header}
-                  </MenuItem>
-                ))}
-            </TextField>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={this.handleResetClick}>
-              Reset
-            </Button>
-          </div>
-        )}
+          </TextField>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={this.handleResetClick}>
+            Reset
+          </Button>
+        </div>
         <Hidden mdUp>{this.renderCard(data)}</Hidden>
         <Hidden smDown>
           {displayCardLayout ? (
