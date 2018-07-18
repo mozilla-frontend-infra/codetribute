@@ -7,17 +7,8 @@ import { arrayOf, func, object } from 'prop-types';
 @withStyles(theme => ({
   paper: {
     minHeight: 100,
+    position: 'relative',
     paddingBottom: theme.spacing.unit,
-  },
-  [theme.breakpoints.down('sm')]: {
-    paper: {
-      width: '90vw',
-    },
-  },
-  [theme.breakpoints.up('md')]: {
-    paper: {
-      width: 900,
-    },
   },
 }))
 export default class TasksList extends Component {
@@ -39,9 +30,9 @@ export default class TasksList extends Component {
     const { items, classes, renderRow } = this.props;
 
     return (
-      <Grid container direction="column" alignItems="center" spacing={16}>
+      <Grid container alignItems="flex-start" spacing={24}>
         {items.map(item => (
-          <Grid item xs={12} key={item.summary}>
+          <Grid item xs={12} sm={4} md={3} lg={3} xl={2} key={item.summary}>
             <Card className={classes.paper}>{renderRow(item)}</Card>
           </Grid>
         ))}

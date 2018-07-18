@@ -120,6 +120,7 @@ const assignments = Object.values(ASSIGNEE);
   },
   cardSummaryItem: {
     padding: `${theme.spacing.unit}px ${2 * theme.spacing.unit}px`,
+    whiteSpace: 'nowrap',
   },
   icon: {
     flexShrink: 0,
@@ -144,6 +145,15 @@ const assignments = Object.values(ASSIGNEE);
   arrowIcon: {
     verticalAlign: 'text-bottom',
     marginRight: theme.spacing.unit / 2,
+  },
+  cardInfoButton: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  cardChip: {
+    marginRight: 41,
   },
 }))
 export default class TasksTable extends Component {
@@ -312,12 +322,7 @@ export default class TasksTable extends Component {
               disablePadding
               className={classNames(classes.summary, classes.cardTitle)}>
               <ListItem
-                classes={
-                  (classes.cardItem,
-                  {
-                    gutters: classes.cardSummaryItem,
-                  })
-                }
+                classes={{ gutters: classes.cardSummaryItem }}
                 title={item.summary}
                 button
                 target="_blank"
@@ -325,44 +330,48 @@ export default class TasksTable extends Component {
                 component="a"
                 href={item.url}>
                 <ListItemText
-                  secondary={
-                    <div className={classes.summaryText}>
-                      {`${item.project} - ${item.summary}`}
-                    </div>
+                  primary={
+                    <div className={classes.summaryText}>{item.summary}</div>
                   }
                 />
                 <LinkIcon size={iconSize} />
               </ListItem>
             </List>
             <Divider light />
-            <Typography
-              component="div"
-              gutterBottom
-              className={classNames(classes.cardItem, classes.cardDescription)}>
-              <div>
-                <AccountIcon className={classes.arrowIcon} size={iconSize} />:{' '}
-                <strong>{item.assignee}</strong>
-              </div>
-              <div>
+            <div className={classes.cardItem}>
+              <Typography component="div" className={classes.cardDescription}>
+                <div>Project:{item.project}</div>
+                <div>
+                  <AccountIcon className={classes.arrowIcon} size={iconSize} />
+                  <strong>{item.assignee}</strong>
+                </div>
+              </Typography>
+              <Typography gutterBottom>
                 Last Updated:{' '}
                 {formatDistance(item.lastUpdated, new Date(), {
                   addSuffix: true,
                 })}
+              </Typography>
+              <div className={classes.cardChip}>
+                {item.tags.map(tag => (
+                  <Chip
+                    name={tag}
+                    key={tag}
+                    label={tag}
+                    className={classNames({
+                      [classes.clickedChip]: tag === query.tag,
+                    })}
+                    onClick={this.handleTagClick}
+                  />
+                ))}
               </div>
-            </Typography>
-            <div className={classes.cardItem}>
-              {item.tags.map(tag => (
-                <Chip
-                  name={tag}
-                  key={tag}
-                  label={tag}
-                  className={classNames({
-                    [classes.clickedChip]: tag === query.tag,
-                  })}
-                  onClick={this.handleTagClick}
-                />
-              ))}
             </div>
+            <IconButton
+              name={item.summary}
+              className={classes.cardInfoButton}
+              onClick={this.handleDrawerOpen}>
+              <InformationVariantIcon />
+            </IconButton>
           </Fragment>
         )}
       />
@@ -545,45 +554,45 @@ export default class TasksTable extends Component {
                   onHeaderClick={this.handleSortChange}
                 />
               </div>
-              <Drawer
-                anchor="right"
-                open={drawerOpen}
-                onClose={this.handleDrawerClose}
-                classes={{ paper: classes.drawerPaper }}>
-                <Fragment>
-                  <IconButton
-                    className={classes.drawerCloseButton}
-                    onClick={this.handleDrawerClose}>
-                    <CloseIcon />
-                  </IconButton>
-                  {drawerItem && (
-                    <List>
-                      <ListItem>
-                        <ListItemText
-                          primary="Summary"
-                          secondary={drawerItem.summary}
-                        />
-                      </ListItem>
-                      {drawerItem.description && (
-                        <ListItem>
-                          <ListItemText
-                            primary="Description"
-                            secondary={drawerItem.description}
-                          />
-                        </ListItem>
-                      )}
-                      <ListItem>
-                        <ListItemText
-                          primary="Are you interested?"
-                          secondary={getTaskHelperText(drawerItem)}
-                        />
-                      </ListItem>
-                    </List>
-                  )}
-                </Fragment>
-              </Drawer>
             </Fragment>
           )}
+          <Drawer
+            anchor="right"
+            open={drawerOpen}
+            onClose={this.handleDrawerClose}
+            classes={{ paper: classes.drawerPaper }}>
+            <Fragment>
+              <IconButton
+                className={classes.drawerCloseButton}
+                onClick={this.handleDrawerClose}>
+                <CloseIcon />
+              </IconButton>
+              {drawerItem && (
+                <List>
+                  <ListItem>
+                    <ListItemText
+                      primary="Summary"
+                      secondary={drawerItem.summary}
+                    />
+                  </ListItem>
+                  {drawerItem.description && (
+                    <ListItem>
+                      <ListItemText
+                        primary="Description"
+                        secondary={drawerItem.description}
+                      />
+                    </ListItem>
+                  )}
+                  <ListItem>
+                    <ListItemText
+                      primary="Are you interested?"
+                      secondary={getTaskHelperText(drawerItem)}
+                    />
+                  </ListItem>
+                </List>
+              )}
+            </Fragment>
+          </Drawer>
         </Hidden>
       </Fragment>
     );
