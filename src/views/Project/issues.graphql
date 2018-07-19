@@ -5,7 +5,6 @@ query Issues($searchQuery: String!) {
         title
         body
         updatedAt
-        number
         repository {
           name
         }

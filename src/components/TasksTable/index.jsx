@@ -88,6 +88,7 @@ const assignments = Object.values(ASSIGNEE);
   summaryText: {
     overflowX: 'hidden',
     textOverflow: 'ellipsis',
+    color: 'inherit',
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -359,7 +360,7 @@ export default class TasksTable extends Component {
                     onClick={this.handleDrawerOpen}>
                     <InformationVariantIcon />
                   </IconButton>
-                  <List dense className={classes.summary}>
+                  <List dense disablePadding className={classes.summary}>
                     <ListItem
                       classes={{
                         gutters: classes.summaryItem,
