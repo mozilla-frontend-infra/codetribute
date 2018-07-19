@@ -1,5 +1,5 @@
 name: Release Engineering
-summary: Get involved with the [Release Engineering](https://wiki.mozilla.org/ReleaseEngineering/Contribute) team
+summary: Release Engineering team is responsible for the project's build, test, and release pipeline.
 products: 
  - mozilla.org: ['Hg: Customizations']
  - Release Engineering

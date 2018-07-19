@@ -1,6 +1,6 @@
 name: Accessibility
-summary: Get involved with the [Accessibility](https://wiki.mozilla.org/Accessibility/Contribute) team
-products: 
+summary: Accessibility is about making things work for everyone. The majority of our team's engineering work is performed on the accessibility engine which sits inside gecko, the guts of the Firefox browser's web platform.
+products:
  - Core: ['Disability Access APIs']
  - Firefox: ['Disability Access']
 keywords:
