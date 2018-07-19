@@ -28,7 +28,7 @@ import {
   BUGZILLA_PAGE_SIZE,
   BUGZILLA_ORDER,
 } from '../../utils/constants';
-import extractWhiteboardTags from '../../utils/extractWhiteboard';
+import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
 const bugzillaSearchOptions = {
   keywords: [GOOD_FIRST_BUG],
@@ -300,8 +300,7 @@ export default class Project extends Component {
             project: bug.component,
             tags: [
               ...(bug.keywords || []),
-              ...((bug.whiteboard && extractWhiteboardTags(bug.whiteboard)) ||
-                []),
+              ...extractWhiteboardTags(bug.whiteboard),
             ],
             summary: bug.summary,
             lastUpdated: bug.lastChanged,
