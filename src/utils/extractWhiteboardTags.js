@@ -1,8 +1,8 @@
+// Find whiteboard tags of the form:
+// [lang=js][lang=xul]
+// [lang=js,xul]
+// [lang=js/xul]
 export default whiteboard => {
-  // Find whiteboard tags of the form:
-  // [lang=js][lang=xul]
-  // [lang=js,xul]
-  // [lang=js/xul]
   if (!whiteboard) {
     return [];
   }
