@@ -9,6 +9,7 @@ import AppBar from '../../components/AppBar';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 import SearchBox from '../../components/SearchBox';
+import sort from '../../utils/sort';
 
 @hot(module)
 @withStyles(theme => ({
@@ -97,11 +98,18 @@ export default class Projects extends Component {
         </AppBar>
         <main className={classes.container}>
           <Grid container spacing={24} className={classes.grid}>
-            {Object.entries(filteredProjects).map(([name, project]) => (
-              <Grid item key={name} xs={12} sm={12} md={4} lg={3}>
-                <ProjectCard project={project} />
-              </Grid>
-            ))}
+            {Object.values(filteredProjects)
+              .sort((a, b) => {
+                const firstElement = a.name;
+                const secondElement = b.name;
+
+                return sort(firstElement, secondElement);
+              })
+              .map(project => (
+                <Grid item key={project.fileName} xs={12} sm={12} md={4} lg={3}>
+                  <ProjectCard project={project} />
+                </Grid>
+              ))}
           </Grid>
         </main>
       </Fragment>
