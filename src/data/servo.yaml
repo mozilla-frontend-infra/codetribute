@@ -1,4 +1,4 @@
 name: Servo
-summary: Get involved with the [Servo](https://github.com/servo/servo/) project
+summary: Servo is a modern, high-performance browser engine designed for both application and embedded use.
 repositories: 
  - servo/servo: E-easy

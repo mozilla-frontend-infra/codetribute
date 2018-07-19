@@ -1,6 +1,6 @@
 name: Webmaker
-summary: Get involved with the [Webmaker team](http://webmaker.org)
-products: 
+summary: Webmaker is a program to help people use open building blocks of the web.
+products:
  - Webmaker: ['Badges', 'Community', 'DevOps', 'Events', 'General', 'Login', 'MakeAPI', 'Marketing', 'Popcorn Maker', 'Projects', 'Thimble', 'popcorn.js', 'webmaker.org']
 repositories: 
  - mozilla/butter: mentored
