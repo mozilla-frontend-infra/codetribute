@@ -97,6 +97,11 @@ const assignments = Object.values(ASSIGNEE);
     flex: 1,
     whiteSpace: 'nowrap',
   },
+  [theme.breakpoints.down('xs')]: {
+    advButton: {
+      order: 2,
+    },
+  },
   icon: {
     flexShrink: 0,
   },
@@ -288,15 +293,16 @@ export default class TasksTable extends Component {
           <Typography variant="title" className={classes.title}>
             Bugs & Issues
           </Typography>
-          <IconButton onClick={this.handleFilterToggle}>
-            <FilterVariantIcon />
-          </IconButton>
           <Button
             color="primary"
             disabled={!items.length}
-            onClick={this.handleRandomTaskClick}>
+            onClick={this.handleRandomTaskClick}
+            className={classes.advButton}>
             I’m Feeling Adventurous
           </Button>
+          <IconButton onClick={this.handleFilterToggle}>
+            <FilterVariantIcon />
+          </IconButton>
         </Toolbar>
         {showFilterContent && (
           <div className={classes.filter}>
