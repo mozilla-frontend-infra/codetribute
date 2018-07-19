@@ -354,7 +354,7 @@ export default class TasksTable extends Component {
                     onClick={this.handleDrawerOpen}>
                     <InformationVariantIcon />
                   </IconButton>
-                  <List disablePadding className={classes.summary}>
+                  <List dense disablePadding className={classes.summary}>
                     <ListItem
                       classes={{
                         gutters: classes.summaryItem,
@@ -366,10 +366,11 @@ export default class TasksTable extends Component {
                       component="a"
                       href={item.url}>
                       <ListItemText
-                        secondaryTypographyProps={{
-                          className: classes.summaryText,
-                        }}
-                        secondary={item.summary}
+                        primary={
+                          <div className={classes.summaryText}>
+                            {item.summary}
+                          </div>
+                        }
                       />
                       <LinkIcon className={classes.icon} size={iconSize} />
                     </ListItem>
