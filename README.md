@@ -64,7 +64,11 @@ Install npm dependencies and start it up:
 - `yarn`
 - `yarn start`
 
-This will start a local development server on port 5000 (http://localhost:5000). 
+This will start a local development server on port 5000 (http://localhost:5000).
+
+Additionally if you wish to query the Bugzilla GraphQL API locally instead of
+the production instance, you'll need to clone and run
+[mozilla-frontend-infra/bugzilla-graphql-gateway](https://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway).
 
 ## Adding a project
 
@@ -107,6 +111,10 @@ repositories:
 
 ```
 _Note: The `summary` and `introduction` fields are to be rendered as markdown, allowing for bullet points, links and other simple formatting._
+
+## Data Flow
+
+![data flow image](codetribute-data-flow.png)
 
 ## Contributing
 
