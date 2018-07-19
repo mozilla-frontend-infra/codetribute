@@ -98,7 +98,7 @@ const assignments = Object.values(ASSIGNEE);
     whiteSpace: 'nowrap',
   },
   [theme.breakpoints.down('xs')]: {
-    advButton: {
+    adventurousButton: {
       order: 2,
     },
   },
@@ -297,7 +297,7 @@ export default class TasksTable extends Component {
             color="primary"
             disabled={!items.length}
             onClick={this.handleRandomTaskClick}
-            className={classes.advButton}>
+            className={classes.adventurousButton}>
             I’m Feeling Adventurous
           </Button>
           <IconButton onClick={this.handleFilterToggle}>
