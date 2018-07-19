@@ -1,7 +1,7 @@
 import { hot } from 'react-hot-loader';
 import { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { ApolloProvider, ApolloConsumer } from 'react-apollo';
+import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { RetryLink } from 'apollo-link-retry';
@@ -51,20 +51,12 @@ export default class App extends Component {
         <MuiThemeProvider theme={theme}>
           <FontStager />
           <CssBaseline />
-          <ApolloConsumer>
-            {client => (
-              <BrowserRouter>
-                <Switch>
-                  <Route
-                    path="/projects/:project"
-                    render={props => <Project client={client} {...props} />}
-                  />
-
-                  <Route exact path="/" component={Projects} />
-                </Switch>
-              </BrowserRouter>
-            )}
-          </ApolloConsumer>
+          <BrowserRouter>
+            <Switch>
+              <Route path="/projects/:project" component={Project} />
+              <Route exact path="/" component={Projects} />
+            </Switch>
+          </BrowserRouter>
         </MuiThemeProvider>
       </ApolloProvider>
     );

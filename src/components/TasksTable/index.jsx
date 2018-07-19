@@ -257,20 +257,14 @@ export default class TasksTable extends Component {
       async (name, onBugInfoClick) => {
         const item = this.props.items.find(item => item.summary === name);
 
-        if (item.url.indexOf('bugzilla') === -1) {
-          this.setState({
-            drawerOpen: true,
-            drawerItem: item,
-          });
-
-          return;
-        }
-
-        const description = await onBugInfoClick(item.id);
-
         this.setState({
           drawerOpen: true,
-          drawerItem: { ...item, description },
+          drawerItem: {
+            ...item,
+            ...(item.url.includes('bugzilla.mozilla.org')
+              ? { description: await onBugInfoClick(item.id) }
+              : null),
+          },
         });
       }
     )(name, this.props.onBugInfoClick);
