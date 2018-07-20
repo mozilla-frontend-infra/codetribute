@@ -15,7 +15,7 @@ import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import { formatDistance, differenceInCalendarDays } from 'date-fns';
@@ -119,6 +119,9 @@ const assignments = Object.values(ASSIGNEE);
     right: theme.spacing.unit,
     top: theme.spacing.unit,
     zIndex: theme.zIndex.drawer + 1,
+  },
+  spacing: {
+    marginRight: 2 * theme.spacing.unit,
   },
 }))
 export default class TasksTable extends Component {
@@ -270,7 +273,11 @@ export default class TasksTable extends Component {
   };
 
   render() {
-    const { items, classes } = this.props;
+    const {
+      items,
+      classes,
+      match: { url },
+    } = this.props;
     const { showFilterContent, drawerOpen, drawerItem } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
@@ -335,10 +342,25 @@ export default class TasksTable extends Component {
               ))}
             </TextField>
             <Button
+              className={classes.spacing}
               variant="outlined"
               size="small"
               onClick={this.handleResetClick}>
               Reset
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              color="primary"
+              component={Link}
+              to={{
+                pathname: url.includes('mentored')
+                  ? url.replace('mentored', '')
+                  : `${url}/mentored`.replace('//', '/'),
+                search: this.props.location.search,
+              }}>
+              SHOW{url.includes('mentored') ? ' GOOD FIRST ' : ' MENTORED '}
+              BUGS / ISSUES
             </Button>
           </div>
         )}
