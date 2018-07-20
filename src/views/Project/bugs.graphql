@@ -14,6 +14,7 @@ query Bugs($search: BugSearch!, $paging: Paging) {
         status
         resolution
         url
+        whiteboard
       }
     }
   }
