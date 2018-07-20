@@ -112,6 +112,11 @@ repositories:
 ```
 _Note: The `summary` and `introduction` fields are to be rendered as markdown, allowing for bullet points, links and other simple formatting._
 
+### Best Practices
+To have github issues shown in the site, it has to have any of the label stated in the project's yaml file. To have bugzilla bugs to appear in the site, 
+it has to have good-first-bug as keywords. For both bugzilla bugs and github issues, we only display unassigned bugs / issues by default. You can
+view the assigned bugs / issues by clicking on the filter icon besides the Feeling Adventurous Button.
+
 ## Data Flow
 
 ![data flow image](codetribute-data-flow.png)
