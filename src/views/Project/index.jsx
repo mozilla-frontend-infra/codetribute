@@ -170,7 +170,7 @@ export default class Project extends Component {
       } = await this.props.client.query({
         query: commentsQuery,
         variables: { id },
-        context: { link: 'bugzilla' },
+        context: { client: 'bugzilla' },
       });
 
       return comments[0].text;
