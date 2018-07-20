@@ -151,6 +151,7 @@ _Example: Display Taskcluster bugs that are under either the Tools component or 
 products:
  - Taskcluster: ['Tools', 'Queue']
 ```
+
 ## Data Flow
 
 ![data flow image](codetribute-data-flow.png)
