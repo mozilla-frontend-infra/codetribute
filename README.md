@@ -112,6 +112,46 @@ repositories:
 ```
 _Note: The `summary` and `introduction` fields are to be rendered as markdown, allowing for bullet points, links and other simple formatting._
 
+### Best Practices
+
+Below is information about how to get a bug or issue appear on the site.
+
+#### GitHub
+
+Codetribute will read the `repositories` field from the yaml file and will take extract the issues that match the repository labels.
+
+_Example: Display servo issues tagged with the label *E-easy*_
+
+```yaml
+repositories: 
+ - servo/servo: E-easy
+```
+
+_Example: Display telemetry-dashboard issues tagged with either the *mentored* or *good first issue* label_
+
+```yaml
+repositories:
+ - mozilla/telemetry-dashboard: ['mentored', 'good first issue']
+```
+
+#### Bugzilla
+
+Codetribute will read the `products` field from the yaml file and will extract bugs with keyword `good-first-bug`. Here are some ways to display bugs on the site.
+
+_Example: Display all Taskcluster bugs with keyword *good-first-bug*_
+
+```yaml
+products: 
+ - Taskcluster
+```
+
+_Example: Display Taskcluster bugs that are under either the Tools component or the Queue component with keyword *good-first-bug*_
+
+```yaml
+products:
+ - Taskcluster: ['Tools', 'Queue']
+```
+
 ## Data Flow
 
 ![data flow image](codetribute-data-flow.png)
