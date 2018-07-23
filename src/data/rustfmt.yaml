@@ -1,0 +1,4 @@
+name: rustfmt
+summary: Rustfmt is the automatic code formatter for Rust code
+repositories: 
+ - rust-lang-nursery/rustfmt: good-first-issue

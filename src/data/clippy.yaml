@@ -1,0 +1,4 @@
+name: clippy
+summary: Clippy is linter for Rust code
+repositories: 
+ - rust-lang-nursery/rust-clippy: good first issue
