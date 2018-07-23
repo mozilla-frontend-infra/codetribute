@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import { Component } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
-import { mergeAll } from 'ramda';
+import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
 import { NavLink } from 'react-router-dom';
@@ -163,21 +163,25 @@ export default class Project extends Component {
     }
   }
 
-  handleBugInfoClick = async id => {
-    try {
-      const {
-        data: { comments },
-      } = await this.props.client.query({
-        query: commentsQuery,
-        variables: { id },
-        context: { client: 'bugzilla' },
-      });
+  handleBugInfoClick = id =>
+    memoizeWith(
+      id => id,
+      async id => {
+        try {
+          const {
+            data: { comments },
+          } = await this.props.client.query({
+            query: commentsQuery,
+            variables: { id },
+            context: { client: 'bugzilla' },
+          });
 
-      return comments[0].text;
-    } catch (error) {
-      this.setState({ error });
-    }
-  };
+          return comments[0].text;
+        } catch (error) {
+          this.setState({ error });
+        }
+      }
+    )(id);
 
   fetchBugzilla = (products, components) => {
     const {
