@@ -251,7 +251,7 @@ export default class TasksTable extends Component {
     this.setQuery({});
   };
 
-  handleDrawerOpen = ({ target: { name } }) => {
+  handleDrawerOpen = ({ currentTarget: { name } }) => {
     memoizeWith(
       name => name,
       name =>
