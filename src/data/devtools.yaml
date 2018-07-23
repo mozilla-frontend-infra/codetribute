@@ -43,3 +43,5 @@ introduction: |
   We are also available on [Slack](https://devtools-html-slack.herokuapp.com/) and on [IRC](https://wiki.mozilla.org/IRC) in the `#devtools` channel.
 products: 
  - DevTools
+repositories:
+ - devtools-html/debugger.html: ['good first issue', 'help wanted']
