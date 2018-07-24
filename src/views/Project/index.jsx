@@ -163,25 +163,24 @@ export default class Project extends Component {
     }
   }
 
-  handleBugInfoClick = id =>
-    memoizeWith(
-      id => id,
-      async id => {
-        try {
-          const {
-            data: { comments },
-          } = await this.props.client.query({
-            query: commentsQuery,
-            variables: { id },
-            context: { client: 'bugzilla' },
-          });
+  handleBugInfoClick = memoizeWith(
+    id => id,
+    async id => {
+      try {
+        const {
+          data: { comments },
+        } = await this.props.client.query({
+          query: commentsQuery,
+          variables: { id },
+          context: { client: 'bugzilla' },
+        });
 
-          return comments[0].text;
-        } catch (error) {
-          this.setState({ error });
-        }
+        return comments[0].text;
+      } catch (error) {
+        this.setState({ error });
       }
-    )(id);
+    }
+  );
 
   fetchBugzilla = (products, components) => {
     const {
