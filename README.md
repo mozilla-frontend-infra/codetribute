@@ -1,5 +1,7 @@
 # Codetribute
 
+[![Known Vulnerabilities](https://snyk.io/test/github/mozilla-frontend-infra/codetribute/badge.svg?targetFile=package.json)](https://snyk.io/test/github/mozilla-frontend-infra/codetribute?targetFile=package.json)
+
 Codetribute is a site that guides contributors to
 their first contribution. It helps new contributors 
 find a project they want to work with, learn about 
