@@ -92,7 +92,7 @@ const tagReposMapping = repositories =>
     }) => ({
       fetchPolicy: 'network-only',
       variables: {
-        searchGoodFirst: {
+        goodFirst: {
           ...bugzillaSearchOptions,
           keywords: [GOOD_FIRST_BUG],
           // get all the product with no component as it can be
@@ -106,7 +106,7 @@ const tagReposMapping = repositories =>
                 components: Object.values(projects[project].products[0])[0],
               }),
         },
-        searchMentored: {
+        mentored: {
           ...bugzillaSearchOptions,
           ...MENTORED_BUG,
           // get all the product with no component as it can be
@@ -182,13 +182,13 @@ export default class Project extends Component {
     return fetchMore({
       query: bugsQuery,
       variables: {
-        searchGoodFirst: {
+        goodFirst: {
           keywords: [GOOD_FIRST_BUG],
           ...bugzillaSearchOptions,
           products,
           components,
         },
-        searchMentored: {
+        mentored: {
           ...MENTORED_BUG,
           ...bugzillaSearchOptions,
           products,
@@ -202,7 +202,7 @@ export default class Project extends Component {
         client: 'bugzilla',
       },
       updateQuery(previousResult, { fetchMoreResult }) {
-        const moreGoodFirstNodes = fetchMoreResult.goodfirst.edges;
+        const moreGoodFirstNodes = fetchMoreResult.goodFirst.edges;
         const moreMentoredNodes = fetchMoreResult.mentored.edges;
 
         // return previousResult;
@@ -213,8 +213,8 @@ export default class Project extends Component {
         return dotProp.set(
           dotProp.set(
             previousResult,
-            'goodfirst.edges',
-            moreGoodFirstNodes.concat(previousResult.goodfirst.edges)
+            'goodFirst.edges',
+            moreGoodFirstNodes.concat(previousResult.goodFirst.edges)
           ),
           'mentored.edges',
           moreMentoredNodes.concat(previousResult.mentored.edges)
@@ -317,9 +317,9 @@ export default class Project extends Component {
     const bugzillaData = this.props.bugzilla;
     const goodFirstBugs =
       (bugzillaData &&
-        bugzillaData.goodfirst &&
+        bugzillaData.goodFirst &&
         uniqBy(
-          bugzillaData.goodfirst.edges.map(edge => edge.node).map(bug => ({
+          bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
             tags: [
