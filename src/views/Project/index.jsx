@@ -1,8 +1,8 @@
 import { hot } from 'react-hot-loader';
 import { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
-import { mergeAll } from 'ramda';
+import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
 import { NavLink } from 'react-router-dom';
@@ -21,6 +21,7 @@ import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
 import bugsQuery from './bugs.graphql';
+import commentsQuery from './comments.graphql';
 import {
   GOOD_FIRST_BUG,
   BUGZILLA_STATUSES,
@@ -115,6 +116,7 @@ const tagReposMapping = repositories =>
     }),
   })
 )
+@withApollo
 @withStyles(theme => ({
   root: {
     background: theme.palette.background.default,
@@ -145,6 +147,7 @@ const tagReposMapping = repositories =>
 export default class Project extends Component {
   state = {
     loading: true,
+    error: null,
   };
 
   componentDidUpdate(prevProps) {
@@ -159,6 +162,26 @@ export default class Project extends Component {
       this.load();
     }
   }
+
+  handleBugInfoClick = memoizeWith(
+    id => id,
+    async id => {
+      try {
+        const {
+          data: { comments },
+        } = await this.props.client.query({
+          query: commentsQuery,
+          variables: { id },
+          context: { client: 'bugzilla' },
+        });
+
+        return comments[0].text;
+      } catch (error) {
+        this.setState({ error });
+      }
+    }
+  );
+
   fetchBugzilla = (products, components) => {
     const {
       bugzilla: { fetchMore },
@@ -270,7 +293,7 @@ export default class Project extends Component {
   render() {
     const { classes } = this.props;
     const githubData = this.props.github;
-    const { loading } = this.state;
+    const { loading, error } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
       (githubData &&
@@ -304,6 +327,7 @@ export default class Project extends Component {
             ],
             summary: bug.summary,
             lastUpdated: bug.lastChanged,
+            id: bug.id,
             url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           })),
           'summary'
@@ -344,8 +368,14 @@ export default class Project extends Component {
             githubData.error && <ErrorPanel error={githubData.error} />}
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
+          {error && <ErrorPanel error={error} />}
           {loading && <Spinner className={classes.spinner} />}
-          {!loading && <TasksTable items={[...issues, ...bugs]} />}
+          {!loading && (
+            <TasksTable
+              onBugInfoClick={this.handleBugInfoClick}
+              items={[...issues, ...bugs]}
+            />
+          )}
         </div>
       </div>
     );

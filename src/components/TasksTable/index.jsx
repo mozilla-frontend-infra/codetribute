@@ -251,15 +251,18 @@ export default class TasksTable extends Component {
     this.setQuery({});
   };
 
-  handleDrawerOpen = ({ currentTarget: { name } }) => {
-    memoizeWith(
-      name => name,
-      name =>
-        this.setState({
-          drawerOpen: true,
-          drawerItem: this.props.items.find(item => item.summary === name),
-        })
-    )(name);
+  handleDrawerOpen = async ({ currentTarget: { name } }) => {
+    const item = this.props.items.find(item => item.summary === name);
+
+    this.setState({
+      drawerOpen: true,
+      drawerItem: {
+        ...item,
+        ...(item.url.includes('bugzilla.mozilla.org')
+          ? { description: await this.props.onBugInfoClick(item.id) }
+          : null),
+      },
+    });
   };
 
   handleDrawerClose = () => {
