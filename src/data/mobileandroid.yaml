@@ -1,5 +1,0 @@
-name: Firefox - Mobile (Android)
-products: 
- - Fennec
- - Firefox for Android
- - Core: ['Widget: Android', 'mozglue']
