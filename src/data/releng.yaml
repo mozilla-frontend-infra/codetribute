@@ -41,8 +41,6 @@ introduction: |
   Once you've figured out which repository to use, clone it and -- before you change anything -- run the tests.
   The repository or base directory's README file will describe how to set up and run tests.
 
-  From there,
-  
   For Github repositories, follow the pull-request process: make a fork of the repository, make your changes on a branch, and then create a pull request
   from that branch. The Internet is full of guides for this process, and of course we are happy to help as well.
 
