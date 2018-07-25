@@ -3,5 +3,3 @@ summary: Accessibility is about making things work for everyone. The majority of
 products:
  - Core: ['Disability Access APIs']
  - Firefox: ['Disability Access']
-keywords:
-- access
