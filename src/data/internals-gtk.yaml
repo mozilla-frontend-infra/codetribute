@@ -1,3 +1,0 @@
-name: Firefox - Internals (GTK)
-products: 
- - Core: ['Embedding: GTK Widget', 'Widget: Gtk']
