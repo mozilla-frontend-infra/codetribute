@@ -1,5 +1,0 @@
-name: Instantbird
-summary: Instantbird is a cross-platform instant messaging client based on Mozilla's XULRunner and the open source library libpurple used in Pidgin.
-products: 
- - Instantbird
- - Chat Core
