@@ -73,6 +73,7 @@ the production instance, you'll need to clone and run
 ## Adding a project
 
 Codetribute can read from both GitHub and Bugzilla. Regarding the latter, only bugs with the `good-first-bug` keyword will appear in the list.
+Mentored bugs are not yet supported, see [issue 32](https://github.com/mozilla-frontend-infra/codetribute/issues/32) for details.
 To add a new entry to the site, create a file `<project-name>.yml` in `src/data` using the [template example](#template-example) as the initial setup. 
 For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/master/src/data/taskcluster.yaml) yaml file.
 
@@ -104,13 +105,53 @@ introduction: |
 
 products:
 - <Bugzilla Product>
-- <Bugzilla Product>: [<Bugzilla Component 1>, <Bugzilla Component 2>]
+- <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>']
 repositories:
 - <Organization Name>/<Repository Name> : <Github Label>
-- <Organization Name>/<Repository Name> : [<Github Label 1>, <Github Label 2>]
+- <Organization Name>/<Repository Name> : ['<Github Label 1>', '<Github Label 2>']
 
 ```
 _Note: The `summary` and `introduction` fields are to be rendered as markdown, allowing for bullet points, links and other simple formatting._
+
+### Best Practices
+
+Below is information about how to get a bug or issue appear on the site.
+
+#### GitHub
+
+Codetribute will read the `repositories` field from the yaml file and will take extract the issues that match the repository labels.
+
+_Example: Display servo issues tagged with the label *E-easy*_
+
+```yaml
+repositories: 
+ - servo/servo: E-easy
+```
+
+_Example: Display telemetry-dashboard issues tagged with either the *mentored* or *good first issue* label_
+
+```yaml
+repositories:
+ - mozilla/telemetry-dashboard: ['mentored', 'good first issue']
+```
+
+#### Bugzilla
+
+Codetribute will read the `products` field from the yaml file and will extract bugs with keyword `good-first-bug`. Here are some ways to display bugs on the site.
+
+_Example: Display all Taskcluster bugs with keyword *good-first-bug*_
+
+```yaml
+products: 
+ - Taskcluster
+```
+
+_Example: Display Taskcluster bugs that are under either the Tools component or the Queue component with keyword *good-first-bug*_
+
+```yaml
+products:
+ - Taskcluster: ['Tools', 'Queue']
+```
 
 ## Data Flow
 
