@@ -1,3 +1,0 @@
-name: Layout
-products: 
- - Core: ['Layout', 'Layout: Block and Inline', 'Layout: Floats', 'Layout: Form Controls', 'Layout: HTML Frames', 'Layout: Images', 'Layout: Misc Code', 'Layout: R & A Pos', 'Layout: Tables', 'Layout: Text', 'Layout: View Rendering']
