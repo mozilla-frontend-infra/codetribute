@@ -1,5 +1,13 @@
 {
   "extends": [
-    "config:base"
-  ]
+    "config:base",
+    ":maintainLockFilesWeekly",
+    ":prNotPending",
+    ":unpublishSafe"
+  ],
+  "reviewers": [
+    "helfi92",
+    "fiennyangeln"
+  ],
+  "pinVersions": false
 }
