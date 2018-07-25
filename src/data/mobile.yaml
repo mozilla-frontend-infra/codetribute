@@ -1,7 +1,6 @@
 name: Firefox - Mobile (Android & iOS)
 summary: Firefox mobile experience developed for the iOS and Android platform.
-products: 
- - Fennec
+products:
  - Firefox for Android
  - Core: ['Widget: Android', 'mozglue']
  - Firefox for iOS
