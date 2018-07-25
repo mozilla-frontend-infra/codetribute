@@ -18,6 +18,7 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
+import Linkify from 'react-linkify';
 import { formatDistance, differenceInCalendarDays } from 'date-fns';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -437,7 +438,15 @@ export default class TasksTable extends Component {
                   <ListItem>
                     <ListItemText
                       primary="Description"
-                      secondary={drawerItem.description}
+                      secondary={
+                        <Linkify
+                          properties={{
+                            target: '_blank',
+                            rel: 'noopener noreferrer',
+                          }}>
+                          {drawerItem.description}
+                        </Linkify>
+                      }
                     />
                   </ListItem>
                 )}
