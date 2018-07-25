@@ -1,4 +1,4 @@
 name: Dashboards and Reporting
-summary: Find out more about the [Treeherder](https://github.com/mozilla/treeherder) dashboard and its components
+summary: Treeherder is a system for managing CI data for Mozilla projects
 products: 
  - Tree Management

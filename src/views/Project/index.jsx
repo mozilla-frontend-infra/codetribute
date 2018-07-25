@@ -1,8 +1,8 @@
 import { hot } from 'react-hot-loader';
 import { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
-import { mergeAll } from 'ramda';
+import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
 import { NavLink } from 'react-router-dom';
@@ -21,6 +21,7 @@ import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
 import issuesQuery from './issues.graphql';
 import bugsQuery from './bugs.graphql';
+import commentsQuery from './comments.graphql';
 import {
   GOOD_FIRST_BUG,
   BUGZILLA_STATUSES,
@@ -28,6 +29,7 @@ import {
   BUGZILLA_PAGE_SIZE,
   BUGZILLA_ORDER,
 } from '../../utils/constants';
+import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
 const bugzillaSearchOptions = {
   keywords: [GOOD_FIRST_BUG],
@@ -114,6 +116,7 @@ const tagReposMapping = repositories =>
     }),
   })
 )
+@withApollo
 @withStyles(theme => ({
   root: {
     background: theme.palette.background.default,
@@ -137,10 +140,14 @@ const tagReposMapping = repositories =>
   title: {
     padding: '0 41px',
   },
+  spinner: {
+    marginTop: 3 * theme.spacing.unit,
+  },
 }))
 export default class Project extends Component {
   state = {
     loading: true,
+    error: null,
   };
 
   componentDidUpdate(prevProps) {
@@ -155,6 +162,26 @@ export default class Project extends Component {
       this.load();
     }
   }
+
+  handleBugInfoClick = memoizeWith(
+    id => id,
+    async id => {
+      try {
+        const {
+          data: { comments },
+        } = await this.props.client.query({
+          query: commentsQuery,
+          variables: { id },
+          context: { client: 'bugzilla' },
+        });
+
+        return comments[0].text;
+      } catch (error) {
+        this.setState({ error });
+      }
+    }
+  );
+
   fetchBugzilla = (products, components) => {
     const {
       bugzilla: { fetchMore },
@@ -257,10 +284,16 @@ export default class Project extends Component {
     this.setState({ loading: false });
   };
 
+  linkRenderer = props => (
+    <a href={props.href} target="_blank" rel="noopener noreferrer">
+      {props.children}
+    </a>
+  );
+
   render() {
     const { classes } = this.props;
     const githubData = this.props.github;
-    const { loading } = this.state;
+    const { loading, error } = this.state;
     const project = projects[this.props.match.params.project];
     const issues =
       (githubData &&
@@ -268,14 +301,14 @@ export default class Project extends Component {
         uniqBy(
           githubData.search.nodes.map(issue => ({
             project: issue.repository.name,
-            id: issue.number,
-            summary: `${issue.number} - ${issue.title}`,
+            summary: issue.title,
             tags: issue.labels.nodes.map(node => node.name).sort(),
             lastUpdated: issue.updatedAt,
             assignee: issue.assignees.nodes[0]
               ? issue.assignees.nodes[0].login
               : '-',
             url: issue.url,
+            description: issue.body,
           })),
           'summary'
         )) ||
@@ -288,9 +321,13 @@ export default class Project extends Component {
           bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
-            tags: bug.keywords || [],
-            summary: `${bug.id} - ${bug.summary}`,
+            tags: [
+              ...(bug.keywords || []),
+              ...extractWhiteboardTags(bug.whiteboard),
+            ],
+            summary: bug.summary,
             lastUpdated: bug.lastChanged,
+            id: bug.id,
             url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           })),
           'summary'
@@ -313,13 +350,16 @@ export default class Project extends Component {
         </AppBar>
         <div className={classes.container}>
           {project.introduction && (
-            <ExpansionPanel defaultExpanded>
+            <ExpansionPanel>
               <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
                 <Typography variant="headline">Project Introduction</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
                 <Typography variant="body1">
-                  <Markdown source={project.introduction} />
+                  <Markdown
+                    source={project.introduction}
+                    renderers={{ link: this.linkRenderer }}
+                  />
                 </Typography>
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -328,8 +368,14 @@ export default class Project extends Component {
             githubData.error && <ErrorPanel error={githubData.error} />}
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
-          {loading && <Spinner />}
-          {!loading && <TasksTable items={[...issues, ...bugs]} />}
+          {error && <ErrorPanel error={error} />}
+          {loading && <Spinner className={classes.spinner} />}
+          {!loading && (
+            <TasksTable
+              onBugInfoClick={this.handleBugInfoClick}
+              items={[...issues, ...bugs]}
+            />
+          )}
         </div>
       </div>
     );

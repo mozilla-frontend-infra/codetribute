@@ -7,12 +7,12 @@
     "precommit": "neutrino stage",
     "build": "neutrino build --require dotenv/config",
     "start": "neutrino start --require dotenv/config",
+    "test": "neutrino test",
     "lint": "neutrino lint"
   },
   "dependencies": {
     "@material-ui/core": "^1.1.0",
-    "@material-ui/icons": "^1.1.0",
-    "@neutrinojs/env": "^8.2.3",
+    "@material-ui/icons": "^2.0.0",
     "apollo-cache-inmemory": "^1.2.1",
     "apollo-cache-persist": "^0.1.1",
     "apollo-client": "^2.3.1",
@@ -20,15 +20,15 @@
     "apollo-link-retry": "^2.2.4",
     "change-case": "^3.0.2",
     "classnames": "^2.2.5",
-    "date-fns": "2.0.0-alpha.9",
+    "date-fns": "2.0.0-alpha.11",
     "dot-prop-immutable": "^1.4.0",
-    "dotenv": "^5.0.1",
+    "dotenv": "^6.0.0",
     "error-stack-parser": "^2.0.2",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "localforage": "^1.7.1",
     "lodash.uniqby": "^4.7.0",
-    "mdi-react": "^3.4.0",
+    "mdi-react": "^4.0.0",
     "prop-types": "^15.6.1",
     "qs": "^6.5.2",
     "ramda": "^0.25.0",
@@ -37,14 +37,17 @@
     "react-dom": "^16.3.2",
     "react-fout-stager": "^3.0.0",
     "react-hot-loader": "^4.1.3",
+    "react-linkify": "^0.2.2",
     "react-markdown": "^3.3.2",
     "react-router-dom": "^4.2.2",
     "redbox-react": "^1.6.0",
     "typeface-roboto": "^0.0.54"
   },
   "devDependencies": {
+    "@neutrinojs/env": "^8.3.0",
+    "@neutrinojs/jest": "^8.3.0",
     "js-yaml-loader": "^0.1.0",
-    "neutrino": "^8.2.3",
+    "neutrino": "^8.3.0",
     "neutrino-preset-mozilla-frontend-infra": "^4.1.0"
   }
 }

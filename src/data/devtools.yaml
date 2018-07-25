@@ -1,4 +1,47 @@
 name: Firefox - Developer Tools
-summary: Get involved with the [devtools team](https://wiki.mozilla.org/DevTools/GetInvolved)
+summary: These are the tools provided by Firefox for developers and designers to inspect, debug and modify Web code.
+introduction: |
+  ## About DevTools
+
+  DevTools is a toolbox, built-in to Firefox, for developers and designers to inspect, debug and modify Web code.
+
+  You can learn about using DevTools by reading its [documentation](https://developer.mozilla.org/en-US/docs/Tools).
+ 
+  DevTools is written in Javascript, HTML and CSS and has lots of opportunities to help out.
+
+  ## Who Works on DevTools?
+  
+  A large community of volunteers throughout the world report bugs, test DevTools, submit code changes and localize the UI.
+  The team assigned to work on DevTools at Mozilla is about 20 people, distributed around Europe, Asia and North America.
+  You will likely see the names of team members listed as mentors in the bugs and issues on this site.
+  We are always excited to meet new Mozillians!
+  
+  ## How Do I Get Started?
+  
+  If you intend to work on a bug (in [Bugzilla](https://bugzilla.mozilla.org)) or an issue (in [GitHub](https://github.com)), make sure you have an account on those sites.
+
+  Comment in the bug or issue and say that you are interesting in working on it. Ask any questions you may have. And make sure you do your research.
+  Look the other comments, look at [the documentation](https://docs.firefox-dev.tools/) and [source code](https://searchfox.org/mozilla-central/source/devtools), and try to figure out as much as you can first.
+  
+  ### How Do I Write the Code?
+ 
+  Most of the code is hosted in the Firefox repository (called `mozilla-central`), while some pieces are developed on GitHub.
+  You can learn more about where the code is by reading [the documentation](https://docs.firefox-dev.tools/getting-started/where-is-the-code.html).
+
+  Once you've figured out what you would like to work on, read about [how to set up your local development environment](https://docs.firefox-dev.tools/getting-started/build.html).
+
+  Finally, [create and send a patch](https://docs.firefox-dev.tools/contributing/making-prs.html) for someone else to review and merge in the repository.
+  
+  ## How Do I Get Help?
+  
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  
+  Some bugs have an assigned mentor, and that person will usually be the one to reply.
+
+  We are also available on [Slack](https://devtools-html-slack.herokuapp.com/) and on [IRC](https://wiki.mozilla.org/IRC) in the `#devtools` channel.
 products: 
- - Firefox: ['Developer Tools', 'Developer Tools: 3D View', 'Developer Tools: App Manager', 'Developer Tools: Console', 'Developer Tools: Debugger', 'Developer Tools: Framework', 'Developer Tools: Graphic Commandline and Toolbar', 'Developer Tools: Inspector', 'Developer Tools: Netmonitor', 'Developer Tools: Object Inspector', 'Developer Tools: Profiler', 'Developer Tools: Responsive Mode', 'Developer Tools: Scratchpad', 'Developer Tools: Source Editor', 'Developer Tools: Style Editor']
+ - DevTools
+repositories:
+ - devtools-html/debugger.html: ['good first issue', 'help wanted']

@@ -1,3 +1,0 @@
-name: Firefox - Internals (OSX)
-products: 
- - Core: ['Embedding: Mac', 'Widget: Cocoa']

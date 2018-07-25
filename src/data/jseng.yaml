@@ -1,4 +1,33 @@
 name: JavaScript Engine
-summary: Get involved with the [JS engine](https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey) team
+summary: Get involved with the JavaScript Engine (SpiderMonkey) team
+introduction: |
+  ## About the Javascript Engine
+  
+  Mozilla's JavaScript engine (named SpiderMonkey) the component responsible for taking JavaScript code written by programmers, and executing it efficiently. 
+  
+  SpiderMonkey is broken into a number of pieces: 
+  
+  * **The core JavaScript engine**: Defines the most basic pieces of JavaScript, like the interpreter, data types, the parser etc. 
+  * **The JavaScript standard library**: These are all the extra pieces of JavaScript that make it the language people know as JavaScript.  
+  * **The JIT compilers**: SpiderMonkey has two JIT compilers, Baseline and IonMonkey which work in concert to provide fast execution of JavaScript quickly. 
+  
+  ## How do I get Started
+  
+  If you are working on a bug (in Bugzilla), you may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi). 
+  
+  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time. 
+  
+  It would definitely be appreciated though if you have done some research!
+  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first. Don't worry if it isn't all clear though. SpiderMonkey is a complicated piece of software.  
+  
+  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#jsapi` channel, which can be a good way to get help. 
+  
+  ### Useful Links: 
+  
+  * [New to SpiderMonkey](https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey)
+  * [Building SpiderMonkey](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Build_Documentation)
+  * [Running Tests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Build_Documentation#Test)
+
+
 products: 
  - Core: ['JavaScript Engine', 'JavaScript Engine: JIT', 'JavaScript: GC', 'JavaScript: Internationalization API', 'JavaScript: Standard Library', 'js-ctypes', 'XPConnect']
