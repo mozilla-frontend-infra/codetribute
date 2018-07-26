@@ -365,7 +365,11 @@ export default class TasksTable extends Component {
                     onClick={this.handleDrawerOpen}>
                     <InformationVariantIcon />
                   </IconButton>
-                  <List dense disablePadding className={classes.summary}>
+                  <List
+                    dense
+                    disablePadding
+                    className={classes.summary}
+                    component="div">
                     <ListItem
                       classes={{
                         gutters: classes.summaryItem,
