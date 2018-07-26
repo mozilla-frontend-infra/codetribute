@@ -9,14 +9,14 @@
 # TODO: Delete when Codetribute successfully moves to codetribute.mozilla.org
 [[redirects]]
   from = "http://codetribute.netlify.com/*"
-  to = "https://www.codetribute.netlify.com/:splat"
+  to = "https://codetribute.netlify.com/:splat"
   status = 301
   force = true
 
 # Redirect HTTP to HTTPS
 [[redirects]]
   from = "http://codetribute.mozilla.org/*"
-  to = "https://www.codetribute.mozilla.org/:splat"
+  to = "https://codetribute.mozilla.org/:splat"
   status = 301
   force = true
 
