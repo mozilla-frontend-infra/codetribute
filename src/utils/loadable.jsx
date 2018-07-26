@@ -1,7 +1,7 @@
 import { PureComponent } from 'react';
 import Loadable from 'react-loadable';
 import { withStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import Spinner from '../components/Spinner';
 
 @withStyles(theme => ({
   view: {
@@ -15,25 +15,15 @@ import CircularProgress from '@material-ui/core/CircularProgress';
     marginTop: 60,
     overflowX: 'auto',
   },
-  spinner: {
-    color: theme.palette.primary.main,
-  },
 }))
 class Loading extends PureComponent {
   content() {
-    const { classes, error, timedOut, pastDelay } = this.props;
+    const { error, timedOut, pastDelay } = this.props;
 
     if (error) {
       throw error;
     } else if (timedOut || pastDelay) {
-      return (
-        <CircularProgress
-          size={50}
-          classes={{
-            circleIndeterminate: classes.spinner,
-          }}
-        />
-      );
+      return <Spinner size={50} />;
     }
 
     return null;
