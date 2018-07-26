@@ -1,0 +1,36 @@
+name: Focus
+summary: Focus is a privacy-focused browser from Mozilla, available for the Apple iPhone, iPad, iPod touch mobile devices and Android smartphones and tablets.
+introduction: |
+  ## About Focus
+
+  Focus is a privacy-focused browser from Mozilla, available for the Apple iPhone, iPad, iPod touch mobile devices and Android smartphones and tablets.
+
+  ## How Do I Get Started?
+
+  You will need a Github account. Comment in the bug or issue to say that you are working on it, and ask any questions
+  that you have at that time. But do your research!
+  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first.
+  This helps you learn more about Focus and understand better the bug you're fixing or feature you're adding.
+
+  ### How Do I Write the Code?
+
+  - Start by looking for issues marked with the `good first issue` label
+  - You can find more challenging issues marked with the `help wanted` label
+  - Join the `#focus` channel on irc.mozilla.org and get in contact with us. We're available Monday-Friday, during GMT and PST working hours.
+  - Comment on the issue if you would like to work on it.
+  - If you want to work on a new feature then always file an issue first so that all teams (product, ux, engineering) can comment on it and so that it can be assigned to a milestone. Pull requests for unsolicited features are unlikely to get merged.
+  - When you open a pull request, please also include a screenshot if there are UI changes, so UX can also do a visual review.
+  - Include a `Closes #<issue-number>` as part of your first commit message so it's auto-linked to the issue.
+
+  ## How Do I Get Help?
+
+  The best place to talk about an issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  Each issue has a mentor, and that person will usually be the one to reply.
+
+  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#focus` channel.
+  That's a great place to get quick help or work through issues with Git, Swift, or Java.
+repositories:
+ - mozilla-mobile/focus-android: ['good first issue', 'help wanted']
+ - mozilla-mobile/focus-ios: ['good first issue', 'help wanted']
