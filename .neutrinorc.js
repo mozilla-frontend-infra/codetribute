@@ -2,8 +2,14 @@ module.exports = {
   use: [
     ['neutrino-preset-mozilla-frontend-infra/react', {
       html: {
-        title: 'Codetribute'
-      }
+        title: 'Codetribute',
+        meta: [
+          {
+            name: 'Description',
+            content: 'Find your first code contribution with Mozilla',
+          },
+        ],
+      },
     }],
     ['@neutrinojs/env', ['GITHUB_PERSONAL_API_TOKEN', 'BUGZILLA_ENDPOINT', 'NODE_ENV']],
     (neutrino) => {

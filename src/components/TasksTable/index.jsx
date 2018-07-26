@@ -295,7 +295,7 @@ export default class TasksTable extends Component {
     return (
       <Fragment>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="title" className={classes.title}>
+          <Typography variant="title" className={classes.title} id="tableTitle">
             Bugs & Issues
           </Typography>
           <Button
@@ -305,7 +305,7 @@ export default class TasksTable extends Component {
             className={classes.adventurousButton}>
             I’m Feeling Adventurous
           </Button>
-          <IconButton onClick={this.handleFilterToggle}>
+          <IconButton aria-label="Filter" onClick={this.handleFilterToggle}>
             <FilterVariantIcon />
           </IconButton>
         </Toolbar>
@@ -360,11 +360,16 @@ export default class TasksTable extends Component {
                 <TableCell className={classes.tableCell}>
                   <IconButton
                     name={item.summary}
+                    aria-label="Information"
                     className={classes.infoButton}
                     onClick={this.handleDrawerOpen}>
                     <InformationVariantIcon />
                   </IconButton>
-                  <List dense disablePadding className={classes.summary}>
+                  <List
+                    dense
+                    disablePadding
+                    className={classes.summary}
+                    component="div">
                     <ListItem
                       classes={{
                         gutters: classes.summaryItem,
@@ -422,6 +427,7 @@ export default class TasksTable extends Component {
           classes={{ paper: classes.drawerPaper }}>
           <Fragment>
             <IconButton
+              aria-label="Close Drawer"
               className={classes.drawerCloseButton}
               onClick={this.handleDrawerClose}>
               <CloseIcon />
