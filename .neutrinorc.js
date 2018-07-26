@@ -6,7 +6,7 @@ module.exports = {
         meta: [
           {
             name: 'Description',
-            content: 'A web app to help people make their first code contribution with Mozilla',
+            content: 'Find your first code contribution with Mozilla',
           },
         ],
       },

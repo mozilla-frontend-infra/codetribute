@@ -360,7 +360,7 @@ export default class TasksTable extends Component {
                 <TableCell className={classes.tableCell}>
                   <IconButton
                     name={item.summary}
-                    aria-label="Info"
+                    aria-label="Information"
                     className={classes.infoButton}
                     onClick={this.handleDrawerOpen}>
                     <InformationVariantIcon />
