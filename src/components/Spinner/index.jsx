@@ -10,11 +10,11 @@ import classNames from 'classnames';
 })
 export default class Spinner extends PureComponent {
   render() {
-    const { classes, className, size } = this.props;
+    const { classes, className } = this.props;
 
     return (
       <div className={classNames(classes.center, className)}>
-        <CircularProgress thickness={5} color="primary" size={size} />
+        <CircularProgress thickness={5} color="primary" />
       </div>
     );
   }
