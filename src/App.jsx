@@ -10,12 +10,23 @@ import { persistCache } from 'apollo-cache-persist';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import storage from 'localforage';
-import Projects from './views/Projects';
-import Project from './views/Project';
 import theme from './theme';
 import FontStager from './components/FontStager';
+import loadable from './utils/loadable';
+import ErrorPanel from './components/ErrorPanel';
 
 const cache = new InMemoryCache();
+const routes = [
+  {
+    component: loadable(() => import('./views/Projects')),
+    path: '/',
+    exact: true,
+  },
+  {
+    component: loadable(() => import('./views/Project')),
+    path: '/projects/:project',
+  },
+];
 
 persistCache({
   cache,
@@ -31,6 +42,9 @@ persistCache({
   },
 })
 export default class App extends Component {
+  state = {
+    error: null,
+  };
   link = new RetryLink().split(
     operation => operation.getContext().client === 'github',
     new HttpLink({
@@ -45,16 +59,22 @@ export default class App extends Component {
     cache,
     link: this.link,
   });
+
+  componentDidCatch(error) {
+    this.setState({ error });
+  }
   render() {
+    const { error } = this.state;
+
     return (
       <ApolloProvider client={this.apolloClient}>
         <MuiThemeProvider theme={theme}>
           <FontStager />
+          {error && <ErrorPanel error={error} />}
           <CssBaseline />
           <BrowserRouter>
             <Switch>
-              <Route path="/projects/:project" component={Project} />
-              <Route exact path="/" component={Projects} />
+              {routes.map(props => <Route key={props.path} {...props} />)}
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>
