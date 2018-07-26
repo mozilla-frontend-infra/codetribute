@@ -10,23 +10,12 @@ import { persistCache } from 'apollo-cache-persist';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import storage from 'localforage';
-import theme from './theme';
-import FontStager from './components/FontStager';
-import loadable from './utils/loadable';
-import ErrorPanel from './components/ErrorPanel';
+import theme from '../theme';
+import FontStager from '../components/FontStager/index';
+import ErrorPanel from '../components/ErrorPanel/index';
+import routes from './routes';
 
 const cache = new InMemoryCache();
-const routes = [
-  {
-    component: loadable(() => import('./views/Projects')),
-    path: '/',
-    exact: true,
-  },
-  {
-    component: loadable(() => import('./views/Project')),
-    path: '/projects/:project',
-  },
-];
 
 persistCache({
   cache,
@@ -45,6 +34,7 @@ export default class App extends Component {
   state = {
     error: null,
   };
+
   link = new RetryLink().split(
     operation => operation.getContext().client === 'github',
     new HttpLink({
