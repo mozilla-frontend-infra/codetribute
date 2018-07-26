@@ -1,5 +1,60 @@
 name: Release Engineering
-summary: Release Engineering team is responsible for the project's build, test, and release pipeline.
+summary: Get involved with the [Release Engineering](https://wiki.mozilla.org/ReleaseEngineering) team
+introduction: |
+  ## About Release Engineering
+ 
+  We ship Firefox to the world!
+
+  Release Engineering does this by:
+
+  * Developing world-class, scalable, open, secure, and maintainable infrastructure for application builds and tests, on a diverse set of desktop and mobile platforms
+  * Building fast and reliable pipelines to transform source code into shipped products.
+
+  ## Who Works on Release Engineering?
+
+  There are currently 12 people working full time on the team. We have a number of active contributors for various projects and a long history
+  of folks who have helped scale us up to where we are today.
+
+  The core team can be found [here](https://wiki.mozilla.org/ReleaseEngineering#Team). We are very distributed across North America, Europe, and New Zealand.
+
+  ## How Do I Get Started?
+
+  If you are working on a bug (in Bugzilla), you may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi).
+  If you are working on an issue (in Github), you will need a Github account.
+
+  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time.
+  But do your research!
+  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first.
+  This helps you learn more about Release Engineering and understand better the bug you're fixing or feature you're adding.
+
+  Learn more about our core [offerings](https://wiki.mozilla.org/ReleaseEngineering#Releng_Offerings) and [applications](https://wiki.mozilla.org/ReleaseEngineering#Releng_Applications)
+
+  To understand how we do things, at a high level, see the following onboarding presentation [slides](https://docs.google.com/presentation/d/1nUrZ8abpNnC5sYV97ePbUhLNu7La66JE4HEdEy1IdU8/edit?usp=sharing)
+
+  ### How Do I Write the Code?
+ 
+  Our code is mostly within Github repositories in the [mozilla-releng organization](https://github.com/mozilla-releng). We also contribute a lot
+  of "in-tree" code. That is, code that lives within the main [Firefox repository](https://hg.mozilla.org/mozilla-central). Primarly this can be
+  found under our build and release scheduling configuration logic within [taskgraph](https://hg.mozilla.org/mozilla-central/file/default/taskcluster),
+  and our script harness, [mozharness](https://hg.mozilla.org/mozilla-central/file/default/testing/mozharness) we use for writing build and release logic..
+
+  Once you've figured out which repository to use, clone it and -- before you change anything -- run the tests.
+  The repository or base directory's README file will describe how to set up and run tests.
+
+  For Github repositories, follow the pull-request process: make a fork of the repository, make your changes on a branch, and then create a pull request
+  from that branch. The Internet is full of guides for this process, and of course we are happy to help as well.
+
+  For Mercurial and the Firefox repository, follow the [commit agreement](https://www.mozilla.org/en-US/about/governance/policies/commit/) and then see
+  the main [developing documention](https://mozilla-version-control-tools.readthedocs.io/en/latest/)
+
+  ## How Do I Get Help?
+
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  Each bug has a mentor, and that person will usually be the one to reply.
+
+  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#ci` channel.
+  That's a great place to get quick help. Look for one of our [team's nicks](https://wiki.mozilla.org/ReleaseEngineering#Team) in that channel.
 products: 
- - mozilla.org: ['Hg: Customizations']
  - Release Engineering
