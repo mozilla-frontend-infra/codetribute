@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import transitions from '@material-ui/core/styles/transitions';
+import { lighten } from '@material-ui/core/styles/colorManipulator';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
@@ -125,11 +126,10 @@ const assignments = Object.values(ASSIGNEE);
   listItemButton: {
     '& svg': {
       transition: transitions.create('fill'),
-      fill: 'grey',
+      fill: lighten(theme.palette.secondary.contrastText, 0.5),
     },
     '&:hover svg': {
       fill: theme.palette.secondary.contrastText,
-      transform: 'scaleY(1.1) skew(-30deg)',
     },
   },
 }))
