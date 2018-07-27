@@ -1,3 +1,50 @@
 name: addons.mozilla.org
+summary: Addons.mozilla.org is Mozilla's platform for distribution of Add-ons and themes for end-users to customize their Firefox Experience.
+introduction: |
+  ## About Addons.mozilla.org (AMO)
+ 
+  Addons.mozilla.org (AMO), is Mozilla's official site for discovering and 
+  installing add-ons for the Firefox browser. Add-ons help you modify and 
+  personalize your browsing experience by adding new features to Firefox, 
+  enhancing your interactions with Web content, and changing the way your 
+  browser looks.
+  
+  ## Get involved
+
+  Mozilla is a non-profit champion of the Internet, we build Firefox to help 
+  keep it healthy, open and accessible. Add-ons support user choice and 
+  customization in Firefox, and you can contribute in the following ways:
+
+  * [Make your own add-on]. We provide free hosting and update services and 
+    can help you reach a large audience of users.
+  * Help improve this website. It's open source, and you can file bugs and 
+    submit patches. You can get started with a [good first bug] or view all 
+    open issues for AMO's [server] and [frontend] on Github.
+
+  If you want to contribute but are not quite as technical, there are still 
+  ways to help:
+
+  * Participate in our [forum].
+  * Leave feedback for your favorite add-ons. Add-on authors are more likely 
+    to improve their add-ons and create new ones when they know people 
+    appreciate their work.
+  * Tell your friends and family that Firefox is a fast, secure browser that 
+    protects their privacy, and they can use add-ons to make it their own!
+
+  To see more ways you can contribute to the add-on community, please visit 
+  our [wiki].
+
+  [Make your own add-on]: https://addons.mozilla.org/developers/
+  [good first bug]: https://github.com/search?l=&q=repo:mozilla/addons+repo:mozilla/addons-frontend+repo:mozilla/addons-linter+repo:mozilla/addons-server+label:%22contrib:+good+first+bug%22&ref=advsearch&state=open&type=Issues
+  [server]: https://github.com/mozilla/addons-server/issues
+  [frontend]: https://github.com/mozilla/addons-frontend/issues
+  [forum]: https://discourse.mozilla-community.org/c/add-ons
+  [wiki]: https://wiki.mozilla.org/Add-ons/Contribute
+
 products: 
  - addons.mozilla.org
+repositories:
+ - mozilla/addons: "contrib: good first bug"
+ - mozilla/addons-frontend: "contrib: good first bug"
+ - mozilla/addons-linter: "contrib: good first bug"
+ - mozilla/addons-server: "contrib: good first bug"
