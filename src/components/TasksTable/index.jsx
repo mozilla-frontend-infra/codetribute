@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
+import transitions from '@material-ui/core/styles/transitions';
+import { lighten } from '@material-ui/core/styles/colorManipulator';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
@@ -120,6 +122,15 @@ const assignments = Object.values(ASSIGNEE);
     right: theme.spacing.unit,
     top: theme.spacing.unit,
     zIndex: theme.zIndex.drawer + 1,
+  },
+  listItemButton: {
+    '& svg': {
+      transition: transitions.create('fill'),
+      fill: lighten(theme.palette.secondary.contrastText, 0.5),
+    },
+    '&:hover svg': {
+      fill: theme.palette.secondary.contrastText,
+    },
   },
 }))
 export default class TasksTable extends Component {
@@ -371,6 +382,7 @@ export default class TasksTable extends Component {
                     className={classes.summary}
                     component="div">
                     <ListItem
+                      className={classes.listItemButton}
                       classes={{
                         gutters: classes.summaryItem,
                       }}

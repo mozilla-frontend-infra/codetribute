@@ -91,6 +91,7 @@ const theme = createMuiTheme({
       root: {
         width: 41,
         height: 41,
+        color: '#000',
       },
     },
   },
