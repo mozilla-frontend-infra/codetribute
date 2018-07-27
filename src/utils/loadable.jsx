@@ -1,4 +1,4 @@
-import { Fragment, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import Loadable from 'react-loadable';
 import { withStyles } from '@material-ui/core/styles';
 import Spinner from '../components/Spinner';
@@ -14,19 +14,21 @@ import Spinner from '../components/Spinner';
 }))
 class Loading extends PureComponent {
   content() {
-    const { classes, error, timedOut, pastDelay } = this.props;
+    const { error, timedOut, pastDelay } = this.props;
 
     if (error) {
       throw error;
-    } else if (timedOut || pastDelay) {
-      return <Spinner className={classes.view} />;
+    } else if (timedOut || pastDelay || !error) {
+      return <Spinner />;
     }
 
     return null;
   }
 
   render() {
-    return <Fragment>{this.content()}</Fragment>;
+    const { classes } = this.props;
+
+    return <div className={classes.view}>{this.content()}</div>;
   }
 }
 
