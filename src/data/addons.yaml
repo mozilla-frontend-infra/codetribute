@@ -43,3 +43,8 @@ introduction: |
 
 products: 
  - addons.mozilla.org
+repositories:
+ - mozilla/addons: "contrib: good first bug"
+ - mozilla/addons-frontend: "contrib: good first bug"
+ - mozilla/addons-linter: "contrib: good first bug"
+ - mozilla/addons-server: "contrib: good first bug"
