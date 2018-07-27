@@ -12,6 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import storage from 'localforage';
 import Projects from './views/Projects';
 import Project from './views/Project';
+import Languages from './views/Languages';
 import theme from './theme';
 import FontStager from './components/FontStager';
 
@@ -54,6 +55,7 @@ export default class App extends Component {
           <BrowserRouter>
             <Switch>
               <Route path="/projects/:project" component={Project} />
+              <Route path="/languages" component={Languages} />
               <Route exact path="/" component={Projects} />
             </Switch>
           </BrowserRouter>
