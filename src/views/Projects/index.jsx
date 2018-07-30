@@ -1,10 +1,14 @@
 import { hot } from 'react-hot-loader';
-import { Component, Fragment } from 'react';
+import { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Hidden from '@material-ui/core/Hidden';
 import GithubCircleIcon from 'mdi-react/GithubCircleIcon';
+import { Link } from 'react-router-dom';
 import AppBar from '../../components/AppBar';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
@@ -13,10 +17,14 @@ import sort from '../../utils/sort';
 
 @hot(module)
 @withStyles(theme => ({
+  root: {
+    overflowX: 'hidden',
+  },
   container: {
     paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
     backgroundColor: theme.palette.background.default,
-    minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
+    minHeight: `calc(100vh - 180px - 60px - ${1 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
   },
   header: {
@@ -44,6 +52,11 @@ import sort from '../../utils/sort';
       fill: '#ecffff',
     },
   },
+  paper: {
+    height: 60,
+    background: 'white',
+    padding: `${theme.spacing.unit}px 0px`,
+  },
 }))
 export default class Projects extends Component {
   state = {
@@ -70,7 +83,7 @@ export default class Projects extends Component {
       );
 
     return (
-      <Fragment>
+      <div className={classes.root}>
         <AppBar position="absolute" className={classes.header}>
           <IconButton
             aria-label="Site Repository"
@@ -113,7 +126,27 @@ export default class Projects extends Component {
               ))}
           </Grid>
         </main>
-      </Fragment>
+        <Paper className={classes.paper}>
+          <Grid container justify="center" spacing={24} alignItems="center">
+            <Hidden smDown>
+              <Grid item>
+                <Typography variant="display1" color="primary">
+                  Feeling confused ?
+                </Typography>
+              </Grid>
+            </Hidden>
+            <Grid item>
+              <Button
+                variant="contained"
+                component={Link}
+                color="primary"
+                to="/languages">
+                FILTER BUG BY SKILLSET
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </div>
     );
   }
 }
