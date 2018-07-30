@@ -64,7 +64,9 @@ export default class App extends Component {
           <CssBaseline />
           <BrowserRouter>
             <Switch>
-              {routes.map(props => <Route key={props.path} {...props} />)}
+              {routes.map(props => (
+                <Route key={props.path} {...props} />
+              ))}
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>
