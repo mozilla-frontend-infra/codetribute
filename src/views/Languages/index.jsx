@@ -3,7 +3,6 @@ import { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import { parse, stringify } from 'qs';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
@@ -63,32 +62,18 @@ export default class Languages extends Component {
     drawerOpen: false,
   };
 
-  getQuery() {
-    const { location } = this.props;
-    const query = parse(location.search.slice(1));
-
-    return query;
-  }
-
-  setQuery = query => {
-    this.props.history.push({
-      search: `?${stringify(query)}`,
-    });
-  };
-
-  handleDrawerItemClick = lang => {
-    this.setQuery({ lang });
-    this.handleDrawerToggle();
-  };
-
   handleDrawerToggle = () => {
     this.setState({ drawerOpen: !this.state.drawerOpen });
   };
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      match: {
+        params: { language },
+      },
+    } = this.props;
     const { drawerOpen } = this.state;
-    const { lang } = this.getQuery();
     const icons = {
       Python: <LanguagePythonIcon />,
       Javascript: <LanguageJavascriptIcon />,
@@ -109,9 +94,9 @@ export default class Languages extends Component {
         </div>
         <Divider light />
         <Sidebar
-          activeItem={lang}
+          activeItem={language}
           items={items}
-          onItemClick={this.handleDrawerItemClick}
+          onItemClick={this.handleDrawerToggle}
         />
       </Fragment>
     );

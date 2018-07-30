@@ -4,6 +4,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
 import WebIcon from 'mdi-react/WebIcon';
 import classNames from 'classnames';
 
@@ -13,8 +14,8 @@ import classNames from 'classnames';
   },
 }))
 export default class Sidebar extends Component {
-  handleItemClick = event => {
-    this.props.onItemClick(event.currentTarget.id);
+  handleItemClick = () => {
+    this.props.onItemClick();
   };
   render() {
     const { items, activeItem, classes } = this.props;
@@ -29,7 +30,9 @@ export default class Sidebar extends Component {
             button
             onClick={this.handleItemClick}
             id={item.text}
-            key={item.text}>
+            key={item.text}
+            component={Link}
+            to={`/languages/${item.text}`}>
             <ListItemIcon>{item.icon || <WebIcon />}</ListItemIcon>
             <ListItemText>{item.text}</ListItemText>
           </ListItem>
