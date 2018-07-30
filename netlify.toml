@@ -5,7 +5,33 @@
 [build.environment]
   YARN_FLAGS = "--frozen-lockfile"
 
+# Redirect HTTP to HTTPS
+# TODO: Delete when Codetribute successfully moves to codetribute.mozilla.org
+[[redirects]]
+  from = "http://codetribute.netlify.com/*"
+  to = "https://codetribute.netlify.com/:splat"
+  status = 301
+  force = true
+
+# Redirect HTTP to HTTPS
+[[redirects]]
+  from = "http://codetribute.mozilla.org/*"
+  to = "https://codetribute.mozilla.org/:splat"
+  status = 301
+  force = true
+
+# Rule for SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    Content-Security-Policy = "frame-ancestors 'self'"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains;"
+    Referrer-Policy = "no-referrer"
+    X-Content-Type-Options = "nosniff"
