@@ -2,6 +2,7 @@ import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
+import { graphql } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -16,11 +17,60 @@ import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
 import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
 import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
+import uniqBy from 'lodash.uniqby';
 import AppBar from '../../components/AppBar';
 import TasksTable from '../../components/TasksTable';
 import Sidebar from '../../components/Sidebar';
+import ErrorPanel from '../../components/ErrorPanel';
+import bugsQuery from './bugs.graphql';
+import {
+  BUGZILLA_ORDER,
+  BUGZILLA_PAGE_NUMBER,
+  BUGZILLA_PAGE_SIZE,
+  BUGZILLA_STATUSES,
+  GOOD_FIRST_BUG,
+  BUGZILLA_LANGUAGE_MAPPING,
+} from '../../utils/constants';
+import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
+
+const bugzillaSearchOptions = {
+  keywords: [GOOD_FIRST_BUG],
+  statuses: Object.values(BUGZILLA_STATUSES),
+  order: BUGZILLA_ORDER,
+};
+const bugzillaPagingOptions = {
+  page: BUGZILLA_PAGE_NUMBER,
+  pageSize: BUGZILLA_PAGE_SIZE,
+};
 
 @hot(module)
+@graphql(bugsQuery, {
+  skip: ({
+    match: {
+      params: { language },
+    },
+  }) => !language || !BUGZILLA_LANGUAGE_MAPPING[language],
+  name: 'bugzilla',
+  options: ({
+    match: {
+      params: { language },
+    },
+  }) => ({
+    fetchPolicy: 'network-only',
+    variables: {
+      search: {
+        ...bugzillaSearchOptions,
+        whiteboards: `lang=${BUGZILLA_LANGUAGE_MAPPING[language]}`,
+      },
+      paging: {
+        ...bugzillaPagingOptions,
+      },
+    },
+    context: {
+      client: 'bugzilla',
+    },
+  }),
+})
 @withStyles(theme => ({
   drawerPaper: {
     color: theme.palette.secondary.contrastText,
@@ -84,7 +134,10 @@ export default class Languages extends Component {
       'C#': <LanguageCsharpIcon />,
       CSS3: <LanguageCss3Icon />,
     };
-    const items = Object.entries(icons).map(([text, icon]) => ({ text, icon }));
+    const drawerItems = Object.keys(BUGZILLA_LANGUAGE_MAPPING).map(text => ({
+      text,
+      icon: icons[text],
+    }));
     const drawer = (
       <Fragment>
         <div className={classes.drawerHeader}>
@@ -96,11 +149,31 @@ export default class Languages extends Component {
         <Divider light />
         <Sidebar
           activeItem={language}
-          items={items}
+          items={drawerItems}
           onItemClick={this.handleDrawerToggle}
         />
       </Fragment>
     );
+    const bugzillaData = this.props.bugzilla;
+    const bugs =
+      (bugzillaData &&
+        bugzillaData.bugs &&
+        uniqBy(
+          bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
+            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            project: bug.component,
+            tags: [
+              ...(bug.keywords || []),
+              ...extractWhiteboardTags(bug.whiteboard),
+            ],
+            summary: bug.summary,
+            lastUpdated: bug.lastChanged,
+            id: bug.id,
+            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+          })),
+          'summary'
+        )) ||
+      [];
 
     return (
       <Fragment>
@@ -146,7 +219,9 @@ export default class Languages extends Component {
           {drawer}
         </Drawer>
         <div className={classes.container}>
-          <TasksTable items={[]} />
+          {bugzillaData &&
+            bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
+          <TasksTable items={bugs} />
         </div>
       </Fragment>
     );

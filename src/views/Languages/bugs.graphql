@@ -1,0 +1,18 @@
+query Bugs($search: BugSearch!, $paging: Paging) {
+  bugs(search: $search, paging: $paging) {
+    edges {
+      node {
+        assignedTo {
+          name
+        }
+        component
+        lastChanged
+        id
+        keywords
+        summary
+        status
+        whiteboard
+      }
+    }
+  }
+}
