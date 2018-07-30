@@ -46,6 +46,7 @@ import Sidebar from '../../components/Sidebar';
   },
   container: {
     marginTop: 60,
+    // padding: 2 * theme.spacing.unit,
   },
   title: {
     ...theme.mixins.gutters(),
