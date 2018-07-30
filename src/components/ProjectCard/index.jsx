@@ -12,6 +12,7 @@ import Markdown from 'react-markdown';
     textAlign: 'center',
     position: 'relative',
     width: '100%',
+    height: '100%',
     boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
     minHeight: 250,
     '&:hover, &:focus': {
