@@ -18,7 +18,7 @@ class Loading extends PureComponent {
 
     if (error) {
       throw error;
-    } else if (timedOut || pastDelay || !error) {
+    } else if (timedOut || pastDelay) {
       return <Spinner />;
     }
 
