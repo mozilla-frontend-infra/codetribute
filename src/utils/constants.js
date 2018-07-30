@@ -14,3 +14,16 @@ export const ASSIGNEE = {
   ASSIGNED: 'Assigned',
 };
 export const ALL_PROJECTS = 'All';
+export const BUGZILLA_LANGUAGE_MAPPING = {
+  'C++': 'c++',
+  HTML: 'html',
+  CSS3: 'css',
+  Python: 'py',
+  Rust: 'rust',
+  Javascript: 'js',
+  Perl: 'perl',
+  XML: 'xml',
+  XUL: 'xul',
+  JAVA: 'java',
+  'SHELL/MAKEFILE/AUTOCONF': 'shell',
+};
