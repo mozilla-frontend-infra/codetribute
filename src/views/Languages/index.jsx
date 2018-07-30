@@ -33,7 +33,7 @@ import Sidebar from '../../components/Sidebar';
   },
   drawerHeader: {
     ...theme.mixins.gutters(),
-    height: 60,
+    minHeight: 60,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
