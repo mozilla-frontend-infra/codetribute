@@ -3,22 +3,41 @@ import { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import { parse, stringify } from 'qs';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import MenuDownIcon from 'mdi-react/MenuDownIcon';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
+import ArrowRightIcon from 'mdi-react/ArrowRightIcon';
+import LanguagePythonIcon from 'mdi-react/LanguagePythonIcon';
+import LanguageCppIcon from 'mdi-react/LanguageCppIcon';
+import LanguageCIcon from 'mdi-react/LanguageCIcon';
+import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
+import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
+import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
+import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
 import AppBar from '../../components/AppBar';
 import TasksTable from '../../components/TasksTable';
-
-const options = ['Python', 'C++', 'C#'];
+import Sidebar from '../../components/Sidebar';
 
 @hot(module)
 @withStyles(theme => ({
+  drawerPaper: {
+    color: theme.palette.secondary.contrastText,
+    width: 300,
+    maxWidth: '100%',
+  },
   header: {
     height: 60,
     paddingBottom: theme.spacing.unit,
+  },
+  drawerHeader: {
+    ...theme.mixins.gutters(),
+    height: 60,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   link: {
     textDecoration: 'none',
@@ -33,7 +52,6 @@ const options = ['Python', 'C++', 'C#'];
     ...theme.mixins.gutters(),
   },
   button: {
-    // background: theme.palette.primary.contrastText,
     color: theme.palette.common.white,
     '& svg': {
       fill: theme.palette.common.white,
@@ -42,7 +60,7 @@ const options = ['Python', 'C++', 'C#'];
 }))
 export default class Languages extends Component {
   state = {
-    anchorEl: null,
+    drawerOpen: false,
   };
 
   getQuery() {
@@ -58,19 +76,45 @@ export default class Languages extends Component {
     });
   };
 
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+  handleDrawerItemClick = lang => {
+    this.setQuery({ lang });
+    this.handleDrawerToggle();
   };
 
-  handleClose = event => {
-    this.setQuery({ lang: event.currentTarget.id });
-    this.setState({ anchorEl: null });
+  handleDrawerToggle = () => {
+    this.setState({ drawerOpen: !this.state.drawerOpen });
   };
 
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
+    const { drawerOpen } = this.state;
     const { lang } = this.getQuery();
+    const icons = {
+      Python: <LanguagePythonIcon />,
+      Javascript: <LanguageJavascriptIcon />,
+      Swift: <LanguageSwiftIcon />,
+      C: <LanguageCIcon />,
+      'C++': <LanguageCppIcon />,
+      'C#': <LanguageCsharpIcon />,
+      CSS3: <LanguageCss3Icon />,
+    };
+    const items = Object.entries(icons).map(([text, icon]) => ({ text, icon }));
+    const drawer = (
+      <Fragment>
+        <div className={classes.drawerHeader}>
+          <Typography variant="title">Skills</Typography>
+          <IconButton onClick={this.handleDrawerToggle}>
+            <ArrowRightIcon />
+          </IconButton>
+        </div>
+        <Divider light />
+        <Sidebar
+          activeItem={lang}
+          items={items}
+          onItemClick={this.handleDrawerItemClick}
+        />
+      </Fragment>
+    );
 
     return (
       <Fragment>
@@ -96,22 +140,25 @@ export default class Languages extends Component {
               <Button
                 className={classes.button}
                 size="large"
-                aria-owns={anchorEl ? 'fade-menu' : null}
-                aria-haspopup="true"
-                onClick={this.handleClick}>
-                {lang || 'Pick languages'}
-                <MenuDownIcon />
+                onClick={this.handleDrawerToggle}>
+                Skills
               </Button>
-              <Menu id="fade-menu" anchorEl={anchorEl} open={Boolean(anchorEl)}>
-                {options.map(item => (
-                  <MenuItem key={item} onClick={this.handleClose} id={item}>
-                    {item}
-                  </MenuItem>
-                ))}
-              </Menu>
             </Grid>
           </Grid>
         </AppBar>
+        <Drawer
+          variant="temporary"
+          anchor="right"
+          open={drawerOpen}
+          onClose={this.handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true,
+          }}>
+          {drawer}
+        </Drawer>
         <div className={classes.container}>
           <TasksTable items={[]} />
         </div>
