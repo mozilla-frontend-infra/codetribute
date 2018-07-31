@@ -1,7 +1,7 @@
 export const GOOD_FIRST_BUG = 'good-first-bug';
 export const MENTORED_BUG = {
-  f1: 'bug_mentor',
-  o1: 'isnotempty',
+  fields: 'mentor',
+  operators: 'IS_NOT_EMPTY',
 };
 export const BUGZILLA_STATUSES = {
   NEW: 'NEW',
