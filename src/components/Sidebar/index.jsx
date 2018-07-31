@@ -14,7 +14,7 @@ import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
 import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
 import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
-import { BUGZILLA_LANGUAGE_MAPPING } from '../../utils/constants';
+import { BUGZILLA_LANGUAGES } from '../../utils/constants';
 
 @withStyles(theme => ({
   active: {
@@ -45,7 +45,7 @@ export default class Sidebar extends Component {
       'C#': <LanguageCsharpIcon />,
       CSS: <LanguageCss3Icon />,
     };
-    const items = Object.keys(BUGZILLA_LANGUAGE_MAPPING).map(text => ({
+    const items = Object.keys(BUGZILLA_LANGUAGES).map(text => ({
       text,
       icon: icons[text],
     }));

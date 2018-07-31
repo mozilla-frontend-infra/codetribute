@@ -16,6 +16,7 @@ const SECONDARY = {
   DARK: '#4bacb8',
 };
 const theme = createMuiTheme({
+  drawerWidth: 240,
   palette: {
     divider: PRIMARY.DARK,
     background: {

@@ -66,7 +66,7 @@ import sort from '../../utils/sort';
     justifyContent: 'space-between',
   },
   drawerPaper: {
-    width: 300,
+    width: theme.drawerWidth,
     maxWidth: '100%',
   },
 }))

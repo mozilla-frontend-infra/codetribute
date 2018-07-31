@@ -18,19 +18,18 @@ import TasksTable from '../../components/TasksTable';
 import Sidebar from '../../components/Sidebar';
 import ErrorPanel from '../../components/ErrorPanel';
 import Spinner from '../../components/Spinner';
-import bugsQuery from './bugs.graphql';
-import commentsQuery from './comments.graphql';
+import bugsQuery from '../bugs.graphql';
+import commentsQuery from '../comments.graphql';
 import {
   BUGZILLA_ORDER,
   BUGZILLA_PAGE_NUMBER,
   BUGZILLA_PAGE_SIZE,
   BUGZILLA_STATUSES,
   GOOD_FIRST_BUG,
-  BUGZILLA_LANGUAGE_MAPPING,
+  BUGZILLA_LANGUAGES,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
-const DRAWER_WIDTH = 300;
 const bugzillaSearchOptions = {
   keywords: [GOOD_FIRST_BUG],
   statuses: Object.values(BUGZILLA_STATUSES),
@@ -48,7 +47,7 @@ const bugzillaPagingOptions = {
     match: {
       params: { language },
     },
-  }) => !language || !BUGZILLA_LANGUAGE_MAPPING[language],
+  }) => !language || !BUGZILLA_LANGUAGES[language],
   name: 'bugzilla',
   options: ({
     match: {
@@ -59,7 +58,7 @@ const bugzillaPagingOptions = {
     variables: {
       search: {
         ...bugzillaSearchOptions,
-        whiteboards: `lang=${BUGZILLA_LANGUAGE_MAPPING[language]}`,
+        whiteboards: `lang=${BUGZILLA_LANGUAGES[language]}`,
       },
       paging: {
         ...bugzillaPagingOptions,
@@ -81,7 +80,7 @@ const bugzillaPagingOptions = {
     width: '100vw',
   },
   drawerPaper: {
-    width: DRAWER_WIDTH,
+    width: theme.drawerWidth,
     maxWidth: '100%',
     [theme.breakpoints.up('md')]: {
       position: 'fixed',
@@ -108,8 +107,8 @@ const bugzillaPagingOptions = {
     marginTop: 60,
     padding: 2 * theme.spacing.unit,
     [theme.breakpoints.up('md')]: {
-      marginLeft: DRAWER_WIDTH,
-      width: `calc(100% - ${DRAWER_WIDTH}px)`,
+      marginLeft: theme.drawerWidth,
+      width: `calc(100% - ${theme.drawerWidth}px)`,
     },
   },
   title: {
@@ -257,7 +256,9 @@ export default class Languages extends Component {
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
           {bugzillaData &&
             bugzillaData.loading && <Spinner className={classes.spinner} />}
-          <TasksTable items={bugs} onBugInfoClick={this.handleBugInfoClick} />
+          {(!bugzillaData || !bugzillaData.loading) && (
+            <TasksTable items={bugs} onBugInfoClick={this.handleBugInfoClick} />
+          )}
         </div>
       </div>
     );

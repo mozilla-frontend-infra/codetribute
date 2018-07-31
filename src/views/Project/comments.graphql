@@ -1,5 +1,0 @@
-query comments($id: Int!){
-    comments(id: $id){
-        text
-    }
-}

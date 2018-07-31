@@ -14,7 +14,7 @@ export const ASSIGNEE = {
   ASSIGNED: 'Assigned',
 };
 export const ALL_PROJECTS = 'All';
-export const BUGZILLA_LANGUAGE_MAPPING = {
+export const BUGZILLA_LANGUAGES = {
   'C++': 'c++',
   HTML: 'html',
   CSS: 'css',
