@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
@@ -18,6 +18,7 @@ import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
 import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
 import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
+import { memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import AppBar from '../../components/AppBar';
 import TasksTable from '../../components/TasksTable';
@@ -25,6 +26,7 @@ import Sidebar from '../../components/Sidebar';
 import ErrorPanel from '../../components/ErrorPanel';
 import Spinner from '../../components/Spinner';
 import bugsQuery from './bugs.graphql';
+import commentsQuery from './comments.graphql';
 import {
   BUGZILLA_ORDER,
   BUGZILLA_PAGE_NUMBER,
@@ -46,6 +48,7 @@ const bugzillaPagingOptions = {
   pageSize: BUGZILLA_PAGE_SIZE,
 };
 
+@withApollo
 @hot(module)
 @graphql(bugsQuery, {
   skip: ({
@@ -130,11 +133,31 @@ const bugzillaPagingOptions = {
 export default class Languages extends Component {
   state = {
     drawerOpen: false,
+    error: null,
   };
 
   handleDrawerToggle = () => {
     this.setState({ drawerOpen: !this.state.drawerOpen });
   };
+
+  handleBugInfoClick = memoizeWith(
+    id => id,
+    async id => {
+      try {
+        const {
+          data: { comments },
+        } = await this.props.client.query({
+          query: commentsQuery,
+          variables: { id },
+          context: { client: 'bugzilla' },
+        });
+
+        return comments[0].text;
+      } catch (error) {
+        this.setState({ error });
+      }
+    }
+  );
 
   render() {
     const {
@@ -143,7 +166,7 @@ export default class Languages extends Component {
         params: { language },
       },
     } = this.props;
-    const { drawerOpen } = this.state;
+    const { drawerOpen, error } = this.state;
     const icons = {
       Python: <LanguagePythonIcon />,
       Javascript: <LanguageJavascriptIcon />,
@@ -254,11 +277,12 @@ export default class Languages extends Component {
           </Drawer>
         </Hidden>
         <div className={classes.container}>
+          {error && <ErrorPanel error={error} />}
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
           {bugzillaData &&
             bugzillaData.loading && <Spinner className={classes.spinner} />}
-          <TasksTable items={bugs} />
+          <TasksTable items={bugs} onBugInfoClick={this.handleBugInfoClick} />
         </div>
       </div>
     );
