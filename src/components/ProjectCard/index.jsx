@@ -66,11 +66,7 @@ export default class ProjectCard extends Component {
       <Link className={classes.link} to={`projects/${fileName}`}>
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
-            <Typography
-              gutterBottom
-              color="primary"
-              variant="headline"
-              component="h4">
+            <Typography gutterBottom variant="headline" component="h4">
               {name}
             </Typography>
             {summary && (

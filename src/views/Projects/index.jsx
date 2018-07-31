@@ -1,18 +1,20 @@
 import { hot } from 'react-hot-loader';
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Hidden from '@material-ui/core/Hidden';
+import ArrowRightIcon from 'mdi-react/ArrowRightIcon';
 import GithubCircleIcon from 'mdi-react/GithubCircleIcon';
-import { Link } from 'react-router-dom';
+import MenuIcon from 'mdi-react/MenuIcon';
+import classNames from 'classnames';
 import AppBar from '../../components/AppBar';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 import SearchBox from '../../components/SearchBox';
+import Sidebar from '../../components/Sidebar';
 import sort from '../../utils/sort';
 
 @hot(module)
@@ -22,9 +24,8 @@ import sort from '../../utils/sort';
   },
   container: {
     paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit,
     backgroundColor: theme.palette.background.default,
-    minHeight: `calc(100vh - 180px - 60px - ${1 * theme.spacing.unit}px)`,
+    minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
   },
   header: {
@@ -47,29 +48,53 @@ import sort from '../../utils/sort';
   },
   appBarButton: {
     position: 'absolute',
-    right: theme.spacing.unit,
     '& svg': {
       fill: '#ecffff',
     },
   },
-  paper: {
-    height: 60,
-    background: 'white',
-    padding: `${theme.spacing.unit}px 0px`,
+  rightButton: {
+    right: theme.spacing.unit,
+  },
+  leftButton: {
+    left: theme.spacing.unit,
+  },
+  drawerHeader: {
+    ...theme.mixins.gutters(),
+    minHeight: 60,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 }))
 export default class Projects extends Component {
   state = {
     searchTerm: '',
+    drawerOpen: false,
   };
 
   handleTextInputChange = event => {
     this.setState({ searchTerm: event.target.value });
   };
 
+  handleDrawerToggle = () => {
+    this.setState({ drawerOpen: !this.state.drawerOpen });
+  };
+
   render() {
     const { classes } = this.props;
-    const { searchTerm } = this.state;
+    const { searchTerm, drawerOpen } = this.state;
+    const drawer = (
+      <Fragment>
+        <div className={classes.drawerHeader}>
+          <Typography variant="title">Skills</Typography>
+          <IconButton onClick={this.handleDrawerToggle}>
+            <ArrowRightIcon />
+          </IconButton>
+        </div>
+        <Divider light />
+        <Sidebar onItemClick={this.handleDrawerToggle} />
+      </Fragment>
+    );
     const filteredProjects = Object.keys(projects)
       .filter(fileName =>
         projects[fileName].name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -87,12 +112,18 @@ export default class Projects extends Component {
         <AppBar position="absolute" className={classes.header}>
           <IconButton
             aria-label="Site Repository"
-            className={classes.appBarButton}
+            className={classNames(classes.appBarButton, classes.rightButton)}
             target="_blank"
             rel="noopener noreferrer"
             href="https://github.com/mozilla-frontend-infra/codetribute"
             title="Site Repository">
             <GithubCircleIcon />
+          </IconButton>
+          <IconButton
+            aria-label="Language"
+            className={classNames(classes.appBarButton, classes.leftButton)}
+            onClick={this.handleDrawerToggle}>
+            <MenuIcon />
           </IconButton>
           <Typography variant="display2" align="center">
             Codetribute
@@ -110,6 +141,19 @@ export default class Projects extends Component {
             onChange={this.handleTextInputChange}
           />
         </AppBar>
+        <Drawer
+          variant="temporary"
+          anchor="left"
+          open={drawerOpen}
+          onClose={this.handleDrawerToggle}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          ModalProps={{
+            keepMounted: true,
+          }}>
+          {drawer}
+        </Drawer>
         <main className={classes.container}>
           <Grid container spacing={24} className={classes.grid}>
             {Object.values(filteredProjects)
@@ -126,26 +170,6 @@ export default class Projects extends Component {
               ))}
           </Grid>
         </main>
-        <Paper className={classes.paper}>
-          <Grid container justify="center" spacing={24} alignItems="center">
-            <Hidden smDown>
-              <Grid item>
-                <Typography variant="display1" color="primary">
-                  Feeling confused ?
-                </Typography>
-              </Grid>
-            </Hidden>
-            <Grid item>
-              <Button
-                variant="contained"
-                component={Link}
-                color="primary"
-                to="/languages">
-                FILTER BUG BY SKILLSET
-              </Button>
-            </Grid>
-          </Grid>
-        </Paper>
       </div>
     );
   }
