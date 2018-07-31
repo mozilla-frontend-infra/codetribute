@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
 import CloseIcon from 'mdi-react/CloseIcon';
 import GithubCircleIcon from 'mdi-react/GithubCircleIcon';
 import MenuIcon from 'mdi-react/MenuIcon';
@@ -21,15 +22,26 @@ import sort from '../../utils/sort';
 @withStyles(theme => ({
   root: {
     overflowX: 'hidden',
+    display: 'flex',
   },
   container: {
+    flexGrow: 1,
     paddingTop: theme.spacing.unit,
     backgroundColor: theme.palette.background.default,
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.drawerWidth,
+      width: `calc(100% - ${theme.drawerWidth}px)`,
+    },
+    overflowX: 'auto',
   },
   header: {
     height: 180,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.drawerWidth,
+      width: `calc(100% - ${theme.drawerWidth}px)`,
+    },
   },
   search: {
     marginBottom: 4 * theme.spacing.unit,
@@ -45,6 +57,9 @@ import sort from '../../utils/sort';
   grid: {
     width: '90vw',
     margin: '0 auto',
+    [theme.breakpoints.up('md')]: {
+      maxWidth: `calc(100vw - ${theme.drawerWidth}px)`,
+    },
   },
   appBarButton: {
     position: 'absolute',
@@ -91,9 +106,11 @@ export default class Projects extends Component {
       <Fragment>
         <div className={classes.drawerHeader}>
           <Typography variant="title">Skills</Typography>
-          <IconButton onClick={this.handleDrawerToggle}>
-            <CloseIcon />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton onClick={this.handleDrawerToggle}>
+              <CloseIcon />
+            </IconButton>
+          </Hidden>
         </div>
         <Divider light />
         <Sidebar onItemClick={this.handleDrawerToggle} />
@@ -123,12 +140,14 @@ export default class Projects extends Component {
             title="Site Repository">
             <GithubCircleIcon />
           </IconButton>
-          <IconButton
-            aria-label="Language"
-            className={classNames(classes.appBarButton, classes.leftButton)}
-            onClick={this.handleDrawerToggle}>
-            <MenuIcon />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton
+              aria-label="Language"
+              className={classNames(classes.appBarButton, classes.leftButton)}
+              onClick={this.handleDrawerToggle}>
+              <MenuIcon />
+            </IconButton>
+          </Hidden>
           <Typography variant="display2" align="center">
             Codetribute
           </Typography>
@@ -145,19 +164,34 @@ export default class Projects extends Component {
             onChange={this.handleTextInputChange}
           />
         </AppBar>
-        <Drawer
-          variant="temporary"
-          anchor="left"
-          open={drawerOpen}
-          onClose={this.handleDrawerToggle}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          ModalProps={{
-            keepMounted: true,
-          }}>
-          {drawer}
-        </Drawer>
+        <Hidden mdUp>
+          <Drawer
+            variant="temporary"
+            anchor="left"
+            open={drawerOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true,
+            }}>
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <Drawer
+            variant="permanent"
+            open
+            PaperProps={{
+              elevation: 2,
+            }}
+            classes={{
+              paper: classes.drawerPaper,
+            }}>
+            {drawer}
+          </Drawer>
+        </Hidden>
         <main className={classes.container}>
           <Grid container spacing={24} className={classes.grid}>
             {Object.values(filteredProjects)
