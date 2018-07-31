@@ -83,6 +83,7 @@ const bugzillaPagingOptions = {
     width: theme.drawerWidth,
     maxWidth: '100%',
     [theme.breakpoints.up('md')]: {
+      marginTop: 60,
       position: 'fixed',
     },
   },
@@ -162,9 +163,11 @@ export default class Languages extends Component {
       <Fragment>
         <div className={classes.drawerHeader}>
           <Typography variant="title">Skills</Typography>
-          <IconButton onClick={this.handleDrawerToggle}>
-            <CloseIcon />
-          </IconButton>
+          <Hidden mdUp>
+            <IconButton onClick={this.handleDrawerToggle}>
+              <CloseIcon />
+            </IconButton>
+          </Hidden>
         </div>
         <Divider light />
         <Sidebar activeItem={language} onItemClick={this.handleDrawerToggle} />
