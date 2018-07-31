@@ -22,6 +22,7 @@ import AppBar from '../../components/AppBar';
 import TasksTable from '../../components/TasksTable';
 import Sidebar from '../../components/Sidebar';
 import ErrorPanel from '../../components/ErrorPanel';
+import Spinner from '../../components/Spinner';
 import bugsQuery from './bugs.graphql';
 import {
   BUGZILLA_ORDER,
@@ -96,7 +97,7 @@ const bugzillaPagingOptions = {
   },
   container: {
     marginTop: 60,
-    // padding: 2 * theme.spacing.unit,
+    padding: 2 * theme.spacing.unit,
   },
   title: {
     ...theme.mixins.gutters(),
@@ -221,6 +222,8 @@ export default class Languages extends Component {
         <div className={classes.container}>
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
+          {bugzillaData &&
+            bugzillaData.loading && <Spinner className={classes.spinner} />}
           <TasksTable items={bugs} />
         </div>
       </Fragment>
