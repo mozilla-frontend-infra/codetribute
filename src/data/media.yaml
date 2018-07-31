@@ -1,3 +1,0 @@
-name: Media
-products: 
- - Core: ['Video/Audio', 'WebRTC', 'WebRTC: Audio/Video', 'WebRTC: Signalling']

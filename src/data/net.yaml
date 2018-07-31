@@ -1,3 +1,0 @@
-name: Networking
-products: 
- - Core: ['Networking', 'Networking: HTTP', 'Networking: Cookies', 'Networking: File', 'Networking: JAR', 'Networking: WebSockets', 'Networking: DNS', 'WebRTC: Networking']

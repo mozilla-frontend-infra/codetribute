@@ -68,6 +68,7 @@ export default class Search extends Component {
         </div>
         <input
           id="adornment-search"
+          aria-label="Search Project"
           placeholder="Search Project"
           className={classes.input}
           type="text"

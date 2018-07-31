@@ -1,5 +1,8 @@
 # Codetribute
 
+[![Build Status][travis-image]][travis-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
+
 Codetribute is a site that guides contributors to
 their first contribution. It helps new contributors 
 find a project they want to work with, learn about 
@@ -162,4 +165,7 @@ products:
 This project welcomes contributors. If you are interested, please feel free to
 join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
 
-
+[snyk-image]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute/badge.svg
+[snyk-url]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute?targetFile=package.json
+[travis-image]: https://travis-ci.com/mozilla-frontend-infra/codetribute.svg?branch=master
+[travis-url]: https://travis-ci.com/mozilla-frontend-infra/codetribute

@@ -1,3 +1,0 @@
-name: Input handling
-products: 
- - Core: ['Editor', 'Selection', 'Keyboard: Navigation', 'Drag and Drop', 'Spelling Checker']

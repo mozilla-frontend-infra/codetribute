@@ -1,0 +1,10 @@
+name: Web Platform
+summary: Web Platform consists of Networking, Layout, Build System, DOM & CSS Technology, Input Handling, and Media.
+products:
+ - Core: ['CSS Parsing and Computation', 'DOM', 'DOM: Core & HTML', 'DOM: CSS Object Model', 'DOM: Device Interfaces', 'DOM: Events', 'DOM: IndexedDB',
+ 'DOM: Mozilla Extensions', 'DOM: Other', 'DOM: Traversal-Range', 'DOM: Validation', 'DOM: Workers', 'Drag and Drop', 'Editor', 'Event Handling', 'Geolocation',
+ 'HTML: Form Submission', 'HTML: Parser', 'Keyboard: Navigation', 'Layout', 'Layout: Block and Inline', 'Layout: Floats', 'Layout: Form Controls',
+ 'Layout: HTML Frames', 'Layout: Images', 'Layout: Misc Code', 'Layout: R & A Pos', 'Layout: Tables', 'Layout: Text', 'Layout: View Rendering', 'MathML',
+ 'Networking', 'Networking: HTTP', 'Networking: Cookies', 'Networking: File', 'Networking: JAR', 'Networking: WebSockets', 'Networking: DNS', 'Selection',
+ 'Spelling Checker', 'Video/Audio', 'WebRTC', 'WebRTC: Audio/Video', 'SVG', 'WebRTC: Networking', 'WebRTC: Signalling', 'XML', 'XSLT']
+ - MailNews Core: ['Build Config']

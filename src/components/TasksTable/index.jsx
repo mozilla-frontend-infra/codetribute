@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
+import transitions from '@material-ui/core/styles/transitions';
+import { lighten } from '@material-ui/core/styles/colorManipulator';
 import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
@@ -18,6 +20,7 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
+import Linkify from 'react-linkify';
 import { formatDistance, differenceInCalendarDays } from 'date-fns';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -119,6 +122,15 @@ const assignments = Object.values(ASSIGNEE);
     right: theme.spacing.unit,
     top: theme.spacing.unit,
     zIndex: theme.zIndex.drawer + 1,
+  },
+  listItemButton: {
+    '& svg': {
+      transition: transitions.create('fill'),
+      fill: lighten(theme.palette.secondary.contrastText, 0.5),
+    },
+    '&:hover svg': {
+      fill: theme.palette.secondary.contrastText,
+    },
   },
 }))
 export default class TasksTable extends Component {
@@ -294,7 +306,7 @@ export default class TasksTable extends Component {
     return (
       <Fragment>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="title" className={classes.title}>
+          <Typography variant="title" className={classes.title} id="tableTitle">
             Bugs & Issues
           </Typography>
           <Button
@@ -304,7 +316,7 @@ export default class TasksTable extends Component {
             className={classes.adventurousButton}>
             I’m Feeling Adventurous
           </Button>
-          <IconButton onClick={this.handleFilterToggle}>
+          <IconButton aria-label="Filter" onClick={this.handleFilterToggle}>
             <FilterVariantIcon />
           </IconButton>
         </Toolbar>
@@ -359,12 +371,18 @@ export default class TasksTable extends Component {
                 <TableCell className={classes.tableCell}>
                   <IconButton
                     name={item.summary}
+                    aria-label="Information"
                     className={classes.infoButton}
                     onClick={this.handleDrawerOpen}>
                     <InformationVariantIcon />
                   </IconButton>
-                  <List dense disablePadding className={classes.summary}>
+                  <List
+                    dense
+                    disablePadding
+                    className={classes.summary}
+                    component="div">
                     <ListItem
+                      className={classes.listItemButton}
                       classes={{
                         gutters: classes.summaryItem,
                       }}
@@ -421,6 +439,7 @@ export default class TasksTable extends Component {
           classes={{ paper: classes.drawerPaper }}>
           <Fragment>
             <IconButton
+              aria-label="Close Drawer"
               className={classes.drawerCloseButton}
               onClick={this.handleDrawerClose}>
               <CloseIcon />
@@ -437,7 +456,15 @@ export default class TasksTable extends Component {
                   <ListItem>
                     <ListItemText
                       primary="Description"
-                      secondary={drawerItem.description}
+                      secondary={
+                        <Linkify
+                          properties={{
+                            target: '_blank',
+                            rel: 'noopener noreferrer',
+                          }}>
+                          {drawerItem.description}
+                        </Linkify>
+                      }
                     />
                   </ListItem>
                 )}

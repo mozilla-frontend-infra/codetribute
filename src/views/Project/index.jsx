@@ -379,7 +379,11 @@ export default class Project extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="absolute" className={classes.header}>
-          <IconButton className={classes.link} component={NavLink} to="/">
+          <IconButton
+            aria-label="Back"
+            className={classes.link}
+            component={NavLink}
+            to="/">
             <ArrowLeftIcon />
           </IconButton>
           <Typography

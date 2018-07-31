@@ -73,6 +73,7 @@ export default class Projects extends Component {
       <Fragment>
         <AppBar position="absolute" className={classes.header}>
           <IconButton
+            aria-label="Site Repository"
             className={classes.appBarButton}
             target="_blank"
             rel="noopener noreferrer"
