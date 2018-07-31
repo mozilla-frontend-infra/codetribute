@@ -4,11 +4,12 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
+import MenuIcon from 'mdi-react/MenuIcon';
 import ArrowRightIcon from 'mdi-react/ArrowRightIcon';
 import LanguagePythonIcon from 'mdi-react/LanguagePythonIcon';
 import LanguageCppIcon from 'mdi-react/LanguageCppIcon';
@@ -34,6 +35,7 @@ import {
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
+const DRAWER_WIDTH = 300;
 const bugzillaSearchOptions = {
   keywords: [GOOD_FIRST_BUG],
   statuses: Object.values(BUGZILLA_STATUSES),
@@ -73,14 +75,27 @@ const bugzillaPagingOptions = {
   }),
 })
 @withStyles(theme => ({
+  root: {
+    flexGrow: 1,
+    minHeight: '100vh',
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100vw',
+  },
   drawerPaper: {
     color: theme.palette.secondary.contrastText,
-    width: 300,
+    width: DRAWER_WIDTH,
     maxWidth: '100%',
+    [theme.breakpoints.up('md')]: {
+      position: 'fixed',
+    },
   },
   header: {
     height: 60,
     paddingBottom: theme.spacing.unit,
+    zIndex: theme.zIndex.drawer + 1,
   },
   drawerHeader: {
     ...theme.mixins.gutters(),
@@ -91,13 +106,16 @@ const bugzillaPagingOptions = {
   },
   link: {
     textDecoration: 'none',
-    '& svg': {
-      fill: theme.palette.common.white,
-    },
   },
   container: {
+    overflow: 'auto',
+    flexGrow: 1,
     marginTop: 60,
     padding: 2 * theme.spacing.unit,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: DRAWER_WIDTH,
+      width: `calc(100% - ${DRAWER_WIDTH}px)`,
+    },
   },
   title: {
     ...theme.mixins.gutters(),
@@ -177,14 +195,23 @@ export default class Languages extends Component {
       [];
 
     return (
-      <Fragment>
-        <AppBar position="absolute" className={classes.header}>
+      <div className={classes.root}>
+        <AppBar position="fixed" className={classes.header}>
           <Grid
             container
             className={classes.title}
             alignItems="center"
-            justify="space-between"
             spacing={8}>
+            <Hidden mdUp>
+              <Grid item>
+                <IconButton
+                  className={classes.button}
+                  size="large"
+                  onClick={this.handleDrawerToggle}>
+                  <MenuIcon />
+                </IconButton>
+              </Grid>
+            </Hidden>
             <Grid item>
               <Typography
                 align="center"
@@ -196,29 +223,36 @@ export default class Languages extends Component {
                 Codetribute
               </Typography>
             </Grid>
-            <Grid item>
-              <Button
-                className={classes.button}
-                size="large"
-                onClick={this.handleDrawerToggle}>
-                Skills
-              </Button>
-            </Grid>
           </Grid>
         </AppBar>
-        <Drawer
-          variant="temporary"
-          anchor="right"
-          open={drawerOpen}
-          onClose={this.handleDrawerToggle}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-          ModalProps={{
-            keepMounted: true,
-          }}>
-          {drawer}
-        </Drawer>
+        <Hidden mdUp>
+          <Drawer
+            variant="temporary"
+            anchor="left"
+            open={drawerOpen}
+            onClose={this.handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true,
+            }}>
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <Drawer
+            variant="permanent"
+            open
+            PaperProps={{
+              elevation: 2,
+            }}
+            classes={{
+              paper: classes.drawerPaper,
+            }}>
+            {drawer}
+          </Drawer>
+        </Hidden>
         <div className={classes.container}>
           {bugzillaData &&
             bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
@@ -226,7 +260,7 @@ export default class Languages extends Component {
             bugzillaData.loading && <Spinner className={classes.spinner} />}
           <TasksTable items={bugs} />
         </div>
-      </Fragment>
+      </div>
     );
   }
 }
