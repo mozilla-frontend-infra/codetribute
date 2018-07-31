@@ -18,7 +18,16 @@ import { BUGZILLA_LANGUAGE_MAPPING } from '../../utils/constants';
 
 @withStyles(theme => ({
   active: {
-    background: theme.palette.action.selected,
+    '& $text': {
+      color: theme.palette.primary.main,
+    },
+    '& svg': {
+      fill: theme.palette.primary.main,
+    },
+  },
+  text: {
+    color: theme.palette.grey[800],
+    fontFamily: 'Roboto500',
   },
 }))
 export default class Sidebar extends Component {
@@ -29,12 +38,12 @@ export default class Sidebar extends Component {
     const { activeItem, classes } = this.props;
     const icons = {
       Python: <LanguagePythonIcon />,
-      Javascript: <LanguageJavascriptIcon />,
+      JavaScript: <LanguageJavascriptIcon />,
       Swift: <LanguageSwiftIcon />,
       C: <LanguageCIcon />,
       'C++': <LanguageCppIcon />,
       'C#': <LanguageCsharpIcon />,
-      CSS3: <LanguageCss3Icon />,
+      CSS: <LanguageCss3Icon />,
     };
     const items = Object.keys(BUGZILLA_LANGUAGE_MAPPING).map(text => ({
       text,
@@ -55,7 +64,9 @@ export default class Sidebar extends Component {
             component={Link}
             to={`/languages/${item.text}`}>
             <ListItemIcon>{item.icon || <WebIcon />}</ListItemIcon>
-            <ListItemText>{item.text}</ListItemText>
+            <ListItemText disableTypography className={classes.text}>
+              {item.text}
+            </ListItemText>
           </ListItem>
         ))}
       </List>

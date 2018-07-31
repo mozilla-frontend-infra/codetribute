@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from 'mdi-react/MenuIcon';
-import ArrowRightIcon from 'mdi-react/ArrowRightIcon';
+import CloseIcon from 'mdi-react/CloseIcon';
 import { memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import AppBar from '../../components/AppBar';
@@ -81,7 +81,6 @@ const bugzillaPagingOptions = {
     width: '100vw',
   },
   drawerPaper: {
-    color: theme.palette.secondary.contrastText,
     width: DRAWER_WIDTH,
     maxWidth: '100%',
     [theme.breakpoints.up('md')]: {
@@ -165,7 +164,7 @@ export default class Languages extends Component {
         <div className={classes.drawerHeader}>
           <Typography variant="title">Skills</Typography>
           <IconButton onClick={this.handleDrawerToggle}>
-            <ArrowRightIcon />
+            <CloseIcon />
           </IconButton>
         </div>
         <Divider light />

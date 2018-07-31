@@ -17,13 +17,13 @@ export const ALL_PROJECTS = 'All';
 export const BUGZILLA_LANGUAGE_MAPPING = {
   'C++': 'c++',
   HTML: 'html',
-  CSS3: 'css',
+  CSS: 'css',
   Python: 'py',
   Rust: 'rust',
-  Javascript: 'js',
+  JavaScript: 'js',
   Perl: 'perl',
   XML: 'xml',
   XUL: 'xul',
-  JAVA: 'java',
-  'SHELL/MAKEFILE/AUTOCONF': 'shell',
+  Java: 'java',
+  Shell: 'shell',
 };

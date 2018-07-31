@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import ArrowRightIcon from 'mdi-react/ArrowRightIcon';
+import CloseIcon from 'mdi-react/CloseIcon';
 import GithubCircleIcon from 'mdi-react/GithubCircleIcon';
 import MenuIcon from 'mdi-react/MenuIcon';
 import classNames from 'classnames';
@@ -65,6 +65,10 @@ import sort from '../../utils/sort';
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  drawerPaper: {
+    width: 300,
+    maxWidth: '100%',
+  },
 }))
 export default class Projects extends Component {
   state = {
@@ -88,7 +92,7 @@ export default class Projects extends Component {
         <div className={classes.drawerHeader}>
           <Typography variant="title">Skills</Typography>
           <IconButton onClick={this.handleDrawerToggle}>
-            <ArrowRightIcon />
+            <CloseIcon />
           </IconButton>
         </div>
         <Divider light />
