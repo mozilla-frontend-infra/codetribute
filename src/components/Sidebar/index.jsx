@@ -7,6 +7,14 @@ import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import WebIcon from 'mdi-react/WebIcon';
 import classNames from 'classnames';
+import LanguagePythonIcon from 'mdi-react/LanguagePythonIcon';
+import LanguageCppIcon from 'mdi-react/LanguageCppIcon';
+import LanguageCIcon from 'mdi-react/LanguageCIcon';
+import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
+import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
+import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
+import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
+import { BUGZILLA_LANGUAGE_MAPPING } from '../../utils/constants';
 
 @withStyles(theme => ({
   active: {
@@ -18,7 +26,20 @@ export default class Sidebar extends Component {
     this.props.onItemClick();
   };
   render() {
-    const { items, activeItem, classes } = this.props;
+    const { activeItem, classes } = this.props;
+    const icons = {
+      Python: <LanguagePythonIcon />,
+      Javascript: <LanguageJavascriptIcon />,
+      Swift: <LanguageSwiftIcon />,
+      C: <LanguageCIcon />,
+      'C++': <LanguageCppIcon />,
+      'C#': <LanguageCsharpIcon />,
+      CSS3: <LanguageCss3Icon />,
+    };
+    const items = Object.keys(BUGZILLA_LANGUAGE_MAPPING).map(text => ({
+      text,
+      icon: icons[text],
+    }));
 
     return (
       <List disablePadding>

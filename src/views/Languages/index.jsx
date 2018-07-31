@@ -11,13 +11,6 @@ import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from 'mdi-react/MenuIcon';
 import ArrowRightIcon from 'mdi-react/ArrowRightIcon';
-import LanguagePythonIcon from 'mdi-react/LanguagePythonIcon';
-import LanguageCppIcon from 'mdi-react/LanguageCppIcon';
-import LanguageCIcon from 'mdi-react/LanguageCIcon';
-import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
-import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
-import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
-import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
 import { memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import AppBar from '../../components/AppBar';
@@ -167,19 +160,6 @@ export default class Languages extends Component {
       },
     } = this.props;
     const { drawerOpen, error } = this.state;
-    const icons = {
-      Python: <LanguagePythonIcon />,
-      Javascript: <LanguageJavascriptIcon />,
-      Swift: <LanguageSwiftIcon />,
-      C: <LanguageCIcon />,
-      'C++': <LanguageCppIcon />,
-      'C#': <LanguageCsharpIcon />,
-      CSS3: <LanguageCss3Icon />,
-    };
-    const drawerItems = Object.keys(BUGZILLA_LANGUAGE_MAPPING).map(text => ({
-      text,
-      icon: icons[text],
-    }));
     const drawer = (
       <Fragment>
         <div className={classes.drawerHeader}>
@@ -189,11 +169,7 @@ export default class Languages extends Component {
           </IconButton>
         </div>
         <Divider light />
-        <Sidebar
-          activeItem={language}
-          items={drawerItems}
-          onItemClick={this.handleDrawerToggle}
-        />
+        <Sidebar activeItem={language} onItemClick={this.handleDrawerToggle} />
       </Fragment>
     );
     const bugzillaData = this.props.bugzilla;
