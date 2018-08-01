@@ -1,0 +1,30 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "UNION",
+        "name": "SearchResultItem",
+        "possibleTypes": [
+          {
+            "name": "Issue"
+          },
+          {
+            "name": "PullRequest"
+          },
+          {
+            "name": "Repository"
+          },
+          {
+            "name": "User"
+          },
+          {
+            "name": "Organization"
+          },
+          {
+            "name": "MarketplaceListing"
+          }
+        ]
+      }
+    ]
+  }
+}
