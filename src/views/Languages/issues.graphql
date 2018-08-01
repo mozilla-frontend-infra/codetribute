@@ -1,0 +1,34 @@
+query Issues($searchQuery: String!, $type: SearchType!, $order:LanguageOrder) {
+  search(first: 100, type: $type, query: $searchQuery){
+    nodes {
+      ... on Issue {
+        title
+        body
+        updatedAt
+        repository {
+          name
+        }
+        url
+        labels(last:5) {
+          nodes {
+            name
+          }
+        }
+        assignees(last:1) {
+          nodes {
+            login
+          }
+        }
+      }
+      ...on Repository {
+        nameWithOwner
+        languages(first:1, orderBy:$order) {
+          nodes {
+            name
+          }
+        }
+      }
+    }
+  }
+}
+

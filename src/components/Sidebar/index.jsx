@@ -42,7 +42,8 @@ export default class Sidebar extends Component {
       'C#': <LanguageCsharpIcon />,
       CSS: <LanguageCss3Icon />,
     };
-    const items = Object.keys(BUGZILLA_LANGUAGES).map(text => ({
+    const languages = ['Swift', ...Object.keys(BUGZILLA_LANGUAGES)];
+    const items = languages.map(text => ({
       text,
       icon: icons[text],
     }));
