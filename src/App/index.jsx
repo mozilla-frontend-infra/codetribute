@@ -13,12 +13,11 @@ import { persistCache } from 'apollo-cache-persist';
 import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import storage from 'localforage';
-import Projects from './views/Projects';
-import Project from './views/Project';
-import Languages from './views/Languages';
-import theme from './theme';
-import FontStager from './components/FontStager';
-import introspectionQueryResultData from './fragmentTypes.json';
+import theme from '../theme';
+import FontStager from '../components/FontStager/index';
+import ErrorPanel from '../components/ErrorPanel/index';
+import routes from './routes';
+import introspectionQueryResultData from '../fragmentTypes.json';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
@@ -39,6 +38,10 @@ persistCache({
   },
 })
 export default class App extends Component {
+  state = {
+    error: null,
+  };
+
   link = new RetryLink().split(
     operation => operation.getContext().client === 'github',
     new HttpLink({
@@ -53,17 +56,24 @@ export default class App extends Component {
     cache,
     link: this.link,
   });
+
+  componentDidCatch(error) {
+    this.setState({ error });
+  }
   render() {
+    const { error } = this.state;
+
     return (
       <ApolloProvider client={this.apolloClient}>
         <MuiThemeProvider theme={theme}>
           <FontStager />
+          {error && <ErrorPanel error={error} />}
           <CssBaseline />
           <BrowserRouter>
             <Switch>
-              <Route path="/projects/:project" component={Project} />
-              <Route path="/languages/:language" component={Languages} />
-              <Route exact path="/" component={Projects} />
+              {routes.map(props => (
+                <Route key={props.path} {...props} />
+              ))}
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>

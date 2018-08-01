@@ -201,14 +201,14 @@ export default class TasksTable extends Component {
 
   getQuery() {
     const { location } = this.props;
-    const query = parse(location.search.slice(1));
+    const query = parse(decodeURIComponent(location.search.slice(1)));
 
     return query;
   }
 
   setQuery = query => {
     this.props.history.push({
-      search: `?${stringify(query)}`,
+      search: `?${encodeURIComponent(stringify(query))}`,
     });
   };
 
