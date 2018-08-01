@@ -20,7 +20,7 @@
     "list": "https://github.com/mozilla-frontend-infra/codetribute/issues"
   },
   "urls": {
-    "prod": "https://www.codetribute.mozilla.org",
+    "prod": "https://www.codetribute.mozilla.org"
   },
   "keywords": [
     "javascript",
