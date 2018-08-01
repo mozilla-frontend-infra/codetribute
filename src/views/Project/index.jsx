@@ -351,6 +351,7 @@ export default class Project extends Component {
             ],
             summary: bug.summary,
             lastUpdated: bug.lastChanged,
+            id: bug.id,
             url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
           })),
           'summary'
