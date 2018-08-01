@@ -1,4 +1,4 @@
-name: cargo
+name: Cargo
 summary: Cargo is Rust's build system
 repositories: 
  - rust-lang-nursery/rustfmt: E-Easy
