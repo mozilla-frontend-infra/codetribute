@@ -19,7 +19,7 @@ import Spinner from '../../components/Spinner';
 import AppBar from '../../components/AppBar';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
-import issuesQuery from './issues.graphql';
+import issuesQuery from '../issues.graphql';
 import bugsQuery from '../bugs.graphql';
 import commentsQuery from '../comments.graphql';
 import {

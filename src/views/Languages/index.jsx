@@ -21,7 +21,7 @@ import ErrorPanel from '../../components/ErrorPanel';
 import Spinner from '../../components/Spinner';
 import bugsQuery from '../bugs.graphql';
 import commentsQuery from '../comments.graphql';
-import issuesQuery from './issues.graphql';
+import issuesQuery from '../issues.graphql';
 import {
   BUGZILLA_ORDER,
   BUGZILLA_PAGE_NUMBER,
