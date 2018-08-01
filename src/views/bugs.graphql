@@ -1,18 +1,24 @@
-query Bugs($search: BugSearch!, $paging: Paging) {
-  bugs(search: $search, paging: $paging) {
-    edges {
-      node {
-        assignedTo {
-          name
-        }
-        component
-        lastChanged
-        id
-        keywords
-        summary
-        status
-        whiteboard
+query Bugs($goodFirst: BugSearch!, $mentored: BugSearch!, $paging: Paging) {
+  goodFirst: bugs(search: $goodFirst, paging: $paging) {
+    ...Bugs
+  }
+  mentored: bugs(search: $mentored, paging: $paging) {
+    ...Bugs
+  }
+}
+
+fragment Bugs on BugPager {
+  edges {
+    node {
+      assignedTo {
+        name
       }
+      component
+      lastChanged
+      id
+      keywords
+      summary
+      whiteboard
     }
   }
 }

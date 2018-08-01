@@ -1,4 +1,8 @@
 export const GOOD_FIRST_BUG = 'good-first-bug';
+export const MENTORED_BUG = {
+  fields: 'mentor',
+  operators: 'IS_NOT_EMPTY',
+};
 export const BUGZILLA_STATUSES = {
   NEW: 'NEW',
   UNCONFIRMED: 'UNCONFIRMED',
