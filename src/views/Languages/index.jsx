@@ -47,7 +47,7 @@ const bugzillaPagingOptions = {
     match: {
       params: { language },
     },
-  }) => !language || !BUGZILLA_LANGUAGES[language],
+  }) => !BUGZILLA_LANGUAGES[language],
   name: 'bugzilla',
   options: ({
     match: {
@@ -157,6 +157,7 @@ export default class Languages extends Component {
       match: {
         params: { language },
       },
+      bugzilla: bugzillaData,
     } = this.props;
     const { drawerOpen, error } = this.state;
     const drawer = (
@@ -173,7 +174,6 @@ export default class Languages extends Component {
         <Sidebar activeItem={language} onItemClick={this.handleDrawerToggle} />
       </Fragment>
     );
-    const bugzillaData = this.props.bugzilla;
     const bugs =
       (bugzillaData &&
         bugzillaData.bugs &&

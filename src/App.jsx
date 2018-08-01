@@ -55,7 +55,7 @@ export default class App extends Component {
           <BrowserRouter>
             <Switch>
               <Route path="/projects/:project" component={Project} />
-              <Route path="/languages/:language?" component={Languages} />
+              <Route path="/languages/:language" component={Languages} />
               <Route exact path="/" component={Projects} />
             </Switch>
           </BrowserRouter>

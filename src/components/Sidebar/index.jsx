@@ -31,9 +31,6 @@ import { BUGZILLA_LANGUAGES } from '../../utils/constants';
   },
 }))
 export default class Sidebar extends Component {
-  handleItemClick = () => {
-    this.props.onItemClick();
-  };
   render() {
     const { activeItem, classes } = this.props;
     const icons = {
@@ -58,7 +55,7 @@ export default class Sidebar extends Component {
               [classes.active]: activeItem === item.text,
             })}
             button
-            onClick={this.handleItemClick}
+            onClick={this.props.onItemClick}
             id={item.text}
             key={item.text}
             component={Link}

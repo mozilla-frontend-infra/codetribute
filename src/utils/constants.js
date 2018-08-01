@@ -16,14 +16,14 @@ export const ASSIGNEE = {
 export const ALL_PROJECTS = 'All';
 export const BUGZILLA_LANGUAGES = {
   'C++': 'c++',
-  HTML: 'html',
   CSS: 'css',
-  Python: 'py',
-  Rust: 'rust',
+  HTML: 'html',
+  Java: 'java',
   JavaScript: 'js',
   Perl: 'perl',
+  Python: 'py',
+  Rust: 'rust',
+  Shell: 'shell',
   XML: 'xml',
   XUL: 'xul',
-  Java: 'java',
-  Shell: 'shell',
 };
