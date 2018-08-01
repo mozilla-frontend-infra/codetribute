@@ -27,11 +27,11 @@ import {
   BUGZILLA_STATUSES,
   GOOD_FIRST_BUG,
   BUGZILLA_LANGUAGES,
+  MENTORED_BUG,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
 const bugzillaSearchOptions = {
-  keywords: [GOOD_FIRST_BUG],
   statuses: Object.values(BUGZILLA_STATUSES),
   order: BUGZILLA_ORDER,
 };
@@ -56,8 +56,14 @@ const bugzillaPagingOptions = {
   }) => ({
     fetchPolicy: 'network-only',
     variables: {
-      search: {
+      goodFirst: {
         ...bugzillaSearchOptions,
+        keywords: [GOOD_FIRST_BUG],
+        whiteboards: `lang=${BUGZILLA_LANGUAGES[language]}`,
+      },
+      mentored: {
+        ...bugzillaSearchOptions,
+        ...MENTORED_BUG,
         whiteboards: `lang=${BUGZILLA_LANGUAGES[language]}`,
       },
       paging: {
@@ -174,11 +180,30 @@ export default class Languages extends Component {
         <Sidebar activeItem={language} onItemClick={this.handleDrawerToggle} />
       </Fragment>
     );
-    const bugs =
+    const goodFirstBugs =
       (bugzillaData &&
-        bugzillaData.bugs &&
+        bugzillaData.goodFirst &&
         uniqBy(
-          bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
+          bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
+            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            project: bug.component,
+            tags: [
+              ...(bug.keywords || []),
+              ...extractWhiteboardTags(bug.whiteboard),
+            ],
+            summary: bug.summary,
+            lastUpdated: bug.lastChanged,
+            id: bug.id,
+            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+          })),
+          'summary'
+        )) ||
+      [];
+    const mentoredBugs =
+      (bugzillaData &&
+        bugzillaData.mentored &&
+        uniqBy(
+          bugzillaData.mentored.edges.map(edge => edge.node).map(bug => ({
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
             tags: [
@@ -260,7 +285,10 @@ export default class Languages extends Component {
           {bugzillaData &&
             bugzillaData.loading && <Spinner className={classes.spinner} />}
           {(!bugzillaData || !bugzillaData.loading) && (
-            <TasksTable items={bugs} onBugInfoClick={this.handleBugInfoClick} />
+            <TasksTable
+              items={[...goodFirstBugs, ...mentoredBugs]}
+              onBugInfoClick={this.handleBugInfoClick}
+            />
           )}
         </div>
       </div>
