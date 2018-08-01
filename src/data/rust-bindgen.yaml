@@ -1,0 +1,4 @@
+name: Rust bindgen
+summary: Tool for automatically generating Rust bindings for C/C++ APIs
+repositories: 
+ - rust-lang-nursery/rust-bindgen: E-easy
