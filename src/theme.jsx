@@ -95,6 +95,11 @@ const theme = createMuiTheme({
         color: '#000',
       },
     },
+    MuiDrawer: {
+      paperAnchorDockedLeft: {
+        borderRight: 'none',
+      },
+    },
   },
 });
 

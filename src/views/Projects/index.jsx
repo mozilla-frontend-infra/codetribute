@@ -58,6 +58,7 @@ import sort from '../../utils/sort';
     width: '90vw',
     margin: '0 auto',
     [theme.breakpoints.up('md')]: {
+      padding: ' 0px 12px',
       maxWidth: `calc(100vw - ${theme.drawerWidth}px)`,
     },
   },
