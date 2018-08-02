@@ -24,22 +24,12 @@ import bugsQuery from '../bugs.graphql';
 import commentsQuery from '../comments.graphql';
 import {
   GOOD_FIRST_BUG,
-  BUGZILLA_STATUSES,
-  BUGZILLA_PAGE_NUMBER,
-  BUGZILLA_PAGE_SIZE,
-  BUGZILLA_ORDER,
   MENTORED_BUG,
+  BUGZILLA_PAGING_OPTIONS,
+  BUGZILLA_SEARCH_OPTIONS,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
-const bugzillaSearchOptions = {
-  statuses: Object.values(BUGZILLA_STATUSES),
-  order: BUGZILLA_ORDER,
-};
-const bugzillaPagingOptions = {
-  page: BUGZILLA_PAGE_NUMBER,
-  pageSize: BUGZILLA_PAGE_SIZE,
-};
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
@@ -94,7 +84,7 @@ const tagReposMapping = repositories =>
       fetchPolicy: 'network-only',
       variables: {
         goodFirst: {
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           keywords: [GOOD_FIRST_BUG],
           // get all the product with no component as it can be
           // merged as an OR query if it exists
@@ -108,7 +98,7 @@ const tagReposMapping = repositories =>
               }),
         },
         mentored: {
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           ...MENTORED_BUG,
           // get all the product with no component as it can be
           // merged as an OR query if it exists
@@ -122,7 +112,7 @@ const tagReposMapping = repositories =>
               }),
         },
         paging: {
-          ...bugzillaPagingOptions,
+          ...BUGZILLA_PAGING_OPTIONS,
         },
       },
       context: {
@@ -207,18 +197,18 @@ export default class Project extends Component {
       variables: {
         goodFirst: {
           keywords: [GOOD_FIRST_BUG],
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           products,
           components,
         },
         mentored: {
           ...MENTORED_BUG,
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           products,
           components,
         },
         paging: {
-          ...bugzillaPagingOptions,
+          ...BUGZILLA_PAGING_OPTIONS,
         },
       },
       context: {

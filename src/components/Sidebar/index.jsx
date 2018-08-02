@@ -42,27 +42,23 @@ export default class Sidebar extends Component {
       'C#': <LanguageCsharpIcon />,
       CSS: <LanguageCss3Icon />,
     };
-    const items = Object.keys(BUGZILLA_LANGUAGES).map(text => ({
-      text,
-      icon: icons[text],
-    }));
 
     return (
       <List disablePadding>
-        {items.map(item => (
+        {Object.keys(BUGZILLA_LANGUAGES).map(item => (
           <ListItem
             className={classNames({
-              [classes.active]: activeItem === item.text,
+              [classes.active]: activeItem === item,
             })}
             button
             onClick={this.props.onItemClick}
-            id={item.text}
-            key={item.text}
+            id={item}
+            key={item}
             component={Link}
-            to={`/languages/${item.text}`}>
-            <ListItemIcon>{item.icon || <WebIcon />}</ListItemIcon>
+            to={`/languages/${item}`}>
+            <ListItemIcon>{icons[item] || <WebIcon />}</ListItemIcon>
             <ListItemText disableTypography className={classes.text}>
-              {item.text}
+              {item}
             </ListItemText>
           </ListItem>
         ))}

@@ -21,24 +21,13 @@ import Spinner from '../../components/Spinner';
 import bugsQuery from '../bugs.graphql';
 import commentsQuery from '../comments.graphql';
 import {
-  BUGZILLA_ORDER,
-  BUGZILLA_PAGE_NUMBER,
-  BUGZILLA_PAGE_SIZE,
-  BUGZILLA_STATUSES,
   GOOD_FIRST_BUG,
   BUGZILLA_LANGUAGES,
   MENTORED_BUG,
+  BUGZILLA_PAGING_OPTIONS,
+  BUGZILLA_SEARCH_OPTIONS,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
-
-const bugzillaSearchOptions = {
-  statuses: Object.values(BUGZILLA_STATUSES),
-  order: BUGZILLA_ORDER,
-};
-const bugzillaPagingOptions = {
-  page: BUGZILLA_PAGE_NUMBER,
-  pageSize: BUGZILLA_PAGE_SIZE,
-};
 
 @withApollo
 @hot(module)
@@ -57,17 +46,17 @@ const bugzillaPagingOptions = {
     fetchPolicy: 'network-only',
     variables: {
       goodFirst: {
-        ...bugzillaSearchOptions,
+        ...BUGZILLA_SEARCH_OPTIONS,
         keywords: [GOOD_FIRST_BUG],
         whiteboards: `lang=${BUGZILLA_LANGUAGES[language]}`,
       },
       mentored: {
-        ...bugzillaSearchOptions,
+        ...BUGZILLA_SEARCH_OPTIONS,
         ...MENTORED_BUG,
         whiteboards: `lang=${BUGZILLA_LANGUAGES[language]}`,
       },
       paging: {
-        ...bugzillaPagingOptions,
+        ...BUGZILLA_PAGING_OPTIONS,
       },
     },
     context: {
