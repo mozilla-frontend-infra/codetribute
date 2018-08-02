@@ -125,7 +125,7 @@ export default class Languages extends Component {
       [];
 
     return (
-      <Dashboard activeItem={language}>
+      <Dashboard activeItem={language} withSidebar>
         {error && <ErrorPanel error={error} />}
         {bugzillaData &&
           bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}

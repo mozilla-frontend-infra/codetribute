@@ -30,8 +30,8 @@ import Sidebar from '../../components/Sidebar';
   drawerPaper: {
     width: theme.drawerWidth,
     maxWidth: '100%',
+    background: theme.palette.grey[100],
     [theme.breakpoints.up('md')]: {
-      paddingTop: 60,
       position: 'fixed',
     },
   },
@@ -46,6 +46,7 @@ import Sidebar from '../../components/Sidebar';
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
+    color: theme.palette.common.black,
   },
   title: {
     padding: '0 41px',
@@ -103,7 +104,7 @@ export default class Dashboard extends Component {
 
   static defaultProps = {
     title: 'Codetribute',
-    withSidebar: true,
+    withSidebar: false,
     header: null,
   };
 
@@ -124,7 +125,9 @@ export default class Dashboard extends Component {
     const drawer = (
       <Fragment>
         <div className={classes.drawerHeader}>
-          <Typography variant="title">Skills</Typography>
+          <Typography variant="title" color="inherit">
+            Skills
+          </Typography>
           <Hidden mdUp>
             <IconButton onClick={this.handleDrawerToggle}>
               <CloseIcon />
