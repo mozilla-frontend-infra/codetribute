@@ -28,11 +28,11 @@ import {
   BUGZILLA_PAGE_NUMBER,
   BUGZILLA_PAGE_SIZE,
   BUGZILLA_ORDER,
+  MENTORED_BUG,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
 const bugzillaSearchOptions = {
-  keywords: [GOOD_FIRST_BUG],
   statuses: Object.values(BUGZILLA_STATUSES),
   order: BUGZILLA_ORDER,
 };
@@ -93,8 +93,23 @@ const tagReposMapping = repositories =>
     }) => ({
       fetchPolicy: 'network-only',
       variables: {
-        search: {
+        goodFirst: {
           ...bugzillaSearchOptions,
+          keywords: [GOOD_FIRST_BUG],
+          // get all the product with no component as it can be
+          // merged as an OR query if it exists
+          ...(productsWithNoComponents(projects[project].products).length
+            ? { products: productsWithNoComponents(projects[project].products) }
+            : {
+                // otherwise, get only the first product and its components
+                // as component is not unique for product thus can't be merged
+                products: Object.keys(projects[project].products[0])[0],
+                components: Object.values(projects[project].products[0])[0],
+              }),
+        },
+        mentored: {
+          ...bugzillaSearchOptions,
+          ...MENTORED_BUG,
           // get all the product with no component as it can be
           // merged as an OR query if it exists
           ...(productsWithNoComponents(projects[project].products).length
@@ -190,7 +205,14 @@ export default class Project extends Component {
     return fetchMore({
       query: bugsQuery,
       variables: {
-        search: {
+        goodFirst: {
+          keywords: [GOOD_FIRST_BUG],
+          ...bugzillaSearchOptions,
+          products,
+          components,
+        },
+        mentored: {
+          ...MENTORED_BUG,
           ...bugzillaSearchOptions,
           products,
           components,
@@ -203,20 +225,22 @@ export default class Project extends Component {
         client: 'bugzilla',
       },
       updateQuery(previousResult, { fetchMoreResult }) {
-        const moreNodes = fetchMoreResult.bugs.edges;
+        const moreGoodFirstNodes = fetchMoreResult.goodFirst.edges;
+        const moreMentoredNodes = fetchMoreResult.mentored.edges;
 
-        if (!moreNodes.length) {
+        // return previousResult;
+        if (!moreGoodFirstNodes.length && !moreMentoredNodes) {
           return previousResult;
         }
 
-        if (!previousResult.bugs) {
-          return fetchMoreResult;
-        }
-
         return dotProp.set(
-          previousResult,
-          'bugs.edges',
-          moreNodes.concat(previousResult.bugs.edges)
+          dotProp.set(
+            previousResult,
+            'goodFirst.edges',
+            moreGoodFirstNodes.concat(previousResult.goodFirst.edges)
+          ),
+          'mentored.edges',
+          moreMentoredNodes.concat(previousResult.mentored.edges)
         );
       },
     });
@@ -314,11 +338,30 @@ export default class Project extends Component {
         )) ||
       [];
     const bugzillaData = this.props.bugzilla;
-    const bugs =
+    const goodFirstBugs =
       (bugzillaData &&
-        bugzillaData.bugs &&
+        bugzillaData.goodFirst &&
         uniqBy(
-          bugzillaData.bugs.edges.map(edge => edge.node).map(bug => ({
+          bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
+            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            project: bug.component,
+            tags: [
+              ...(bug.keywords || []),
+              ...extractWhiteboardTags(bug.whiteboard),
+            ],
+            summary: bug.summary,
+            lastUpdated: bug.lastChanged,
+            id: bug.id,
+            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+          })),
+          'summary'
+        )) ||
+      [];
+    const mentoredBugs =
+      (bugzillaData &&
+        bugzillaData.mentored &&
+        uniqBy(
+          bugzillaData.mentored.edges.map(edge => edge.node).map(bug => ({
             assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
             project: bug.component,
             tags: [
@@ -377,7 +420,10 @@ export default class Project extends Component {
           {!loading && (
             <TasksTable
               onBugInfoClick={this.handleBugInfoClick}
-              items={[...issues, ...bugs]}
+              items={uniqBy(
+                [...issues, ...goodFirstBugs, ...mentoredBugs],
+                'summary'
+              )}
             />
           )}
         </div>
