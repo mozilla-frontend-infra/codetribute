@@ -1,3 +1,6 @@
+const fs = require('fs-extra');
+const { join } = require('path');
+
 module.exports = {
   use: [
     ['neutrino-preset-mozilla-frontend-infra/react', {
@@ -27,6 +30,11 @@ module.exports = {
             .end()
           .use('gql-loader')
             .loader(require.resolve('graphql-tag/loader'));
+      neutrino.on('build', () => {
+        ['contribute.json'].forEach(file => {
+          fs.copyFileSync(file, join(__dirname, `build/${file}`));
+        })
+      });
     },
     '@neutrinojs/jest'
   ],
