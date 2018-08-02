@@ -68,10 +68,21 @@ export default class Projects extends Component {
     this.setState({ searchTerm: event.target.value });
   };
 
-  header = () => {
+  render() {
     const { classes } = this.props;
-
-    return (
+    const { searchTerm } = this.state;
+    const filteredProjects = Object.keys(projects)
+      .filter(fileName =>
+        projects[fileName].name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .reduce(
+        (prev, key) => ({
+          ...prev,
+          [key]: projects[key],
+        }),
+        {}
+      );
+    const header = (
       <Fragment>
         <IconButton
           aria-label="Site Repository"
@@ -99,22 +110,6 @@ export default class Projects extends Component {
         />
       </Fragment>
     );
-  };
-
-  render() {
-    const { classes } = this.props;
-    const { searchTerm } = this.state;
-    const filteredProjects = Object.keys(projects)
-      .filter(fileName =>
-        projects[fileName].name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .reduce(
-        (prev, key) => ({
-          ...prev,
-          [key]: projects[key],
-        }),
-        {}
-      );
 
     return (
       <Dashboard
@@ -125,7 +120,7 @@ export default class Projects extends Component {
           drawerHeader: classes.drawerHeader,
         }}
         withSidebar
-        header={this.header}>
+        header={header}>
         <Grid container spacing={24} className={classes.grid}>
           {Object.values(filteredProjects)
             .sort((a, b) => {

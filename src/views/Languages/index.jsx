@@ -78,12 +78,7 @@ export default class Languages extends Component {
   );
 
   render() {
-    const {
-      match: {
-        params: { language },
-      },
-      bugzilla: bugzillaData,
-    } = this.props;
+    const { bugzilla: bugzillaData } = this.props;
     const { error } = this.state;
     const goodFirstBugs =
       (bugzillaData &&
@@ -125,7 +120,7 @@ export default class Languages extends Component {
       [];
 
     return (
-      <Dashboard activeItem={language} withSidebar>
+      <Dashboard withSidebar>
         {error && <ErrorPanel error={error} />}
         {bugzillaData &&
           bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}

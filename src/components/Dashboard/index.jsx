@@ -10,7 +10,7 @@ import MenuIcon from 'mdi-react/MenuIcon';
 import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import classNames from 'classnames';
-import { bool, func, string, object } from 'prop-types';
+import { bool, node, string, object } from 'prop-types';
 import AppBar from '../../components/AppBar';
 import Sidebar from '../../components/Sidebar';
 
@@ -91,15 +91,11 @@ export default class Dashboard extends Component {
     /*
      * The custom header to be put in the AppBar
      */
-    header: func,
+    header: node,
     /*
      * The style to be used by the Component
      */
     classes: object,
-    /*
-     * The active item of the sidebar
-     */
-    activeItem: string,
   };
 
   static defaultProps = {
@@ -114,14 +110,7 @@ export default class Dashboard extends Component {
 
   render() {
     const { drawerOpen } = this.state;
-    const {
-      classes,
-      children,
-      activeItem,
-      withSidebar,
-      title,
-      header,
-    } = this.props;
+    const { classes, children, withSidebar, title, header } = this.props;
     const drawer = (
       <Fragment>
         <div className={classes.drawerHeader}>
@@ -135,10 +124,7 @@ export default class Dashboard extends Component {
           </Hidden>
         </div>
         <Divider light />
-        <Sidebar
-          activeItem={activeItem}
-          onItemClick={this.handleDrawerToggle}
-        />
+        <Sidebar onLanguageClick={this.handleDrawerToggle} />
       </Fragment>
     );
 
@@ -150,9 +136,7 @@ export default class Dashboard extends Component {
         <AppBar
           position={header ? 'absolute' : 'fixed'}
           className={classes.header}>
-          {header ? (
-            header()
-          ) : (
+          {header || (
             <Fragment>
               <IconButton
                 aria-label="Back"
