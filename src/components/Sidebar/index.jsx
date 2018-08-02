@@ -45,20 +45,20 @@ export default class Sidebar extends Component {
 
     return (
       <List disablePadding>
-        {Object.keys(BUGZILLA_LANGUAGES).map(item => (
+        {Object.keys(BUGZILLA_LANGUAGES).map(language => (
           <ListItem
             className={classNames({
-              [classes.active]: activeItem === item,
+              [classes.active]: activeItem === language,
             })}
             button
             onClick={this.props.onItemClick}
-            id={item}
-            key={item}
+            id={language}
+            key={language}
             component={Link}
-            to={`/languages/${item}`}>
-            <ListItemIcon>{icons[item] || <WebIcon />}</ListItemIcon>
+            to={`/languages/${language}`}>
+            <ListItemIcon>{icons[language] || <WebIcon />}</ListItemIcon>
             <ListItemText disableTypography className={classes.text}>
-              {item}
+              {language}
             </ListItemText>
           </ListItem>
         ))}

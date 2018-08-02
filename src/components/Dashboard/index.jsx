@@ -1,0 +1,218 @@
+import { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
+import Hidden from '@material-ui/core/Hidden';
+import MenuIcon from 'mdi-react/MenuIcon';
+import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
+import CloseIcon from 'mdi-react/CloseIcon';
+import classNames from 'classnames';
+import { bool, func, string, object } from 'prop-types';
+import AppBar from '../../components/AppBar';
+import Sidebar from '../../components/Sidebar';
+
+@withStyles(theme => ({
+  root: {
+    background: theme.palette.background.default,
+  },
+  rootWithSidebar: {
+    flexGrow: 1,
+    minHeight: '100vh',
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100vw',
+  },
+  drawerPaper: {
+    width: theme.drawerWidth,
+    maxWidth: '100%',
+    [theme.breakpoints.up('md')]: {
+      paddingTop: 60,
+      position: 'fixed',
+    },
+  },
+  header: {
+    height: 60,
+    paddingBottom: theme.spacing.unit,
+    zIndex: theme.zIndex.drawer + 1,
+  },
+  drawerHeader: {
+    ...theme.mixins.gutters(),
+    minHeight: 60,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  title: {
+    padding: '0 41px',
+  },
+  link: {
+    textDecoration: 'none',
+    position: 'absolute',
+    '& svg': {
+      fill: theme.palette.common.white,
+    },
+  },
+  container: {
+    marginTop: 60,
+    padding: 2 * theme.spacing.unit,
+  },
+  containerWithSidebar: {
+    overflow: 'auto',
+    flexGrow: 1,
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.drawerWidth,
+      width: `calc(100% - ${theme.drawerWidth}px)`,
+    },
+  },
+  right: {
+    right: 0,
+  },
+}))
+export default class Dashboard extends Component {
+  state = {
+    drawerOpen: false,
+  };
+
+  static propTypes = {
+    /*
+     * The title to be put in the AppBar
+     */
+    title: string,
+    /*
+     * Boolean to render the sidebar
+     */
+    withSidebar: bool,
+    /*
+     * The custom header to be put in the AppBar
+     */
+    header: func,
+    /*
+     * The style to be used by the Component
+     */
+    classes: object,
+    /*
+     * The active item of the sidebar
+     */
+    activeItem: string,
+  };
+
+  static defaultProps = {
+    title: 'Codetribute',
+    withSidebar: true,
+    header: null,
+  };
+
+  handleDrawerToggle = () => {
+    this.setState({ drawerOpen: !this.state.drawerOpen });
+  };
+
+  render() {
+    const { drawerOpen } = this.state;
+    const {
+      classes,
+      children,
+      activeItem,
+      withSidebar,
+      title,
+      header,
+    } = this.props;
+    const drawer = (
+      <Fragment>
+        <div className={classes.drawerHeader}>
+          <Typography variant="title">Skills</Typography>
+          <Hidden mdUp>
+            <IconButton onClick={this.handleDrawerToggle}>
+              <CloseIcon />
+            </IconButton>
+          </Hidden>
+        </div>
+        <Divider light />
+        <Sidebar
+          activeItem={activeItem}
+          onItemClick={this.handleDrawerToggle}
+        />
+      </Fragment>
+    );
+
+    return (
+      <div
+        className={classNames(classes.root, {
+          [classes.rootWithSidebar]: withSidebar,
+        })}>
+        <AppBar
+          position={header ? 'absolute' : 'fixed'}
+          className={classes.header}>
+          {header ? (
+            header()
+          ) : (
+            <Fragment>
+              <IconButton
+                aria-label="Back"
+                className={classes.link}
+                component={Link}
+                to="/">
+                <ArrowLeftIcon />
+              </IconButton>
+              <Typography align="center" variant="display1" noWrap>
+                {title}
+              </Typography>
+            </Fragment>
+          )}
+          {withSidebar && (
+            <Hidden mdUp>
+              <IconButton
+                className={classNames(classes.link, classes.right)}
+                size="large"
+                onClick={this.handleDrawerToggle}>
+                <MenuIcon />
+              </IconButton>
+            </Hidden>
+          )}
+        </AppBar>
+        {withSidebar && (
+          <Fragment>
+            <Hidden mdUp>
+              <Drawer
+                variant="temporary"
+                anchor="left"
+                open={drawerOpen}
+                onClose={this.handleDrawerToggle}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}
+                ModalProps={{
+                  keepMounted: true,
+                }}>
+                {drawer}
+              </Drawer>
+            </Hidden>
+            <Hidden smDown implementation="css">
+              <Drawer
+                variant="permanent"
+                open
+                PaperProps={{
+                  elevation: 2,
+                }}
+                classes={{
+                  paper: classes.drawerPaper,
+                }}>
+                {drawer}
+              </Drawer>
+            </Hidden>
+          </Fragment>
+        )}
+        <main
+          className={classNames(classes.container, {
+            [classes.containerWithSidebar]: withSidebar,
+          })}>
+          {children}
+        </main>
+      </div>
+    );
+  }
+}

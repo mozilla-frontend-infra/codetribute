@@ -1,21 +1,10 @@
 import { hot } from 'react-hot-loader';
-import { Component, Fragment } from 'react';
-import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
+import { Component } from 'react';
 import { graphql, withApollo } from 'react-apollo';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Drawer from '@material-ui/core/Drawer';
-import IconButton from '@material-ui/core/IconButton';
-import Divider from '@material-ui/core/Divider';
-import Hidden from '@material-ui/core/Hidden';
-import MenuIcon from 'mdi-react/MenuIcon';
-import CloseIcon from 'mdi-react/CloseIcon';
 import { memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
-import AppBar from '../../components/AppBar';
 import TasksTable from '../../components/TasksTable';
-import Sidebar from '../../components/Sidebar';
+import Dashboard from '../../components/Dashboard';
 import ErrorPanel from '../../components/ErrorPanel';
 import Spinner from '../../components/Spinner';
 import bugsQuery from '../bugs.graphql';
@@ -64,67 +53,9 @@ import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
     },
   }),
 })
-@withStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    minHeight: '100vh',
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    width: '100vw',
-  },
-  drawerPaper: {
-    width: theme.drawerWidth,
-    maxWidth: '100%',
-    [theme.breakpoints.up('md')]: {
-      marginTop: 60,
-      position: 'fixed',
-    },
-  },
-  header: {
-    height: 60,
-    paddingBottom: theme.spacing.unit,
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  drawerHeader: {
-    ...theme.mixins.gutters(),
-    minHeight: 60,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  link: {
-    textDecoration: 'none',
-  },
-  container: {
-    overflow: 'auto',
-    flexGrow: 1,
-    marginTop: 60,
-    padding: 2 * theme.spacing.unit,
-    [theme.breakpoints.up('md')]: {
-      marginLeft: theme.drawerWidth,
-      width: `calc(100% - ${theme.drawerWidth}px)`,
-    },
-  },
-  title: {
-    ...theme.mixins.gutters(),
-  },
-  button: {
-    color: theme.palette.common.white,
-    '& svg': {
-      fill: theme.palette.common.white,
-    },
-  },
-}))
 export default class Languages extends Component {
   state = {
-    drawerOpen: false,
     error: null,
-  };
-
-  handleDrawerToggle = () => {
-    this.setState({ drawerOpen: !this.state.drawerOpen });
   };
 
   handleBugInfoClick = memoizeWith(
@@ -148,27 +79,12 @@ export default class Languages extends Component {
 
   render() {
     const {
-      classes,
       match: {
         params: { language },
       },
       bugzilla: bugzillaData,
     } = this.props;
-    const { drawerOpen, error } = this.state;
-    const drawer = (
-      <Fragment>
-        <div className={classes.drawerHeader}>
-          <Typography variant="title">Skills</Typography>
-          <Hidden mdUp>
-            <IconButton onClick={this.handleDrawerToggle}>
-              <CloseIcon />
-            </IconButton>
-          </Hidden>
-        </div>
-        <Divider light />
-        <Sidebar activeItem={language} onItemClick={this.handleDrawerToggle} />
-      </Fragment>
-    );
+    const { error } = this.state;
     const goodFirstBugs =
       (bugzillaData &&
         bugzillaData.goodFirst &&
@@ -209,78 +125,18 @@ export default class Languages extends Component {
       [];
 
     return (
-      <div className={classes.root}>
-        <AppBar position="fixed" className={classes.header}>
-          <Grid
-            container
-            className={classes.title}
-            alignItems="center"
-            spacing={8}>
-            <Hidden mdUp>
-              <Grid item>
-                <IconButton
-                  className={classes.button}
-                  size="large"
-                  onClick={this.handleDrawerToggle}>
-                  <MenuIcon />
-                </IconButton>
-              </Grid>
-            </Hidden>
-            <Grid item>
-              <Typography
-                align="center"
-                variant="display1"
-                noWrap
-                className={classes.link}
-                component={Link}
-                to="/">
-                Codetribute
-              </Typography>
-            </Grid>
-          </Grid>
-        </AppBar>
-        <Hidden mdUp>
-          <Drawer
-            variant="temporary"
-            anchor="left"
-            open={drawerOpen}
-            onClose={this.handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true,
-            }}>
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
-          <Drawer
-            variant="permanent"
-            open
-            PaperProps={{
-              elevation: 2,
-            }}
-            classes={{
-              paper: classes.drawerPaper,
-            }}>
-            {drawer}
-          </Drawer>
-        </Hidden>
-        <div className={classes.container}>
-          {error && <ErrorPanel error={error} />}
-          {bugzillaData &&
-            bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
-          {bugzillaData &&
-            bugzillaData.loading && <Spinner className={classes.spinner} />}
-          {(!bugzillaData || !bugzillaData.loading) && (
-            <TasksTable
-              items={[...goodFirstBugs, ...mentoredBugs]}
-              onBugInfoClick={this.handleBugInfoClick}
-            />
-          )}
-        </div>
-      </div>
+      <Dashboard activeItem={language}>
+        {error && <ErrorPanel error={error} />}
+        {bugzillaData &&
+          bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
+        {bugzillaData && bugzillaData.loading && <Spinner />}
+        {(!bugzillaData || !bugzillaData.loading) && (
+          <TasksTable
+            items={[...goodFirstBugs, ...mentoredBugs]}
+            onBugInfoClick={this.handleBugInfoClick}
+          />
+        )}
+      </Dashboard>
     );
   }
 }
