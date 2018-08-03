@@ -84,8 +84,16 @@ export default class Languages extends Component {
   );
 
   render() {
-    const { bugzilla: bugzillaData } = this.props;
+    const {
+      bugzilla: bugzillaData,
+      match: {
+        params: { language },
+      },
+    } = this.props;
     const { error } = this.state;
+    const title = Object.keys(BUGZILLA_LANGUAGES).find(
+      lang => lang.toLowerCase() === language
+    );
     const goodFirstBugs =
       (bugzillaData &&
         bugzillaData.goodFirst &&
@@ -126,7 +134,7 @@ export default class Languages extends Component {
       [];
 
     return (
-      <Dashboard withSidebar>
+      <Dashboard title={title} withSidebar>
         {error && <ErrorPanel error={error} />}
         {bugzillaData &&
           bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
