@@ -18,6 +18,14 @@ export const ASSIGNEE = {
   ASSIGNED: 'Assigned',
 };
 export const ALL_PROJECTS = 'All';
+export const BUGZILLA_SEARCH_OPTIONS = {
+  statuses: Object.values(BUGZILLA_STATUSES),
+  order: BUGZILLA_ORDER,
+};
+export const BUGZILLA_PAGING_OPTIONS = {
+  page: BUGZILLA_PAGE_NUMBER,
+  pageSize: BUGZILLA_PAGE_SIZE,
+};
 export const BUGZILLA_LANGUAGES = {
   'C++': 'c++',
   CSS: 'css',

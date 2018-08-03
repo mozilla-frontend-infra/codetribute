@@ -4,7 +4,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import WebIcon from 'mdi-react/WebIcon';
 import classNames from 'classnames';
 import LanguagePythonIcon from 'mdi-react/LanguagePythonIcon';
@@ -16,6 +16,7 @@ import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
 import { BUGZILLA_LANGUAGES } from '../../utils/constants';
 
+@withRouter
 @withStyles(theme => ({
   active: {
     '& $text': {
@@ -32,7 +33,12 @@ import { BUGZILLA_LANGUAGES } from '../../utils/constants';
 }))
 export default class Sidebar extends Component {
   render() {
-    const { activeItem, classes } = this.props;
+    const {
+      match: {
+        params: { language: activeLanguage },
+      },
+      classes,
+    } = this.props;
     const icons = {
       Python: <LanguagePythonIcon />,
       JavaScript: <LanguageJavascriptIcon />,
@@ -42,28 +48,23 @@ export default class Sidebar extends Component {
       'C#': <LanguageCsharpIcon />,
       CSS: <LanguageCss3Icon />,
     };
-    const languages = ['Swift', ...Object.keys(BUGZILLA_LANGUAGES)];
-    const items = languages.map(text => ({
-      text,
-      icon: icons[text],
-    }));
 
     return (
       <List disablePadding>
-        {items.map(item => (
+        {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map(language => (
           <ListItem
             className={classNames({
-              [classes.active]: activeItem === item.text,
+              [classes.active]: language.toLowerCase() === activeLanguage,
             })}
             button
-            onClick={this.props.onItemClick}
-            id={item.text}
-            key={item.text}
+            onClick={this.props.onLanguageClick}
+            id={language}
+            key={language}
             component={Link}
-            to={`/languages/${item.text}`}>
-            <ListItemIcon>{item.icon || <WebIcon />}</ListItemIcon>
+            to={`/languages/${language.toLowerCase()}`}>
+            <ListItemIcon>{icons[language] || <WebIcon />}</ListItemIcon>
             <ListItemText disableTypography className={classes.text}>
-              {item.text}
+              {language}
             </ListItemText>
           </ListItem>
         ))}
