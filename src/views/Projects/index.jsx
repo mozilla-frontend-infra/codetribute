@@ -20,10 +20,6 @@ import sort from '../../utils/sort';
   },
   header: {
     height: 180,
-    [theme.breakpoints.up('md')]: {
-      marginLeft: theme.drawerWidth,
-      width: `calc(100% - ${theme.drawerWidth}px)`,
-    },
   },
   highlightedText: {
     backgroundColor: theme.palette.common.black,
@@ -44,16 +40,6 @@ import sort from '../../utils/sort';
   appBarButton: {
     position: 'absolute',
     right: 0,
-    '& svg': {
-      fill: theme.palette.common.white,
-    },
-  },
-  link: {
-    left: 0,
-  },
-  drawerHeader: {
-    background: theme.palette.primary.main,
-    color: theme.palette.common.white,
     '& svg': {
       fill: theme.palette.common.white,
     },
@@ -116,8 +102,6 @@ export default class Projects extends Component {
         classes={{
           container: classes.container,
           header: classes.header,
-          link: classes.link,
-          drawerHeader: classes.drawerHeader,
         }}
         withSidebar
         header={header}>

@@ -1,5 +1,4 @@
 import { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -7,7 +6,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from 'mdi-react/MenuIcon';
-import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import classNames from 'classnames';
 import { bool, node, string, object } from 'prop-types';
@@ -40,13 +38,23 @@ import Sidebar from '../../components/Sidebar';
     paddingBottom: theme.spacing.unit,
     zIndex: theme.zIndex.drawer + 1,
   },
+  headerWithSidebar: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: theme.drawerWidth,
+      width: `calc(100% - ${theme.drawerWidth}px)`,
+    },
+  },
   drawerHeader: {
     ...theme.mixins.gutters(),
     minHeight: 60,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    color: theme.palette.common.black,
+    background: theme.palette.primary.main,
+    color: theme.palette.common.white,
+    '& svg': {
+      fill: theme.palette.common.white,
+    },
   },
   title: {
     padding: '0 41px',
@@ -69,9 +77,6 @@ import Sidebar from '../../components/Sidebar';
       marginLeft: theme.drawerWidth,
       width: `calc(100% - ${theme.drawerWidth}px)`,
     },
-  },
-  right: {
-    right: 0,
   },
 }))
 export default class Dashboard extends Component {
@@ -135,16 +140,11 @@ export default class Dashboard extends Component {
         })}>
         <AppBar
           position={header ? 'absolute' : 'fixed'}
-          className={classes.header}>
+          className={classNames(classes.header, {
+            [classes.headerWithSidebar]: withSidebar,
+          })}>
           {header || (
             <Fragment>
-              <IconButton
-                aria-label="Back"
-                className={classes.link}
-                component={Link}
-                to="/">
-                <ArrowLeftIcon />
-              </IconButton>
               <Typography align="center" variant="display1" noWrap>
                 {title}
               </Typography>
@@ -153,7 +153,7 @@ export default class Dashboard extends Component {
           {withSidebar && (
             <Hidden mdUp>
               <IconButton
-                className={classNames(classes.link, classes.right)}
+                className={classes.link}
                 size="large"
                 onClick={this.handleDrawerToggle}>
                 <MenuIcon />

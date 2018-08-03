@@ -343,7 +343,7 @@ export default class Project extends Component {
       [];
 
     return (
-      <Dashboard>
+      <Dashboard title={project.name}>
         {project.introduction && (
           <ExpansionPanel>
             <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
