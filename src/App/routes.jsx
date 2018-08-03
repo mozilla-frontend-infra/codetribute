@@ -10,4 +10,8 @@ export default [
     component: loadable(() => import('../views/Project/index')),
     path: '/projects/:project',
   },
+  {
+    component: loadable(() => import('../views/Languages/index')),
+    path: '/languages/:language',
+  },
 ];

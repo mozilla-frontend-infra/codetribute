@@ -5,25 +5,21 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import GithubCircleIcon from 'mdi-react/GithubCircleIcon';
-import AppBar from '../../components/AppBar';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
+import Dashboard from '../../components/Dashboard';
 import SearchBox from '../../components/SearchBox';
 import sort from '../../utils/sort';
 
 @hot(module)
 @withStyles(theme => ({
   container: {
-    paddingTop: theme.spacing.unit,
-    backgroundColor: theme.palette.background.default,
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
+    padding: 0,
   },
   header: {
     height: 180,
-  },
-  search: {
-    marginBottom: 4 * theme.spacing.unit,
   },
   highlightedText: {
     backgroundColor: theme.palette.common.black,
@@ -36,12 +32,16 @@ import sort from '../../utils/sort';
   grid: {
     width: '90vw',
     margin: '0 auto',
+    [theme.breakpoints.up('md')]: {
+      padding: ' 0px 12px',
+      maxWidth: `calc(100vw - ${theme.drawerWidth}px)`,
+    },
   },
   appBarButton: {
     position: 'absolute',
-    right: theme.spacing.unit,
+    right: 0,
     '& svg': {
-      fill: '#ecffff',
+      fill: theme.palette.common.white,
     },
   },
 }))
@@ -68,52 +68,58 @@ export default class Projects extends Component {
         }),
         {}
       );
+    const header = (
+      <Fragment>
+        <IconButton
+          aria-label="Site Repository"
+          className={classes.appBarButton}
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://github.com/mozilla-frontend-infra/codetribute"
+          title="Site Repository">
+          <GithubCircleIcon />
+        </IconButton>
+        <Typography variant="display2" align="center">
+          Codetribute
+        </Typography>
+        <div className={classes.flexContainer}>
+          <Typography
+            className={classes.highlightedText}
+            variant="subheading"
+            align="center">
+            Find your first code contribution with Mozilla
+          </Typography>
+        </div>
+        <SearchBox
+          value={this.state.searchTerm}
+          onChange={this.handleTextInputChange}
+        />
+      </Fragment>
+    );
 
     return (
-      <Fragment>
-        <AppBar position="absolute" className={classes.header}>
-          <IconButton
-            aria-label="Site Repository"
-            className={classes.appBarButton}
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://github.com/mozilla-frontend-infra/codetribute"
-            title="Site Repository">
-            <GithubCircleIcon />
-          </IconButton>
-          <Typography variant="display2" align="center">
-            Codetribute
-          </Typography>
-          <div className={classes.flexContainer}>
-            <Typography
-              className={classes.highlightedText}
-              variant="subheading"
-              align="center">
-              Find your first code contribution with Mozilla
-            </Typography>
-          </div>
-          <SearchBox
-            value={this.state.searchTerm}
-            onChange={this.handleTextInputChange}
-          />
-        </AppBar>
-        <main className={classes.container}>
-          <Grid container spacing={24} className={classes.grid}>
-            {Object.values(filteredProjects)
-              .sort((a, b) => {
-                const firstElement = a.name;
-                const secondElement = b.name;
+      <Dashboard
+        classes={{
+          container: classes.container,
+          header: classes.header,
+        }}
+        withSidebar
+        header={header}>
+        <Grid container spacing={24} className={classes.grid}>
+          {Object.values(filteredProjects)
+            .sort((a, b) => {
+              const firstElement = a.name;
+              const secondElement = b.name;
 
-                return sort(firstElement, secondElement);
-              })
-              .map(project => (
-                <Grid item key={project.fileName} xs={12} sm={12} md={4} lg={3}>
-                  <ProjectCard project={project} />
-                </Grid>
-              ))}
-          </Grid>
-        </main>
-      </Fragment>
+              return sort(firstElement, secondElement);
+            })
+            .map(project => (
+              <Grid item key={project.fileName} xs={12} sm={12} md={4} lg={3}>
+                <ProjectCard project={project} />
+              </Grid>
+            ))}
+        </Grid>
+      </Dashboard>
     );
   }
 }

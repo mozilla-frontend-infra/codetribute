@@ -5,41 +5,28 @@ import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
-import { NavLink } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Markdown from 'react-markdown';
-import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
-import AppBar from '../../components/AppBar';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
+import Dashboard from '../../components/Dashboard';
 import issuesQuery from './issues.graphql';
-import bugsQuery from './bugs.graphql';
-import commentsQuery from './comments.graphql';
+import bugsQuery from '../bugs.graphql';
+import commentsQuery from '../comments.graphql';
 import {
   GOOD_FIRST_BUG,
-  BUGZILLA_STATUSES,
-  BUGZILLA_PAGE_NUMBER,
-  BUGZILLA_PAGE_SIZE,
-  BUGZILLA_ORDER,
   MENTORED_BUG,
+  BUGZILLA_PAGING_OPTIONS,
+  BUGZILLA_SEARCH_OPTIONS,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
-const bugzillaSearchOptions = {
-  statuses: Object.values(BUGZILLA_STATUSES),
-  order: BUGZILLA_ORDER,
-};
-const bugzillaPagingOptions = {
-  page: BUGZILLA_PAGE_NUMBER,
-  pageSize: BUGZILLA_PAGE_SIZE,
-};
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
 const tagReposMapping = repositories =>
@@ -94,7 +81,7 @@ const tagReposMapping = repositories =>
       fetchPolicy: 'network-only',
       variables: {
         goodFirst: {
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           keywords: [GOOD_FIRST_BUG],
           // get all the product with no component as it can be
           // merged as an OR query if it exists
@@ -108,7 +95,7 @@ const tagReposMapping = repositories =>
               }),
         },
         mentored: {
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           ...MENTORED_BUG,
           // get all the product with no component as it can be
           // merged as an OR query if it exists
@@ -122,7 +109,7 @@ const tagReposMapping = repositories =>
               }),
         },
         paging: {
-          ...bugzillaPagingOptions,
+          ...BUGZILLA_PAGING_OPTIONS,
         },
       },
       context: {
@@ -133,28 +120,6 @@ const tagReposMapping = repositories =>
 )
 @withApollo
 @withStyles(theme => ({
-  root: {
-    background: theme.palette.background.default,
-  },
-  header: {
-    height: 60,
-    paddingBottom: theme.spacing.unit,
-  },
-  container: {
-    marginTop: 60,
-    padding: 2 * theme.spacing.unit,
-    minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
-  },
-  link: {
-    textDecoration: 'none',
-    position: 'absolute',
-    '& svg': {
-      fill: theme.palette.common.white,
-    },
-  },
-  title: {
-    padding: '0 41px',
-  },
   spinner: {
     marginTop: 3 * theme.spacing.unit,
   },
@@ -207,18 +172,18 @@ export default class Project extends Component {
       variables: {
         goodFirst: {
           keywords: [GOOD_FIRST_BUG],
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           products,
           components,
         },
         mentored: {
           ...MENTORED_BUG,
-          ...bugzillaSearchOptions,
+          ...BUGZILLA_SEARCH_OPTIONS,
           products,
           components,
         },
         paging: {
-          ...bugzillaPagingOptions,
+          ...BUGZILLA_PAGING_OPTIONS,
         },
       },
       context: {
@@ -378,56 +343,38 @@ export default class Project extends Component {
       [];
 
     return (
-      <div className={classes.root}>
-        <AppBar position="absolute" className={classes.header}>
-          <IconButton
-            aria-label="Back"
-            className={classes.link}
-            component={NavLink}
-            to="/">
-            <ArrowLeftIcon />
-          </IconButton>
-          <Typography
-            className={classes.title}
-            variant="display1"
-            align="center"
-            noWrap>
-            {project.name}
-          </Typography>
-        </AppBar>
-        <div className={classes.container}>
-          {project.introduction && (
-            <ExpansionPanel>
-              <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-                <Typography variant="headline">Project Introduction</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography variant="body1">
-                  <Markdown
-                    source={project.introduction}
-                    renderers={{ link: this.linkRenderer }}
-                  />
-                </Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          )}
-          {githubData &&
-            githubData.error && <ErrorPanel error={githubData.error} />}
-          {bugzillaData &&
-            bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
-          {error && <ErrorPanel error={error} />}
-          {loading && <Spinner className={classes.spinner} />}
-          {!loading && (
-            <TasksTable
-              onBugInfoClick={this.handleBugInfoClick}
-              items={uniqBy(
-                [...issues, ...goodFirstBugs, ...mentoredBugs],
-                'summary'
-              )}
-            />
-          )}
-        </div>
-      </div>
+      <Dashboard title={project.name}>
+        {project.introduction && (
+          <ExpansionPanel>
+            <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
+              <Typography variant="headline">Project Introduction</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography variant="body1">
+                <Markdown
+                  source={project.introduction}
+                  renderers={{ link: this.linkRenderer }}
+                />
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        )}
+        {githubData &&
+          githubData.error && <ErrorPanel error={githubData.error} />}
+        {bugzillaData &&
+          bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
+        {error && <ErrorPanel error={error} />}
+        {loading && <Spinner className={classes.spinner} />}
+        {!loading && (
+          <TasksTable
+            onBugInfoClick={this.handleBugInfoClick}
+            items={uniqBy(
+              [...issues, ...goodFirstBugs, ...mentoredBugs],
+              'summary'
+            )}
+          />
+        )}
+      </Dashboard>
     );
   }
 }
