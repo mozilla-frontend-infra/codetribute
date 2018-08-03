@@ -18,6 +18,12 @@ import {
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 
+const getIgnoreCase = (object, keyToFind) => {
+  const key = Object.keys(object).find(key => key.toLowerCase() === keyToFind);
+
+  return key && object[key];
+};
+
 @withApollo
 @hot(module)
 @graphql(bugsQuery, {
@@ -25,7 +31,7 @@ import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
     match: {
       params: { language },
     },
-  }) => !BUGZILLA_LANGUAGES[language],
+  }) => !getIgnoreCase(BUGZILLA_LANGUAGES, language),
   name: 'bugzilla',
   options: ({
     match: {
@@ -37,12 +43,12 @@ import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
       goodFirst: {
         ...BUGZILLA_SEARCH_OPTIONS,
         keywords: [GOOD_FIRST_BUG],
-        whiteboards: `lang=${BUGZILLA_LANGUAGES[language]}`,
+        whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
       },
       mentored: {
         ...BUGZILLA_SEARCH_OPTIONS,
         ...MENTORED_BUG,
-        whiteboards: `lang=${BUGZILLA_LANGUAGES[language]}`,
+        whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
       },
       paging: {
         ...BUGZILLA_PAGING_OPTIONS,

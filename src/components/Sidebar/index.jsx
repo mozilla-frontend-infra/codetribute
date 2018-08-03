@@ -54,14 +54,14 @@ export default class Sidebar extends Component {
         {Object.keys(BUGZILLA_LANGUAGES).map(language => (
           <ListItem
             className={classNames({
-              [classes.active]: activeLanguage === language,
+              [classes.active]: language.toLowerCase() === activeLanguage,
             })}
             button
             onClick={this.props.onLanguageClick}
             id={language}
             key={language}
             component={Link}
-            to={`/languages/${language}`}>
+            to={`/languages/${language.toLowerCase()}`}>
             <ListItemIcon>{icons[language] || <WebIcon />}</ListItemIcon>
             <ListItemText disableTypography className={classes.text}>
               {language}
