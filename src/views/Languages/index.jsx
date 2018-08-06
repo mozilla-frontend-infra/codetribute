@@ -1,7 +1,6 @@
 import { hot } from 'react-hot-loader';
 import { Component } from 'react';
 import { graphql, withApollo, compose } from 'react-apollo';
-import { withStyles } from '@material-ui/core/styles';
 import { memoizeWith, mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import dotProp from 'dot-prop-immutable';
@@ -111,59 +110,6 @@ const tagReposMapping = repositories =>
     }),
   })
 )
-@withStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    minHeight: '100vh',
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    width: '100vw',
-  },
-  drawerPaper: {
-    width: theme.drawerWidth,
-    maxWidth: '100%',
-    [theme.breakpoints.up('md')]: {
-      marginTop: 60,
-      position: 'fixed',
-    },
-  },
-  header: {
-    height: 60,
-    paddingBottom: theme.spacing.unit,
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  drawerHeader: {
-    ...theme.mixins.gutters(),
-    minHeight: 60,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  link: {
-    textDecoration: 'none',
-  },
-  container: {
-    overflow: 'auto',
-    flexGrow: 1,
-    marginTop: 60,
-    padding: 2 * theme.spacing.unit,
-    [theme.breakpoints.up('md')]: {
-      marginLeft: theme.drawerWidth,
-      width: `calc(100% - ${theme.drawerWidth}px)`,
-    },
-  },
-  title: {
-    ...theme.mixins.gutters(),
-  },
-  button: {
-    color: theme.palette.common.white,
-    '& svg': {
-      fill: theme.palette.common.white,
-    },
-  },
-}))
 export default class Languages extends Component {
   state = {
     error: null,
