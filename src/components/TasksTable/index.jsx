@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import Toolbar from '@material-ui/core/Toolbar';
 import transitions from '@material-ui/core/styles/transitions';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
-import FilterVariantIcon from 'mdi-react/FilterVariantIcon';
 import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
@@ -135,7 +134,6 @@ const assignments = Object.values(ASSIGNEE);
 }))
 export default class TasksTable extends Component {
   state = {
-    showFilterContent: false,
     drawerOpen: false,
     drawerItem: null,
   };
@@ -212,10 +210,6 @@ export default class TasksTable extends Component {
     });
   };
 
-  handleFilterToggle = () => {
-    this.setState({ showFilterContent: !this.state.showFilterContent });
-  };
-
   handleFilterChange = ({ target: { name, value } }) => {
     const query = this.getQuery();
 
@@ -286,7 +280,7 @@ export default class TasksTable extends Component {
 
   render() {
     const { items, classes } = this.props;
-    const { showFilterContent, drawerOpen, drawerItem } = this.state;
+    const { drawerOpen, drawerItem } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
@@ -316,47 +310,42 @@ export default class TasksTable extends Component {
             className={classes.adventurousButton}>
             I’m Feeling Adventurous
           </Button>
-          <IconButton aria-label="Filter" onClick={this.handleFilterToggle}>
-            <FilterVariantIcon />
-          </IconButton>
         </Toolbar>
-        {showFilterContent && (
-          <div className={classes.filter}>
-            <TextField
-              select
-              name="assignee"
-              label="Assignee"
-              value={assignment}
-              className={classes.dropdown}
-              onChange={this.handleFilterChange}>
-              {assignments.map(assignee => (
-                <MenuItem key={assignee} value={assignee}>
-                  {assignee}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              select
-              name="project"
-              label="Project"
-              value={project || ALL_PROJECTS}
-              className={classes.dropdown}
-              onChange={this.handleFilterChange}>
-              <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
-              {projects.map(project => (
-                <MenuItem key={project} value={project}>
-                  {project}
-                </MenuItem>
-              ))}
-            </TextField>
-            <Button
-              variant="outlined"
-              size="small"
-              onClick={this.handleResetClick}>
-              Reset
-            </Button>
-          </div>
-        )}
+        <div className={classes.filter}>
+          <TextField
+            select
+            name="assignee"
+            label="Assignee"
+            value={assignment}
+            className={classes.dropdown}
+            onChange={this.handleFilterChange}>
+            {assignments.map(assignee => (
+              <MenuItem key={assignee} value={assignee}>
+                {assignee}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            select
+            name="project"
+            label="Project"
+            value={project || ALL_PROJECTS}
+            className={classes.dropdown}
+            onChange={this.handleFilterChange}>
+            <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
+            {projects.map(project => (
+              <MenuItem key={project} value={project}>
+                {project}
+              </MenuItem>
+            ))}
+          </TextField>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={this.handleResetClick}>
+            Reset
+          </Button>
+        </div>
         <div className={classes.tableWrapper}>
           <DataTable
             items={data}
