@@ -39,4 +39,3 @@ export const BUGZILLA_LANGUAGES = {
   XML: 'xml',
   XUL: 'xul',
 };
-export const GITHUB_LANGUAGE_QUERY_ORDER = { field: 'SIZE', direction: 'DESC' };

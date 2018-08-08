@@ -17,7 +17,6 @@ import {
   MENTORED_BUG,
   BUGZILLA_PAGING_OPTIONS,
   BUGZILLA_SEARCH_OPTIONS,
-  GITHUB_LANGUAGE_QUERY_ORDER,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import projects from '../../data/loader';
@@ -68,7 +67,6 @@ const tagReposMapping = repositories =>
           `language:${language}`,
           ...Object.keys(repos).map(repo => `repo:${repo}`),
         ].join(' '),
-        order: GITHUB_LANGUAGE_QUERY_ORDER,
         type: 'REPOSITORY',
       },
       context: {
@@ -174,7 +172,7 @@ export default class Languages extends Component {
       (githubData &&
         githubData.search &&
         githubData.search.nodes
-          .filter(repository => repository.languages)
+          .filter(repository => repository.primaryLanguage)
           .reduce(
             (repositories, repository) => [
               ...repositories,

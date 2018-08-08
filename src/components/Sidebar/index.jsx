@@ -49,6 +49,7 @@ export default class Sidebar extends Component {
       CSS: <LanguageCss3Icon />,
     };
 
+    // Add languages that does not have BUGZILLA MAPPING
     return (
       <List disablePadding>
         {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map(language => (

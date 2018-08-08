@@ -1,4 +1,4 @@
-query Issues($searchQuery: String!, $type: SearchType = ISSUE, $order:LanguageOrder) {
+query Issues($searchQuery: String!, $type: SearchType = ISSUE) {
   search(first: 100, type: $type, query: $searchQuery){
     nodes {
       ... on Issue {
@@ -22,10 +22,8 @@ query Issues($searchQuery: String!, $type: SearchType = ISSUE, $order:LanguageOr
       }
       ...on Repository {
         nameWithOwner
-        languages(first:1, orderBy:$order) {
-          nodes {
-            name
-          }
+        primaryLanguage {
+          name
         }
       }
     }
