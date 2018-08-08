@@ -12,6 +12,12 @@ module.exports = {
             content: 'Find your first code contribution with Mozilla',
           },
         ],
+        links: [
+          {
+            href: './static/favicon.png',
+            rel: 'shortcut icon',
+          }
+        ]
       },
     }],
     ['@neutrinojs/env', ['GITHUB_PERSONAL_API_TOKEN', 'BUGZILLA_ENDPOINT', 'NODE_ENV']],
