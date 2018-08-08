@@ -77,6 +77,7 @@ const theme = createMuiTheme({
     },
     MuiTableCell: {
       root: {
+        paddingRight: 24,
         borderBottomWidth: 2,
       },
       head: {
