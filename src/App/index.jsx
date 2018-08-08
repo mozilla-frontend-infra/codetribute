@@ -58,6 +58,7 @@ export default class App extends Component {
 
     return (
       <ApolloProvider client={this.apolloClient}>
+        <link rel="shortcut icon" href="../static/favicon.png" />
         <MuiThemeProvider theme={theme}>
           <FontStager />
           {error && <ErrorPanel error={error} />}
