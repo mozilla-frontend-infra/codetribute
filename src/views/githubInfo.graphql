@@ -1,5 +1,5 @@
-query Issues($searchQuery: String!) {
-  search(first: 100, type: ISSUE, query: $searchQuery) {
+query githubInfo($searchQuery: String!, $type: SearchType = ISSUE) {
+  search(first: 100, type: $type, query: $searchQuery){
     nodes {
       ... on Issue {
         title
@@ -18,6 +18,12 @@ query Issues($searchQuery: String!) {
           nodes {
             login
           }
+        }
+      }
+      ...on Repository {
+        nameWithOwner
+        primaryLanguage {
+          name
         }
       }
     }
