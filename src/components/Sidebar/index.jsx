@@ -16,7 +16,7 @@ import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
 import { BUGZILLA_LANGUAGES } from '../../utils/constants';
 import JavaIcon from './JavaIcon';
-import HTMLIcon from './HTMLIcon';
+import HTMLIcon from './HtmlIcon';
 
 @withRouter
 @withStyles(theme => ({
