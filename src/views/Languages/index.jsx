@@ -9,7 +9,7 @@ import Dashboard from '../../components/Dashboard';
 import ErrorPanel from '../../components/ErrorPanel';
 import Spinner from '../../components/Spinner';
 import bugsQuery from '../bugs.graphql';
-import issuesQuery from '../issues.graphql';
+import githubInfoQuery from '../githubInfo.graphql';
 import commentsQuery from '../comments.graphql';
 import {
   GOOD_FIRST_BUG,
@@ -54,7 +54,7 @@ const tagReposMapping = repositories =>
 @withApollo
 @hot(module)
 @compose(
-  graphql(issuesQuery, {
+  graphql(githubInfoQuery, {
     name: 'github',
     options: ({
       match: {
@@ -132,7 +132,7 @@ export default class Languages extends Component {
     } = this.props;
 
     return fetchMore({
-      query: issuesQuery,
+      query: githubInfoQuery,
       variables: {
         searchQuery,
         type: 'ISSUE',

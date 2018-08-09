@@ -15,7 +15,7 @@ import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
 import TasksTable from '../../components/TasksTable';
-import issuesQuery from '../issues.graphql';
+import githubInfoQuery from '../githubInfo.graphql';
 import bugsQuery from '../bugs.graphql';
 import commentsQuery from '../comments.graphql';
 import {
@@ -49,7 +49,7 @@ const tagReposMapping = repositories =>
 
 @hot(module)
 @compose(
-  graphql(issuesQuery, {
+  graphql(githubInfoQuery, {
     skip: ({
       match: {
         params: { project },
@@ -217,7 +217,7 @@ export default class Project extends Component {
     } = this.props;
 
     return fetchMore({
-      query: issuesQuery,
+      query: githubInfoQuery,
       variables: {
         searchQuery,
       },
