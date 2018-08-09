@@ -15,6 +15,8 @@ import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
 import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
 import { BUGZILLA_LANGUAGES } from '../../utils/constants';
+import JavaIcon from './JavaIcon';
+import HTMLIcon from './HTMLIcon';
 
 @withRouter
 @withStyles(theme => ({
@@ -40,6 +42,8 @@ export default class Sidebar extends Component {
       classes,
     } = this.props;
     const icons = {
+      Java: <JavaIcon />,
+      HTML: <HTMLIcon />,
       Python: <LanguagePythonIcon />,
       JavaScript: <LanguageJavascriptIcon />,
       Swift: <LanguageSwiftIcon />,
