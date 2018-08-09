@@ -7,6 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from 'mdi-react/MenuIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
+import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
+import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { bool, node, string, object } from 'prop-types';
 import AppBar from '../../components/AppBar';
@@ -145,6 +147,9 @@ export default class Dashboard extends Component {
           })}>
           {header || (
             <Fragment>
+              <IconButton className={classes.link} component={Link} to="/">
+                <ArrowLeftIcon />
+              </IconButton>
               <Typography align="center" variant="display1" noWrap>
                 {title}
               </Typography>
