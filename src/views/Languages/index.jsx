@@ -1,13 +1,15 @@
 import { hot } from 'react-hot-loader';
 import { Component } from 'react';
-import { graphql, withApollo } from 'react-apollo';
-import { memoizeWith } from 'ramda';
+import { graphql, withApollo, compose } from 'react-apollo';
+import { memoizeWith, mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';
+import dotProp from 'dot-prop-immutable';
 import TasksTable from '../../components/TasksTable';
 import Dashboard from '../../components/Dashboard';
 import ErrorPanel from '../../components/ErrorPanel';
 import Spinner from '../../components/Spinner';
 import bugsQuery from '../bugs.graphql';
+import githubInfoQuery from '../githubInfo.graphql';
 import commentsQuery from '../comments.graphql';
 import {
   GOOD_FIRST_BUG,
@@ -17,6 +19,7 @@ import {
   BUGZILLA_SEARCH_OPTIONS,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
+import projects from '../../data/loader';
 
 const getIgnoreCase = (object, keyToFind) => {
   const key = Object.keys(object).find(key => key.toLowerCase() === keyToFind);
@@ -24,44 +27,182 @@ const getIgnoreCase = (object, keyToFind) => {
   return key && object[key];
 };
 
+const repos = mergeAll(
+  Object.values(projects)
+    .filter(project => project.repositories)
+    .map(project => project.repositories)
+    .reduce((prev, curr) => [...prev, ...curr], [])
+);
+const tagReposMapping = repositories =>
+  Object.keys(repositories).reduce((previousMappings, repoName) => {
+    const tags = repositories[repoName];
+    const labels = typeof tags === 'string' ? [tags] : tags;
+    const mappings = labels.reduce(
+      (labels, label) => ({
+        ...labels,
+        [label]: [...(previousMappings[label] || []), repoName],
+      }),
+      {}
+    );
+
+    return {
+      ...previousMappings,
+      ...mappings,
+    };
+  }, {});
+
 @withApollo
 @hot(module)
-@graphql(bugsQuery, {
-  skip: ({
-    match: {
-      params: { language },
-    },
-  }) => !getIgnoreCase(BUGZILLA_LANGUAGES, language),
-  name: 'bugzilla',
-  options: ({
-    match: {
-      params: { language },
-    },
-  }) => ({
-    fetchPolicy: 'network-only',
-    variables: {
-      goodFirst: {
-        ...BUGZILLA_SEARCH_OPTIONS,
-        keywords: [GOOD_FIRST_BUG],
-        whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
+@compose(
+  graphql(githubInfoQuery, {
+    name: 'github',
+    options: ({
+      match: {
+        params: { language },
       },
-      mentored: {
-        ...BUGZILLA_SEARCH_OPTIONS,
-        ...MENTORED_BUG,
-        whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
+    }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        searchQuery: [
+          `language:${language}`,
+          ...Object.keys(repos).map(repo => `repo:${repo}`),
+        ].join(' '),
+        type: 'REPOSITORY',
       },
-      paging: {
-        ...BUGZILLA_PAGING_OPTIONS,
+      context: {
+        client: 'github',
       },
-    },
-    context: {
-      client: 'bugzilla',
-    },
+    }),
   }),
-})
+  graphql(bugsQuery, {
+    skip: ({
+      match: {
+        params: { language },
+      },
+    }) => !getIgnoreCase(BUGZILLA_LANGUAGES, language),
+    name: 'bugzilla',
+    options: ({
+      match: {
+        params: { language },
+      },
+    }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        goodFirst: {
+          ...BUGZILLA_SEARCH_OPTIONS,
+          keywords: [GOOD_FIRST_BUG],
+          whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
+        },
+        mentored: {
+          ...BUGZILLA_SEARCH_OPTIONS,
+          ...MENTORED_BUG,
+          whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
+        },
+        paging: {
+          ...BUGZILLA_PAGING_OPTIONS,
+        },
+      },
+      context: {
+        client: 'bugzilla',
+      },
+    }),
+  })
+)
 export default class Languages extends Component {
   state = {
     error: null,
+  };
+
+  componentDidUpdate(prevProps) {
+    if (
+      (prevProps.bugzilla &&
+        prevProps.bugzilla.loading &&
+        !this.props.bugzilla.loading) ||
+      (!prevProps.bugzilla &&
+        prevProps.github.loading &&
+        !this.props.github.loading)
+    ) {
+      this.loadGithub();
+    }
+  }
+
+  fetchGithub = searchQuery => {
+    const {
+      github: { fetchMore },
+    } = this.props;
+
+    return fetchMore({
+      query: githubInfoQuery,
+      variables: {
+        searchQuery,
+        type: 'ISSUE',
+      },
+      context: {
+        client: 'github',
+      },
+      updateQuery(previousResult, { fetchMoreResult }) {
+        const moreNodes = fetchMoreResult.search.nodes;
+
+        if (!moreNodes.length) {
+          return previousResult;
+        }
+
+        return dotProp.set(
+          previousResult,
+          'search.nodes',
+          moreNodes.concat(previousResult.search.nodes)
+        );
+      },
+    });
+  };
+
+  loadGithub = async () => {
+    const {
+      github: githubData,
+      match: {
+        params: { language },
+      },
+    } = this.props;
+
+    if (!language) {
+      return;
+    }
+
+    const githubLanguages =
+      (githubData &&
+        githubData.search &&
+        githubData.search.nodes
+          .filter(repository => repository.primaryLanguage)
+          .reduce(
+            (repositories, repository) => [
+              ...repositories,
+              repository.nameWithOwner,
+            ],
+            []
+          )) ||
+      [];
+    const filteredRepos = Object.entries(repos)
+      .filter(([repo]) => githubLanguages.includes(repo))
+      .reduce(
+        (repositories, [repository, tag]) => ({
+          ...repositories,
+          [repository]: tag,
+        }),
+        {}
+      );
+    const tagsMapping = tagReposMapping(filteredRepos) || {};
+
+    await Promise.all(
+      Object.entries(tagsMapping).map(([tag, repos]) => {
+        const searchQuery = [
+          repos.map(repo => `repo:${repo}`).join(' '),
+          `label:"${tag}"`,
+          'state:open',
+        ].join(' ');
+
+        return this.fetchGithub(searchQuery);
+      })
+    );
   };
 
   handleBugInfoClick = memoizeWith(
@@ -85,15 +226,37 @@ export default class Languages extends Component {
 
   render() {
     const {
+      github: githubData,
       bugzilla: bugzillaData,
       match: {
         params: { language },
       },
     } = this.props;
     const { error } = this.state;
+    const loading =
+      (bugzillaData && bugzillaData.loading) ||
+      (githubData && githubData.loading);
     const title = Object.keys(BUGZILLA_LANGUAGES).find(
       lang => lang.toLowerCase() === language
     );
+    const issues =
+      (githubData &&
+        githubData.search &&
+        uniqBy(
+          githubData.search.nodes.filter(issue => issue.title).map(issue => ({
+            project: issue.repository.name,
+            summary: issue.title,
+            tags: issue.labels.nodes.map(node => node.name).sort(),
+            lastUpdated: issue.updatedAt,
+            assignee: issue.assignees.nodes[0]
+              ? issue.assignees.nodes[0].login
+              : '-',
+            url: issue.url,
+            description: issue.body,
+          })),
+          'summary'
+        )) ||
+      [];
     const goodFirstBugs =
       (bugzillaData &&
         bugzillaData.goodFirst &&
@@ -136,12 +299,17 @@ export default class Languages extends Component {
     return (
       <Dashboard title={title} withSidebar>
         {error && <ErrorPanel error={error} />}
+        {githubData &&
+          githubData.error && <ErrorPanel error={githubData.error} />}
         {bugzillaData &&
           bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
-        {bugzillaData && bugzillaData.loading && <Spinner />}
-        {(!bugzillaData || !bugzillaData.loading) && (
+        {loading && <Spinner />}
+        {!loading && (
           <TasksTable
-            items={[...goodFirstBugs, ...mentoredBugs]}
+            items={uniqBy(
+              [...issues, ...goodFirstBugs, ...mentoredBugs],
+              'summary'
+            )}
             onBugInfoClick={this.handleBugInfoClick}
           />
         )}

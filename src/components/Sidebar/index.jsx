@@ -49,9 +49,10 @@ export default class Sidebar extends Component {
       CSS: <LanguageCss3Icon />,
     };
 
+    // Add Swift directly as there is no `lang=swift` in bugzilla whiteboards
     return (
       <List disablePadding>
-        {Object.keys(BUGZILLA_LANGUAGES).map(language => (
+        {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map(language => (
           <ListItem
             className={classNames({
               [classes.active]: language.toLowerCase() === activeLanguage,
