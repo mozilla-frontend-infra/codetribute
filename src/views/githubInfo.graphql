@@ -1,4 +1,4 @@
-query githubInfo($searchQuery: String!, $type: SearchType = ISSUE) {
+query githubInfo($searchQuery: String!, $type: SearchType!) {
   search(first: 100, type: $type, query: $searchQuery){
     nodes {
       ... on Issue {
