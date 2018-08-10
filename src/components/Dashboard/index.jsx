@@ -20,12 +20,12 @@ import Sidebar from '../../components/Sidebar';
   },
   rootWithSidebar: {
     flexGrow: 1,
-    minHeight: '100vh',
+    minHeight: '100%',
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
-    width: '100vw',
+    width: '100%',
   },
   drawerPaper: {
     width: theme.drawerWidth,
@@ -73,7 +73,6 @@ import Sidebar from '../../components/Sidebar';
     padding: 2 * theme.spacing.unit,
   },
   containerWithSidebar: {
-    overflow: 'auto',
     flexGrow: 1,
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.drawerWidth,
