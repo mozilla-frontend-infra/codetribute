@@ -39,3 +39,4 @@ export const BUGZILLA_LANGUAGES = {
   XML: 'xml',
   XUL: 'xul',
 };
+export const BUGZILLA_UNASSIGNED = 'nobody@mozilla.org';
