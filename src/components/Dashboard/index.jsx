@@ -20,7 +20,7 @@ import Sidebar from '../../components/Sidebar';
   },
   rootWithSidebar: {
     flexGrow: 1,
-    minHeight: '100%',
+    height: '100vh',
     zIndex: 1,
     overflow: 'hidden',
     position: 'relative',
@@ -73,6 +73,7 @@ import Sidebar from '../../components/Sidebar';
     padding: 2 * theme.spacing.unit,
   },
   containerWithSidebar: {
+    overflowY: 'auto',
     flexGrow: 1,
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.drawerWidth,
