@@ -4,7 +4,6 @@ import { emphasize } from '@material-ui/core/styles/colorManipulator';
 const Roboto300 = { fontFamily: 'Roboto300, sans-serif' };
 const Roboto400 = { fontFamily: 'Roboto400, sans-serif' };
 const Roboto500 = { fontFamily: 'Roboto500, sans-serif' };
-const LIGHT_GREY = '#fafafa';
 const PRIMARY = {
   LIGHT: '#4f83cc',
   MAIN: '#01579b',
@@ -20,7 +19,7 @@ const theme = createMuiTheme({
   palette: {
     divider: PRIMARY.DARK,
     background: {
-      default: LIGHT_GREY,
+      default: '#fff',
     },
     type: 'light',
     primary: {

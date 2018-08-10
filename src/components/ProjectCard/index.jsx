@@ -13,7 +13,7 @@ import Markdown from 'react-markdown';
     position: 'relative',
     width: '100%',
     height: '100%',
-    boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
+    boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.25)',
     minHeight: 250,
     '&:hover, &:focus': {
       transform: 'scale(1.05)',
