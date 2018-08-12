@@ -61,6 +61,7 @@ const tagReposMapping = repositories =>
       fetchPolicy: 'network-only',
       variables: {
         searchQuery: '',
+        type: 'ISSUE',
       },
       context: {
         client: 'github',
@@ -221,6 +222,7 @@ export default class Project extends Component {
       query: githubInfoQuery,
       variables: {
         searchQuery,
+        type: 'ISSUE',
       },
       context: {
         client: 'github',
