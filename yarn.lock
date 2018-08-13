@@ -4407,8 +4407,8 @@ fluture@^8.0.2:
     sanctuary-type-identifiers "^2.0.0"
 
 follow-redirects@^1.0.0:
-  version "1.5.3"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.3.tgz#ba150caf15e2f0b30c789993be9b912db553855b"
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.4.tgz#86d1bb946f24cb988d660aaa2ca2478c0772ead1"
   dependencies:
     debug "^3.1.0"
 
