@@ -17,6 +17,7 @@ import {
   MENTORED_BUG,
   BUGZILLA_PAGING_OPTIONS,
   BUGZILLA_SEARCH_OPTIONS,
+  BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import projects from '../../data/loader';
@@ -270,7 +271,10 @@ export default class Languages extends Component {
         bugzillaData.goodFirst &&
         uniqBy(
           bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
-            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            assignee:
+              bug.assignedTo.name !== BUGZILLA_UNASSIGNED
+                ? bug.assignedTo.name
+                : '-',
             project: bug.component,
             tags: [
               ...(bug.keywords || []),
@@ -289,7 +293,10 @@ export default class Languages extends Component {
         bugzillaData.mentored &&
         uniqBy(
           bugzillaData.mentored.edges.map(edge => edge.node).map(bug => ({
-            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            assignee:
+              bug.assignedTo.name !== BUGZILLA_UNASSIGNED
+                ? bug.assignedTo.name
+                : '-',
             project: bug.component,
             tags: [
               ...(bug.keywords || []),

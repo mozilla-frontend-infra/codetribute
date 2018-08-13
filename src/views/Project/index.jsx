@@ -23,6 +23,7 @@ import {
   MENTORED_BUG,
   BUGZILLA_PAGING_OPTIONS,
   BUGZILLA_SEARCH_OPTIONS,
+  BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
@@ -310,7 +311,10 @@ export default class Project extends Component {
         bugzillaData.goodFirst &&
         uniqBy(
           bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
-            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            assignee:
+              bug.assignedTo.name !== BUGZILLA_UNASSIGNED
+                ? bug.assignedTo.name
+                : '-',
             project: bug.component,
             tags: [
               ...(bug.keywords || []),
@@ -329,7 +333,10 @@ export default class Project extends Component {
         bugzillaData.mentored &&
         uniqBy(
           bugzillaData.mentored.edges.map(edge => edge.node).map(bug => ({
-            assignee: bug.status === 'ASSIGNED' ? bug.assignedTo.name : '-',
+            assignee:
+              bug.assignedTo.name !== BUGZILLA_UNASSIGNED
+                ? bug.assignedTo.name
+                : '-',
             project: bug.component,
             tags: [
               ...(bug.keywords || []),
@@ -343,6 +350,10 @@ export default class Project extends Component {
           'summary'
         )) ||
       [];
+    const items = uniqBy(
+      [...issues, ...goodFirstBugs, ...mentoredBugs],
+      'summary'
+    );
 
     return (
       <Dashboard title={project.name}>
@@ -368,13 +379,7 @@ export default class Project extends Component {
         {error && <ErrorPanel error={error} />}
         {loading && <Spinner className={classes.spinner} />}
         {!loading && (
-          <TasksTable
-            onBugInfoClick={this.handleBugInfoClick}
-            items={uniqBy(
-              [...issues, ...goodFirstBugs, ...mentoredBugs],
-              'summary'
-            )}
-          />
+          <TasksTable onBugInfoClick={this.handleBugInfoClick} items={items} />
         )}
       </Dashboard>
     );
