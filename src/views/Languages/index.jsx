@@ -112,6 +112,9 @@ const tagReposMapping = repositories =>
 export default class Languages extends Component {
   state = {
     error: null,
+    // we need a way to know when github loading is done.
+    // github results require calling fetchMore possibly many times.
+    githubLoading: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -193,6 +196,8 @@ export default class Languages extends Component {
       );
     const tagsMapping = tagReposMapping(filteredRepos) || {};
 
+    this.setState({ githubLoading: true });
+
     await Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
@@ -204,6 +209,8 @@ export default class Languages extends Component {
         return this.fetchGithub(searchQuery);
       })
     );
+
+    this.setState({ githubLoading: false });
   };
 
   handleBugInfoClick = memoizeWith(
@@ -233,10 +240,11 @@ export default class Languages extends Component {
         params: { language },
       },
     } = this.props;
-    const { error } = this.state;
+    const { error, githubLoading } = this.state;
     const loading =
       (bugzillaData && bugzillaData.loading) ||
-      (githubData && githubData.loading);
+      (githubData && githubData.loading) ||
+      githubLoading;
     const title = Object.keys(BUGZILLA_LANGUAGES).find(
       lang => lang.toLowerCase() === language
     );
