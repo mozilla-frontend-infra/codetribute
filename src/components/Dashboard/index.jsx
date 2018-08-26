@@ -14,8 +14,6 @@ import { bool, node, string, object } from 'prop-types';
 import AppBar from '../../components/AppBar';
 import Sidebar from '../../components/Sidebar';
 
-const leftMargin = window.innerWidth - 60;
-
 @withStyles(theme => ({
   root: {
     background: theme.palette.background.default,
@@ -71,7 +69,8 @@ const leftMargin = window.innerWidth - 60;
     },
   },
   leftMargin: {
-    marginLeft: leftMargin,
+    position: 'absolute',
+    right: theme.spacing.unit,
   },
   container: {
     marginTop: 60,
