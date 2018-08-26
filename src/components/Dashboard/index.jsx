@@ -14,6 +14,8 @@ import { bool, node, string, object } from 'prop-types';
 import AppBar from '../../components/AppBar';
 import Sidebar from '../../components/Sidebar';
 
+const leftMargin = window.innerWidth - 60;
+
 @withStyles(theme => ({
   root: {
     background: theme.palette.background.default,
@@ -67,6 +69,9 @@ import Sidebar from '../../components/Sidebar';
     '& svg': {
       fill: theme.palette.common.white,
     },
+  },
+  leftMargin: {
+    marginLeft: leftMargin,
   },
   container: {
     marginTop: 60,
@@ -158,7 +163,9 @@ export default class Dashboard extends Component {
           {withSidebar && (
             <Hidden mdUp>
               <IconButton
-                className={classes.link}
+                className={classNames(classes.link, {
+                  [classes.leftMargin]: !header,
+                })}
                 size="large"
                 onClick={this.handleDrawerToggle}>
                 <MenuIcon />
