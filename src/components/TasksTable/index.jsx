@@ -100,6 +100,9 @@ const assignments = Object.values(ASSIGNEE);
     flex: 1,
     whiteSpace: 'nowrap',
   },
+  adventurousButton: {
+    paddingRight: 0,
+  },
   [theme.breakpoints.down('xs')]: {
     adventurousButton: {
       order: 2,
