@@ -68,7 +68,7 @@ import Sidebar from '../../components/Sidebar';
       fill: theme.palette.common.white,
     },
   },
-  leftMargin: {
+  menuIconButton: {
     position: 'absolute',
     right: theme.spacing.unit,
   },
@@ -163,7 +163,7 @@ export default class Dashboard extends Component {
             <Hidden mdUp>
               <IconButton
                 className={classNames(classes.link, {
-                  [classes.leftMargin]: !header,
+                  [classes.menuIconButton]: !header,
                 })}
                 size="large"
                 onClick={this.handleDrawerToggle}>
