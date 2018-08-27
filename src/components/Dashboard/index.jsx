@@ -68,6 +68,10 @@ import Sidebar from '../../components/Sidebar';
       fill: theme.palette.common.white,
     },
   },
+  menuIconButton: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+  },
   container: {
     marginTop: 60,
     padding: 2 * theme.spacing.unit,
@@ -158,7 +162,9 @@ export default class Dashboard extends Component {
           {withSidebar && (
             <Hidden mdUp>
               <IconButton
-                className={classes.link}
+                className={classNames(classes.link, {
+                  [classes.menuIconButton]: !header,
+                })}
                 size="large"
                 onClick={this.handleDrawerToggle}>
                 <MenuIcon />
