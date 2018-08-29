@@ -72,11 +72,6 @@ const assignments = Object.values(ASSIGNEE);
   tableCell: {
     whiteSpace: 'nowrap',
   },
-  adventurousButton: {
-    '&:not(:hover)': {
-      paddingRight: 0,
-    },
-  },
   summaryItem: {
     marginLeft: -theme.spacing.unit,
     padding: theme.spacing.unit,
@@ -309,6 +304,7 @@ export default class TasksTable extends Component {
             Bugs & Issues
           </Typography>
           <Button
+            variant="outlined"
             color="primary"
             disabled={!items.length}
             onClick={this.handleRandomTaskClick}
