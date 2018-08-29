@@ -304,6 +304,7 @@ export default class TasksTable extends Component {
             Bugs & Issues
           </Typography>
           <Button
+            variant="outlined"
             color="primary"
             disabled={!items.length}
             onClick={this.handleRandomTaskClick}
