@@ -72,6 +72,11 @@ const assignments = Object.values(ASSIGNEE);
   tableCell: {
     whiteSpace: 'nowrap',
   },
+  adventurousButton: {
+    '&:not(:hover)': {
+      paddingRight: 0,
+    },
+  },
   summaryItem: {
     marginLeft: -theme.spacing.unit,
     padding: theme.spacing.unit,
@@ -99,9 +104,6 @@ const assignments = Object.values(ASSIGNEE);
   title: {
     flex: 1,
     whiteSpace: 'nowrap',
-  },
-  adventurousButton: {
-    paddingRight: 0,
   },
   [theme.breakpoints.down('xs')]: {
     adventurousButton: {
