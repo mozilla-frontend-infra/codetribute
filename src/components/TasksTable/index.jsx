@@ -100,9 +100,13 @@ const assignments = Object.values(ASSIGNEE);
     flex: 1,
     whiteSpace: 'nowrap',
   },
-  [theme.breakpoints.down('xs')]: {
+  [theme.breakpoints.down('sm')]: {
     adventurousButton: {
       order: 2,
+      margin: `${theme.spacing.unit}px 0`,
+    },
+    toolbar: {
+      justifyContent: 'flex-start',
     },
   },
   icon: {
