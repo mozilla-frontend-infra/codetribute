@@ -1,5 +1,6 @@
 name: Release Engineering
 summary: Get involved with the [Release Engineering](https://wiki.mozilla.org/ReleaseEngineering) team
+icon: mdi-sitemap
 introduction: |
   ## About Release Engineering
  

@@ -1,5 +1,6 @@
 name: JavaScript Engine
 summary: Get involved with the JavaScript Engine (SpiderMonkey) team
+icon: mdi-language-javascript
 introduction: |
   ## About the Javascript Engine
   

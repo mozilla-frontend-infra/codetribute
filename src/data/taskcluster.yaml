@@ -1,5 +1,6 @@
 name: Taskcluster
 summary: Taskcluster is Mozilla's platform for building, testing, and releasing software.
+svgUrl: https://docs.taskcluster.net/docs/assets/taskcluster.svg
 introduction: |
   ## About Taskcluster
  

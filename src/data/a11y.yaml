@@ -1,5 +1,6 @@
 name: Accessibility
 summary: Accessibility is about making things work for everyone. The majority of our team's engineering work is performed on the accessibility engine which sits inside gecko, the guts of the Firefox browser's web platform.
+icon: mdi-human
 products:
  - Core: ['Disability Access APIs']
  - Firefox: ['Disability Access']

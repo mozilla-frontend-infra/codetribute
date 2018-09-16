@@ -1,4 +1,5 @@
 name: The Rust Cookbook
 summary: Work on bite-sized examples to get folks cooking with Rust
+icon: mdi-book-open-page-variant
 repositories: 
  - rust-lang-nursery/rust-cookbook: good first issue

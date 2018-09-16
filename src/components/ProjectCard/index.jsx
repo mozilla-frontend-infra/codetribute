@@ -32,11 +32,19 @@ import Markdown from 'react-markdown';
   },
 }))
 export default class ProjectCard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.defaultIcon = !(props.project.icon || props.project.svgUrl);
+  }
+
   static propTypes = {
     project: shape({
       name: string.isRequired,
       summary: string,
       fileName: string.isRequired,
+      icon: string,
+      svgUrl: string,
     }).isRequired,
   };
 
@@ -59,13 +67,32 @@ export default class ProjectCard extends Component {
   render() {
     const {
       classes,
-      project: { name, summary, fileName },
+      project: { name, summary, fileName, icon, svgUrl },
     } = this.props;
 
     return (
       <Link className={classes.link} to={`projects/${fileName}`}>
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
+            {icon && (
+              <i
+                className={`mdi ${icon}`}
+                style={{ fontSize: '50px', margin: '10px' }}
+              />
+            )}
+            {svgUrl && (
+              <img
+                alt="svgIcon"
+                src={svgUrl}
+                style={{ width: '50px', height: '50px', fill: '#4bacb8' }}
+              />
+            )}
+            {this.defaultIcon && (
+              <i
+                className="mdi mdi-web"
+                style={{ fontSize: '50px', margin: '10px' }}
+              />
+            )}
             <Typography gutterBottom variant="headline" component="h4">
               {name}
             </Typography>

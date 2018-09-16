@@ -1,4 +1,5 @@
 name: Dashboards and Reporting
 summary: Treeherder is a system for managing CI data for Mozilla projects
+icon: mdi-view-dashboard-variant
 products: 
  - Tree Management

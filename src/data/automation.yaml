@@ -1,4 +1,5 @@
 name: Test Automation
+icon: mdi-test-tube
 products: 
  - Testing
 repositories: 

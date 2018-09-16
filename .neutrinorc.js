@@ -16,6 +16,10 @@ module.exports = {
           {
             href: './static/favicon.png',
             rel: 'shortcut icon',
+          },
+          {
+            href: 'https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.min.css',
+            rel: 'stylesheet'
           }
         ]
       },
