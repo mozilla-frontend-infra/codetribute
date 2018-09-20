@@ -53,12 +53,12 @@ export default class ProjectCard extends Component {
     try {
       if (project.icon) {
         const mdiName = pascalCase(project.icon);
-        const ProjectIcon = await import(/* webpackMode: "eager" */ `mdi-react/${mdiName}Icon.js`);
+        const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`);
 
         return this.setState({ projectIcon: <ProjectIcon size={50} /> });
       }
 
-      const projectIcon = await import(/* webpackMode: "eager" */ `../../images/projectIcons/${
+      const projectIcon = await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
         project.fileName
       }.svg`);
 
@@ -66,7 +66,9 @@ export default class ProjectCard extends Component {
         projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
       });
     } catch (e) {
-      this.setState({ projectIcon: null });
+      const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`);
+
+      this.setState({ projectIcon: <ProjectIcon size={50} /> });
     }
   }
   /* eslint-enable react/no-did-mount-set-state */

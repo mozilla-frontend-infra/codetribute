@@ -10,13 +10,13 @@ module.exports = {
           {
             name: 'Description',
             content: 'Find your first code contribution with Mozilla',
-          }
+          },
         ],
         links: [
           {
             href: './static/favicon.png',
             rel: 'shortcut icon',
-          },
+          }
         ]
       },
     }],
