@@ -1,6 +1,6 @@
 name: addons.mozilla.org
 summary: Addons.mozilla.org is Mozilla's platform for distribution of Add-ons and themes for end-users to customize their Firefox Experience.
-icon: mdi-puzzle
+icon: puzzle
 introduction: |
   ## About Addons.mozilla.org (AMO)
  

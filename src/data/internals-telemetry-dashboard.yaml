@@ -1,6 +1,6 @@
 name: Telemetry Dashboards
 summary: Help us with public data at the [Telemetry Portal](https://telemetry.mozilla.org) and some of its hosted dashboards.
-icon: mdi-radio-tower
+icon: radio-tower
 introduction: |
   ## About the Telemetry Portal
   

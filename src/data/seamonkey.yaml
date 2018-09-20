@@ -1,6 +1,5 @@
 name: SeaMonkey
 summary: SeaMonkey is an all-in-one Internet application suite that includes the Browser, Mail, Web-authoring and irc components.
-svgUrl: https://upload.wikimedia.org/wikipedia/commons/e/e8/SeaMonkey.svg
 introduction: |
   The SeaMonkey project is at https://www.seamonkey-project.org.
 
@@ -17,4 +16,3 @@ products:
      'MailNews: Message Display', 'Page Info', 'Passwords & Permissions',
      'Project Organization', 'Release Engineering', 'Sidebar',
      'Startup & Profiles', 'Sync UI', 'Themes', 'UI Design']
-

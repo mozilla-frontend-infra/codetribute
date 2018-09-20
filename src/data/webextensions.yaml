@@ -1,4 +1,4 @@
 name: Firefox - Web Extensions
-icon: mdi-plus
+icon: plus
 products: 
  - Toolkit: ['WebExtensions: Android', 'WebExtensions: Compatibility', 'WebExtensions: Developer tools', 'WebExtensions: Experiments', 'WebExtensions: Frontend', 'WebExtensions: General', 'WebExtensions: Request Handling', 'WebExtensions: Untriaged']

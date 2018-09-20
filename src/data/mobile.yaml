@@ -1,6 +1,6 @@
 name: Firefox - Mobile (Android & iOS)
 summary: Firefox mobile experience developed for the iOS and Android platform.
-icon: mdi-cellphone
+icon: cellphone
 products:
  - Firefox for Android
  - Core: ['Widget: Android', 'mozglue']

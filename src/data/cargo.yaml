@@ -1,5 +1,5 @@
 name: Cargo
 summary: Cargo is Rust's build system
-svgUrl: https://www.rust-lang.org/logos/cargo.png
+icon: ship
 repositories: 
  - rust-lang-nursery/rustfmt: E-Easy

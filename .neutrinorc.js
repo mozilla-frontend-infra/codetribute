@@ -10,17 +10,13 @@ module.exports = {
           {
             name: 'Description',
             content: 'Find your first code contribution with Mozilla',
-          },
+          }
         ],
         links: [
           {
             href: './static/favicon.png',
             rel: 'shortcut icon',
           },
-          {
-            href: 'https://cdn.materialdesignicons.com/2.7.94/css/materialdesignicons.min.css',
-            rel: 'stylesheet'
-          }
         ]
       },
     }],

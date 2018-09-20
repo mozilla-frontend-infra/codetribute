@@ -1,5 +1,6 @@
 name: Graphics
 summary: Get involved with the [Graphics](https://wiki.mozilla.org/Platform/GFX/Contribute) team
+icon: image-search
 products: 
  - Core: ['Graphics', 'GFX: Color Management', 'Canvas: WebGL', 'Canvas: 2D', 'ImageLib', 'Graphics', 'Graphics: Layers', 'Graphics: Text', 'Graphics: WebRender', 'Panning and Zooming']
 repositories:

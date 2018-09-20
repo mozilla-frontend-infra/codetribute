@@ -1,5 +1,5 @@
 name: Rustfmt
 summary: Rustfmt is the automatic code formatter for Rust code
-icon: mdi-format-indent-increase
+icon: format-indent-increase
 repositories: 
  - rust-lang-nursery/rustfmt: good-first-issue
