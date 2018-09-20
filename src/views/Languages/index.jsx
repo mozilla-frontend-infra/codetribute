@@ -275,10 +275,11 @@ export default class Languages extends Component {
         bugzillaData.goodFirst &&
         uniqBy(
           bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
-            assignee:
-              bug.assignedTo.name !== BUGZILLA_UNASSIGNED
-                ? bug.assignedTo.name
-                : '-',
+            assignee: BUGZILLA_UNASSIGNED.some(email =>
+              bug.assignedTo.name.endsWith(email)
+            )
+              ? '-'
+              : bug.assignedTo.name,
             project: bug.component,
             tags: [
               ...(bug.keywords || []),
@@ -297,10 +298,11 @@ export default class Languages extends Component {
         bugzillaData.mentored &&
         uniqBy(
           bugzillaData.mentored.edges.map(edge => edge.node).map(bug => ({
-            assignee:
-              bug.assignedTo.name !== BUGZILLA_UNASSIGNED
-                ? bug.assignedTo.name
-                : '-',
+            assignee: BUGZILLA_UNASSIGNED.some(email =>
+              bug.assignedTo.name.endsWith(email)
+            )
+              ? '-'
+              : bug.assignedTo.name,
             project: bug.component,
             tags: [
               ...(bug.keywords || []),
