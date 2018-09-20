@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { string, shape } from 'prop-types';
+import { pascalCase } from 'change-case';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
@@ -32,25 +33,43 @@ import Markdown from 'react-markdown';
   },
 }))
 export default class ProjectCard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.defaultIcon = !(props.project.icon || props.project.svgUrl);
-  }
-
   static propTypes = {
     project: shape({
       name: string.isRequired,
       summary: string,
       fileName: string.isRequired,
       icon: string,
-      svgUrl: string,
     }).isRequired,
   };
 
-  static defaultProps = {
-    summary: null,
+  state = {
+    projectIcon: null,
   };
+
+  /* eslint-disable react/no-did-mount-set-state */
+  async componentDidMount() {
+    const { project } = this.props;
+
+    try {
+      if (project.icon) {
+        const mdiName = pascalCase(project.icon);
+        const ProjectIcon = await import(/* webpackMode: "eager" */ `mdi-react/${mdiName}Icon.js`);
+
+        return this.setState({ projectIcon: <ProjectIcon size={50} /> });
+      }
+
+      const projectIcon = await import(/* webpackMode: "eager" */ `../../images/projectIcons/${
+        project.fileName
+      }.svg`);
+
+      this.setState({
+        projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
+      });
+    } catch (e) {
+      this.setState({ projectIcon: null });
+    }
+  }
+  /* eslint-enable react/no-did-mount-set-state */
 
   handleSummaryClick = event => {
     if (event.target.href) {
@@ -67,32 +86,15 @@ export default class ProjectCard extends Component {
   render() {
     const {
       classes,
-      project: { name, summary, fileName, icon, svgUrl },
+      project: { name, summary, fileName },
     } = this.props;
+    const { projectIcon } = this.state;
 
     return (
       <Link className={classes.link} to={`projects/${fileName}`}>
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
-            {icon && (
-              <i
-                className={`mdi ${icon}`}
-                style={{ fontSize: '50px', margin: '10px' }}
-              />
-            )}
-            {svgUrl && (
-              <img
-                alt="svgIcon"
-                src={svgUrl}
-                style={{ width: '50px', height: '50px', fill: '#4bacb8' }}
-              />
-            )}
-            {this.defaultIcon && (
-              <i
-                className="mdi mdi-web"
-                style={{ fontSize: '50px', margin: '10px' }}
-              />
-            )}
+            {projectIcon}
             <Typography gutterBottom variant="headline" component="h4">
               {name}
             </Typography>
