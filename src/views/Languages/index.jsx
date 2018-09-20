@@ -176,7 +176,11 @@ export default class Languages extends Component {
       (githubData &&
         githubData.search &&
         githubData.search.nodes
-          .filter(repository => repository.primaryLanguage)
+          .filter(
+            repository =>
+              repository.primaryLanguage &&
+              repository.primaryLanguage.name.toLowerCase().includes(language)
+          )
           .reduce(
             (repositories, repository) => [
               ...repositories,
