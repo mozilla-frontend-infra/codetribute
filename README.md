@@ -85,6 +85,7 @@ For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend
 ```yaml
 name: <Project Name>
 summary: A short summary of the project
+icon: An icon from https://materialdesignicons.com/
 introduction: |
   ## About <Project Name>
 
@@ -115,6 +116,13 @@ repositories:
 
 ```
 _Note: The `summary` and `introduction` fields are to be rendered as markdown, allowing for bullet points, links and other simple formatting._
+
+#### Project Icons
+
+Each project should have an icon associated to it to be displayed on the home page. To pick an icon, you could either:
+1. Include an icon in `src/images/projectIcons`. The icon should have the same name as its configuration file
+and have the image extension set as `.svg`.
+2. Pick an icon from [materialdesignicons](https://materialdesignicons.com) and include its name in the `icon` field of the yaml file.
 
 ### Best Practices
 

@@ -1,5 +1,6 @@
 name: Calendar
 summary: Manage multiple calendars, create your daily to do list, invite friends to events, and subscribe to public calendars.
+icon: calendar
 introduction: |
   Calendar's project page is at https://www.thunderbird.net/calendar/
   The IRC channel is #calendar at irc.mozilla.org
