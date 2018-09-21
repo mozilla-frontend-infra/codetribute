@@ -1,5 +1,6 @@
 name: Web Platform
 summary: Web Platform consists of Networking, Layout, Build System, DOM & CSS Technology, Input Handling, and Media.
+icon: layers
 products:
  - Core: ['CSS Parsing and Computation', 'DOM', 'DOM: Core & HTML', 'DOM: CSS Object Model', 'DOM: Device Interfaces', 'DOM: Events', 'DOM: IndexedDB',
  'DOM: Mozilla Extensions', 'DOM: Other', 'DOM: Traversal-Range', 'DOM: Validation', 'DOM: Workers', 'Drag and Drop', 'Editor', 'Event Handling', 'Geolocation',

@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { string, shape } from 'prop-types';
+import { pascalCase } from 'change-case';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
@@ -37,12 +38,40 @@ export default class ProjectCard extends Component {
       name: string.isRequired,
       summary: string,
       fileName: string.isRequired,
+      icon: string,
     }).isRequired,
   };
 
-  static defaultProps = {
-    summary: null,
+  state = {
+    projectIcon: null,
   };
+
+  /* eslint-disable react/no-did-mount-set-state */
+  async componentDidMount() {
+    const { project } = this.props;
+
+    try {
+      if (project.icon) {
+        const mdiName = pascalCase(project.icon);
+        const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`);
+
+        return this.setState({ projectIcon: <ProjectIcon size={50} /> });
+      }
+
+      const projectIcon = await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
+        project.fileName
+      }.svg`);
+
+      this.setState({
+        projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
+      });
+    } catch (e) {
+      const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`);
+
+      this.setState({ projectIcon: <ProjectIcon size={50} /> });
+    }
+  }
+  /* eslint-enable react/no-did-mount-set-state */
 
   handleSummaryClick = event => {
     if (event.target.href) {
@@ -61,11 +90,13 @@ export default class ProjectCard extends Component {
       classes,
       project: { name, summary, fileName },
     } = this.props;
+    const { projectIcon } = this.state;
 
     return (
       <Link className={classes.link} to={`projects/${fileName}`}>
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
+            {projectIcon}
             <Typography gutterBottom variant="headline" component="h4">
               {name}
             </Typography>

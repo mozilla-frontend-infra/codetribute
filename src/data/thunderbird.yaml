@@ -1,5 +1,6 @@
 name: Thunderbird
 summary: Thunderbird is a free and open-source cross-platform email client, news client, RSS and chat client.
+icon: email
 introduction: |
   The Thunderbird project's website is at https://thunderbird.net
   Our IRC support channel is #thunderbird, and our development channel is #maildev at irc.mozilla.org

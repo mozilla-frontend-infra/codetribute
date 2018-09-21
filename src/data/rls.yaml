@@ -1,4 +1,5 @@
 name: Rust Language Server
 summary: RLS is the IDE integration plugin for Rust
+icon: server
 repositories: 
  - rust-lang-nursery/rls: good first issue
