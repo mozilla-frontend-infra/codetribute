@@ -48,3 +48,5 @@ introduction: |
 
 products: 
  - Taskcluster
+repositories:
+ - taskcluster/taskcluster-web: 'good first issue'
