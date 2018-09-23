@@ -6,11 +6,10 @@ import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Card from '@material-ui/core/Card';
+import { CardContent, CardActions } from '@material-ui/core';
 import Markdown from 'react-markdown';
-import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
+import Button from '@material-ui/core/Button';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
@@ -130,6 +129,7 @@ export default class Project extends Component {
   state = {
     loading: true,
     error: null,
+    introductionOpen: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -282,6 +282,12 @@ export default class Project extends Component {
     </a>
   );
 
+  handleButtonClick = () => {
+    this.setState({
+      introductionOpen: !this.state.introductionOpen,
+    });
+  };
+
   render() {
     const { classes } = this.props;
     const githubData = this.props.github;
@@ -356,23 +362,34 @@ export default class Project extends Component {
       [...issues, ...goodFirstBugs, ...mentoredBugs],
       'summary'
     );
+    const { introductionOpen } = this.state;
 
     return (
       <Dashboard title={project.name}>
         {project.introduction && (
-          <ExpansionPanel>
-            <ExpansionPanelSummary expandIcon={<ChevronDownIcon />}>
-              <Typography variant="headline">Project Introduction</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography variant="body1">
+          <Card>
+            <CardContent>
+              <Typography variant="headline">Project introduction</Typography>
+              <Typography>
                 <Markdown
-                  source={project.introduction}
+                  source={
+                    introductionOpen
+                      ? project.introduction
+                      : project.introduction.split(/(?=##\s)/)[0]
+                  }
                   renderers={{ link: this.linkRenderer }}
                 />
               </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
+            </CardContent>
+            <CardActions>
+              <Button
+                size="small"
+                onClick={this.handleButtonClick}
+                className={classes.seeMoreButton}>
+                {introductionOpen ? 'See Less' : 'See More'}
+              </Button>
+            </CardActions>
+          </Card>
         )}
         {githubData &&
           githubData.error && <ErrorPanel error={githubData.error} />}
