@@ -36,6 +36,11 @@ module.exports = {
             .end()
           .use('gql-loader')
             .loader(require.resolve('graphql-tag/loader'));
+      // Data URIs are not allowed by the CSP
+      ['ico', 'svg', 'img']
+        .forEach(rule => neutrino.config.module.rule(rule)
+          .use('url')
+          .tap(options => ({ ...options, limit: 1 })));
       neutrino.on('build', () => {
         ['contribute.json'].forEach(file => {
           fs.copyFileSync(file, join(__dirname, `build/${file}`));
