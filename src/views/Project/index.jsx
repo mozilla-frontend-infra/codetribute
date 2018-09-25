@@ -369,7 +369,6 @@ export default class Project extends Component {
         {project.introduction && (
           <Card>
             <CardContent>
-              <Typography variant="headline">Project introduction</Typography>
               <Typography>
                 <Markdown
                   source={
