@@ -1,0 +1,36 @@
+name: firefox-code-coverage-frontend
+summary: Code-coverage-frontend allows determining code coverage changes for added lines per changeset.
+introduction: |
+  ## About firefox-code-coverage-frontend
+ 
+This project is the code coverage changeset viewer for Firefox. You can view the frontend running in [here](https://firefox-code-coverage.herokuapp.com/).
+
+To understand the big picture of code coverage at Mozilla read [this](https://marco-c.github.io/2017/07/28/code-coverage-architecture.html) blog post.
+
+The app will show recent changesets from mozilla-central that have code coverage (pending changesets will be automatically be fetched). From there you can navigate to the diff of each changeset and see the code coverage for added lines. It is very important to reiterate that it is code coverage for added lines and not for a specific file (as most code coverage viewers focus on).
+
+The data used in this UI is based on data submitted to [codecov.io](https://marco-c.github.io/2017/07/28/code-coverage-architecture.html).
+
+  ## How Do I Get Started?
+
+  If you are working on an issue (in Github), you will need a Github account.
+
+  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time.
+  But do your research!
+  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first.
+  This helps you learn more about Codecoverage and understand better the bug you're fixing or feature you're adding.
+
+  ## How Do I Get Help?
+
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  Each bug has a mentor, and that person will usually be the one to reply.
+
+  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#codecoverage` channel.
+  That's a great place to get quick help or work through issues with GitHub.
+
+products: 
+ - Firefox Code Coverage
+repositories:
+ - mozilla/firefox-code-coverage-frontend: 'good first issue'
