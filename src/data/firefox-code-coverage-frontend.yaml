@@ -1,15 +1,15 @@
-name: firefox-code-coverage-frontend
+name: Firefox Code Coverage Frontend
 summary: Code-coverage-frontend allows determining code coverage changes for added lines per changeset.
 introduction: |
-  ## About firefox-code-coverage-frontend
+  ## About Firefox Code Coverage Frontend
  
-This project is the code coverage changeset viewer for Firefox. You can view the frontend running in [here](https://firefox-code-coverage.herokuapp.com/).
+  This project is the code coverage changeset viewer for Firefox. You can view the frontend running in [here](https://firefox-code-coverage.herokuapp.com/).
 
-To understand the big picture of code coverage at Mozilla read [this](https://marco-c.github.io/2017/07/28/code-coverage-architecture.html) blog post.
+  To understand the big picture of code coverage at Mozilla read [this](https://marco-c.github.io/2017/07/28/code-coverage-architecture.html) blog post.
 
-The app will show recent changesets from mozilla-central that have code coverage (pending changesets will be automatically be fetched). From there you can navigate to the diff of each changeset and see the code coverage for added lines. It is very important to reiterate that it is code coverage for added lines and not for a specific file (as most code coverage viewers focus on).
+  The app will show recent changesets from mozilla-central that have code coverage (pending changesets will be automatically be fetched). From there you can navigate to the diff of each changeset and see the code coverage for added lines. It is very important to reiterate that it is code coverage for added lines and not for a specific file (as most code coverage viewers focus on).
 
-The data used in this UI is based on data submitted to [codecov.io](https://marco-c.github.io/2017/07/28/code-coverage-architecture.html).
+  The data used in this UI is based on data submitted to [codecov.io](https://marco-c.github.io/2017/07/28/code-coverage-architecture.html).
 
   ## How Do I Get Started?
 
