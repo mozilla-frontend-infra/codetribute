@@ -30,7 +30,5 @@ introduction: |
   We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#codecoverage` channel.
   That's a great place to get quick help or work through issues with GitHub.
 
-products: 
- - Firefox Code Coverage
 repositories:
  - mozilla/firefox-code-coverage-frontend: 'good first issue'
