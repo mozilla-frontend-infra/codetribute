@@ -75,8 +75,7 @@ the production instance, you'll need to clone and run
 
 ## Adding a project
 
-Codetribute can read from both GitHub and Bugzilla. Regarding the latter, only bugs with the `good-first-bug` keyword will appear in the list.
-Mentored bugs are not yet supported, see [issue 32](https://github.com/mozilla-frontend-infra/codetribute/issues/32) for details.
+Codetribute can read from both GitHub and Bugzilla. Regarding the latter, bugs with the `good-first-bug` keyword and mentored bugs will appear in the list.
 To add a new entry to the site, create a file `<project-name>.yml` in `src/data` using the [template example](#template-example) as the initial setup. 
 For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/master/src/data/taskcluster.yaml) yaml file.
 
