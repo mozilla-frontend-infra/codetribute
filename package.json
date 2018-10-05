@@ -48,7 +48,7 @@
     "@neutrinojs/env": "^8.3.0",
     "@neutrinojs/jest": "^8.3.0",
     "fs-extra": "^7.0.0",
-    "js-yaml-loader": "^0.1.0",
+    "js-yaml-loader": "^1.0.0",
     "neutrino": "^8.3.0",
     "neutrino-preset-mozilla-frontend-infra": "^4.1.0"
   }

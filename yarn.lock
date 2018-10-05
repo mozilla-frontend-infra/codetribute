@@ -6107,11 +6107,13 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
 
-js-yaml-loader@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/js-yaml-loader/-/js-yaml-loader-0.1.0.tgz#3cb5e79d613883764aa241c30e3fcd0daaefd8ed"
+js-yaml-loader@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/js-yaml-loader/-/js-yaml-loader-1.0.0.tgz#39b58411780da9766099620508dbf29c9932fa9f"
   dependencies:
     js-yaml "^3.9.1"
+    loader-utils "^1.1.0"
+    un-eval "^1.2.0"
 
 js-yaml@^3.7.0, js-yaml@^3.9.0, js-yaml@^3.9.1:
   version "3.12.0"
@@ -10205,6 +10207,10 @@ uglifyjs-webpack-plugin@^0.4.6:
     source-map "^0.5.6"
     uglify-js "^2.8.29"
     webpack-sources "^1.0.1"
+
+un-eval@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/un-eval/-/un-eval-1.2.0.tgz#22a95c650334d59d21697efae32612218ecad65f"
 
 unbzip2-stream@^1.0.9:
   version "1.2.5"
