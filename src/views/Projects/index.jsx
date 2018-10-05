@@ -34,7 +34,7 @@ import sort from '../../utils/sort';
     margin: '0 auto',
     [theme.breakpoints.up('md')]: {
       padding: ' 0px 12px',
-      maxWidth: `calc(100vw - ${theme.drawerWidth}px)`,
+      maxWidth: `calc(100vw - ${20 + theme.drawerWidth}px)`,
     },
   },
   appBarButton: {
