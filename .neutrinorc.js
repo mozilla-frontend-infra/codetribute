@@ -27,6 +27,7 @@ module.exports = {
         .rule('js-yaml')
           .test(/\.(yaml|yml)$/)
           .use('js-yaml-loader')
+          .options({ safe: true })
             .loader('js-yaml-loader');
       neutrino.config.module
         .rule('graphql')
