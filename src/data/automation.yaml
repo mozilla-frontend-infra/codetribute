@@ -20,3 +20,4 @@ repositories:
  - marco-c/code-coverage-reports: good-first-bug
  - marco-c/code-coverage-addon: good-first-bug
  - mozilla-releng/services: skill:good-first-bug
+ - mozilla/firefox-code-coverage-frontend: 'good first issue'
