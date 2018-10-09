@@ -1,4 +1,18 @@
-name: Firefox - Web Extensions
-icon: plus
+name: Firefox - WebExtensions
+summary: APIs to build Firefox extensions and themes.
+introduction: |
+  ## About WebExtensions
+
+  WebExtensions are add-ons that users can install to modify the behavior of Firefox.
+  The APIs and tools to support these add-ons are developed by the WebExtensions team.
+
+  ## How Do I Get Started?
+
+  To get started with contributing to the WebExtensions API, see https://wiki.mozilla.org/Add-ons/Contribute#Contribute_to_the_WebExtensions_API .
+
+  ## How Do I Get Help?
+
+  We are available on [IRC](https://wiki.mozilla.org/IRC) in the `#webextensions` channel.
+
 products: 
- - Toolkit: ['WebExtensions: Android', 'WebExtensions: Compatibility', 'WebExtensions: Developer tools', 'WebExtensions: Experiments', 'WebExtensions: Frontend', 'WebExtensions: General', 'WebExtensions: Request Handling', 'WebExtensions: Untriaged']
+ - WebExtensions
