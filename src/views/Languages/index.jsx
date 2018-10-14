@@ -202,6 +202,8 @@ export default class Languages extends Component {
 
     this.setState({ githubLoading: true });
 
+    tagsMapping[`lang=${language}`] = Object.keys(repos);
+
     await Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
