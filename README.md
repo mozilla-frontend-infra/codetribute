@@ -145,7 +145,7 @@ repositories:
  - mozilla/telemetry-dashboard: ['mentored', 'good first issue']
 ```
 
-For the `/languages/:language` route, we get issues tagged with labels in README from repositories whose primary language is the language or those labelled `lang:[language]`.
+For the `/languages/:language` route, we get issues tagged with labels in README from repositories whose primary language is the language or those labelled `lang=[language]`.
 
 #### Bugzilla
 
