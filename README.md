@@ -145,6 +145,8 @@ repositories:
  - mozilla/telemetry-dashboard: ['mentored', 'good first issue']
 ```
 
+For the `/languages/:language` route, we get issues tagged with labels in README from repositories whose primary language is the language or those labelled `lang:[language]`.
+
 #### Bugzilla
 
 Codetribute will read the `products` field from the yaml file and will extract bugs with keyword `good-first-bug`. Here are some ways to display bugs on the site.
