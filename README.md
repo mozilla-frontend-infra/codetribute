@@ -146,7 +146,7 @@ repositories:
 ```
 
 For the `/languages/:language` route, we get issues from repositories whose primary language is the language selected & tagged with labels specified in yaml files
-or any issues across Github repositories labelled the language selected.
+or any issues across Github repositories with the language lowercased as the label (e.g., `javascript`).
 
 #### Bugzilla
 
