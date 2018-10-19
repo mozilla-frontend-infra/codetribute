@@ -145,6 +145,9 @@ repositories:
  - mozilla/telemetry-dashboard: ['mentored', 'good first issue']
 ```
 
+For the `/languages/:language` route, we get issues from repositories whose primary language is the language selected & tagged with labels specified in yaml files
+or any issues across Github repositories with the language lowercased as the label (e.g., `javascript`).
+
 #### Bugzilla
 
 Codetribute will read the `products` field from the yaml file and will extract bugs with keyword `good-first-bug`. Here are some ways to display bugs on the site.
