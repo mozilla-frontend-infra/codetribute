@@ -299,7 +299,15 @@ export default class TasksTable extends Component {
       project
     );
     const iconSize = 14;
-    const projects = [...new Set(items.map(item => item.project))];
+    const projects = [
+      ...new Set(
+        items
+          .map(item => item.project)
+          .sort((a, b) =>
+            a.localeCompare(b, undefined, { sensitivity: 'base' })
+          )
+      ),
+    ];
 
     return (
       <Fragment>
