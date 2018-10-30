@@ -21,3 +21,4 @@ repositories:
  - mozilla/code-coverage-addon: good-first-bug
  - mozilla/release-services: skill:good-first-bug
  - mozilla/firefox-code-coverage-frontend: 'good first issue'
+ - mozilla/coverage-crawler: 'good first issue'
