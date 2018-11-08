@@ -7863,10 +7863,10 @@ mdast-util-compact@^1.0.0:
   dependencies:
     unist-util-visit "^1.1.0"
 
-mdi-react@^4.0.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/mdi-react/-/mdi-react-4.3.0.tgz#adb66402d847132abca18e021c4fecad3b1f92ab"
-  integrity sha512-PtOM0On5NuOZBDopc4DcC7LYYup6kLOqGHMshv8kf/E35fwqcdYqCBgoQMRRXXUNCqAfQobFF7gjupNYI3eRyA==
+mdi-react@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/mdi-react/-/mdi-react-5.0.0.tgz#38d5e0ac15e9322c7e0ff1e1dc5e1d65748e06db"
+  integrity sha512-26rbkxWW7yHBJrdZm9J06R3/4SzkqEVyYi/e0vjuWgpv4G7s64XDRjizKry98pnkjtAkktc0/roq6oUo9KbTYQ==
 
 mdn-data@^1.0.0:
   version "1.2.0"
