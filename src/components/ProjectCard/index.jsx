@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { string, shape } from 'prop-types';
 import { pascalCase } from 'change-case';
 import { withStyles } from '@material-ui/core/styles';
@@ -55,7 +55,8 @@ export default class ProjectCard extends Component {
         const mdiName = pascalCase(project.icon);
         const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`);
 
-        return this.setState({ projectIcon: <ProjectIcon size={50} /> });
+        this.setState({ projectIcon: <ProjectIcon.default size={50} /> });
+        return;
       }
 
       const projectIcon = await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
@@ -63,12 +64,15 @@ export default class ProjectCard extends Component {
       }.svg`);
 
       this.setState({
-        projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
+        projectIcon: (
+          <img height="45" src={projectIcon.default} alt="Project Icon" />
+        ),
       });
     } catch (e) {
+      console.log(e);
       const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`);
 
-      this.setState({ projectIcon: <ProjectIcon size={50} /> });
+      this.setState({ projectIcon: <ProjectIcon.default size={50} /> });
     }
   }
   /* eslint-enable react/no-did-mount-set-state */
@@ -105,7 +109,8 @@ export default class ProjectCard extends Component {
                 className={classes.projectSummary}
                 onClick={this.handleSummaryClick}
                 component="object"
-                color="textSecondary">
+                color="textSecondary"
+              >
                 <Markdown
                   source={summary}
                   renderers={{ link: this.linkRenderer }}

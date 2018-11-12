@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { func, string } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -52,10 +52,6 @@ export default class Search extends Component {
   static propTypes = {
     value: string.isRequired,
     onChange: func.isRequired,
-  };
-
-  static defaultProps = {
-    spellCheck: false,
   };
 
   render() {

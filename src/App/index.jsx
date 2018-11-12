@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -38,9 +38,16 @@ persistCache({
   },
 })
 export default class App extends Component {
-  state = {
-    error: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+    };
+  }
+
+  componentDidCatch(error) {
+    this.setState({ error });
+  }
 
   link = new RetryLink().split(
     operation => operation.getContext().client === 'github',
@@ -57,9 +64,6 @@ export default class App extends Component {
     link: this.link,
   });
 
-  componentDidCatch(error) {
-    this.setState({ error });
-  }
   render() {
     const { error } = this.state;
 

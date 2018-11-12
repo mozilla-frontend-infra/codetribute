@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { graphql, withApollo, compose } from 'react-apollo';
 import { memoizeWith, mergeAll } from 'ramda';
 import uniqBy from 'lodash.uniqby';

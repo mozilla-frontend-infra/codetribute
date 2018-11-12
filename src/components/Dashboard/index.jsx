@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -86,10 +86,6 @@ import Sidebar from '../../components/Sidebar';
   },
 }))
 export default class Dashboard extends Component {
-  state = {
-    drawerOpen: false,
-  };
-
   static propTypes = {
     /*
      * The title to be put in the AppBar
@@ -108,11 +104,21 @@ export default class Dashboard extends Component {
      */
     classes: object,
   };
+  static defaultProps = {
+    classes: null,
+    withSidebar: true,
+    title: 'Codetribute',
+    header: null,
+  };
 
   static defaultProps = {
     title: 'Codetribute',
     withSidebar: false,
     header: null,
+  };
+
+  state = {
+    drawerOpen: false,
   };
 
   handleDrawerToggle = () => {
@@ -143,12 +149,14 @@ export default class Dashboard extends Component {
       <div
         className={classNames(classes.root, {
           [classes.rootWithSidebar]: withSidebar,
-        })}>
+        })}
+      >
         <AppBar
           position={header ? 'absolute' : 'fixed'}
           className={classNames(classes.header, {
             [classes.headerWithSidebar]: withSidebar,
-          })}>
+          })}
+        >
           {header || (
             <Fragment>
               <IconButton className={classes.link} component={Link} to="/">
@@ -166,7 +174,8 @@ export default class Dashboard extends Component {
                   [classes.menuIconButton]: !header,
                 })}
                 size="large"
-                onClick={this.handleDrawerToggle}>
+                onClick={this.handleDrawerToggle}
+              >
                 <MenuIcon />
               </IconButton>
             </Hidden>
@@ -185,7 +194,8 @@ export default class Dashboard extends Component {
                 }}
                 ModalProps={{
                   keepMounted: true,
-                }}>
+                }}
+              >
                 {drawer}
               </Drawer>
             </Hidden>
@@ -198,7 +208,8 @@ export default class Dashboard extends Component {
                 }}
                 classes={{
                   paper: classes.drawerPaper,
-                }}>
+                }}
+              >
                 {drawer}
               </Drawer>
             </Hidden>
@@ -207,7 +218,8 @@ export default class Dashboard extends Component {
         <main
           className={classNames(classes.container, {
             [classes.containerWithSidebar]: withSidebar,
-          })}>
+          })}
+        >
           {children}
         </main>
       </div>

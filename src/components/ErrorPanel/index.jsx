@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { instanceOf, oneOfType, string } from 'prop-types';
 import classNames from 'classnames';
 import Markdown from 'react-markdown';
@@ -59,7 +59,8 @@ export default class ErrorPanel extends Component {
       <Markdown
         className={classNames(classes.errorText, {
           [classes.pad]: !showStack,
-        })}>
+        })}
+      >
         {typeof error === 'string' ? error : error.message}
       </Markdown>
     );
@@ -76,7 +77,8 @@ export default class ErrorPanel extends Component {
       <ExpansionPanel className={classes.error} disabled={!showStack}>
         <ExpansionPanelSummary
           classes={{ disabled: classes.disabled }}
-          expandIcon={<ChevronDownIcon />}>
+          expandIcon={<ChevronDownIcon />}
+        >
           {markdown}
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>

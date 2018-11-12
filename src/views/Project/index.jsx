@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith } from 'ramda';
@@ -384,7 +384,8 @@ export default class Project extends Component {
               <Button
                 size="small"
                 onClick={this.handleButtonClick}
-                className={classes.seeMoreButton}>
+                className={classes.seeMoreButton}
+              >
                 {introductionOpen ? 'See Less' : 'See More'}
               </Button>
             </CardActions>

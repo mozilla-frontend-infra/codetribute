@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import Loadable from 'react-loadable';
 import { withStyles } from '@material-ui/core/styles';
 import Spinner from '../components/Spinner';
