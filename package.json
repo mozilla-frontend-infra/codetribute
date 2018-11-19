@@ -20,7 +20,7 @@
     "apollo-link-retry": "^2.2.4",
     "change-case": "^3.0.2",
     "classnames": "^2.2.5",
-    "date-fns": "2.0.0-alpha.24",
+    "date-fns": "2.0.0-alpha.25",
     "dot-prop-immutable": "^1.4.0",
     "dotenv": "^6.0.0",
     "error-stack-parser": "^2.0.2",
