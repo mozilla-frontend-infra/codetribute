@@ -384,8 +384,7 @@ export default class Project extends Component {
               <Button
                 size="small"
                 onClick={this.handleButtonClick}
-                className={classes.seeMoreButton}
-              >
+                className={classes.seeMoreButton}>
                 {introductionOpen ? 'See Less' : 'See More'}
               </Button>
             </CardActions>

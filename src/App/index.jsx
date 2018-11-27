@@ -59,6 +59,7 @@ export default class App extends Component {
     }),
     new HttpLink({ uri: process.env.BUGZILLA_ENDPOINT })
   );
+
   apolloClient = new ApolloClient({
     cache,
     link: this.link,

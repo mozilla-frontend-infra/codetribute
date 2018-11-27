@@ -11,8 +11,8 @@ import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { bool, node, string, object } from 'prop-types';
-import AppBar from '../../components/AppBar';
-import Sidebar from '../../components/Sidebar';
+import AppBar from '../AppBar';
+import Sidebar from '../Sidebar';
 
 @withStyles(theme => ({
   root: {
@@ -104,6 +104,7 @@ export default class Dashboard extends Component {
      */
     classes: object,
   };
+
   static defaultProps = {
     classes: null,
     withSidebar: true,
@@ -149,14 +150,12 @@ export default class Dashboard extends Component {
       <div
         className={classNames(classes.root, {
           [classes.rootWithSidebar]: withSidebar,
-        })}
-      >
+        })}>
         <AppBar
           position={header ? 'absolute' : 'fixed'}
           className={classNames(classes.header, {
             [classes.headerWithSidebar]: withSidebar,
-          })}
-        >
+          })}>
           {header || (
             <Fragment>
               <IconButton className={classes.link} component={Link} to="/">
@@ -174,8 +173,7 @@ export default class Dashboard extends Component {
                   [classes.menuIconButton]: !header,
                 })}
                 size="large"
-                onClick={this.handleDrawerToggle}
-              >
+                onClick={this.handleDrawerToggle}>
                 <MenuIcon />
               </IconButton>
             </Hidden>
@@ -194,8 +192,7 @@ export default class Dashboard extends Component {
                 }}
                 ModalProps={{
                   keepMounted: true,
-                }}
-              >
+                }}>
                 {drawer}
               </Drawer>
             </Hidden>
@@ -208,8 +205,7 @@ export default class Dashboard extends Component {
                 }}
                 classes={{
                   paper: classes.drawerPaper,
-                }}
-              >
+                }}>
                 {drawer}
               </Drawer>
             </Hidden>
@@ -218,8 +214,7 @@ export default class Dashboard extends Component {
         <main
           className={classNames(classes.container, {
             [classes.containerWithSidebar]: withSidebar,
-          })}
-        >
+          })}>
           {children}
         </main>
       </div>

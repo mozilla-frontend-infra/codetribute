@@ -39,9 +39,13 @@ const getTaskHelperText = item => {
 
   if (item.assignee === '-' && daysSinceLastUpdate < 90) {
     return 'The task is assigned to nobody. Ask in the comments to have it assigned to you.';
-  } else if (item.assignee === '-') {
+  }
+
+  if (item.assignee === '-') {
     return 'The task is assigned to nobody but a few months have passed. Ask in the comments if this task is still relevant to tackle and whether you could have it assigned to you.';
-  } else if (daysSinceLastUpdate > 30) {
+  }
+
+  if (daysSinceLastUpdate > 30) {
     return 'The task is assigned but has not been touched for over a month. Ask in the comments if you can have it assigned to you.';
   }
 
@@ -320,8 +324,7 @@ export default class TasksTable extends Component {
             color="primary"
             disabled={!items.length}
             onClick={this.handleRandomTaskClick}
-            className={classes.adventurousButton}
-          >
+            className={classes.adventurousButton}>
             I’m Feeling Adventurous
           </Button>
         </Toolbar>
@@ -332,8 +335,7 @@ export default class TasksTable extends Component {
             label="Assignee"
             value={assignment}
             className={classes.dropdown}
-            onChange={this.handleFilterChange}
-          >
+            onChange={this.handleFilterChange}>
             {assignments.map(assignee => (
               <MenuItem key={assignee} value={assignee}>
                 {assignee}
@@ -346,8 +348,7 @@ export default class TasksTable extends Component {
             label="Project"
             value={project || ALL_PROJECTS}
             className={classes.dropdown}
-            onChange={this.handleFilterChange}
-          >
+            onChange={this.handleFilterChange}>
             <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
             {projects.map(project => (
               <MenuItem key={project} value={project}>
@@ -358,8 +359,7 @@ export default class TasksTable extends Component {
           <Button
             variant="outlined"
             size="small"
-            onClick={this.handleResetClick}
-          >
+            onClick={this.handleResetClick}>
             Reset
           </Button>
         </div>
@@ -371,8 +371,7 @@ export default class TasksTable extends Component {
                 <TableCell
                   component="th"
                   scope="row"
-                  className={classes.tableCell}
-                >
+                  className={classes.tableCell}>
                   {item.project}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
@@ -380,16 +379,14 @@ export default class TasksTable extends Component {
                     name={item.summary}
                     aria-label="Information"
                     className={classes.infoButton}
-                    onClick={this.handleDrawerOpen}
-                  >
+                    onClick={this.handleDrawerOpen}>
                     <InformationVariantIcon />
                   </IconButton>
                   <List
                     dense
                     disablePadding
                     className={classes.summary}
-                    component="div"
-                  >
+                    component="div">
                     <ListItem
                       className={classes.listItemButton}
                       classes={{
@@ -400,8 +397,7 @@ export default class TasksTable extends Component {
                       target="_blank"
                       rel="noopener noreferrer"
                       component="a"
-                      href={item.url}
-                    >
+                      href={item.url}>
                       <ListItemText
                         primary={
                           <div className={classes.summaryText}>
@@ -446,14 +442,12 @@ export default class TasksTable extends Component {
           anchor="right"
           open={drawerOpen}
           onClose={this.handleDrawerClose}
-          classes={{ paper: classes.drawerPaper }}
-        >
+          classes={{ paper: classes.drawerPaper }}>
           <Fragment>
             <IconButton
               aria-label="Close Drawer"
               className={classes.drawerCloseButton}
-              onClick={this.handleDrawerClose}
-            >
+              onClick={this.handleDrawerClose}>
               <CloseIcon />
             </IconButton>
             {drawerItem && (
@@ -473,8 +467,7 @@ export default class TasksTable extends Component {
                           properties={{
                             target: '_blank',
                             rel: 'noopener noreferrer',
-                          }}
-                        >
+                          }}>
                           {drawerItem.description}
                         </Linkify>
                       }

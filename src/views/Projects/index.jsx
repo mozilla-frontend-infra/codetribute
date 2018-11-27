@@ -76,8 +76,7 @@ export default class Projects extends Component {
           target="_blank"
           rel="noopener noreferrer"
           href="https://github.com/mozilla-frontend-infra/codetribute"
-          title="Site Repository"
-        >
+          title="Site Repository">
           <GithubCircleIcon />
         </IconButton>
         <Typography variant="display2" align="center">
@@ -87,8 +86,7 @@ export default class Projects extends Component {
           <Typography
             className={classes.highlightedText}
             variant="subheading"
-            align="center"
-          >
+            align="center">
             Find your first code contribution with Mozilla
           </Typography>
         </div>
@@ -106,8 +104,7 @@ export default class Projects extends Component {
           header: classes.header,
         }}
         withSidebar
-        header={header}
-      >
+        header={header}>
         <Grid container spacing={24} className={classes.grid}>
           {Object.values(filteredProjects)
             .sort((a, b) => {

@@ -66,8 +66,7 @@ export default class Sidebar extends Component {
             id={language}
             key={language}
             component={Link}
-            to={`/languages/${language.toLowerCase()}`}
-          >
+            to={`/languages/${language.toLowerCase()}`}>
             <ListItemIcon>{icons[language] || <WebIcon />}</ListItemIcon>
             <ListItemText disableTypography className={classes.text}>
               {language}

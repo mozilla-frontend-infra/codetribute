@@ -56,6 +56,7 @@ export default class ProjectCard extends Component {
         const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`);
 
         this.setState({ projectIcon: <ProjectIcon.default size={50} /> });
+
         return;
       }
 
@@ -69,7 +70,6 @@ export default class ProjectCard extends Component {
         ),
       });
     } catch (e) {
-      console.log(e);
       const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`);
 
       this.setState({ projectIcon: <ProjectIcon.default size={50} /> });
@@ -109,8 +109,7 @@ export default class ProjectCard extends Component {
                 className={classes.projectSummary}
                 onClick={this.handleSummaryClick}
                 component="object"
-                color="textSecondary"
-              >
+                color="textSecondary">
                 <Markdown
                   source={summary}
                   renderers={{ link: this.linkRenderer }}
