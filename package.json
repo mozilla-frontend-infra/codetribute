@@ -7,7 +7,7 @@
     "test": "jest",
     "build": "dotenv webpack -- --mode production",
     "start": "dotenv webpack-dev-server -- --mode development",
-    "lint": "eslint --cache --format codeframe --ext js,jsx src"
+    "lint": "eslint --cache --format codeframe --ext js,jsx src test"
   },
   "engines": {
     "node": ">=10.0.0",
