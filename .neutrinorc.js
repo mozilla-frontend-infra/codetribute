@@ -62,12 +62,7 @@ module.exports = {
       //   .forEach(rule => neutrino.config.module.rule(rule)
       //     .use(images)
       //     // .tap(options => ({ ...options, limit: 1 })))
-      //       .loader(require.resolve('@neutrinojs/image-loader'));
-      // neutrino.on('build', () => {
-      //   ['contribute.json'].forEach(file => {
-      //     fs.copyFileSync(file, join(__dirname, `build/${file}`));
-      //   })
-      // });
+      //       .loader(require.resolve('@neutrinojs/image-loader'));å
     },
     '@neutrinojs/jest'
   ],
