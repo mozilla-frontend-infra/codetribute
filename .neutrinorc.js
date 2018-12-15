@@ -14,6 +14,9 @@ module.exports = {
       }
     }],
     ['@neutrinojs/react', {
+      image: {
+        limit: 1,
+      },
       html: {
         title: 'Codetribute',
         meta: [
@@ -29,10 +32,10 @@ module.exports = {
         historyApiFallback: { disableDotRule: true },
       },
       env: {
-        'GITHUB_PERSONAL_API_TOKEN' : '',
-        'BUGZILLA_ENDPOINT' : 'http://localhost:3090',
-        'NODE_ENV' : 'development',
-        'PORT': 5000,
+        GITHUB_PERSONAL_API_TOKEN : '',
+        BUGZILLA_ENDPOINT : 'http://localhost:3090',
+        NODE_ENV : 'development',
+        PORT: 5000,
       },
       babel: {
         plugins: [
@@ -56,13 +59,6 @@ module.exports = {
             .end()
           .use('gql-loader')
             .loader(require.resolve('graphql-tag/loader'));
-      neutrino.use(images, { limit: 1 });
-      // Data URIs are not allowed by the CSP
-      // ['ico', 'svg', 'img']
-      //   .forEach(rule => neutrino.config.module.rule(rule)
-      //     .use(images)
-      //     // .tap(options => ({ ...options, limit: 1 })))
-      //       .loader(require.resolve('@neutrinojs/image-loader'));å
     },
     '@neutrinojs/jest'
   ],
