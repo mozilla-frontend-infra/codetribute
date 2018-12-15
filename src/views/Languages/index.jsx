@@ -258,17 +258,19 @@ export default class Languages extends Component {
       (githubData &&
         githubData.search &&
         uniqBy(
-          githubData.search.nodes.filter(issue => issue.title).map(issue => ({
-            project: issue.repository.name,
-            summary: issue.title,
-            tags: issue.labels.nodes.map(node => node.name).sort(),
-            lastUpdated: issue.updatedAt,
-            assignee: issue.assignees.nodes[0]
-              ? issue.assignees.nodes[0].login
-              : '-',
-            url: issue.url,
-            description: issue.body,
-          })),
+          githubData.search.nodes
+            .filter(issue => issue.title)
+            .map(issue => ({
+              project: issue.repository.name,
+              summary: issue.title,
+              tags: issue.labels.nodes.map(node => node.name).sort(),
+              lastUpdated: issue.updatedAt,
+              assignee: issue.assignees.nodes[0]
+                ? issue.assignees.nodes[0].login
+                : '-',
+              url: issue.url,
+              description: issue.body,
+            })),
           'summary'
         )) ||
       [];
@@ -276,22 +278,24 @@ export default class Languages extends Component {
       (bugzillaData &&
         bugzillaData.goodFirst &&
         uniqBy(
-          bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
-            assignee: BUGZILLA_UNASSIGNED.some(email =>
-              bug.assignedTo.name.endsWith(email)
-            )
-              ? '-'
-              : bug.assignedTo.name,
-            project: bug.component,
-            tags: [
-              ...(bug.keywords || []),
-              ...extractWhiteboardTags(bug.whiteboard),
-            ],
-            summary: bug.summary,
-            lastUpdated: bug.lastChanged,
-            id: bug.id,
-            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-          })),
+          bugzillaData.goodFirst.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: bug.summary,
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+            })),
           'summary'
         )) ||
       [];
@@ -299,22 +303,24 @@ export default class Languages extends Component {
       (bugzillaData &&
         bugzillaData.mentored &&
         uniqBy(
-          bugzillaData.mentored.edges.map(edge => edge.node).map(bug => ({
-            assignee: BUGZILLA_UNASSIGNED.some(email =>
-              bug.assignedTo.name.endsWith(email)
-            )
-              ? '-'
-              : bug.assignedTo.name,
-            project: bug.component,
-            tags: [
-              ...(bug.keywords || []),
-              ...extractWhiteboardTags(bug.whiteboard),
-            ],
-            summary: bug.summary,
-            lastUpdated: bug.lastChanged,
-            id: bug.id,
-            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-          })),
+          bugzillaData.mentored.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: bug.summary,
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+            })),
           'summary'
         )) ||
       [];
@@ -322,10 +328,12 @@ export default class Languages extends Component {
     return (
       <Dashboard title={title} withSidebar>
         {error && <ErrorPanel error={error} />}
-        {githubData &&
-          githubData.error && <ErrorPanel error={githubData.error} />}
-        {bugzillaData &&
-          bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
+        {githubData && githubData.error && (
+          <ErrorPanel error={githubData.error} />
+        )}
+        {bugzillaData && bugzillaData.error && (
+          <ErrorPanel error={bugzillaData.error} />
+        )}
         {loading && <Spinner />}
         {!loading && (
           <TasksTable
