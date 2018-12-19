@@ -53,26 +53,26 @@ export default class ProjectCard extends Component {
     try {
       if (project.icon) {
         const mdiName = pascalCase(project.icon);
-        const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`);
+        const ProjectIcon = (await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`))
+          .default;
 
-        this.setState({ projectIcon: <ProjectIcon.default size={50} /> });
-
-        return;
+        return this.setState({
+          projectIcon: <ProjectIcon size={50} />,
+        });
       }
 
-      const projectIcon = await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
+      const projectIcon = (await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
         project.fileName
-      }.svg`);
+      }.svg`)).default;
 
       this.setState({
-        projectIcon: (
-          <img height="45" src={projectIcon.default} alt="Project Icon" />
-        ),
+        projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
       });
     } catch (e) {
-      const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`);
+      const ProjectIcon = (await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`))
+        .default;
 
-      this.setState({ projectIcon: <ProjectIcon.default size={50} /> });
+      this.setState({ projectIcon: <ProjectIcon size={50} /> });
     }
   }
   /* eslint-enable react/no-did-mount-set-state */
