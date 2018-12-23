@@ -1,0 +1,35 @@
+name: Treeherder
+summary: Dashboard for tracking Continous Integration builds and tests, performance data and intermittent test failures
+icon: pine-tree
+introduction: |
+  ## About Treeherder
+  Treeherder is a reporting dashboard for code submitted to Mozilla projects (such as the mozilla-central repository) that
+  allows users to see the results of automatic builds and their respective tests. Treeherder also provides a set of APIs
+  that can be used by other projects. It hosts smaller dashboards such as Perfherder, used for tracking performance data,
+  and Intermittent Failures View, which is used to track intermittent test failures. The website can be found
+  [here](http://treeherder.mozilla.org/).
+
+  ## Who Works on Treeherder?
+  Treeherder is composed of a small team that is distributed across the UK and the west coast of the US.
+
+  ## How Do I Get Started?
+  Select a bug in Bugzilla (we do not keep track of issues in Github, only in Bugzilla) that you'd like to work on.
+  You may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi). Comment in the bug or issue
+  stating that you'd like to work on it. Please do as much research on your own first, including looking at existing
+  bug comments and source code, before asking questions. Then follow the instructions in the Getting Started section
+  of the [Treeherder docs](https://treeherder.readthedocs.io/index.html) to clone the Github repo and set up your local
+  development environment.
+
+  ### How Do I Write the Code?
+
+  Once you have created your patch, submit a pull request with a commit message containing the bug number that you were
+  assigned along with a description and summary of the change (example, Bug 123456 - Add breadcrumb component to clarify where users are in the app).
+  This ensures an attachment with your patch is added to the bug in Bugzilla and your changes are clearly outlined in the Git log.
+  Your code will need to be reviewed by one of the team members before it is merged.
+
+  ## How Do I Get Help?
+
+  You can ask for help in the IRC channel `#treeherder` or ask a question in the bug you'd like to work on.
+
+products:
+- Tree Management

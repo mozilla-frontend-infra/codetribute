@@ -14,9 +14,12 @@ import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
 import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
 import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
+import ConsoleIcon from 'mdi-react/ConsoleIcon';
 import { BUGZILLA_LANGUAGES } from '../../utils/constants';
 import JavaIcon from './JavaIcon';
 import HTMLIcon from './HtmlIcon';
+import PerlIcon from './PerlIcon';
+import RustIcon from './RustIcon';
 
 @withRouter
 @withStyles(theme => ({
@@ -51,6 +54,9 @@ export default class Sidebar extends Component {
       'C++': <LanguageCppIcon />,
       'C#': <LanguageCsharpIcon />,
       CSS: <LanguageCss3Icon />,
+      Perl: <PerlIcon />,
+      Rust: <RustIcon />,
+      Shell: <ConsoleIcon />,
     };
 
     // Add Swift directly as there is no `lang=swift` in bugzilla whiteboards
