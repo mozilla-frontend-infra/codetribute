@@ -107,14 +107,8 @@ export default class Dashboard extends Component {
 
   static defaultProps = {
     classes: null,
-    withSidebar: true,
-    title: 'Codetribute',
-    header: null,
-  };
-
-  static defaultProps = {
-    title: 'Codetribute',
     withSidebar: false,
+    title: null,
     header: null,
   };
 
