@@ -59,7 +59,7 @@ import Sidebar from '../Sidebar';
     },
   },
   title: {
-    padding: '0 41px',
+    color: 'white',
   },
   link: {
     textDecoration: 'none',
@@ -155,7 +155,11 @@ export default class Dashboard extends Component {
               <IconButton className={classes.link} component={Link} to="/">
                 <ArrowLeftIcon />
               </IconButton>
-              <Typography align="center" variant="display1" noWrap>
+              <Typography
+                align="center"
+                variant="display1"
+                className={classes.title}
+                noWrap>
                 {title}
               </Typography>
             </Fragment>

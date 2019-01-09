@@ -21,6 +21,9 @@ import sort from '../../utils/sort';
   header: {
     height: 180,
   },
+  title: {
+    color: 'white',
+  },
   highlightedText: {
     backgroundColor: theme.palette.common.black,
     color: 'white',
@@ -79,7 +82,7 @@ export default class Projects extends Component {
           title="Site Repository">
           <GithubCircleIcon />
         </IconButton>
-        <Typography variant="display2" align="center">
+        <Typography variant="display2" align="center" className={classes.title}>
           Codetribute
         </Typography>
         <div className={classes.flexContainer}>
