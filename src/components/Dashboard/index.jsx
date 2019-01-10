@@ -126,7 +126,7 @@ export default class Dashboard extends Component {
     const drawer = (
       <Fragment>
         <div className={classes.drawerHeader}>
-          <Typography variant="title" color="inherit">
+          <Typography variant="h6" color="inherit">
             Skills
           </Typography>
           <Hidden mdUp>
@@ -157,7 +157,7 @@ export default class Dashboard extends Component {
               </IconButton>
               <Typography
                 align="center"
-                variant="display1"
+                variant="h4"
                 className={classes.title}
                 noWrap>
                 {title}

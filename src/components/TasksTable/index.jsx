@@ -316,7 +316,7 @@ export default class TasksTable extends Component {
     return (
       <Fragment>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="title" className={classes.title} id="tableTitle">
+          <Typography variant="h6" className={classes.title} id="tableTitle">
             Bugs & Issues
           </Typography>
           <Button

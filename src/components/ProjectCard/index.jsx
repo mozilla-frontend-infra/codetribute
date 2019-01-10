@@ -101,7 +101,7 @@ export default class ProjectCard extends Component {
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
             {projectIcon}
-            <Typography gutterBottom variant="headline" component="h4">
+            <Typography gutterBottom variant="h5" component="h4">
               {name}
             </Typography>
             {summary && (

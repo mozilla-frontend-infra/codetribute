@@ -82,13 +82,13 @@ export default class Projects extends Component {
           title="Site Repository">
           <GithubCircleIcon />
         </IconButton>
-        <Typography variant="display2" align="center" className={classes.title}>
+        <Typography variant="h3" align="center" className={classes.title}>
           Codetribute
         </Typography>
         <div className={classes.flexContainer}>
           <Typography
             className={classes.highlightedText}
-            variant="subheading"
+            variant="subtitle1"
             align="center">
             Find your first code contribution with Mozilla
           </Typography>
