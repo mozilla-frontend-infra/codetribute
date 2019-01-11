@@ -94,11 +94,18 @@ const theme = createMuiTheme({
         width: 41,
         height: 41,
         color: '#000',
+        padding: 0,
       },
     },
     MuiDrawer: {
       paperAnchorDockedLeft: {
         borderRight: 'none',
+      },
+    },
+    MuiListItem: {
+      root: {
+        paddingTop: '12px',
+        paddingBottom: '12px',
       },
     },
   },
