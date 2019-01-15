@@ -28,14 +28,12 @@ module.exports = {
         favicon: './src/static/favicon.png',
       },
       devServer: {
-        port: process.env.PORT,
+        port: 5000,
         historyApiFallback: { disableDotRule: true },
       },
       env: {
         GITHUB_PERSONAL_API_TOKEN : '',
         BUGZILLA_ENDPOINT : 'http://localhost:3090',
-        NODE_ENV : 'development',
-        PORT: 5000,
       },
       babel: {
         plugins: [
