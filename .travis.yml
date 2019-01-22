@@ -3,7 +3,6 @@ dist: trusty
 language: node_js
 cache: yarn
 node_js:
-- '8'
 - '10'
 before_install:
 # Use newer yarn than that pre-installed in the Travis image.

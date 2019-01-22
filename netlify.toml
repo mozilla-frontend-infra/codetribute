@@ -4,6 +4,8 @@
 
 [build.environment]
   YARN_FLAGS = "--frozen-lockfile"
+  YARN_VERSION = "1.10.1"
+  NODE_VERSION = "10.0.0"
 
 # Redirect HTTP to HTTPS
 # TODO: Delete when Codetribute successfully moves to codetribute.mozilla.org

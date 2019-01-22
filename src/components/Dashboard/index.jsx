@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -11,8 +11,8 @@ import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { bool, node, string, object } from 'prop-types';
-import AppBar from '../../components/AppBar';
-import Sidebar from '../../components/Sidebar';
+import AppBar from '../AppBar';
+import Sidebar from '../Sidebar';
 
 @withStyles(theme => ({
   root: {
@@ -59,7 +59,7 @@ import Sidebar from '../../components/Sidebar';
     },
   },
   title: {
-    padding: '0 41px',
+    color: 'white',
   },
   link: {
     textDecoration: 'none',
@@ -86,10 +86,6 @@ import Sidebar from '../../components/Sidebar';
   },
 }))
 export default class Dashboard extends Component {
-  state = {
-    drawerOpen: false,
-  };
-
   static propTypes = {
     /*
      * The title to be put in the AppBar
@@ -110,9 +106,14 @@ export default class Dashboard extends Component {
   };
 
   static defaultProps = {
-    title: 'Codetribute',
+    classes: null,
     withSidebar: false,
+    title: null,
     header: null,
+  };
+
+  state = {
+    drawerOpen: false,
   };
 
   handleDrawerToggle = () => {
@@ -125,7 +126,7 @@ export default class Dashboard extends Component {
     const drawer = (
       <Fragment>
         <div className={classes.drawerHeader}>
-          <Typography variant="title" color="inherit">
+          <Typography variant="h6" color="inherit">
             Skills
           </Typography>
           <Hidden mdUp>
@@ -154,7 +155,11 @@ export default class Dashboard extends Component {
               <IconButton className={classes.link} component={Link} to="/">
                 <ArrowLeftIcon />
               </IconButton>
-              <Typography align="center" variant="display1" noWrap>
+              <Typography
+                align="center"
+                variant="h4"
+                className={classes.title}
+                noWrap>
                 {title}
               </Typography>
             </Fragment>

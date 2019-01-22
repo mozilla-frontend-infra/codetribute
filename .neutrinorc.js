@@ -1,9 +1,22 @@
-const fs = require('fs-extra');
-const { join } = require('path');
+const images = require('@neutrinojs/image-loader');
 
 module.exports = {
   use: [
-    ['neutrino-preset-mozilla-frontend-infra/react', {
+    ['@mozilla-frontend-infra/react-lint', {
+      parserOptions: {
+        ecmaFeatures: {
+          legacyDecorators: true
+        }
+      },
+      rules: {
+        'react/no-access-state-in-setstate': 'off',
+        'babel/no-unused-expressions': 'off',
+      }
+    }],
+    ['@neutrinojs/react', {
+      image: {
+        limit: 1,
+      },
       html: {
         title: 'Codetribute',
         meta: [
@@ -12,23 +25,30 @@ module.exports = {
             content: 'Find your first code contribution with Mozilla',
           },
         ],
-        links: [
-          {
-            href: './static/favicon.png',
-            rel: 'shortcut icon',
-          }
-        ]
+        favicon: './src/static/favicon.png',
+      },
+      devServer: {
+        port: 5000,
+        historyApiFallback: { disableDotRule: true },
+      },
+      env: {
+        GITHUB_PERSONAL_API_TOKEN : '',
+        BUGZILLA_ENDPOINT : 'http://localhost:3090',
+      },
+      babel: {
+        plugins: [
+          [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
+          [require.resolve('@babel/plugin-proposal-class-properties'), { loose: true }],
+        ],
       },
     }],
-    ['@neutrinojs/env', ['GITHUB_PERSONAL_API_TOKEN', 'BUGZILLA_ENDPOINT', 'NODE_ENV']],
     (neutrino) => {
-      neutrino.config.output.publicPath('/');
       neutrino.config.module
         .rule('js-yaml')
           .test(/\.(yaml|yml)$/)
           .use('js-yaml-loader')
           .options({ safe: true })
-            .loader('js-yaml-loader');
+            .loader(require.resolve('js-yaml-loader'));
       neutrino.config.module
         .rule('graphql')
           .test(/\.graphql$/)
@@ -37,16 +57,6 @@ module.exports = {
             .end()
           .use('gql-loader')
             .loader(require.resolve('graphql-tag/loader'));
-      // Data URIs are not allowed by the CSP
-      ['ico', 'svg', 'img']
-        .forEach(rule => neutrino.config.module.rule(rule)
-          .use('url')
-          .tap(options => ({ ...options, limit: 1 })));
-      neutrino.on('build', () => {
-        ['contribute.json'].forEach(file => {
-          fs.copyFileSync(file, join(__dirname, `build/${file}`));
-        })
-      });
     },
     '@neutrinojs/jest'
   ],

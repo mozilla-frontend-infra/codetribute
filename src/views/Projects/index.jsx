@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -20,6 +20,9 @@ import sort from '../../utils/sort';
   },
   header: {
     height: 180,
+  },
+  title: {
+    color: 'white',
   },
   highlightedText: {
     backgroundColor: theme.palette.common.black,
@@ -79,13 +82,13 @@ export default class Projects extends Component {
           title="Site Repository">
           <GithubCircleIcon />
         </IconButton>
-        <Typography variant="display2" align="center">
+        <Typography variant="h3" align="center" className={classes.title}>
           Codetribute
         </Typography>
         <div className={classes.flexContainer}>
           <Typography
             className={classes.highlightedText}
-            variant="subheading"
+            variant="subtitle1"
             align="center">
             Find your first code contribution with Mozilla
           </Typography>

@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith } from 'ramda';
@@ -316,22 +316,24 @@ export default class Project extends Component {
       (bugzillaData &&
         bugzillaData.goodFirst &&
         uniqBy(
-          bugzillaData.goodFirst.edges.map(edge => edge.node).map(bug => ({
-            assignee: BUGZILLA_UNASSIGNED.some(email =>
-              bug.assignedTo.name.endsWith(email)
-            )
-              ? '-'
-              : bug.assignedTo.name,
-            project: bug.component,
-            tags: [
-              ...(bug.keywords || []),
-              ...extractWhiteboardTags(bug.whiteboard),
-            ],
-            summary: bug.summary,
-            lastUpdated: bug.lastChanged,
-            id: bug.id,
-            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-          })),
+          bugzillaData.goodFirst.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: bug.summary,
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+            })),
           'summary'
         )) ||
       [];
@@ -339,22 +341,24 @@ export default class Project extends Component {
       (bugzillaData &&
         bugzillaData.mentored &&
         uniqBy(
-          bugzillaData.mentored.edges.map(edge => edge.node).map(bug => ({
-            assignee: BUGZILLA_UNASSIGNED.some(email =>
-              bug.assignedTo.name.endsWith(email)
-            )
-              ? '-'
-              : bug.assignedTo.name,
-            project: bug.component,
-            tags: [
-              ...(bug.keywords || []),
-              ...extractWhiteboardTags(bug.whiteboard),
-            ],
-            summary: bug.summary,
-            lastUpdated: bug.lastChanged,
-            id: bug.id,
-            url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-          })),
+          bugzillaData.mentored.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: bug.summary,
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+            })),
           'summary'
         )) ||
       [];
@@ -390,10 +394,12 @@ export default class Project extends Component {
             </CardActions>
           </Card>
         )}
-        {githubData &&
-          githubData.error && <ErrorPanel error={githubData.error} />}
-        {bugzillaData &&
-          bugzillaData.error && <ErrorPanel error={bugzillaData.error} />}
+        {githubData && githubData.error && (
+          <ErrorPanel error={githubData.error} />
+        )}
+        {bugzillaData && bugzillaData.error && (
+          <ErrorPanel error={bugzillaData.error} />
+        )}
         {error && <ErrorPanel error={error} />}
         {loading && <Spinner className={classes.spinner} />}
         {!loading && (

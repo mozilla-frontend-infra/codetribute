@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -51,6 +51,9 @@ class DataTable extends Component {
   static defaultProps = {
     sortByHeader: null,
     sortDirection: 'desc',
+    headers: null,
+    onHeaderClick: null,
+    renderRow: null,
   };
 
   handleHeaderClick = ({ target }) => {

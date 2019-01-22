@@ -5,3 +5,5 @@ node_modules
 *.log
 .Rhistory
 .env
+.eslintcache
+.DS_Store

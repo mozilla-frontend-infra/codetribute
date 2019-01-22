@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
@@ -39,9 +39,13 @@ const getTaskHelperText = item => {
 
   if (item.assignee === '-' && daysSinceLastUpdate < 90) {
     return 'The task is assigned to nobody. Ask in the comments to have it assigned to you.';
-  } else if (item.assignee === '-') {
+  }
+
+  if (item.assignee === '-') {
     return 'The task is assigned to nobody but a few months have passed. Ask in the comments if this task is still relevant to tackle and whether you could have it assigned to you.';
-  } else if (daysSinceLastUpdate > 30) {
+  }
+
+  if (daysSinceLastUpdate > 30) {
     return 'The task is assigned but has not been touched for over a month. Ask in the comments if you can have it assigned to you.';
   }
 
@@ -137,17 +141,17 @@ const assignments = Object.values(ASSIGNEE);
   },
 }))
 export default class TasksTable extends Component {
-  state = {
-    drawerOpen: false,
-    drawerItem: null,
-  };
-
   static propTypes = {
     /**
      * A list of objects to display. Each element in the list is represented
      * by a row and each element's key-value pair represents a column.
      */
     items: arrayOf(object).isRequired,
+  };
+
+  state = {
+    drawerOpen: false,
+    drawerItem: null,
   };
 
   getTableData = memoizeWith(
@@ -312,7 +316,7 @@ export default class TasksTable extends Component {
     return (
       <Fragment>
         <Toolbar className={classes.toolbar}>
-          <Typography variant="title" className={classes.title} id="tableTitle">
+          <Typography variant="h6" className={classes.title} id="tableTitle">
             Bugs & Issues
           </Typography>
           <Button

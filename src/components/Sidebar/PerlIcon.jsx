@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { number, string } from 'prop-types';
 
 export default class PerlIcon extends PureComponent {

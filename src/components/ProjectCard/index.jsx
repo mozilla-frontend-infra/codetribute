@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { string, shape } from 'prop-types';
 import { pascalCase } from 'change-case';
 import { withStyles } from '@material-ui/core/styles';
@@ -53,20 +53,24 @@ export default class ProjectCard extends Component {
     try {
       if (project.icon) {
         const mdiName = pascalCase(project.icon);
-        const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`);
+        const ProjectIcon = (await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`))
+          .default;
 
-        return this.setState({ projectIcon: <ProjectIcon size={50} /> });
+        return this.setState({
+          projectIcon: <ProjectIcon size={50} />,
+        });
       }
 
-      const projectIcon = await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
+      const projectIcon = (await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
         project.fileName
-      }.svg`);
+      }.svg`)).default;
 
       this.setState({
         projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
       });
     } catch (e) {
-      const ProjectIcon = await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`);
+      const ProjectIcon = (await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`))
+        .default;
 
       this.setState({ projectIcon: <ProjectIcon size={50} /> });
     }
@@ -97,7 +101,7 @@ export default class ProjectCard extends Component {
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
             {projectIcon}
-            <Typography gutterBottom variant="headline" component="h4">
+            <Typography gutterBottom variant="h5" component="h4">
               {name}
             </Typography>
             {summary && (
