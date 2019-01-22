@@ -102,12 +102,6 @@ const theme = createMuiTheme({
         borderRight: 'none',
       },
     },
-    MuiListItem: {
-      root: {
-        paddingTop: '12px',
-        paddingBottom: '12px',
-      },
-    },
   },
 });
 
