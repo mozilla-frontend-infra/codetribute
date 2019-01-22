@@ -48,6 +48,10 @@ introduction: |
 
 products: 
  - Taskcluster
+ - "Firefox Build System":
+   - "Task Configuration"
+
 repositories:
+ - taskcluster/taskcluster: "good first issue"
  - taskcluster/taskcluster-web: 'good first issue'
  - taskcluster/taskcluster-web-server: 'good first issue'
