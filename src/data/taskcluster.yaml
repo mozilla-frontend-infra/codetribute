@@ -28,12 +28,12 @@ introduction: |
 
   ### How Do I Write the Code?
  
-  All of the Taskcluster code is in Github repositories in the [taskcluster organization](https://github.com/taskcluster).
-  For example, the queue service is in the [taskcluster-queue](https://github.com/taskcluster/taskcluster-queue) repository.
-  Once you've figured out which repository to use, clone it and -- before you change anything -- run the tests.
+  All of the Taskcluster code is in Github repositories in the [taskcluster organization](https://github.com/taskcluster), and most of it is in the [taskcluster repository](https://github.com/taskcluster/taskcluster).
+  To get started, fork that repository on GitHub, then clone the resulting forked repository to your computer.
+  Before you change anything, run the tests to make sure everything is working.
   The repository's README file will describe how to set up and run tests.
 
-  From there, follow the Github pull-request process: make a fork of the repository, make your changes on a branch, and then create a pull request from that branch.
+  From there, follow the Github pull-request process: make your changes on a topic branch, and then create a pull request from that branch.
   The Internet is full of guides for this process, and of course we are happy to help as well.
 
   ## How Do I Get Help?
