@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import Loadable from 'react-loadable';
 import { withStyles } from '@material-ui/core/styles';
 import Spinner from '../components/Spinner';
 
@@ -12,29 +11,14 @@ import Spinner from '../components/Spinner';
     marginTop: 60,
   },
 }))
-class Loading extends PureComponent {
-  content() {
-    const { error, timedOut, pastDelay } = this.props;
-
-    if (error) {
-      throw error;
-    } else if (timedOut || pastDelay) {
-      return <Spinner />;
-    }
-
-    return null;
-  }
-
+export default class Loading extends PureComponent {
   render() {
     const { classes } = this.props;
 
-    return <div className={classes.view}>{this.content()}</div>;
+    return (
+      <div className={classes.view}>
+        <Spinner />
+      </div>
+    );
   }
 }
-
-export default loader =>
-  Loadable({
-    loader,
-    loading: Loading,
-    timeout: 10000,
-  });

@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -18,6 +18,7 @@ import FontStager from '../components/FontStager/index';
 import ErrorPanel from '../components/ErrorPanel/index';
 import routes from './routes';
 import introspectionQueryResultData from '../fragmentTypes.json';
+import Loading from '../utils/loadable';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
@@ -73,9 +74,20 @@ export default class App extends Component {
           <CssBaseline />
           <BrowserRouter>
             <Switch>
-              {routes.map(props => (
-                <Route key={props.path} {...props} />
-              ))}
+              {routes.map(({ path, exact, component: Component, ...props }) => {
+                return (
+                  <Route
+                    key={path}
+                    path={path}
+                    exact={exact}
+                    render={({ staticContext, ...renderProps }) => (
+                      <Suspense fallback={<Loading />}>
+                        <Component {...renderProps} {...props} />
+                      </Suspense>
+                    )}
+                  />
+                );
+              })}
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>
