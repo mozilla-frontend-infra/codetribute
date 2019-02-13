@@ -43,8 +43,8 @@ export default class App extends Component {
     error: null,
   };
 
-  componentDidCatch(error) {
-    this.setState({ error });
+  static getDerivedStateFromError(error) {
+    return { error };
   }
 
   link = new RetryLink().split(
