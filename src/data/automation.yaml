@@ -1,8 +1,8 @@
 name: Test Automation
 icon: test-tube
-products: 
+products:
  - Testing
-repositories: 
+repositories:
  - armenzg/mozilla_ci_tools: mentored
  - automatedtester/automation-services-bot: mentored
  - automatedtester/powerball-platform: mentored
@@ -22,3 +22,4 @@ repositories:
  - mozilla/release-services: skill:good-first-bug
  - mozilla/firefox-code-coverage-frontend: 'good first issue'
  - mozilla/coverage-crawler: 'good first issue'
+ - mozilla/wpt-api: 'good first issue'
