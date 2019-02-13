@@ -18,7 +18,7 @@ import FontStager from '../components/FontStager/index';
 import ErrorPanel from '../components/ErrorPanel/index';
 import routes from './routes';
 import introspectionQueryResultData from '../fragmentTypes.json';
-import Loading from '../utils/loadable';
+import Spinner from '../components/Spinner';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
@@ -36,6 +36,9 @@ persistCache({
     a: {
       color: theme.palette.secondary.dark,
     },
+  },
+  spinner: {
+    marginTop: 60,
   },
 })
 export default class App extends Component {
@@ -65,6 +68,7 @@ export default class App extends Component {
 
   render() {
     const { error } = this.state;
+    const { classes } = this.props;
 
     return (
       <ApolloProvider client={this.apolloClient}>
@@ -81,7 +85,8 @@ export default class App extends Component {
                     path={path}
                     exact={exact}
                     render={({ staticContext, ...renderProps }) => (
-                      <Suspense fallback={<Loading />}>
+                      <Suspense
+                        fallback={<Spinner className={classes.spinner} />}>
                         <Component {...renderProps} {...props} />
                       </Suspense>
                     )}
