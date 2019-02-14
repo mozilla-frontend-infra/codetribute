@@ -1,5 +1,5 @@
 import { hot } from 'react-hot-loader';
-import React, { Component } from 'react';
+import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -18,6 +18,7 @@ import FontStager from '../components/FontStager/index';
 import ErrorPanel from '../components/ErrorPanel/index';
 import routes from './routes';
 import introspectionQueryResultData from '../fragmentTypes.json';
+import Spinner from '../components/Spinner';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
@@ -36,14 +37,17 @@ persistCache({
       color: theme.palette.secondary.dark,
     },
   },
+  spinner: {
+    marginTop: 60,
+  },
 })
 export default class App extends Component {
   state = {
     error: null,
   };
 
-  componentDidCatch(error) {
-    this.setState({ error });
+  static getDerivedStateFromError(error) {
+    return { error };
   }
 
   link = new RetryLink().split(
@@ -64,6 +68,7 @@ export default class App extends Component {
 
   render() {
     const { error } = this.state;
+    const { classes } = this.props;
 
     return (
       <ApolloProvider client={this.apolloClient}>
@@ -73,9 +78,21 @@ export default class App extends Component {
           <CssBaseline />
           <BrowserRouter>
             <Switch>
-              {routes.map(props => (
-                <Route key={props.path} {...props} />
-              ))}
+              {routes.map(({ path, exact, component: Component, ...props }) => {
+                return (
+                  <Route
+                    key={path}
+                    path={path}
+                    exact={exact}
+                    render={({ staticContext, ...renderProps }) => (
+                      <Suspense
+                        fallback={<Spinner className={classes.spinner} />}>
+                        <Component {...renderProps} {...props} />
+                      </Suspense>
+                    )}
+                  />
+                );
+              })}
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>
