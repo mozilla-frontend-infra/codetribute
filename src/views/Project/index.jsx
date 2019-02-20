@@ -9,7 +9,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import { CardContent, CardActions } from '@material-ui/core';
 import Markdown from 'react-markdown';
+import classNames from 'classnames';
 import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
@@ -123,6 +125,22 @@ const tagReposMapping = repositories =>
 @withStyles(theme => ({
   spinner: {
     marginTop: 3 * theme.spacing.unit,
+  },
+  seeMoreButton: {
+    position: 'absolute',
+    left: 3 * theme.spacing.unit,
+    top: 160,
+  },
+  transparentToWhiteBackground: {
+    background: 'linear-gradient(to bottom, transparent 0%, white 50%)',
+    right: 0,
+    left: 0,
+    top: 120,
+    height: 80,
+    position: 'absolute',
+  },
+  card: {
+    position: 'relative',
   },
 }))
 export default class Project extends Component {
@@ -371,27 +389,32 @@ export default class Project extends Component {
     return (
       <Dashboard title={project.name}>
         {project.introduction && (
-          <Card>
-            <CardContent>
-              <Typography>
-                <Markdown
-                  source={
-                    introductionOpen
-                      ? project.introduction
-                      : project.introduction.split(/(?=##\s)/)[0]
-                  }
-                  renderers={{ link: this.linkRenderer }}
-                />
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                size="small"
-                onClick={this.handleButtonClick}
-                className={classes.seeMoreButton}>
-                {introductionOpen ? 'See Less' : 'See More'}
-              </Button>
-            </CardActions>
+          <Card className={classes.card}>
+            <Collapse in={introductionOpen} collapsedHeight="200px">
+              {!introductionOpen && (
+                <div className={classes.transparentToWhiteBackground} />
+              )}
+              <CardContent>
+                <Typography>
+                  <Markdown
+                    source={project.introduction}
+                    renderers={{ link: this.linkRenderer }}
+                  />
+                </Typography>
+              </CardContent>
+              {true && (
+                <CardActions>
+                  <Button
+                    size="small"
+                    onClick={this.handleButtonClick}
+                    className={classNames({
+                      [classes.seeMoreButton]: !introductionOpen,
+                    })}>
+                    {introductionOpen ? 'See Less' : 'See More'}
+                  </Button>
+                </CardActions>
+              )}
+            </Collapse>
           </Card>
         )}
         {githubData && githubData.error && (
