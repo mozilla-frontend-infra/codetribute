@@ -45,4 +45,5 @@ introduction: |
 products: 
  - DevTools
 repositories:
- - devtools-html/debugger.html: ['good first issue', 'help wanted']
+ - firefox-devtools/debugger.html: ['good first issue', 'help wanted']
+ - firefox-devtools/profiler: ['good first issue', 'help wanted']
