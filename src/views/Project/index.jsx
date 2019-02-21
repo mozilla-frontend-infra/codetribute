@@ -129,14 +129,14 @@ const tagReposMapping = repositories =>
   seeMoreButton: {
     position: 'absolute',
     left: 3 * theme.spacing.unit,
-    top: 160,
+    top: 184,
   },
   transparentToWhiteBackground: {
-    background: 'linear-gradient(to bottom, transparent 0%, white 50%)',
+    background: 'linear-gradient(to bottom, transparent 0%, white 42%)',
     right: 0,
     left: 0,
     top: 120,
-    height: 80,
+    height: 104,
     position: 'absolute',
   },
   card: {
@@ -390,7 +390,7 @@ export default class Project extends Component {
       <Dashboard title={project.name}>
         {project.introduction && (
           <Card className={classes.card}>
-            <Collapse in={introductionOpen} collapsedHeight="200px">
+            <Collapse in={introductionOpen} collapsedHeight="224px">
               {!introductionOpen && (
                 <div className={classes.transparentToWhiteBackground} />
               )}
@@ -402,18 +402,16 @@ export default class Project extends Component {
                   />
                 </Typography>
               </CardContent>
-              {true && (
-                <CardActions>
-                  <Button
-                    size="small"
-                    onClick={this.handleButtonClick}
-                    className={classNames({
-                      [classes.seeMoreButton]: !introductionOpen,
-                    })}>
-                    {introductionOpen ? 'See Less' : 'See More'}
-                  </Button>
-                </CardActions>
-              )}
+              <CardActions>
+                <Button
+                  size="small"
+                  onClick={this.handleButtonClick}
+                  className={classNames({
+                    [classes.seeMoreButton]: !introductionOpen,
+                  })}>
+                  {introductionOpen ? 'See Less' : 'See More'}
+                </Button>
+              </CardActions>
             </Collapse>
           </Card>
         )}
