@@ -128,15 +128,14 @@ const tagReposMapping = repositories =>
   },
   seeMoreButton: {
     position: 'absolute',
-    left: 3 * theme.spacing.unit,
-    top: 184,
+    bottom: theme.spacing.unit,
   },
-  transparentToWhiteBackground: {
+  fadeout: {
     background: 'linear-gradient(to bottom, transparent 0%, white 42%)',
     right: 0,
     left: 0,
-    top: 120,
-    height: 104,
+    bottom: 0,
+    height: 13 * theme.spacing.unit,
     position: 'absolute',
   },
   card: {
@@ -391,9 +390,7 @@ export default class Project extends Component {
         {project.introduction && (
           <Card className={classes.card}>
             <Collapse in={introductionOpen} collapsedHeight="224px">
-              {!introductionOpen && (
-                <div className={classes.transparentToWhiteBackground} />
-              )}
+              {!introductionOpen && <div className={classes.fadeout} />}
               <CardContent>
                 <Typography>
                   <Markdown
