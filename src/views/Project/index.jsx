@@ -122,26 +122,29 @@ const tagReposMapping = repositories =>
   })
 )
 @withApollo
-@withStyles(theme => ({
-  spinner: {
-    marginTop: 3 * theme.spacing.unit,
-  },
-  seeMoreButton: {
-    position: 'absolute',
-    bottom: theme.spacing.unit,
-  },
-  fadeout: {
-    background: 'linear-gradient(to bottom, transparent 0%, white 42%)',
-    right: 0,
-    left: 0,
-    bottom: 0,
-    height: 13 * theme.spacing.unit,
-    position: 'absolute',
-  },
-  card: {
-    position: 'relative',
-  },
-}))
+@withStyles(
+  theme => ({
+    spinner: {
+      marginTop: 3 * theme.spacing.unit,
+    },
+    cardAction: {
+      position: 'absolute',
+      bottom: 0,
+    },
+    fadeout: {
+      background: 'linear-gradient(to bottom, transparent 0%, white 42%)',
+      right: 0,
+      left: 0,
+      bottom: 0,
+      height: 13 * theme.spacing.unit,
+      position: 'absolute',
+    },
+    card: {
+      position: 'relative',
+    },
+  }),
+  { withTheme: true }
+)
 export default class Project extends Component {
   state = {
     loading: true,
@@ -306,7 +309,7 @@ export default class Project extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, theme } = this.props;
     const githubData = this.props.github;
     const { loading, error } = this.state;
     const project = projects[this.props.match.params.project];
@@ -384,12 +387,13 @@ export default class Project extends Component {
       'summary'
     );
     const { introductionOpen } = this.state;
+    const collapsedHeight = `${28 * theme.spacing.unit}px`;
 
     return (
       <Dashboard title={project.name}>
         {project.introduction && (
           <Card className={classes.card}>
-            <Collapse in={introductionOpen} collapsedHeight="224px">
+            <Collapse in={introductionOpen} collapsedHeight={collapsedHeight}>
               {!introductionOpen && <div className={classes.fadeout} />}
               <CardContent>
                 <Typography>
@@ -399,13 +403,11 @@ export default class Project extends Component {
                   />
                 </Typography>
               </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  onClick={this.handleButtonClick}
-                  className={classNames({
-                    [classes.seeMoreButton]: !introductionOpen,
-                  })}>
+              <CardActions
+                className={classNames({
+                  [classes.cardAction]: !introductionOpen,
+                })}>
+                <Button size="small" onClick={this.handleButtonClick}>
                   {introductionOpen ? 'See Less' : 'See More'}
                 </Button>
               </CardActions>
