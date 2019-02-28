@@ -1,5 +1,5 @@
 name: Firefox Health Dashboard
-incon: view-dashboard-outline
+icon: view-dashboard-outline
 summary: Show statistics and aggregates for monitoring current projects
 introduction: |
   ## About Firefox Health Dashboard
@@ -20,11 +20,11 @@ introduction: |
   1. [Find an Issue to work on](https://github.com/mozilla-frontend-infra/firefox-health-dashboard/issues) or
   [looks at the site](https://health.graphics/) and see if there is something small you would like to fix.
   2. Fork-and-clone the repo, make some change, and submit a PR. Someone will be happy to guide you
-  through the process of coding and getting it acepted.
+  through the process of coding and getting it accepted.
 
   ## How Do I Get Help?
 
-  Anyone on `#frontend-infra` on `irc.mozilla.com` can answer your questions.
+  We are [available on Mozilla's IRC](https://wiki.mozilla.org/IRC) at `#frontend-infra` to answer your questions.
 
 repositories:
  - mozilla-frontend-infra/firefox-health-dashboard: "good first issue"
