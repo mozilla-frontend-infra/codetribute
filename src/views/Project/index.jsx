@@ -4,14 +4,8 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import { CardContent, CardActions } from '@material-ui/core';
 import Markdown from 'react-markdown';
-import classNames from 'classnames';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
@@ -28,6 +22,7 @@ import {
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
+import ExpansionCard from '../../components/ExpansionCard';
 
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
@@ -122,34 +117,15 @@ const tagReposMapping = repositories =>
   })
 )
 @withApollo
-@withStyles(
-  theme => ({
-    spinner: {
-      marginTop: 3 * theme.spacing.unit,
-    },
-    cardAction: {
-      position: 'absolute',
-      bottom: 0,
-    },
-    fadeout: {
-      background: 'linear-gradient(to bottom, transparent 0%, white 42%)',
-      right: 0,
-      left: 0,
-      bottom: 0,
-      height: 13 * theme.spacing.unit,
-      position: 'absolute',
-    },
-    card: {
-      position: 'relative',
-    },
-  }),
-  { withTheme: true }
-)
+@withStyles(theme => ({
+  spinner: {
+    marginTop: 3 * theme.spacing.unit,
+  },
+}))
 export default class Project extends Component {
   state = {
     loading: true,
     error: null,
-    introductionOpen: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -302,14 +278,8 @@ export default class Project extends Component {
     </a>
   );
 
-  handleButtonClick = () => {
-    this.setState({
-      introductionOpen: !this.state.introductionOpen,
-    });
-  };
-
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     const githubData = this.props.github;
     const { loading, error } = this.state;
     const project = projects[this.props.match.params.project];
@@ -386,33 +356,16 @@ export default class Project extends Component {
       [...issues, ...goodFirstBugs, ...mentoredBugs],
       'summary'
     );
-    const { introductionOpen } = this.state;
-    const collapsedHeight = `${28 * theme.spacing.unit}px`;
 
     return (
       <Dashboard title={project.name}>
         {project.introduction && (
-          <Card className={classes.card}>
-            <Collapse in={introductionOpen} collapsedHeight={collapsedHeight}>
-              {!introductionOpen && <div className={classes.fadeout} />}
-              <CardContent>
-                <Typography>
-                  <Markdown
-                    source={project.introduction}
-                    renderers={{ link: this.linkRenderer }}
-                  />
-                </Typography>
-              </CardContent>
-              <CardActions
-                className={classNames({
-                  [classes.cardAction]: !introductionOpen,
-                })}>
-                <Button size="small" onClick={this.handleButtonClick}>
-                  {introductionOpen ? 'See Less' : 'See More'}
-                </Button>
-              </CardActions>
-            </Collapse>
-          </Card>
+          <ExpansionCard>
+            <Markdown
+              source={project.introduction}
+              renderers={{ link: this.linkRenderer }}
+            />
+          </ExpansionCard>
         )}
         {githubData && githubData.error && (
           <ErrorPanel error={githubData.error} />
