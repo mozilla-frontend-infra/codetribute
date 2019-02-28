@@ -1,5 +1,5 @@
 name: Firefox Health Dashboard
-incon: https://codetribute.mozilla.org/projects/reporting
+incon: view-dashboard-outline
 summary: Show statistics and aggregates for monitoring current projects
 introduction: |
   ## About Firefox Health Dashboard
