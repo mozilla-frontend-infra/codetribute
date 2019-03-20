@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import { string } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -30,6 +31,10 @@ import Markdown from 'react-markdown';
   { withTheme: true }
 )
 export default class ProjectIntroductionCard extends Component {
+  static propTypes = {
+    introduction: string.isRequired,
+  };
+
   state = { open: false };
 
   handleButtonClick = () => {
