@@ -4,12 +4,7 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
-import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import { CardContent, CardActions } from '@material-ui/core';
-import Markdown from 'react-markdown';
-import Button from '@material-ui/core/Button';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
@@ -26,6 +21,7 @@ import {
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
+import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
 
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
@@ -129,7 +125,6 @@ export default class Project extends Component {
   state = {
     loading: true,
     error: null,
-    introductionOpen: false,
   };
 
   componentDidUpdate(prevProps) {
@@ -276,18 +271,6 @@ export default class Project extends Component {
     this.setState({ loading: false });
   };
 
-  linkRenderer = props => (
-    <a href={props.href} target="_blank" rel="noopener noreferrer">
-      {props.children}
-    </a>
-  );
-
-  handleButtonClick = () => {
-    this.setState({
-      introductionOpen: !this.state.introductionOpen,
-    });
-  };
-
   render() {
     const { classes } = this.props;
     const githubData = this.props.github;
@@ -366,33 +349,11 @@ export default class Project extends Component {
       [...issues, ...goodFirstBugs, ...mentoredBugs],
       'summary'
     );
-    const { introductionOpen } = this.state;
 
     return (
       <Dashboard title={project.name}>
         {project.introduction && (
-          <Card>
-            <CardContent>
-              <Typography>
-                <Markdown
-                  source={
-                    introductionOpen
-                      ? project.introduction
-                      : project.introduction.split(/(?=##\s)/)[0]
-                  }
-                  renderers={{ link: this.linkRenderer }}
-                />
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button
-                size="small"
-                onClick={this.handleButtonClick}
-                className={classes.seeMoreButton}>
-                {introductionOpen ? 'See Less' : 'See More'}
-              </Button>
-            </CardActions>
-          </Card>
+          <ProjectIntroductionCard introduction={project.introduction} />
         )}
         {githubData && githubData.error && (
           <ErrorPanel error={githubData.error} />
