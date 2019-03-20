@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
+import Markdown from 'react-markdown';
 
 @withStyles(
   theme => ({
@@ -28,7 +29,7 @@ import Button from '@material-ui/core/Button';
   }),
   { withTheme: true }
 )
-export default class ErrorPanel extends Component {
+export default class ProjectIntroductionCard extends Component {
   state = { open: false };
 
   handleButtonClick = () => {
@@ -37,8 +38,14 @@ export default class ErrorPanel extends Component {
     });
   };
 
+  linkRenderer = props => (
+    <a href={props.href} target="_blank" rel="noopener noreferrer">
+      {props.children}
+    </a>
+  );
+
   render() {
-    const { classes, children, theme } = this.props;
+    const { classes, introduction, theme } = this.props;
     const { open } = this.state;
     const collapsedHeight = `${28 * theme.spacing.unit}px`;
 
@@ -47,7 +54,12 @@ export default class ErrorPanel extends Component {
         <Collapse in={open} collapsedHeight={collapsedHeight}>
           {!open && <div className={classes.fadeout} />}
           <CardContent>
-            <Typography>{children}</Typography>
+            <Typography>
+              <Markdown
+                source={introduction}
+                renderers={{ link: this.linkRenderer }}
+              />
+            </Typography>
           </CardContent>
           <CardActions
             className={classNames({

@@ -5,7 +5,6 @@ import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import { withStyles } from '@material-ui/core/styles';
-import Markdown from 'react-markdown';
 import projects from '../../data/loader';
 import Spinner from '../../components/Spinner';
 import ErrorPanel from '../../components/ErrorPanel';
@@ -22,7 +21,7 @@ import {
 } from '../../utils/constants';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
-import ExpansionCard from '../../components/ExpansionCard';
+import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
 
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
@@ -272,12 +271,6 @@ export default class Project extends Component {
     this.setState({ loading: false });
   };
 
-  linkRenderer = props => (
-    <a href={props.href} target="_blank" rel="noopener noreferrer">
-      {props.children}
-    </a>
-  );
-
   render() {
     const { classes } = this.props;
     const githubData = this.props.github;
@@ -360,12 +353,7 @@ export default class Project extends Component {
     return (
       <Dashboard title={project.name}>
         {project.introduction && (
-          <ExpansionCard>
-            <Markdown
-              source={project.introduction}
-              renderers={{ link: this.linkRenderer }}
-            />
-          </ExpansionCard>
+          <ProjectIntroductionCard introduction={project.introduction} />
         )}
         {githubData && githubData.error && (
           <ErrorPanel error={githubData.error} />
