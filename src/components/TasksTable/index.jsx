@@ -20,7 +20,7 @@ import { withRouter } from 'react-router-dom';
 import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import Linkify from 'react-linkify';
-import { formatDistance, differenceInCalendarDays } from 'date-fns';
+import { formatDistance, parseISO, differenceInCalendarDays } from 'date-fns';
 import { memoizeWith, omit, pipe, sort as rSort, map } from 'ramda';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
@@ -426,7 +426,7 @@ export default class TasksTable extends Component {
                   {item.assignee}
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  {formatDistance(item.lastUpdated, new Date(), {
+                  {formatDistance(parseISO(item.lastUpdated), new Date(), {
                     addSuffix: true,
                   })}
                 </TableCell>
