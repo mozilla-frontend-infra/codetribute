@@ -1,4 +1,4 @@
-import { compareAsc, parseISO } from 'date-fns';
+import { compareAsc, parseISO, isDate } from 'date-fns';
 import { or } from 'ramda';
 
 /**
@@ -20,11 +20,8 @@ const sort = (referenceElement, compareElement) => {
     return diff < 0 ? -1 : 1;
   }
 
-  const referenceElementParsed = parseISO(referenceElement);
-  const compareElementParsed = parseISO(compareElement);
-
-  if (referenceElementParsed || compareElementParsed) {
-    return compareAsc(referenceElementParsed, compareElementParsed);
+  if (isDate(referenceElement) && isDate(compareElement)) {
+    return compareAsc(parseISO(referenceElement), parseISO(compareElement));
   }
 
   return or(referenceElement, '').localeCompare(compareElement);
