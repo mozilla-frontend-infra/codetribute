@@ -20,11 +20,18 @@ const sort = (referenceElement, compareElement) => {
     return diff < 0 ? -1 : 1;
   }
 
-  if (isDate(referenceElement) && isDate(compareElement)) {
-    return compareAsc(parseISO(referenceElement), parseISO(compareElement));
+  const reference = isDate(referenceElement)
+    ? parseISO(referenceElement)
+    : referenceElement;
+  const compare = isDate(compareElement)
+    ? parseISO(compareElement)
+    : compareElement;
+
+  if (isDate(referenceElement) || isDate(compareElement)) {
+    return compareAsc(reference, compare);
   }
 
-  return or(referenceElement, '').localeCompare(compareElement);
+  return or(reference, '').localeCompare(compare);
 };
 
 export default sort;
