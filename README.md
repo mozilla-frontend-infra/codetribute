@@ -1,5 +1,7 @@
 # Codetribute
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mozilla-frontend-infra/codetribute.svg)](https://greenkeeper.io/)
+
 [![Build Status][travis-image]][travis-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 
