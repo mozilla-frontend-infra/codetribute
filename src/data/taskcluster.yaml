@@ -53,5 +53,6 @@ products:
 
 repositories:
  - taskcluster/taskcluster: "good first issue"
+ - taskcluster/json-e: "good first issue"
  - taskcluster/taskcluster-web: 'good first issue'
  - taskcluster/taskcluster-web-server: 'good first issue'
