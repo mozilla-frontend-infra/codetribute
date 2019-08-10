@@ -1,5 +1,5 @@
-name: Web Platform
-summary: Web Platform consists of Networking, Layout, Build System, DOM & CSS Technology, Input Handling, and Media.
+name: Firefox - Web Platform
+summary: Web Platform consists of Networking, Layout, DOM & CSS Technology, Input Handling, and Media.
 icon: layers
 products:
  - Core: [
