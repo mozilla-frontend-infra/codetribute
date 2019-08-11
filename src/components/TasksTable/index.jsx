@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
 import Chip from '@material-ui/core/Chip';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
@@ -53,8 +52,8 @@ const getTaskHelperText = item => {
 };
 
 const sorted = pipe(
-  rSort((a, b) => sort(a.summary, b.summary)),
-  map(({ project, summary }) => `${summary}-${project}`)
+  rSort((a, b) => sort(a.summary.title, b.summary.title)),
+  map(({ project, summary }) => `${summary.title}-${project}`)
 );
 const assignments = Object.values(ASSIGNEE);
 
@@ -66,6 +65,8 @@ const assignments = Object.values(ASSIGNEE);
   },
   tableWrapper: {
     overflowX: 'auto',
+    height: 1000,
+    marginTop: theme.spacing.unit * 3,
   },
   clickedChip: {
     backgroundColor: theme.palette.secondary.dark,
@@ -75,6 +76,13 @@ const assignments = Object.values(ASSIGNEE);
   },
   tableCell: {
     whiteSpace: 'nowrap',
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+    boxSizing: 'border-box',
+    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: '0.8125rem',
+    fontWeight: 400,
   },
   summaryItem: {
     marginLeft: -theme.spacing.unit,
@@ -149,6 +157,10 @@ export default class TasksTable extends Component {
     items: arrayOf(object).isRequired,
   };
 
+  static defaultProps = {
+    rowHeight: 51,
+  };
+
   state = {
     drawerOpen: false,
     drawerItem: null,
@@ -195,10 +207,24 @@ export default class TasksTable extends Component {
             (!project || project === ALL_PROJECTS || item.project === project)
         )
         .sort((a, b) => {
-          const firstElement =
-            sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
-          const secondElement =
-            sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
+          let firstElement;
+          let secondElement;
+
+          if (sortByProperty === 'summary') {
+            firstElement =
+              sortDirection === 'desc'
+                ? b[sortByProperty].title
+                : a[sortByProperty].title;
+            secondElement =
+              sortDirection === 'desc'
+                ? a[sortByProperty].title
+                : b[sortByProperty].title;
+          } else {
+            firstElement =
+              sortDirection === 'desc' ? b[sortByProperty] : a[sortByProperty];
+            secondElement =
+              sortDirection === 'desc' ? a[sortByProperty] : b[sortByProperty];
+          }
 
           return sort(firstElement, secondElement);
         });
@@ -249,8 +275,9 @@ export default class TasksTable extends Component {
     const { items } = this.props;
     const unassignedItems = items.filter(unassigned);
     const url = unassignedItems.length
-      ? unassignedItems[Math.floor(Math.random() * unassignedItems.length)].url
-      : items[Math.floor(Math.random() * items.length)].url;
+      ? unassignedItems[Math.floor(Math.random() * unassignedItems.length)]
+          .summary.url
+      : items[Math.floor(Math.random() * items.length)].summary.url;
 
     if (url) {
       Object.assign(window.open(), {
@@ -266,13 +293,13 @@ export default class TasksTable extends Component {
   };
 
   handleDrawerOpen = async ({ currentTarget: { name } }) => {
-    const item = this.props.items.find(item => item.summary === name);
+    const item = this.props.items.find(item => item.summary.title === name);
 
     this.setState({
       drawerOpen: true,
       drawerItem: {
         ...item,
-        ...(item.url.includes('bugzilla.mozilla.org')
+        ...(item.summary.url.includes('bugzilla.mozilla.org')
           ? { description: await this.props.onBugInfoClick(item.id) }
           : null),
       },
@@ -287,7 +314,14 @@ export default class TasksTable extends Component {
   };
 
   render() {
-    const { items, classes } = this.props;
+    const {
+      items,
+      hasNextPage,
+      isNextPageLoading,
+      loadNextPage,
+      rowHeight,
+      classes,
+    } = this.props;
     const { drawerOpen, drawerItem } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
@@ -365,77 +399,138 @@ export default class TasksTable extends Component {
         </div>
         <div className={classes.tableWrapper}>
           <DataTable
-            items={data}
-            renderRow={item => (
-              <TableRow tabIndex={-1} key={item.summary}>
-                <TableCell
-                  component="th"
-                  scope="row"
-                  className={classes.tableCell}>
-                  {item.project}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  <IconButton
-                    name={item.summary}
-                    aria-label="Information"
-                    className={classes.infoButton}
-                    onClick={this.handleDrawerOpen}>
-                    <InformationVariantIcon />
-                  </IconButton>
-                  <List
-                    dense
-                    disablePadding
-                    className={classes.summary}
-                    component="div">
-                    <ListItem
-                      className={classes.listItemButton}
-                      classes={{
-                        gutters: classes.summaryItem,
-                      }}
-                      title={item.summary}
-                      button
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      component="a"
-                      href={item.url}>
-                      <ListItemText
-                        primary={
-                          <div className={classes.summaryText}>
-                            {item.summary}
-                          </div>
-                        }
-                      />
-                      <LinkIcon className={classes.icon} size={iconSize} />
-                    </ListItem>
-                  </List>
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {item.tags.map(tag => (
-                    <Chip
-                      name={tag}
-                      key={tag}
-                      label={tag}
-                      className={classNames({
-                        [classes.clickedChip]: tag === query.tag,
-                      })}
-                      onClick={this.handleTagClick}
-                    />
-                  ))}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {item.assignee}
-                </TableCell>
-                <TableCell className={classes.tableCell}>
-                  {formatDistance(parseISO(item.lastUpdated), new Date(), {
-                    addSuffix: true,
-                  })}
-                </TableCell>
-              </TableRow>
-            )}
-            headers={['Project', 'Summary', 'Tags', 'Assignee', 'Last Updated']}
+            hasNextPage={hasNextPage}
+            loadNextPage={loadNextPage}
+            isNextPageLoading={isNextPageLoading}
             sortByHeader={sortBy}
             sortDirection={sortDirection}
             onHeaderClick={this.handleHeaderClick}
+            cellRenderer={({ cellData, columnIndex }) => {
+              if (columnIndex === 0) {
+                return (
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    className={classes.tableCell}
+                    style={{ height: rowHeight }}>
+                    {cellData}
+                  </TableCell>
+                );
+              }
+
+              if (columnIndex === 1) {
+                return (
+                  <TableCell
+                    className={classes.tableCell}
+                    style={{ height: rowHeight }}>
+                    <IconButton
+                      name={cellData.title}
+                      aria-label="Information"
+                      className={classes.infoButton}
+                      onClick={this.handleDrawerOpen}>
+                      <InformationVariantIcon />
+                    </IconButton>
+                    <List
+                      dense
+                      disablePadding
+                      className={classes.summary}
+                      component="div">
+                      <ListItem
+                        className={classes.listItemButton}
+                        classes={{
+                          gutters: classes.summaryItem,
+                        }}
+                        title={cellData.title}
+                        button
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        component="a"
+                        href={cellData.url}>
+                        <ListItemText
+                          primary={
+                            <div className={classes.summaryText}>
+                              {cellData.title}
+                            </div>
+                          }
+                        />
+                        <LinkIcon className={classes.icon} size={iconSize} />
+                      </ListItem>
+                    </List>
+                  </TableCell>
+                );
+              }
+
+              if (columnIndex === 2) {
+                return (
+                  <TableCell
+                    className={classes.tableCell}
+                    style={{ height: rowHeight }}>
+                    {cellData.map(tag => (
+                      <Chip
+                        name={tag}
+                        key={tag}
+                        label={tag}
+                        className={classNames({
+                          [classes.clickedChip]: tag === query.tag,
+                        })}
+                        onClick={this.handleTagClick}
+                      />
+                    ))}
+                  </TableCell>
+                );
+              }
+
+              if (columnIndex === 3) {
+                return (
+                  <TableCell
+                    className={classes.tableCell}
+                    style={{ height: rowHeight }}>
+                    {cellData}
+                  </TableCell>
+                );
+              }
+
+              if (columnIndex === 4) {
+                return (
+                  <TableCell
+                    className={classes.tableCell}
+                    style={{ height: rowHeight }}>
+                    {formatDistance(parseISO(cellData), new Date(), {
+                      addSuffix: true,
+                    })}
+                  </TableCell>
+                );
+              }
+            }}
+            rowCount={data.length}
+            rowGetter={({ index }) => data[index]}
+            columns={[
+              {
+                width: (window.innerWidth / 2000) * 250,
+                label: 'Project',
+                dataKey: 'project',
+              },
+              {
+                width: (window.innerWidth / 2000) * 888,
+                label: 'Summary',
+                dataKey: 'summary',
+              },
+              {
+                width: (window.innerWidth / 2000) * 375,
+                label: 'Tags',
+                dataKey: 'tags',
+              },
+              {
+                width: (window.innerWidth / 2000) * 182,
+                label: 'Assignee',
+                dataKey: 'assignee',
+              },
+              {
+                width: (window.innerWidth / 2000) * 274,
+                label: 'Last Updated',
+                dataKey: 'lastUpdated',
+              },
+            ]}
           />
         </div>
         <Drawer
@@ -455,7 +550,7 @@ export default class TasksTable extends Component {
                 <ListItem>
                   <ListItemText
                     primary="Summary"
-                    secondary={drawerItem.summary}
+                    secondary={drawerItem.summary.title}
                   />
                 </ListItem>
                 {drawerItem.description && (

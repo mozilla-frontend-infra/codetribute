@@ -1,28 +1,19 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { arrayOf, func, string, oneOf, object } from 'prop-types';
+import { arrayOf, func, string, oneOf } from 'prop-types';
+import { InfiniteLoader, AutoSizer, Column, Table } from 'react-virtualized';
 
-@withStyles(theme => ({
-  table: {
-    marginTop: theme.spacing.unit * 3,
-    width: '100%',
-    overflowX: 'auto',
+@withStyles({
+  flexContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    boxSizing: 'border-box',
   },
-}))
+})
 class DataTable extends Component {
   static propTypes = {
-    /**
-     * A function to execute for each row to render in the table.
-     * Will be passed a datum from the table data. The function
-     * should return the JSX necessary to render the given row.
-     */
-    renderRow: func,
     /**
      * A function to execute when a column header is clicked.
      * Will receive a single argument which is the column name.
@@ -41,19 +32,16 @@ class DataTable extends Component {
      * A list of header names to use on the table starting from the left.
      */
     headers: arrayOf(string),
-    /**
-     * A list of objects to display. Each element in the list is represented
-     * by a row and each element's key-value pair represents a column.
-     */
-    items: arrayOf(object).isRequired,
   };
 
   static defaultProps = {
+    headerHeight: 56,
+    rowHeight: 51,
     sortByHeader: null,
     sortDirection: 'desc',
     headers: null,
     onHeaderClick: null,
-    renderRow: null,
+    renderItem: null,
   };
 
   handleHeaderClick = ({ target }) => {
@@ -62,48 +50,93 @@ class DataTable extends Component {
     }
   };
 
+  getRowClassName = () => {
+    const { classes } = this.props;
+
+    return classes.flexContainer;
+  };
+
+  headerRenderer = ({ label }) => {
+    const { headerHeight, classes, sortByHeader, sortDirection } = this.props;
+
+    return (
+      <TableCell
+        className={classes.flexContainer}
+        variant="head"
+        style={{ height: headerHeight }}>
+        <TableSortLabel
+          id={label}
+          active={label === sortByHeader}
+          direction={sortDirection || 'desc'}
+          onClick={this.handleHeaderClick}>
+          {label}
+        </TableSortLabel>
+      </TableCell>
+    );
+  };
+
+  componentDidMount = async () => {
+    await this.props.loadNextPage();
+  };
+
   render() {
     const {
       classes,
-      renderRow,
+      columns,
+      hasNextPage,
+      isNextPageLoading,
+      loadNextPage,
+      cellRenderer,
+      onHeaderClick,
       sortByHeader,
       sortDirection,
-      headers,
-      items,
+      rowCount,
+      ...tableProps
     } = this.props;
-    const colSpan = (headers && headers.length) || 0;
+    const itemCount = hasNextPage ? rowCount + 1 : rowCount;
+    const loadMoreItems = isNextPageLoading ? () => {} : loadNextPage;
+    const isItemLoaded = ({ index }) => !hasNextPage || index < rowCount;
 
     return (
-      <Table className={classes.table} aria-labelledby="tableTitle">
-        {headers && (
-          <TableHead>
-            <TableRow>
-              {headers.map(header => (
-                <TableCell key={`table-header-${header}`}>
-                  <TableSortLabel
-                    id={header}
-                    active={header === sortByHeader}
-                    direction={sortDirection || 'desc'}
-                    onClick={this.handleHeaderClick}>
-                    {header}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
+      <InfiniteLoader
+        isRowLoaded={isItemLoaded}
+        loadMoreRows={loadMoreItems}
+        rowCount={itemCount}>
+        {({ onRowsRendered, ref }) => (
+          <AutoSizer>
+            {({ height, width }) => {
+              return (
+                <Table
+                  height={height}
+                  width={width}
+                  onRowsRendered={onRowsRendered}
+                  ref={ref}
+                  rowCount={rowCount}
+                  {...tableProps}
+                  rowClassName={this.getRowClassName}>
+                  {columns.map(({ dataKey, ...other }, index) => {
+                    return (
+                      <Column
+                        key={dataKey}
+                        headerRenderer={headerProps =>
+                          this.headerRenderer({
+                            ...headerProps,
+                            columnIndex: index,
+                          })
+                        }
+                        className={classes.flexContainer}
+                        cellRenderer={cellRenderer}
+                        dataKey={dataKey}
+                        {...other}
+                      />
+                    );
+                  })}
+                </Table>
+              );
+            }}
+          </AutoSizer>
         )}
-        <TableBody>
-          {items.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={colSpan}>
-                <em>No items for this page.</em>
-              </TableCell>
-            </TableRow>
-          ) : (
-            items.map(renderRow)
-          )}
-        </TableBody>
-      </Table>
+      </InfiniteLoader>
     );
   }
 }

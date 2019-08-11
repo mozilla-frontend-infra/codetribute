@@ -15,7 +15,7 @@ import commentsQuery from '../comments.graphql';
 import {
   GOOD_FIRST_BUG,
   MENTORED_BUG,
-  BUGZILLA_PAGING_OPTIONS,
+  BUGZILLA_PAGE_SIZE,
   BUGZILLA_SEARCH_OPTIONS,
   BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
@@ -57,6 +57,7 @@ const tagReposMapping = repositories =>
       variables: {
         searchQuery: '',
         type: 'ISSUE',
+        after: null,
       },
       context: {
         client: 'github',
@@ -105,8 +106,13 @@ const tagReposMapping = repositories =>
                 components: Object.values(projects[project].products[0])[0],
               }),
         },
-        paging: {
-          ...BUGZILLA_PAGING_OPTIONS,
+        pagingGood: {
+          page: 0,
+          pageSize: BUGZILLA_PAGE_SIZE,
+        },
+        pagingMen: {
+          page: 0,
+          pageSize: BUGZILLA_PAGE_SIZE,
         },
       },
       context: {
@@ -123,8 +129,109 @@ const tagReposMapping = repositories =>
 }))
 export default class Project extends Component {
   state = {
-    loading: true,
-    error: null,
+    hasNextPage: true,
+    isNextPageLoading: false,
+    items: [],
+  };
+
+  loadNextPage = async () => {
+    await this.setState({ isNextPageLoading: true });
+    await this.load();
+    const githubData = this.props.github;
+    const bugzillaData = this.props.bugzilla;
+    let issues = [];
+    let hasNextPage = false;
+    let goodFirstBugs = [];
+    let mentoredBugs = [];
+
+    if (githubData && githubData.search) {
+      issues = uniqBy(
+        githubData.search.nodes.map(issue => ({
+          project: issue.repository.name,
+          summary: {
+            title: issue.title,
+            url: issue.url,
+          },
+          tags: issue.labels.nodes.map(node => node.name).sort(),
+          lastUpdated: issue.updatedAt,
+          assignee: issue.assignees.nodes[0]
+            ? issue.assignees.nodes[0].login
+            : '-',
+          description: issue.body,
+        })),
+        'summary.title'
+      );
+      ({ hasNextPage } = githubData.search.pageInfo);
+    }
+
+    if (bugzillaData) {
+      if (bugzillaData.goodFirst) {
+        goodFirstBugs = uniqBy(
+          bugzillaData.goodFirst.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        );
+
+        if (hasNextPage !== true)
+          ({ hasNextPage } = bugzillaData.goodFirst.pageInfo);
+      }
+
+      if (bugzillaData.mentored) {
+        mentoredBugs = uniqBy(
+          bugzillaData.mentored.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        );
+
+        if (hasNextPage !== true)
+          ({ hasNextPage } = bugzillaData.mentored.pageInfo);
+      }
+    }
+
+    await this.setState({
+      hasNextPage,
+      isNextPageLoading: false,
+      items: uniqBy(
+        [...issues, ...goodFirstBugs, ...mentoredBugs],
+        'summary.title'
+      ),
+    });
   };
 
   componentDidUpdate(prevProps) {
@@ -136,7 +243,7 @@ export default class Project extends Component {
         prevProps.github.loading &&
         !this.props.github.loading)
     ) {
-      this.load();
+      this.loadNextPage();
     }
   }
 
@@ -161,8 +268,10 @@ export default class Project extends Component {
 
   fetchBugzilla = (products, components) => {
     const {
-      bugzilla: { fetchMore },
+      bugzilla: { fetchMore, goodFirst, mentored },
     } = this.props;
+    const pageGood = goodFirst ? goodFirst.pageInfo.nextPage : 0;
+    const pageMen = mentored ? mentored.pageInfo.nextPage : 0;
 
     return fetchMore({
       query: bugsQuery,
@@ -179,8 +288,13 @@ export default class Project extends Component {
           products,
           components,
         },
-        paging: {
-          ...BUGZILLA_PAGING_OPTIONS,
+        pagingGood: {
+          page: pageGood,
+          pageSize: BUGZILLA_PAGE_SIZE,
+        },
+        pagingMen: {
+          page: pageMen,
+          pageSize: BUGZILLA_PAGE_SIZE,
         },
       },
       context: {
@@ -190,19 +304,26 @@ export default class Project extends Component {
         const moreGoodFirstNodes = fetchMoreResult.goodFirst.edges;
         const moreMentoredNodes = fetchMoreResult.mentored.edges;
 
-        // return previousResult;
         if (!moreGoodFirstNodes.length && !moreMentoredNodes) {
           return previousResult;
         }
 
         return dotProp.set(
           dotProp.set(
-            previousResult,
-            'goodFirst.edges',
-            moreGoodFirstNodes.concat(previousResult.goodFirst.edges)
+            dotProp.set(
+              dotProp.set(
+                previousResult,
+                'goodFirst.edges',
+                previousResult.goodFirst.edges.concat(moreGoodFirstNodes)
+              ),
+              'goodFirst.pageInfo',
+              fetchMoreResult.goodFirst.pageInfo
+            ),
+            'mentored.edges',
+            previousResult.mentored.edges.concat(moreMentoredNodes)
           ),
-          'mentored.edges',
-          moreMentoredNodes.concat(previousResult.mentored.edges)
+          'mentored.pageInfo',
+          fetchMoreResult.mentored.pageInfo
         );
       },
     });
@@ -210,7 +331,12 @@ export default class Project extends Component {
 
   fetchGithub = searchQuery => {
     const {
-      github: { fetchMore },
+      github: {
+        fetchMore,
+        search: {
+          pageInfo: { endCursor },
+        },
+      },
     } = this.props;
 
     return fetchMore({
@@ -218,6 +344,7 @@ export default class Project extends Component {
       variables: {
         searchQuery,
         type: 'ISSUE',
+        after: endCursor,
       },
       context: {
         client: 'github',
@@ -230,9 +357,13 @@ export default class Project extends Component {
         }
 
         return dotProp.set(
-          previousResult,
-          'search.nodes',
-          moreNodes.concat(previousResult.search.nodes)
+          dotProp.set(
+            previousResult,
+            'search.nodes',
+            previousResult.search.nodes.concat(moreNodes)
+          ),
+          'search.pageInfo',
+          fetchMoreResult.search.pageInfo
         );
       },
     });
@@ -267,105 +398,34 @@ export default class Project extends Component {
         this.fetchBugzilla([products], components)
       )
     );
-
-    this.setState({ loading: false });
   };
 
   render() {
-    const { classes } = this.props;
+    const { hasNextPage, isNextPageLoading, items, error } = this.state;
     const githubData = this.props.github;
-    const { loading, error } = this.state;
-    const project = projects[this.props.match.params.project];
-    const issues =
-      (githubData &&
-        githubData.search &&
-        uniqBy(
-          githubData.search.nodes.map(issue => ({
-            project: issue.repository.name,
-            summary: issue.title,
-            tags: issue.labels.nodes.map(node => node.name).sort(),
-            lastUpdated: issue.updatedAt,
-            assignee: issue.assignees.nodes[0]
-              ? issue.assignees.nodes[0].login
-              : '-',
-            url: issue.url,
-            description: issue.body,
-          })),
-          'summary'
-        )) ||
-      [];
     const bugzillaData = this.props.bugzilla;
-    const goodFirstBugs =
-      (bugzillaData &&
-        bugzillaData.goodFirst &&
-        uniqBy(
-          bugzillaData.goodFirst.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: bug.summary,
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-            })),
-          'summary'
-        )) ||
-      [];
-    const mentoredBugs =
-      (bugzillaData &&
-        bugzillaData.mentored &&
-        uniqBy(
-          bugzillaData.mentored.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: bug.summary,
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-            })),
-          'summary'
-        )) ||
-      [];
-    const items = uniqBy(
-      [...issues, ...goodFirstBugs, ...mentoredBugs],
-      'summary'
-    );
+    const project = projects[this.props.match.params.project];
 
     return (
       <Dashboard title={project.name}>
         {project.introduction && (
           <ProjectIntroductionCard introduction={project.introduction} />
         )}
+        {error && <ErrorPanel error={error} />}
         {githubData && githubData.error && (
           <ErrorPanel error={githubData.error} />
         )}
         {bugzillaData && bugzillaData.error && (
           <ErrorPanel error={bugzillaData.error} />
         )}
-        {error && <ErrorPanel error={error} />}
-        {loading && <Spinner className={classes.spinner} />}
-        {!loading && (
-          <TasksTable onBugInfoClick={this.handleBugInfoClick} items={items} />
-        )}
+        {isNextPageLoading && <Spinner />}
+        <TasksTable
+          onBugInfoClick={this.handleBugInfoClick}
+          items={items}
+          hasNextPage={hasNextPage}
+          isNextPageLoading={isNextPageLoading}
+          loadNextPage={this.loadNextPage}
+        />
       </Dashboard>
     );
   }

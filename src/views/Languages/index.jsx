@@ -15,7 +15,7 @@ import {
   GOOD_FIRST_BUG,
   BUGZILLA_LANGUAGES,
   MENTORED_BUG,
-  BUGZILLA_PAGING_OPTIONS,
+  BUGZILLA_PAGE_SIZE,
   BUGZILLA_SEARCH_OPTIONS,
   BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
@@ -69,6 +69,7 @@ const tagReposMapping = repositories =>
           ...Object.keys(repos).map(repo => `repo:${repo}`),
         ].join(' '),
         type: 'REPOSITORY',
+        after: null,
       },
       context: {
         client: 'github',
@@ -99,8 +100,13 @@ const tagReposMapping = repositories =>
           ...MENTORED_BUG,
           whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
         },
-        paging: {
-          ...BUGZILLA_PAGING_OPTIONS,
+        pagingGood: {
+          page: 0,
+          pageSize: BUGZILLA_PAGE_SIZE,
+        },
+        pagingMen: {
+          page: 0,
+          pageSize: BUGZILLA_PAGE_SIZE,
         },
       },
       context: {
@@ -111,10 +117,9 @@ const tagReposMapping = repositories =>
 )
 export default class Languages extends Component {
   state = {
-    error: null,
-    // we need a way to know when github loading is done.
-    // github results require calling fetchMore possibly many times.
-    githubLoading: false,
+    hasNextPage: true,
+    isNextPageLoading: false,
+    items: [],
   };
 
   componentDidUpdate(prevProps) {
@@ -126,41 +131,11 @@ export default class Languages extends Component {
         prevProps.github.loading &&
         !this.props.github.loading)
     ) {
-      this.loadGithub();
+      this.loadNextPage();
     }
   }
 
-  fetchGithub = searchQuery => {
-    const {
-      github: { fetchMore },
-    } = this.props;
-
-    return fetchMore({
-      query: githubInfoQuery,
-      variables: {
-        searchQuery,
-        type: 'ISSUE',
-      },
-      context: {
-        client: 'github',
-      },
-      updateQuery(previousResult, { fetchMoreResult }) {
-        const moreNodes = fetchMoreResult.search.nodes;
-
-        if (!moreNodes.length) {
-          return previousResult;
-        }
-
-        return dotProp.set(
-          previousResult,
-          'search.nodes',
-          moreNodes.concat(previousResult.search.nodes)
-        );
-      },
-    });
-  };
-
-  loadGithub = async () => {
+  load = async () => {
     const {
       github: githubData,
       match: {
@@ -200,10 +175,7 @@ export default class Languages extends Component {
       );
     const tagsMapping = tagReposMapping(filteredRepos) || {};
 
-    this.setState({ githubLoading: true });
-
     tagsMapping[language] = Object.keys(repos);
-
     await Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
@@ -215,8 +187,148 @@ export default class Languages extends Component {
         return this.fetchGithub(searchQuery);
       })
     );
+  };
 
-    this.setState({ githubLoading: false });
+  loadNextPage = async () => {
+    await this.setState({ isNextPageLoading: true });
+    await this.load();
+    const githubData = this.props.github;
+    let issues = [];
+    let hasNextPage = false;
+
+    if (githubData && githubData.search) {
+      issues = uniqBy(
+        githubData.search.nodes
+          .filter(issue => issue.title)
+          .map(issue => ({
+            project: issue.repository.name,
+            summary: {
+              title: issue.title,
+              url: issue.url,
+            },
+            tags: issue.labels.nodes.map(node => node.name).sort(),
+            lastUpdated: issue.updatedAt,
+            assignee: issue.assignees.nodes[0]
+              ? issue.assignees.nodes[0].login
+              : '-',
+            description: issue.body,
+          })),
+        'summary'
+      );
+
+      ({ hasNextPage } = githubData.search.pageInfo);
+    }
+
+    const bugzillaData = this.props.bugzilla;
+    let goodFirstBugs = [];
+    let mentoredBugs = [];
+
+    if (bugzillaData) {
+      if (bugzillaData.goodFirst) {
+        goodFirstBugs = uniqBy(
+          bugzillaData.goodFirst.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        );
+
+        ({ hasNextPage } = bugzillaData.goodFirst.pageInfo);
+      }
+
+      if (bugzillaData.mentored) {
+        mentoredBugs = uniqBy(
+          bugzillaData.mentored.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        );
+
+        ({ hasNextPage } = bugzillaData.mentored.pageInfo);
+      }
+    }
+
+    await this.setState({
+      hasNextPage,
+      isNextPageLoading: false,
+      items: uniqBy(
+        [...issues, ...goodFirstBugs, ...mentoredBugs],
+        'summary.title'
+      ),
+    });
+  };
+
+  fetchGithub = searchQuery => {
+    const {
+      github: {
+        fetchMore,
+        search: {
+          pageInfo: { endCursor },
+        },
+      },
+    } = this.props;
+
+    return fetchMore({
+      query: githubInfoQuery,
+      variables: {
+        searchQuery,
+        type: 'ISSUE',
+        after: endCursor,
+      },
+      context: {
+        client: 'github',
+      },
+      updateQuery(previousResult, { fetchMoreResult }) {
+        const moreNodes = fetchMoreResult.search.nodes;
+
+        if (!moreNodes.length) {
+          return previousResult;
+        }
+
+        return dotProp.set(
+          dotProp.set(
+            previousResult,
+            'search.nodes',
+            previousResult.search.nodes.concat(moreNodes)
+          ),
+          'search.pageInfo',
+          fetchMoreResult.search.pageInfo
+        );
+      },
+    });
   };
 
   handleBugInfoClick = memoizeWith(
@@ -246,84 +358,10 @@ export default class Languages extends Component {
         params: { language },
       },
     } = this.props;
-    const { error, githubLoading } = this.state;
-    const loading =
-      (bugzillaData && bugzillaData.loading) ||
-      (githubData && githubData.loading) ||
-      githubLoading;
+    const { hasNextPage, isNextPageLoading, items, error } = this.state;
     const title = Object.keys(BUGZILLA_LANGUAGES).find(
       lang => lang.toLowerCase() === language
     );
-    const issues =
-      (githubData &&
-        githubData.search &&
-        uniqBy(
-          githubData.search.nodes
-            .filter(issue => issue.title)
-            .map(issue => ({
-              project: issue.repository.name,
-              summary: issue.title,
-              tags: issue.labels.nodes.map(node => node.name).sort(),
-              lastUpdated: issue.updatedAt,
-              assignee: issue.assignees.nodes[0]
-                ? issue.assignees.nodes[0].login
-                : '-',
-              url: issue.url,
-              description: issue.body,
-            })),
-          'summary'
-        )) ||
-      [];
-    const goodFirstBugs =
-      (bugzillaData &&
-        bugzillaData.goodFirst &&
-        uniqBy(
-          bugzillaData.goodFirst.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: bug.summary,
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-            })),
-          'summary'
-        )) ||
-      [];
-    const mentoredBugs =
-      (bugzillaData &&
-        bugzillaData.mentored &&
-        uniqBy(
-          bugzillaData.mentored.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: bug.summary,
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-              url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-            })),
-          'summary'
-        )) ||
-      [];
 
     return (
       <Dashboard title={title} withSidebar>
@@ -334,16 +372,14 @@ export default class Languages extends Component {
         {bugzillaData && bugzillaData.error && (
           <ErrorPanel error={bugzillaData.error} />
         )}
-        {loading && <Spinner />}
-        {!loading && (
-          <TasksTable
-            items={uniqBy(
-              [...issues, ...goodFirstBugs, ...mentoredBugs],
-              'summary'
-            )}
-            onBugInfoClick={this.handleBugInfoClick}
-          />
-        )}
+        {isNextPageLoading && <Spinner />}
+        <TasksTable
+          onBugInfoClick={this.handleBugInfoClick}
+          items={items}
+          hasNextPage={hasNextPage}
+          isNextPageLoading={isNextPageLoading}
+          loadNextPage={this.loadNextPage}
+        />
       </Dashboard>
     );
   }

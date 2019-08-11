@@ -1,13 +1,17 @@
-query Bugs($goodFirst: BugSearch!, $mentored: BugSearch!, $paging: Paging) {
-  goodFirst: bugs(search: $goodFirst, paging: $paging) {
+query Bugs($goodFirst: BugSearch!, $mentored: BugSearch!, $pagingGood: Paging!, $pagingMen: Paging!) {
+  goodFirst: bugs(search: $goodFirst, paging: $pagingGood) {
     ...Bugs
   }
-  mentored: bugs(search: $mentored, paging: $paging) {
+  mentored: bugs(search: $mentored, paging: $pagingMen) {
     ...Bugs
   }
 }
 
 fragment Bugs on BugPager {
+  pageInfo {
+    hasNextPage
+    nextPage
+  }
   edges {
     node {
       assignedTo {

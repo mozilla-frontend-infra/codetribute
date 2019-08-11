@@ -1,5 +1,9 @@
-query githubInfo($searchQuery: String!, $type: SearchType!) {
-  search(first: 100, type: $type, query: $searchQuery){
+query githubInfo($searchQuery: String!, $type: SearchType!, $after: String) {
+  search(first: 100, type: $type, query: $searchQuery, after: $after){
+    pageInfo {
+        endCursor
+        hasNextPage
+      }
     nodes {
       ... on Issue {
         title
