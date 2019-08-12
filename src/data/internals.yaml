@@ -5,3 +5,17 @@ products:
  - NSPR
  - NSS
  - Toolkit: ['Telemetry', 'Add-ons Manager']
+ - "Firefox Build System": [
+     "Android Studio and Gradle Integration",
+     "Bootstrap Configuration",
+     "Developer Environment Integration",
+     "General",
+     "General: Unsupported Platforms",
+     "Generated Documentation",
+     "Lint and Formatting",
+     "Mach Core",
+     "Source Code Analysis",
+     "Toolchains",
+     "Try"
+   ]
+ - MailNews Core: ['Build Config']
