@@ -3,7 +3,13 @@ import { withStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { arrayOf, func, string, oneOf } from 'prop-types';
-import { InfiniteLoader, AutoSizer, Column, Table } from 'react-virtualized';
+import {
+  InfiniteLoader,
+  AutoSizer,
+  Column,
+  Table,
+  WindowScroller,
+} from 'react-virtualized';
 
 @withStyles({
   flexContainer: {
@@ -104,18 +110,40 @@ class DataTable extends Component {
         rowCount={itemCount}>
         {({ onRowsRendered, ref }) => (
           <AutoSizer>
-            {({ height, width }) => {
-              return (
-                <Table
-                  height={height}
-                  width={width}
-                  onRowsRendered={onRowsRendered}
-                  ref={ref}
-                  rowCount={rowCount}
-                  {...tableProps}
-                  rowClassName={this.getRowClassName}>
-                  {columns.map(({ dataKey, ...other }, index) => {
-                    return (
+            {({ width }) => (
+              <WindowScroller>
+                {({ height, isScrolling, onChildScroll, scrollTop }) => (
+                  <Table
+                    autoHeight
+                    height={height}
+                    width={width}
+                    onRowsRendered={onRowsRendered}
+                    ref={ref}
+                    rowCount={rowCount}
+                    isScrolling={isScrolling}
+                    onScroll={onChildScroll}
+                    {...tableProps}
+                    rowClassName={this.getRowClassName}
+                    scrollTop={scrollTop}
+                    noRowsRenderer={() => (
+                      <>
+                        <TableCell
+                          style={{
+                            verticalAlign: 'middle',
+                            height: 56,
+                          }}
+                          width={columns[0].width}>
+                          <em style={{ color: 'black' }}>
+                            No items for this page.
+                          </em>
+                        </TableCell>
+                        <TableCell width={columns[1].width} />
+                        <TableCell width={columns[2].width} />
+                        <TableCell width={columns[3].width} />
+                        <TableCell width={columns[4].width} />
+                      </>
+                    )}>
+                    {columns.map(({ dataKey, ...other }, index) => (
                       <Column
                         key={dataKey}
                         headerRenderer={headerProps =>
@@ -129,11 +157,11 @@ class DataTable extends Component {
                         dataKey={dataKey}
                         {...other}
                       />
-                    );
-                  })}
-                </Table>
-              );
-            }}
+                    ))}
+                  </Table>
+                )}
+              </WindowScroller>
+            )}
           </AutoSizer>
         )}
       </InfiniteLoader>

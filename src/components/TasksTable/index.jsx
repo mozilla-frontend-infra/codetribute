@@ -63,11 +63,6 @@ const assignments = Object.values(ASSIGNEE);
     display: 'inline-block',
     width: 450,
   },
-  tableWrapper: {
-    overflowX: 'auto',
-    height: 1000,
-    marginTop: theme.spacing.unit * 3,
-  },
   clickedChip: {
     backgroundColor: theme.palette.secondary.dark,
     '&:focus': {
@@ -98,6 +93,7 @@ const assignments = Object.values(ASSIGNEE);
     display: 'flex',
     flexWrap: 'wrap',
     alignItems: 'center',
+    marginBottom: theme.spacing.unit * 3,
   },
   summaryText: {
     overflowX: 'hidden',
@@ -397,142 +393,140 @@ export default class TasksTable extends Component {
             Reset
           </Button>
         </div>
-        <div className={classes.tableWrapper}>
-          <DataTable
-            hasNextPage={hasNextPage}
-            loadNextPage={loadNextPage}
-            isNextPageLoading={isNextPageLoading}
-            sortByHeader={sortBy}
-            sortDirection={sortDirection}
-            onHeaderClick={this.handleHeaderClick}
-            cellRenderer={({ cellData, columnIndex }) => {
-              if (columnIndex === 0) {
-                return (
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    className={classes.tableCell}
-                    style={{ height: rowHeight }}>
-                    {cellData}
-                  </TableCell>
-                );
-              }
+        <DataTable
+          hasNextPage={hasNextPage}
+          loadNextPage={loadNextPage}
+          isNextPageLoading={isNextPageLoading}
+          sortByHeader={sortBy}
+          sortDirection={sortDirection}
+          onHeaderClick={this.handleHeaderClick}
+          cellRenderer={({ cellData, columnIndex }) => {
+            if (columnIndex === 0) {
+              return (
+                <TableCell
+                  component="th"
+                  scope="row"
+                  className={classes.tableCell}
+                  style={{ height: rowHeight }}>
+                  {cellData}
+                </TableCell>
+              );
+            }
 
-              if (columnIndex === 1) {
-                return (
-                  <TableCell
-                    className={classes.tableCell}
-                    style={{ height: rowHeight }}>
-                    <IconButton
-                      name={cellData.title}
-                      aria-label="Information"
-                      className={classes.infoButton}
-                      onClick={this.handleDrawerOpen}>
-                      <InformationVariantIcon />
-                    </IconButton>
-                    <List
-                      dense
-                      disablePadding
-                      className={classes.summary}
-                      component="div">
-                      <ListItem
-                        className={classes.listItemButton}
-                        classes={{
-                          gutters: classes.summaryItem,
-                        }}
-                        title={cellData.title}
-                        button
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        component="a"
-                        href={cellData.url}>
-                        <ListItemText
-                          primary={
-                            <div className={classes.summaryText}>
-                              {cellData.title}
-                            </div>
-                          }
-                        />
-                        <LinkIcon className={classes.icon} size={iconSize} />
-                      </ListItem>
-                    </List>
-                  </TableCell>
-                );
-              }
-
-              if (columnIndex === 2) {
-                return (
-                  <TableCell
-                    className={classes.tableCell}
-                    style={{ height: rowHeight }}>
-                    {cellData.map(tag => (
-                      <Chip
-                        name={tag}
-                        key={tag}
-                        label={tag}
-                        className={classNames({
-                          [classes.clickedChip]: tag === query.tag,
-                        })}
-                        onClick={this.handleTagClick}
+            if (columnIndex === 1) {
+              return (
+                <TableCell
+                  className={classes.tableCell}
+                  style={{ height: rowHeight }}>
+                  <IconButton
+                    name={cellData.title}
+                    aria-label="Information"
+                    className={classes.infoButton}
+                    onClick={this.handleDrawerOpen}>
+                    <InformationVariantIcon />
+                  </IconButton>
+                  <List
+                    dense
+                    disablePadding
+                    className={classes.summary}
+                    component="div">
+                    <ListItem
+                      className={classes.listItemButton}
+                      classes={{
+                        gutters: classes.summaryItem,
+                      }}
+                      title={cellData.title}
+                      button
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      component="a"
+                      href={cellData.url}>
+                      <ListItemText
+                        primary={
+                          <div className={classes.summaryText}>
+                            {cellData.title}
+                          </div>
+                        }
                       />
-                    ))}
-                  </TableCell>
-                );
-              }
+                      <LinkIcon className={classes.icon} size={iconSize} />
+                    </ListItem>
+                  </List>
+                </TableCell>
+              );
+            }
 
-              if (columnIndex === 3) {
-                return (
-                  <TableCell
-                    className={classes.tableCell}
-                    style={{ height: rowHeight }}>
-                    {cellData}
-                  </TableCell>
-                );
-              }
+            if (columnIndex === 2) {
+              return (
+                <TableCell
+                  className={classes.tableCell}
+                  style={{ height: rowHeight }}>
+                  {cellData.map(tag => (
+                    <Chip
+                      name={tag}
+                      key={tag}
+                      label={tag}
+                      className={classNames({
+                        [classes.clickedChip]: tag === query.tag,
+                      })}
+                      onClick={this.handleTagClick}
+                    />
+                  ))}
+                </TableCell>
+              );
+            }
 
-              if (columnIndex === 4) {
-                return (
-                  <TableCell
-                    className={classes.tableCell}
-                    style={{ height: rowHeight }}>
-                    {formatDistance(parseISO(cellData), new Date(), {
-                      addSuffix: true,
-                    })}
-                  </TableCell>
-                );
-              }
-            }}
-            rowCount={data.length}
-            rowGetter={({ index }) => data[index]}
-            columns={[
-              {
-                width: (window.innerWidth / 2000) * 250,
-                label: 'Project',
-                dataKey: 'project',
-              },
-              {
-                width: (window.innerWidth / 2000) * 888,
-                label: 'Summary',
-                dataKey: 'summary',
-              },
-              {
-                width: (window.innerWidth / 2000) * 375,
-                label: 'Tags',
-                dataKey: 'tags',
-              },
-              {
-                width: (window.innerWidth / 2000) * 182,
-                label: 'Assignee',
-                dataKey: 'assignee',
-              },
-              {
-                width: (window.innerWidth / 2000) * 274,
-                label: 'Last Updated',
-                dataKey: 'lastUpdated',
-              },
-            ]}
-          />
-        </div>
+            if (columnIndex === 3) {
+              return (
+                <TableCell
+                  className={classes.tableCell}
+                  style={{ height: rowHeight }}>
+                  {cellData}
+                </TableCell>
+              );
+            }
+
+            if (columnIndex === 4) {
+              return (
+                <TableCell
+                  className={classes.tableCell}
+                  style={{ height: rowHeight }}>
+                  {formatDistance(parseISO(cellData), new Date(), {
+                    addSuffix: true,
+                  })}
+                </TableCell>
+              );
+            }
+          }}
+          rowCount={data.length}
+          rowGetter={({ index }) => data[index]}
+          columns={[
+            {
+              width: (window.innerWidth / 2000) * 250,
+              label: 'Project',
+              dataKey: 'project',
+            },
+            {
+              width: (window.innerWidth / 2000) * 888,
+              label: 'Summary',
+              dataKey: 'summary',
+            },
+            {
+              width: (window.innerWidth / 2000) * 375,
+              label: 'Tags',
+              dataKey: 'tags',
+            },
+            {
+              width: (window.innerWidth / 2000) * 182,
+              label: 'Assignee',
+              dataKey: 'assignee',
+            },
+            {
+              width: (window.innerWidth / 2000) * 274,
+              label: 'Last Updated',
+              dataKey: 'lastUpdated',
+            },
+          ]}
+        />
         <Drawer
           anchor="right"
           open={drawerOpen}
