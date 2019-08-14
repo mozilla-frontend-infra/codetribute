@@ -34,7 +34,7 @@ import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
 const getTaskHelperText = item => {
   const daysSinceLastUpdate = differenceInCalendarDays(
     new Date(),
-    item.lastUpdated
+    parseISO(item.lastUpdated)
   );
 
   if (item.assignee === '-' && daysSinceLastUpdate < 90) {
