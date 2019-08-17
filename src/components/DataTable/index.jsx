@@ -126,22 +126,19 @@ class DataTable extends Component {
                     rowClassName={this.getRowClassName}
                     scrollTop={scrollTop}
                     noRowsRenderer={() => (
-                      <>
-                        <TableCell
-                          style={{
-                            verticalAlign: 'middle',
-                            height: 56,
-                          }}
-                          width={columns[0].width}>
-                          <em style={{ color: 'black' }}>
-                            No items for this page.
-                          </em>
-                        </TableCell>
-                        <TableCell width={columns[1].width} />
-                        <TableCell width={columns[2].width} />
-                        <TableCell width={columns[3].width} />
-                        <TableCell width={columns[4].width} />
-                      </>
+                      <TableCell
+                        style={{
+                          verticalAlign: 'middle',
+                          height: 56,
+                        }}
+                        width={columns.reduce(
+                          (sum, { width }) => sum + width,
+                          0
+                        )}>
+                        <em style={{ color: 'black' }}>
+                          No items for this page.
+                        </em>
+                      </TableCell>
                     )}>
                     {columns.map(({ dataKey, ...other }, index) => (
                       <Column
