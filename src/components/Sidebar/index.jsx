@@ -35,6 +35,17 @@ import RustIcon from './RustIcon';
     color: theme.palette.grey[800],
     fontFamily: 'Roboto500',
   },
+  link: {
+    display: 'inline-flex',
+  },
+  b: {
+    padding: 3 * theme.spacing.unit,
+  },
+  a: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
 }))
 export default class Sidebar extends Component {
   render() {
@@ -61,25 +72,39 @@ export default class Sidebar extends Component {
 
     // Add Swift directly as there is no `lang=swift` in bugzilla whiteboards
     return (
-      <List disablePadding>
-        {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map(language => (
-          <ListItem
-            className={classNames({
-              [classes.active]: language.toLowerCase() === activeLanguage,
-            })}
-            button
-            onClick={this.props.onLanguageClick}
-            id={language}
-            key={language}
-            component={Link}
-            to={`/languages/${language.toLowerCase()}`}>
-            <ListItemIcon>{icons[language] || <WebIcon />}</ListItemIcon>
-            <ListItemText disableTypography className={classes.text}>
-              {language}
-            </ListItemText>
-          </ListItem>
-        ))}
-      </List>
+      <div className={classes.a}>
+        <div>
+          <List disablePadding>
+            {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map(language => (
+              <ListItem
+                className={classNames({
+                  [classes.active]: language.toLowerCase() === activeLanguage,
+                })}
+                button
+                onClick={this.props.onLanguageClick}
+                id={language}
+                key={language}
+                component={Link}
+                to={`/languages/${language.toLowerCase()}`}>
+                <ListItemIcon>{icons[language] || <WebIcon />}</ListItemIcon>
+                <ListItemText disableTypography className={classes.text}>
+                  {language}
+                </ListItemText>
+              </ListItem>
+            ))}
+          </List>
+        </div>
+        <div className={classes.b}>
+          <a
+            className={classes.link}
+            href="https://summerofcode.withgoogle.com">
+            Google Summer of Code
+          </a>
+          <a className={classes.link} href="https://www.outreachy.org">
+            Outreachy
+          </a>
+        </div>
+      </div>
     );
   }
 }
