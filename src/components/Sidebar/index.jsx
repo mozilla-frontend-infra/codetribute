@@ -15,7 +15,7 @@ import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
 import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
 import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
 import ConsoleIcon from 'mdi-react/ConsoleIcon';
-import { BUGZILLA_LANGUAGES } from '../../utils/constants';
+import { BUGZILLA_LANGUAGES, THIRD_PARTY_LINKS } from '../../utils/constants';
 import JavaIcon from './JavaIcon';
 import HTMLIcon from './HtmlIcon';
 import PerlIcon from './PerlIcon';
@@ -38,13 +38,14 @@ import RustIcon from './RustIcon';
   link: {
     display: 'inline-flex',
   },
-  b: {
+  thirdPartyLinks: {
     padding: 3 * theme.spacing.unit,
   },
-  a: {
+  sidebarContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    height: '100%',
   },
 }))
 export default class Sidebar extends Component {
@@ -72,7 +73,7 @@ export default class Sidebar extends Component {
 
     // Add Swift directly as there is no `lang=swift` in bugzilla whiteboards
     return (
-      <div className={classes.a}>
+      <div className={classes.sidebarContainer}>
         <div>
           <List disablePadding>
             {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map(language => (
@@ -94,15 +95,18 @@ export default class Sidebar extends Component {
             ))}
           </List>
         </div>
-        <div className={classes.b}>
-          <a
-            className={classes.link}
-            href="https://summerofcode.withgoogle.com">
-            Google Summer of Code
-          </a>
-          <a className={classes.link} href="https://www.outreachy.org">
-            Outreachy
-          </a>
+        <div className={classes.thirdPartyLinks}>
+          {THIRD_PARTY_LINKS.map(links => {
+            return (
+              <a
+                key={links.link}
+                className={classes.link}
+                href={links.link}
+                label={links.label}>
+                {links.label}
+              </a>
+            );
+          })}
         </div>
       </div>
     );
