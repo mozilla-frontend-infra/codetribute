@@ -99,6 +99,7 @@ export default class Sidebar extends Component {
           {THIRD_PARTY_LINKS.map(links => {
             return (
               <a
+                rel="noopener noreferrer"
                 key={links.link}
                 className={classes.link}
                 href={links.link}
