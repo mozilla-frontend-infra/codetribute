@@ -36,7 +36,7 @@ introduction: |
   our [wiki].
 
   [Make your own add-on]: https://addons.mozilla.org/developers/
-  [good first bug]: https://github.com/search?l=&q=repo:mozilla/addons+repo:mozilla/addons-frontend+repo:mozilla/addons-linter+repo:mozilla/addons-server+label:%22contrib:+good+first+bug%22&ref=advsearch&state=open&type=Issues
+  [good first bug]: https://github.com/search?l=&q=repo:mozilla/addons+repo:mozilla/addons-frontend+repo:mozilla/addons-linter+repo:mozilla/addons-server+repo:mozilla/extension-workshop+label:%22contrib:+good+first+bug%22&ref=advsearch&state=open&type=Issues
   [server]: https://github.com/mozilla/addons-server/issues
   [frontend]: https://github.com/mozilla/addons-frontend/issues
   [forum]: https://discourse.mozilla-community.org/c/add-ons
@@ -49,3 +49,4 @@ repositories:
  - mozilla/addons-frontend: "contrib: good first bug"
  - mozilla/addons-linter: "contrib: good first bug"
  - mozilla/addons-server: "contrib: good first bug"
+ - mozilla/extension-workshop: "contrib: good first bug"
