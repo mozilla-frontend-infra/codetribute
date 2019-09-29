@@ -143,39 +143,38 @@ export default class Project extends Component {
     await this.load();
     const githubData = this.props.github;
     const bugzillaData = this.props.bugzilla;
-    let issues = [];
     let hasNextPage = false;
-    let goodFirstBugs = [];
-    let mentoredBugs = [];
+    const issues =
+      (githubData &&
+        githubData.search &&
+        uniqBy(
+          githubData.search.nodes.map(issue => ({
+            project: issue.repository.name,
+            summary: {
+              title: issue.title,
+              url: issue.url,
+            },
+            tags: issue.labels.nodes.map(node => node.name).sort(),
+            lastUpdated: issue.updatedAt,
+            assignee: issue.assignees.nodes[0]
+              ? issue.assignees.nodes[0].login
+              : '-',
+            description: issue.body,
+          })),
+          'summary.title'
+        )) ||
+      [];
 
-    if (githubData && githubData.search) {
-      issues = uniqBy(
-        githubData.search.nodes.map(issue => ({
-          project: issue.repository.name,
-          summary: {
-            title: issue.title,
-            url: issue.url,
-          },
-          tags: issue.labels.nodes.map(node => node.name).sort(),
-          lastUpdated: issue.updatedAt,
-          assignee: issue.assignees.nodes[0]
-            ? issue.assignees.nodes[0].login
-            : '-',
-          description: issue.body,
-        })),
-        'summary.title'
-      );
+    Object.keys(pageCursors.github).forEach(x => {
+      if (pageCursors.github[x].hasNextPage) {
+        hasNextPage = true;
+      }
+    });
 
-      Object.keys(pageCursors.github).forEach(x => {
-        if (pageCursors.github[x].hasNextPage) {
-          hasNextPage = true;
-        }
-      });
-    }
-
-    if (bugzillaData) {
-      if (bugzillaData.goodFirst) {
-        goodFirstBugs = uniqBy(
+    const goodFirstBugs =
+      (bugzillaData &&
+        bugzillaData.goodFirst &&
+        uniqBy(
           bugzillaData.goodFirst.edges
             .map(edge => edge.node)
             .map(bug => ({
@@ -197,19 +196,21 @@ export default class Project extends Component {
               id: bug.id,
             })),
           'summary.title'
-        );
+        )) ||
+      [];
 
-        if (!hasNextPage) {
-          Object.keys(pageCursors.bzGoodFirst).forEach(x => {
-            if (pageCursors.bzGoodFirst[x].hasNextPage) {
-              hasNextPage = true;
-            }
-          });
+    if (!hasNextPage) {
+      Object.keys(pageCursors.bzGoodFirst).forEach(x => {
+        if (pageCursors.bzGoodFirst[x].hasNextPage) {
+          hasNextPage = true;
         }
-      }
+      });
+    }
 
-      if (bugzillaData.mentored) {
-        mentoredBugs = uniqBy(
+    const mentoredBugs =
+      (bugzillaData &&
+        bugzillaData.mentored &&
+        uniqBy(
           bugzillaData.mentored.edges
             .map(edge => edge.node)
             .map(bug => ({
@@ -231,16 +232,15 @@ export default class Project extends Component {
               id: bug.id,
             })),
           'summary.title'
-        );
+        )) ||
+      [];
 
-        if (hasNextPage !== true)
-          Object.keys(pageCursors.bzMentored).forEach(x => {
-            if (pageCursors.bzMentored[x].hasNextPage) {
-              hasNextPage = true;
-            }
-          });
-      }
-    }
+    if (hasNextPage !== true)
+      Object.keys(pageCursors.bzMentored).forEach(x => {
+        if (pageCursors.bzMentored[x].hasNextPage) {
+          hasNextPage = true;
+        }
+      });
 
     await this.setState({
       hasNextPage,
