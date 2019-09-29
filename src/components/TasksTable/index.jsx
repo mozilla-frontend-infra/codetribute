@@ -501,27 +501,27 @@ export default class TasksTable extends Component {
           rowGetter={({ index }) => data[index]}
           columns={[
             {
-              width: (window.innerWidth / 2000) * 250,
+              width: (window.innerWidth / 2000) * 180,
               label: 'Project',
               dataKey: 'project',
             },
             {
-              width: (window.innerWidth / 2000) * 888,
+              width: (window.innerWidth / 2000) * 700,
               label: 'Summary',
               dataKey: 'summary',
             },
             {
-              width: (window.innerWidth / 2000) * 375,
+              width: (window.innerWidth / 2000) * 750,
               label: 'Tags',
               dataKey: 'tags',
             },
             {
-              width: (window.innerWidth / 2000) * 182,
+              width: (window.innerWidth / 2000) * 100,
               label: 'Assignee',
               dataKey: 'assignee',
             },
             {
-              width: (window.innerWidth / 2000) * 274,
+              width: (window.innerWidth / 2000) * 200,
               label: 'Last Updated',
               dataKey: 'lastUpdated',
             },

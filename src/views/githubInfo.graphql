@@ -1,5 +1,5 @@
 query githubInfo($searchQuery: String!, $type: SearchType!, $after: String) {
-  search(first: 100, type: $type, query: $searchQuery, after: $after){
+  search(first: 5, type: $type, query: $searchQuery, after: $after){
     pageInfo {
         endCursor
         hasNextPage

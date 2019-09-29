@@ -43,9 +43,11 @@ const tagReposMapping = repositories =>
       ...mappings,
     };
   }, {});
-const pagingGithub = {};
-const pagingGood = {};
-const pagingMen = {};
+const pageCursors = {
+  github: {},
+  bzGoodFirst: {},
+  bzMentored: {},
+};
 
 @hot(module)
 @compose(
@@ -110,10 +112,10 @@ const pagingMen = {};
                 components: Object.values(projects[project].products[0])[0],
               }),
         },
-        pagingGood: {
+        goodFirstPaging: {
           ...BUGZILLA_PAGING_OPTIONS,
         },
-        pagingMen: {
+        mentoredPaging: {
           ...BUGZILLA_PAGING_OPTIONS,
         },
       },
@@ -164,8 +166,8 @@ export default class Project extends Component {
         'summary.title'
       );
 
-      Object.keys(pagingGithub).forEach(x => {
-        if (pagingGithub[x].hasNextPage) {
+      Object.keys(pageCursors.github).forEach(x => {
+        if (pageCursors.github[x].hasNextPage) {
           hasNextPage = true;
         }
       });
@@ -198,8 +200,8 @@ export default class Project extends Component {
         );
 
         if (!hasNextPage) {
-          Object.keys(pagingGood).forEach(x => {
-            if (pagingGood[x].hasNextPage) {
+          Object.keys(pageCursors.bzGoodFirst).forEach(x => {
+            if (pageCursors.bzGoodFirst[x].hasNextPage) {
               hasNextPage = true;
             }
           });
@@ -232,8 +234,8 @@ export default class Project extends Component {
         );
 
         if (hasNextPage !== true)
-          Object.keys(pagingMen).forEach(x => {
-            if (pagingMen[x].hasNextPage) {
+          Object.keys(pageCursors.bzMentored).forEach(x => {
+            if (pageCursors.bzMentored[x].hasNextPage) {
               hasNextPage = true;
             }
           });
@@ -286,13 +288,13 @@ export default class Project extends Component {
     const {
       bugzilla: { fetchMore },
     } = this.props;
-    const pageGood =
-      JSON.stringify({ products, components }) in pagingGood
-        ? pagingGood[JSON.stringify({ products, components })].nextPage
+    const goodFirstPage =
+      JSON.stringify(products) in pageCursors.bzGoodFirst
+        ? pageCursors.bzGoodFirst[JSON.stringify(products)].nextPage
         : 0;
-    const pageMen =
-      JSON.stringify({ products, components }) in pagingMen
-        ? pagingMen[JSON.stringify({ products, components })].nextPage
+    const mentoredPage =
+      JSON.stringify(products) in pageCursors.bzMentored
+        ? pageCursors.bzMentored[JSON.stringify(products)].nextPage
         : 0;
 
     return fetchMore({
@@ -310,12 +312,12 @@ export default class Project extends Component {
           products,
           components,
         },
-        pagingGood: {
-          page: pageGood,
+        goodFirstPaging: {
+          page: goodFirstPage,
           pageSize: BUGZILLA_PAGE_SIZE,
         },
-        pagingMen: {
-          page: pageMen,
+        mentoredPaging: {
+          page: mentoredPage,
           pageSize: BUGZILLA_PAGE_SIZE,
         },
       },
@@ -330,19 +332,19 @@ export default class Project extends Component {
           return previousResult;
         }
 
-        pagingGood[JSON.stringify({ products, components })] =
+        pageCursors.bzGoodFirst[JSON.stringify(products)] =
           fetchMoreResult.goodFirst.pageInfo;
-        pagingMen[JSON.stringify({ products, components })] =
+        pageCursors.bzMentored[JSON.stringify(products)] =
           fetchMoreResult.mentored.pageInfo;
 
         return dotProp.set(
           dotProp.set(
             previousResult,
             'goodFirst.edges',
-            previousResult.goodFirst.edges.concat(moreGoodFirstNodes)
+            moreGoodFirstNodes.concat(previousResult.goodFirst.edges)
           ),
           'mentored.edges',
-          previousResult.mentored.edges.concat(moreMentoredNodes)
+          moreMentoredNodes.concat(previousResult.mentored.edges)
         );
       },
     });
@@ -353,7 +355,9 @@ export default class Project extends Component {
       github: { fetchMore },
     } = this.props;
     const endCursor =
-      searchQuery in pagingGithub ? pagingGithub[searchQuery].endCursor : null;
+      searchQuery in pageCursors.github
+        ? pageCursors.github[searchQuery].endCursor
+        : null;
 
     return fetchMore({
       query: githubInfoQuery,
@@ -372,12 +376,12 @@ export default class Project extends Component {
           return previousResult;
         }
 
-        pagingGithub[searchQuery] = fetchMoreResult.search.pageInfo;
+        pageCursors.github[searchQuery] = fetchMoreResult.search.pageInfo;
 
         return dotProp.set(
           previousResult,
           'search.nodes',
-          previousResult.search.nodes.concat(moreNodes)
+          moreNodes.concat(previousResult.search.nodes)
         );
       },
     });
@@ -418,7 +422,7 @@ export default class Project extends Component {
       ? project.products.filter(product => typeof product === 'string')
       : [];
 
-    if (project.products)
+    if (productWithNoComponentList.length)
       await this.fetchBugzilla(productWithNoComponentList, undefined);
   };
 

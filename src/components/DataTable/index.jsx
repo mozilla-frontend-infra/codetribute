@@ -62,25 +62,6 @@ class DataTable extends Component {
     return classes.flexContainer;
   };
 
-  headerRenderer = ({ label }) => {
-    const { headerHeight, classes, sortByHeader, sortDirection } = this.props;
-
-    return (
-      <TableCell
-        className={classes.flexContainer}
-        variant="head"
-        style={{ height: headerHeight }}>
-        <TableSortLabel
-          id={label}
-          active={label === sortByHeader}
-          direction={sortDirection || 'desc'}
-          onClick={this.handleHeaderClick}>
-          {label}
-        </TableSortLabel>
-      </TableCell>
-    );
-  };
-
   componentDidMount = async () => {
     await this.props.loadNextPage();
   };
@@ -95,6 +76,7 @@ class DataTable extends Component {
       cellRenderer,
       onHeaderClick,
       sortByHeader,
+      headerHeight,
       sortDirection,
       rowCount,
       ...tableProps
@@ -122,6 +104,7 @@ class DataTable extends Component {
                     rowCount={rowCount}
                     isScrolling={isScrolling}
                     onScroll={onChildScroll}
+                    headerHeight={headerHeight}
                     {...tableProps}
                     rowClassName={this.getRowClassName}
                     scrollTop={scrollTop}
@@ -140,15 +123,23 @@ class DataTable extends Component {
                         </em>
                       </TableCell>
                     )}>
-                    {columns.map(({ dataKey, ...other }, index) => (
+                    {columns.map(({ dataKey, ...other }) => (
                       <Column
                         key={dataKey}
-                        headerRenderer={headerProps =>
-                          this.headerRenderer({
-                            ...headerProps,
-                            columnIndex: index,
-                          })
-                        }
+                        headerRenderer={({ label }) => (
+                          <TableCell
+                            className={classes.flexContainer}
+                            variant="head"
+                            style={{ height: headerHeight }}>
+                            <TableSortLabel
+                              id={label}
+                              active={label === sortByHeader}
+                              direction={sortDirection || 'desc'}
+                              onClick={this.handleHeaderClick}>
+                              {label}
+                            </TableSortLabel>
+                          </TableCell>
+                        )}
                         className={classes.flexContainer}
                         cellRenderer={cellRenderer}
                         dataKey={dataKey}

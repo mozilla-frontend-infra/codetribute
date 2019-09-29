@@ -1,8 +1,8 @@
-query Bugs($goodFirst: BugSearch!, $mentored: BugSearch!, $pagingGood: Paging!, $pagingMen: Paging!) {
-  goodFirst: bugs(search: $goodFirst, paging: $pagingGood) {
+ query Bugs($goodFirst: BugSearch!, $mentored: BugSearch!, $goodFirstPaging: Paging!, $mentoredPaging: Paging!) { 
+  goodFirst: bugs(search: $goodFirst, paging: $goodFirstPaging) {
     ...Bugs
   }
-  mentored: bugs(search: $mentored, paging: $pagingMen) {
+  mentored: bugs(search: $mentored, paging: $mentoredPaging) {
     ...Bugs
   }
 }
