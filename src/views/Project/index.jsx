@@ -133,123 +133,7 @@ const pageCursors = {
 }))
 export default class Project extends Component {
   state = {
-    hasNextPage: true,
     isNextPageLoading: false,
-    items: [],
-  };
-
-  loadNextPage = async () => {
-    await this.setState({ isNextPageLoading: true });
-    await this.load();
-    const githubData = this.props.github;
-    const bugzillaData = this.props.bugzilla;
-    let hasNextPage = false;
-    const issues =
-      (githubData &&
-        githubData.search &&
-        uniqBy(
-          githubData.search.nodes.map(issue => ({
-            project: issue.repository.name,
-            summary: {
-              title: issue.title,
-              url: issue.url,
-            },
-            tags: issue.labels.nodes.map(node => node.name).sort(),
-            lastUpdated: issue.updatedAt,
-            assignee: issue.assignees.nodes[0]
-              ? issue.assignees.nodes[0].login
-              : '-',
-            description: issue.body,
-          })),
-          'summary.title'
-        )) ||
-      [];
-
-    Object.keys(pageCursors.github).forEach(x => {
-      if (pageCursors.github[x].hasNextPage) {
-        hasNextPage = true;
-      }
-    });
-
-    const goodFirstBugs =
-      (bugzillaData &&
-        bugzillaData.goodFirst &&
-        uniqBy(
-          bugzillaData.goodFirst.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: {
-                title: bug.summary,
-                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-              },
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-            })),
-          'summary.title'
-        )) ||
-      [];
-
-    if (!hasNextPage) {
-      Object.keys(pageCursors.bzGoodFirst).forEach(x => {
-        if (pageCursors.bzGoodFirst[x].hasNextPage) {
-          hasNextPage = true;
-        }
-      });
-    }
-
-    const mentoredBugs =
-      (bugzillaData &&
-        bugzillaData.mentored &&
-        uniqBy(
-          bugzillaData.mentored.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: {
-                title: bug.summary,
-                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-              },
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-            })),
-          'summary.title'
-        )) ||
-      [];
-
-    if (hasNextPage !== true)
-      Object.keys(pageCursors.bzMentored).forEach(x => {
-        if (pageCursors.bzMentored[x].hasNextPage) {
-          hasNextPage = true;
-        }
-      });
-
-    await this.setState({
-      hasNextPage,
-      isNextPageLoading: false,
-      items: uniqBy(
-        [...issues, ...goodFirstBugs, ...mentoredBugs],
-        'summary.title'
-      ),
-    });
   };
 
   componentDidUpdate(prevProps) {
@@ -261,7 +145,7 @@ export default class Project extends Component {
         prevProps.github.loading &&
         !this.props.github.loading)
     ) {
-      this.loadNextPage();
+      this.load();
     }
   }
 
@@ -392,6 +276,8 @@ export default class Project extends Component {
     const repositories = mergeAll(project.repositories);
     const tagsMapping = tagReposMapping(repositories);
 
+    await this.setState({ isNextPageLoading: true });
+
     await Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
@@ -424,13 +310,116 @@ export default class Project extends Component {
 
     if (productWithNoComponentList.length)
       await this.fetchBugzilla(productWithNoComponentList, undefined);
+
+    await this.setState({ isNextPageLoading: false });
   };
 
   render() {
-    const { hasNextPage, isNextPageLoading, items, error } = this.state;
+    const { isNextPageLoading, error } = this.state;
     const githubData = this.props.github;
     const bugzillaData = this.props.bugzilla;
     const project = projects[this.props.match.params.project];
+    let hasNextPage = false;
+    const issues =
+      (githubData &&
+        githubData.search &&
+        uniqBy(
+          githubData.search.nodes.map(issue => ({
+            project: issue.repository.name,
+            summary: {
+              title: issue.title,
+              url: issue.url,
+            },
+            tags: issue.labels.nodes.map(node => node.name).sort(),
+            lastUpdated: issue.updatedAt,
+            assignee: issue.assignees.nodes[0]
+              ? issue.assignees.nodes[0].login
+              : '-',
+            description: issue.body,
+          })),
+          'summary.title'
+        )) ||
+      [];
+    const goodFirstBugs =
+      (bugzillaData &&
+        bugzillaData.goodFirst &&
+        uniqBy(
+          bugzillaData.goodFirst.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        )) ||
+      [];
+    const mentoredBugs =
+      (bugzillaData &&
+        bugzillaData.mentored &&
+        uniqBy(
+          bugzillaData.mentored.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        )) ||
+      [];
+
+    Object.keys(pageCursors.github).forEach(x => {
+      if (pageCursors.github[x].hasNextPage) {
+        hasNextPage = true;
+      }
+    });
+
+    if (!hasNextPage) {
+      Object.keys(pageCursors.bzGoodFirst).forEach(x => {
+        if (pageCursors.bzGoodFirst[x].hasNextPage) {
+          hasNextPage = true;
+        }
+      });
+    }
+
+    if (!hasNextPage)
+      Object.keys(pageCursors.bzMentored).forEach(x => {
+        if (pageCursors.bzMentored[x].hasNextPage) {
+          hasNextPage = true;
+        }
+      });
+
+    const items = uniqBy(
+      [...issues, ...goodFirstBugs, ...mentoredBugs],
+      'summary.title'
+    );
 
     return (
       <Dashboard title={project.name}>
@@ -450,7 +439,7 @@ export default class Project extends Component {
           items={items}
           hasNextPage={hasNextPage}
           isNextPageLoading={isNextPageLoading}
-          loadNextPage={this.loadNextPage}
+          load={this.load}
         />
       </Dashboard>
     );
