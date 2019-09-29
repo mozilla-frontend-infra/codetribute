@@ -396,25 +396,24 @@ export default class Project extends Component {
       [];
 
     Object.keys(pageCursors.github).forEach(x => {
-      if (pageCursors.github[x].hasNextPage) {
-        hasNextPage = true;
-      }
+      hasNextPage = !hasNextPage ? pageCursors.github[x].hasNextPage : true;
     });
 
     if (!hasNextPage) {
       Object.keys(pageCursors.bzGoodFirst).forEach(x => {
-        if (pageCursors.bzGoodFirst[x].hasNextPage) {
-          hasNextPage = true;
-        }
+        hasNextPage = !hasNextPage
+          ? pageCursors.bzGoodFirst[x].hasNextPage
+          : true;
       });
     }
 
-    if (!hasNextPage)
+    if (!hasNextPage) {
       Object.keys(pageCursors.bzMentored).forEach(x => {
-        if (pageCursors.bzMentored[x].hasNextPage) {
-          hasNextPage = true;
-        }
+        hasNextPage = !hasNextPage
+          ? pageCursors.bzMentored[x].hasNextPage
+          : true;
       });
+    }
 
     const items = uniqBy(
       [...issues, ...goodFirstBugs, ...mentoredBugs],
@@ -439,7 +438,7 @@ export default class Project extends Component {
           items={items}
           hasNextPage={hasNextPage}
           isNextPageLoading={isNextPageLoading}
-          load={this.load}
+          loadNextPage={this.load}
         />
       </Dashboard>
     );
