@@ -271,14 +271,14 @@ export default class Project extends Component {
     });
   };
 
-  load = async () => {
+  load = () => {
     const project = projects[this.props.match.params.project];
     const repositories = mergeAll(project.repositories);
     const tagsMapping = tagReposMapping(repositories);
 
-    await this.setState({ isNextPageLoading: true });
+    this.setState({ isNextPageLoading: true });
 
-    await Promise.all(
+    Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
           repos.map(repo => `repo:${repo}`).join(' '),
@@ -298,7 +298,7 @@ export default class Project extends Component {
 
     // fetch only the product with component list, since product without
     // component would have been fetched by the initial graphql decorator query
-    await Promise.all(
+    Promise.all(
       Object.entries(productWithComponentList).map(([products, components]) =>
         this.fetchBugzilla([products], components)
       )
@@ -309,9 +309,9 @@ export default class Project extends Component {
       : [];
 
     if (productWithNoComponentList.length)
-      await this.fetchBugzilla(productWithNoComponentList, undefined);
+      this.fetchBugzilla(productWithNoComponentList, undefined);
 
-    await this.setState({ isNextPageLoading: false });
+    this.setState({ isNextPageLoading: false });
   };
 
   render() {
