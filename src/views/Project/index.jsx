@@ -212,14 +212,14 @@ export default class Project extends Component {
         const moreGoodFirstNodes = fetchMoreResult.goodFirst.edges;
         const moreMentoredNodes = fetchMoreResult.mentored.edges;
 
-        if (!moreGoodFirstNodes.length && !moreMentoredNodes) {
-          return previousResult;
-        }
-
         pageCursors.bzGoodFirst[JSON.stringify(products)] =
           fetchMoreResult.goodFirst.pageInfo;
         pageCursors.bzMentored[JSON.stringify(products)] =
           fetchMoreResult.mentored.pageInfo;
+
+        if (!moreGoodFirstNodes.length && !moreMentoredNodes) {
+          return previousResult;
+        }
 
         return dotProp.set(
           dotProp.set(
@@ -256,11 +256,11 @@ export default class Project extends Component {
       updateQuery(previousResult, { fetchMoreResult }) {
         const moreNodes = fetchMoreResult.search.nodes;
 
+        pageCursors.github[searchQuery] = fetchMoreResult.search.pageInfo;
+
         if (!moreNodes.length) {
           return previousResult;
         }
-
-        pageCursors.github[searchQuery] = fetchMoreResult.search.pageInfo;
 
         return dotProp.set(
           previousResult,
@@ -272,11 +272,11 @@ export default class Project extends Component {
   };
 
   load = () => {
+    this.setState({ isNextPageLoading: true });
+
     const project = projects[this.props.match.params.project];
     const repositories = mergeAll(project.repositories);
     const tagsMapping = tagReposMapping(repositories);
-
-    this.setState({ isNextPageLoading: true });
 
     Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
@@ -319,7 +319,6 @@ export default class Project extends Component {
     const githubData = this.props.github;
     const bugzillaData = this.props.bugzilla;
     const project = projects[this.props.match.params.project];
-    let hasNextPage = false;
     const issues =
       (githubData &&
         githubData.search &&
@@ -394,27 +393,16 @@ export default class Project extends Component {
           'summary.title'
         )) ||
       [];
-
-    Object.keys(pageCursors.github).forEach(x => {
-      hasNextPage = !hasNextPage ? pageCursors.github[x].hasNextPage : true;
-    });
-
-    if (!hasNextPage) {
-      Object.keys(pageCursors.bzGoodFirst).forEach(x => {
-        hasNextPage = !hasNextPage
-          ? pageCursors.bzGoodFirst[x].hasNextPage
-          : true;
-      });
-    }
-
-    if (!hasNextPage) {
-      Object.keys(pageCursors.bzMentored).forEach(x => {
-        hasNextPage = !hasNextPage
-          ? pageCursors.bzMentored[x].hasNextPage
-          : true;
-      });
-    }
-
+    const hasNextPage =
+      Object.keys(pageCursors.github).some(
+        x => pageCursors.github[x].hasNextPage
+      ) ||
+      Object.keys(pageCursors.bzGoodFirst).some(
+        x => pageCursors.bzGoodFirst[x].hasNextPage
+      ) ||
+      Object.keys(pageCursors.bzMentored).some(
+        x => pageCursors.bzMentored[x].hasNextPage
+      );
     const items = uniqBy(
       [...issues, ...goodFirstBugs, ...mentoredBugs],
       'summary.title'
