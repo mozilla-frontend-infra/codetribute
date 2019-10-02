@@ -15,7 +15,7 @@ import {
   GOOD_FIRST_BUG,
   BUGZILLA_LANGUAGES,
   MENTORED_BUG,
-  BUGZILLA_PAGE_SIZE,
+  BUGZILLA_PAGING_OPTIONS,
   BUGZILLA_SEARCH_OPTIONS,
   BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
@@ -51,6 +51,11 @@ const tagReposMapping = repositories =>
       ...mappings,
     };
   }, {});
+const pageCursors = {
+  github: {},
+  bzGoodFirst: {},
+  bzMentored: {},
+};
 
 @withApollo
 @hot(module)
@@ -100,13 +105,11 @@ const tagReposMapping = repositories =>
           ...MENTORED_BUG,
           whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
         },
-        pagingGood: {
-          page: 0,
-          pageSize: BUGZILLA_PAGE_SIZE,
+        goodFirstPaging: {
+          ...BUGZILLA_PAGING_OPTIONS,
         },
-        pagingMen: {
-          page: 0,
-          pageSize: BUGZILLA_PAGE_SIZE,
+        mentoredPaging: {
+          ...BUGZILLA_PAGING_OPTIONS,
         },
       },
       context: {
@@ -117,9 +120,7 @@ const tagReposMapping = repositories =>
 )
 export default class Languages extends Component {
   state = {
-    hasNextPage: true,
     isNextPageLoading: false,
-    items: [],
   };
 
   componentDidUpdate(prevProps) {
@@ -131,11 +132,13 @@ export default class Languages extends Component {
         prevProps.github.loading &&
         !this.props.github.loading)
     ) {
-      this.loadNextPage();
+      this.load();
     }
   }
 
-  load = async () => {
+  load = () => {
+    this.setState({ isNextPageLoading: true });
+
     const {
       github: githubData,
       match: {
@@ -176,7 +179,7 @@ export default class Languages extends Component {
     const tagsMapping = tagReposMapping(filteredRepos) || {};
 
     tagsMapping[language] = Object.keys(repos);
-    await Promise.all(
+    Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
           repos.map(repo => `repo:${repo}`).join(' '),
@@ -187,119 +190,18 @@ export default class Languages extends Component {
         return this.fetchGithub(searchQuery);
       })
     );
-  };
 
-  loadNextPage = async () => {
-    await this.setState({ isNextPageLoading: true });
-    await this.load();
-    const githubData = this.props.github;
-    let issues = [];
-    let hasNextPage = false;
-
-    if (githubData && githubData.search) {
-      issues = uniqBy(
-        githubData.search.nodes
-          .filter(issue => issue.title)
-          .map(issue => ({
-            project: issue.repository.name,
-            summary: {
-              title: issue.title,
-              url: issue.url,
-            },
-            tags: issue.labels.nodes.map(node => node.name).sort(),
-            lastUpdated: issue.updatedAt,
-            assignee: issue.assignees.nodes[0]
-              ? issue.assignees.nodes[0].login
-              : '-',
-            description: issue.body,
-          })),
-        'summary'
-      );
-
-      ({ hasNextPage } = githubData.search.pageInfo);
-    }
-
-    const bugzillaData = this.props.bugzilla;
-    let goodFirstBugs = [];
-    let mentoredBugs = [];
-
-    if (bugzillaData) {
-      if (bugzillaData.goodFirst) {
-        goodFirstBugs = uniqBy(
-          bugzillaData.goodFirst.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: {
-                title: bug.summary,
-                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-              },
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-            })),
-          'summary.title'
-        );
-
-        ({ hasNextPage } = bugzillaData.goodFirst.pageInfo);
-      }
-
-      if (bugzillaData.mentored) {
-        mentoredBugs = uniqBy(
-          bugzillaData.mentored.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
-                bug.assignedTo.name.endsWith(email)
-              )
-                ? '-'
-                : bug.assignedTo.name,
-              project: bug.component,
-              tags: [
-                ...(bug.keywords || []),
-                ...extractWhiteboardTags(bug.whiteboard),
-              ],
-              summary: {
-                title: bug.summary,
-                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
-              },
-              lastUpdated: bug.lastChanged,
-              id: bug.id,
-            })),
-          'summary.title'
-        );
-
-        ({ hasNextPage } = bugzillaData.mentored.pageInfo);
-      }
-    }
-
-    await this.setState({
-      hasNextPage,
-      isNextPageLoading: false,
-      items: uniqBy(
-        [...issues, ...goodFirstBugs, ...mentoredBugs],
-        'summary.title'
-      ),
-    });
+    this.setState({ isNextPageLoading: false });
   };
 
   fetchGithub = searchQuery => {
     const {
-      github: {
-        fetchMore,
-        search: {
-          pageInfo: { endCursor },
-        },
-      },
+      github: { fetchMore },
     } = this.props;
+    const endCursor =
+      searchQuery in pageCursors.github
+        ? pageCursors.github[searchQuery].endCursor
+        : null;
 
     return fetchMore({
       query: githubInfoQuery,
@@ -319,13 +221,9 @@ export default class Languages extends Component {
         }
 
         return dotProp.set(
-          dotProp.set(
-            previousResult,
-            'search.nodes',
-            previousResult.search.nodes.concat(moreNodes)
-          ),
-          'search.pageInfo',
-          fetchMoreResult.search.pageInfo
+          previousResult,
+          'search.nodes',
+          moreNodes.concat(previousResult.search.nodes)
         );
       },
     });
@@ -358,9 +256,99 @@ export default class Languages extends Component {
         params: { language },
       },
     } = this.props;
-    const { hasNextPage, isNextPageLoading, items, error } = this.state;
+    const { isNextPageLoading, error } = this.state;
     const title = Object.keys(BUGZILLA_LANGUAGES).find(
       lang => lang.toLowerCase() === language
+    );
+    const issues =
+      (githubData &&
+        githubData.search &&
+        uniqBy(
+          githubData.search.nodes
+            .filter(issue => issue.title)
+            .map(issue => ({
+              project: issue.repository.name,
+              summary: {
+                title: issue.title,
+                url: issue.url,
+              },
+              tags: issue.labels.nodes.map(node => node.name).sort(),
+              lastUpdated: issue.updatedAt,
+              assignee: issue.assignees.nodes[0]
+                ? issue.assignees.nodes[0].login
+                : '-',
+              description: issue.body,
+            })),
+          'summary'
+        )) ||
+      [];
+    const goodFirstBugs =
+      (bugzillaData &&
+        bugzillaData.goodFirst &&
+        uniqBy(
+          bugzillaData.goodFirst.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        )) ||
+      [];
+    const mentoredBugs =
+      (bugzillaData &&
+        bugzillaData.mentored &&
+        uniqBy(
+          bugzillaData.mentored.edges
+            .map(edge => edge.node)
+            .map(bug => ({
+              assignee: BUGZILLA_UNASSIGNED.some(email =>
+                bug.assignedTo.name.endsWith(email)
+              )
+                ? '-'
+                : bug.assignedTo.name,
+              project: bug.component,
+              tags: [
+                ...(bug.keywords || []),
+                ...extractWhiteboardTags(bug.whiteboard),
+              ],
+              summary: {
+                title: bug.summary,
+                url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              },
+              lastUpdated: bug.lastChanged,
+              id: bug.id,
+            })),
+          'summary.title'
+        )) ||
+      [];
+    const hasNextPage =
+      Object.keys(pageCursors.github).some(
+        x => pageCursors.github[x].hasNextPage
+      ) ||
+      Object.keys(pageCursors.bzGoodFirst).some(
+        x => pageCursors.bzGoodFirst[x].hasNextPage
+      ) ||
+      Object.keys(pageCursors.bzMentored).some(
+        x => pageCursors.bzMentored[x].hasNextPage
+      );
+    const items = uniqBy(
+      [...issues, ...goodFirstBugs, ...mentoredBugs],
+      'summary.title'
     );
 
     return (
@@ -378,7 +366,7 @@ export default class Languages extends Component {
           items={items}
           hasNextPage={hasNextPage}
           isNextPageLoading={isNextPageLoading}
-          loadNextPage={this.loadNextPage}
+          loadNextPage={this.load}
         />
       </Dashboard>
     );
