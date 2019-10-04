@@ -277,6 +277,34 @@ export default class Project extends Component {
     const project = projects[this.props.match.params.project];
     const repositories = mergeAll(project.repositories);
     const tagsMapping = tagReposMapping(repositories);
+    const productWithComponentList = mergeAll(
+      project.products
+        ? project.products.filter(product => typeof product !== 'string')
+        : []
+    );
+    const productWithNoComponentList = project.products
+      ? project.products.filter(product => typeof product === 'string')
+      : [];
+
+    if (
+      !(
+        Object.entries(productWithComponentList).some(
+          ([products]) =>
+            JSON.stringify([products]) in pageCursors.bzGoodFirst ||
+            JSON.stringify([products]) in pageCursors.bzMentored
+        ) ||
+        Object.entries(productWithNoComponentList).some(
+          ([products]) =>
+            JSON.stringify([products]) in pageCursors.bzGoodFirst ||
+            JSON.stringify([products]) in pageCursors.bzMentored
+        )
+      ) &&
+      !Object.entries(tagsMapping).some(x => x in pageCursors.github)
+    ) {
+      pageCursors.github = {};
+      pageCursors.bzGoodFirst = {};
+      pageCursors.bzMentored = {};
+    }
 
     Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
@@ -290,12 +318,6 @@ export default class Project extends Component {
       })
     );
 
-    const productWithComponentList = mergeAll(
-      project.products
-        ? project.products.filter(product => typeof product !== 'string')
-        : []
-    );
-
     // fetch only the product with component list, since product without
     // component would have been fetched by the initial graphql decorator query
     Promise.all(
@@ -303,10 +325,6 @@ export default class Project extends Component {
         this.fetchBugzilla([products], components)
       )
     );
-
-    const productWithNoComponentList = project.products
-      ? project.products.filter(product => typeof product === 'string')
-      : [];
 
     if (productWithNoComponentList.length)
       this.fetchBugzilla(productWithNoComponentList, undefined);

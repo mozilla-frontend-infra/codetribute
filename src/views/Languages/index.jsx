@@ -16,6 +16,7 @@ import {
   BUGZILLA_LANGUAGES,
   MENTORED_BUG,
   BUGZILLA_PAGING_OPTIONS,
+  BUGZILLA_PAGE_SIZE,
   BUGZILLA_SEARCH_OPTIONS,
   BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
@@ -141,6 +142,7 @@ export default class Languages extends Component {
 
     const {
       github: githubData,
+      bugzilla: bugzillaData,
       match: {
         params: { language },
       },
@@ -179,6 +181,17 @@ export default class Languages extends Component {
     const tagsMapping = tagReposMapping(filteredRepos) || {};
 
     tagsMapping[language] = Object.keys(repos);
+
+    if (
+      !(language in pageCursors.bzGoodFirst) &&
+      !(language in pageCursors.bzMentored) &&
+      !Object.entries(tagsMapping).some(x => x in pageCursors.github)
+    ) {
+      pageCursors.github = {};
+      pageCursors.bzGoodFirst = {};
+      pageCursors.bzMentored = {};
+    }
+
     Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
@@ -190,6 +203,8 @@ export default class Languages extends Component {
         return this.fetchGithub(searchQuery);
       })
     );
+
+    if (bugzillaData) this.fetchBugzilla(language);
 
     this.setState({ isNextPageLoading: false });
   };
@@ -216,6 +231,8 @@ export default class Languages extends Component {
       updateQuery(previousResult, { fetchMoreResult }) {
         const moreNodes = fetchMoreResult.search.nodes;
 
+        pageCursors.github[searchQuery] = fetchMoreResult.search.pageInfo;
+
         if (!moreNodes.length) {
           return previousResult;
         }
@@ -224,6 +241,68 @@ export default class Languages extends Component {
           previousResult,
           'search.nodes',
           moreNodes.concat(previousResult.search.nodes)
+        );
+      },
+    });
+  };
+
+  fetchBugzilla = language => {
+    const {
+      bugzilla: { fetchMore },
+    } = this.props;
+    const goodFirstPage =
+      language in pageCursors.bzGoodFirst
+        ? pageCursors.bzGoodFirst[language].nextPage
+        : 0;
+    const mentoredPage =
+      language in pageCursors.bzMentored
+        ? pageCursors.bzMentored[language].nextPage
+        : 0;
+
+    return fetchMore({
+      query: bugsQuery,
+      variables: {
+        goodFirst: {
+          ...BUGZILLA_SEARCH_OPTIONS,
+          keywords: [GOOD_FIRST_BUG],
+          whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
+        },
+        mentored: {
+          ...BUGZILLA_SEARCH_OPTIONS,
+          ...MENTORED_BUG,
+          whiteboards: `lang=${getIgnoreCase(BUGZILLA_LANGUAGES, language)}`,
+        },
+        goodFirstPaging: {
+          page: goodFirstPage,
+          pageSize: BUGZILLA_PAGE_SIZE,
+        },
+        mentoredPaging: {
+          page: mentoredPage,
+          pageSize: BUGZILLA_PAGE_SIZE,
+        },
+      },
+      context: {
+        client: 'bugzilla',
+      },
+      updateQuery(previousResult, { fetchMoreResult }) {
+        const moreGoodFirstNodes = fetchMoreResult.goodFirst.edges;
+        const moreMentoredNodes = fetchMoreResult.mentored.edges;
+
+        pageCursors.bzGoodFirst[language] = fetchMoreResult.goodFirst.pageInfo;
+        pageCursors.bzMentored[language] = fetchMoreResult.mentored.pageInfo;
+
+        if (!moreGoodFirstNodes.length && !moreMentoredNodes) {
+          return previousResult;
+        }
+
+        return dotProp.set(
+          dotProp.set(
+            previousResult,
+            'goodFirst.edges',
+            moreGoodFirstNodes.concat(previousResult.goodFirst.edges)
+          ),
+          'mentored.edges',
+          moreMentoredNodes.concat(previousResult.mentored.edges)
         );
       },
     });
