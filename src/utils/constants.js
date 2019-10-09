@@ -32,6 +32,7 @@ export const BUGZILLA_LANGUAGES = {
   HTML: 'html',
   Java: 'java',
   JavaScript: 'js',
+  Kotlin: 'kotlin',
   Perl: 'perl',
   Python: 'py',
   Rust: 'rust',
