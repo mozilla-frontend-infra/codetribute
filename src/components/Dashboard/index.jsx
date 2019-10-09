@@ -22,7 +22,6 @@ import Sidebar from '../Sidebar';
     flexGrow: 1,
     height: '100vh',
     zIndex: 1,
-    overflow: 'hidden',
     position: 'relative',
     display: 'flex',
     width: '100%',
@@ -77,7 +76,6 @@ import Sidebar from '../Sidebar';
     padding: 2 * theme.spacing.unit,
   },
   containerWithSidebar: {
-    overflowY: 'auto',
     flexGrow: 1,
     [theme.breakpoints.up('md')]: {
       marginLeft: theme.drawerWidth,
