@@ -32,6 +32,7 @@ export const BUGZILLA_LANGUAGES = {
   HTML: 'html',
   Java: 'java',
   JavaScript: 'js',
+  Kotlin: 'kotlin',
   Perl: 'perl',
   Python: 'py',
   Rust: 'rust',
@@ -40,3 +41,10 @@ export const BUGZILLA_LANGUAGES = {
   XUL: 'xul',
 };
 export const BUGZILLA_UNASSIGNED = ['nobody@mozilla.org', '@bugzilla.bugs'];
+export const THIRD_PARTY_LINKS = [
+  {
+    link: 'https://summerofcode.withgoogle.com',
+    label: 'Google Summer of Code',
+  },
+  { link: 'https://www.outreachy.org', label: 'Outreachy' },
+];

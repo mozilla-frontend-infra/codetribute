@@ -33,3 +33,5 @@ introduction: |
 
 products:
 - Tree Management
+repositories:
+ - mozilla/treeherder: ['good first issue', 'help wanted']
