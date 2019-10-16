@@ -16,7 +16,7 @@ import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
-import { arrayOf, object } from 'prop-types';
+import { arrayOf, object, func, bool, number } from 'prop-types';
 import { camelCase } from 'change-case';
 import Linkify from 'react-linkify';
 import { formatDistance, parseISO, differenceInCalendarDays } from 'date-fns';
@@ -147,10 +147,32 @@ const assignments = Object.values(ASSIGNEE);
 export default class TasksTable extends Component {
   static propTypes = {
     /**
+     * The height of each row.
+     */
+    rowHeight: number,
+
+    /**
      * A list of objects to display. Each element in the list is represented
      * by a row and each element's key-value pair represents a column.
      */
     items: arrayOf(object).isRequired,
+
+    /**
+     * Whether there is a next page.
+     */
+    hasNextPage: bool,
+
+    /**
+     * Whether next page is loading.
+     */
+    isNextPageLoading: bool,
+
+    /**
+     * A function to execute when next page is to be loaded.
+     * No arguments are needed.
+     * This can be used to get more data from the APIs.
+     */
+    loadNextPage: func,
   };
 
   static defaultProps = {
@@ -394,12 +416,39 @@ export default class TasksTable extends Component {
           </Button>
         </div>
         <DataTable
+          columns={[
+            {
+              width: (window.innerWidth / 2000) * 180,
+              label: 'Project',
+              dataKey: 'project',
+            },
+            {
+              width: (window.innerWidth / 2000) * 700,
+              label: 'Summary',
+              dataKey: 'summary',
+            },
+            {
+              width: (window.innerWidth / 2000) * 750,
+              label: 'Tags',
+              dataKey: 'tags',
+            },
+            {
+              width: (window.innerWidth / 2000) * 100,
+              label: 'Assignee',
+              dataKey: 'assignee',
+            },
+            {
+              width: (window.innerWidth / 2000) * 200,
+              label: 'Last Updated',
+              dataKey: 'lastUpdated',
+            },
+          ]}
           hasNextPage={hasNextPage}
-          loadNextPage={loadNextPage}
           isNextPageLoading={isNextPageLoading}
           sortByHeader={sortBy}
           sortDirection={sortDirection}
-          onHeaderClick={this.handleHeaderClick}
+          rowCount={data.length}
+          loadNextPage={loadNextPage}
           cellRenderer={({ cellData, columnIndex }) => {
             if (columnIndex === 0) {
               return (
@@ -497,35 +546,8 @@ export default class TasksTable extends Component {
               );
             }
           }}
-          rowCount={data.length}
           rowGetter={({ index }) => data[index]}
-          columns={[
-            {
-              width: (window.innerWidth / 2000) * 180,
-              label: 'Project',
-              dataKey: 'project',
-            },
-            {
-              width: (window.innerWidth / 2000) * 700,
-              label: 'Summary',
-              dataKey: 'summary',
-            },
-            {
-              width: (window.innerWidth / 2000) * 750,
-              label: 'Tags',
-              dataKey: 'tags',
-            },
-            {
-              width: (window.innerWidth / 2000) * 100,
-              label: 'Assignee',
-              dataKey: 'assignee',
-            },
-            {
-              width: (window.innerWidth / 2000) * 200,
-              label: 'Last Updated',
-              dataKey: 'lastUpdated',
-            },
-          ]}
+          onHeaderClick={this.handleHeaderClick}
         />
         <Drawer
           anchor="right"

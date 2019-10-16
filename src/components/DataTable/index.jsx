@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import { arrayOf, func, string, oneOf } from 'prop-types';
+import { arrayOf, func, string, oneOf, object, number, bool } from 'prop-types';
 import {
   InfiniteLoader,
   AutoSizer,
@@ -21,6 +21,26 @@ import {
 class DataTable extends Component {
   static propTypes = {
     /**
+     * The height of headers.
+     */
+    headerHeight: number,
+
+    /**
+     * An array of each column's width and name.
+     */
+    columns: arrayOf(object),
+
+    /**
+     * Whether there is a next page.
+     */
+    hasNextPage: bool,
+
+    /**
+     * Whether next page is loading.
+     */
+    isNextPageLoading: bool,
+
+    /**
      * A function to execute when a column header is clicked.
      * Will receive a single argument which is the column name.
      * This can be used to handle sorting.
@@ -34,10 +54,32 @@ class DataTable extends Component {
      * The sorting direction.
      */
     sortDirection: oneOf(['desc', 'asc']),
+
     /**
-     * A list of header names to use on the table starting from the left.
+     * Number of rows.
      */
-    headers: arrayOf(string),
+    rowCount: number,
+
+    /**
+     * A function to execute when next page is to be loaded.
+     * No arguments are needed.
+     * This can be used to get more data from the APIs.
+     */
+    loadNextPage: func,
+
+    /**
+     * A function to execute when a cell is gonna be rendered.
+     * Will recieve a single argument which is an object with data and index.
+     * This can be used to turn the data into cell react elements.
+     */
+    cellRenderer: func,
+
+    /**
+     * A function to execute when a row's data is needed.
+     * Will recieve a single argument which is the index of the row.
+     * This can be used to get a row's data.
+     */
+    rowGetter: func,
   };
 
   static defaultProps = {
@@ -47,7 +89,6 @@ class DataTable extends Component {
     sortDirection: 'desc',
     headers: null,
     onHeaderClick: null,
-    renderItem: null,
   };
 
   handleHeaderClick = ({ target }) => {
@@ -69,16 +110,16 @@ class DataTable extends Component {
   render() {
     const {
       classes,
+      headerHeight,
       columns,
       hasNextPage,
       isNextPageLoading,
+      sortByHeader,
+      sortDirection,
+      rowCount,
       loadNextPage,
       cellRenderer,
       onHeaderClick,
-      sortByHeader,
-      headerHeight,
-      sortDirection,
-      rowCount,
       ...tableProps
     } = this.props;
     const itemCount = hasNextPage ? rowCount + 1 : rowCount;
