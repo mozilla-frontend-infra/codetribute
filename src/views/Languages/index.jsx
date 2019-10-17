@@ -185,7 +185,7 @@ export default class Languages extends Component {
     if (
       !(language in pageCursors.bzGoodFirst) &&
       !(language in pageCursors.bzMentored) &&
-      !Object.entries(tagsMapping).some(x => x in pageCursors.github)
+      !Object.keys(tagsMapping).some(x => x in pageCursors.github)
     ) {
       pageCursors.github = {};
       pageCursors.bzGoodFirst = {};
