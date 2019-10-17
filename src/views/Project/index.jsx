@@ -149,6 +149,12 @@ export default class Project extends Component {
     }
   }
 
+  componentDidMount() {
+    pageCursors.github = {};
+    pageCursors.bzGoodFirst = {};
+    pageCursors.bzMentored = {};
+  }
+
   handleBugInfoClick = memoizeWith(
     id => id,
     async id => {
@@ -285,26 +291,6 @@ export default class Project extends Component {
     const productWithNoComponentList = project.products
       ? project.products.filter(product => typeof product === 'string')
       : [];
-
-    if (
-      !(
-        Object.entries(productWithComponentList).some(
-          ([products]) =>
-            JSON.stringify([products]) in pageCursors.bzGoodFirst ||
-            JSON.stringify([products]) in pageCursors.bzMentored
-        ) ||
-        Object.entries(productWithNoComponentList).some(
-          ([products]) =>
-            JSON.stringify([products]) in pageCursors.bzGoodFirst ||
-            JSON.stringify([products]) in pageCursors.bzMentored
-        )
-      ) &&
-      !Object.entries(tagsMapping).some(x => x in pageCursors.github)
-    ) {
-      pageCursors.github = {};
-      pageCursors.bzGoodFirst = {};
-      pageCursors.bzMentored = {};
-    }
 
     Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
