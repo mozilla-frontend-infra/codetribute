@@ -418,27 +418,27 @@ export default class TasksTable extends Component {
         <DataTable
           columns={[
             {
-              width: (window.innerWidth / 2000) * 180,
+              width: Math.max((window.innerWidth / 2000) * 180, 100),
               label: 'Project',
               dataKey: 'project',
             },
             {
-              width: (window.innerWidth / 2000) * 700,
+              width: Math.max((window.innerWidth / 2000) * 700, 520),
               label: 'Summary',
               dataKey: 'summary',
             },
             {
-              width: (window.innerWidth / 2000) * 750,
+              width: Math.max((window.innerWidth / 2000) * 750, 570),
               label: 'Tags',
               dataKey: 'tags',
             },
             {
-              width: (window.innerWidth / 2000) * 100,
+              width: Math.max((window.innerWidth / 2000) * 100, 110),
               label: 'Assignee',
               dataKey: 'assignee',
             },
             {
-              width: (window.innerWidth / 2000) * 200,
+              width: Math.max((window.innerWidth / 2000) * 200, 170),
               label: 'Last Updated',
               dataKey: 'lastUpdated',
             },

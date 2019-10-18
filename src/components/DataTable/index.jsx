@@ -132,14 +132,14 @@ class DataTable extends Component {
         loadMoreRows={loadMoreItems}
         rowCount={itemCount}>
         {({ onRowsRendered, ref }) => (
-          <AutoSizer>
+          <AutoSizer disableHeight>
             {({ width }) => (
               <WindowScroller>
                 {({ height, isScrolling, onChildScroll, scrollTop }) => (
                   <Table
                     autoHeight
                     height={height}
-                    width={width}
+                    width={Math.max(width, 1450)}
                     onRowsRendered={onRowsRendered}
                     ref={ref}
                     rowCount={rowCount}
