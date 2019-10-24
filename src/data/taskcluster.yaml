@@ -7,7 +7,7 @@ introduction: |
   Every day, it runs hundreds of thousands of tasks to support Firefox and lots of other projects at Mozilla.
   It is written in Javascript and Go and has lots of opportunities to help out.
 
-  You can learn a bit about Taskcluster in its [documentation](http://docs.taskcluster.net/) -- the tutorial makes a good place to start.
+  You can learn a bit about Taskcluster in its [documentation](http://docs.taskcluster.net/).
 
   ## Who Works on Taskcluster?
 
@@ -43,16 +43,15 @@ introduction: |
   That way, anyone watching the bug can answer your questions or offer useful advice.
   Each bug has a mentor, and that person will usually be the one to reply.
 
-  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#taskcluster-contributors` channel.
+  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#tc-contributors` channel.
   That's a great place to get quick help or work through issues with Git or Node.
 
 products: 
  - Taskcluster
- - "Firefox Build System":
-   - "Task Configuration"
 
 repositories:
  - taskcluster/taskcluster: "good first issue"
  - taskcluster/json-e: "good first issue"
- - taskcluster/taskcluster-web: 'good first issue'
- - taskcluster/taskcluster-web-server: 'good first issue'
+ - taskcluster/websocktunnel: 'good first bug'
+ - taskcluster/taskcluster-worker-runner: 'good first issue'
+ - taskcluster/tc-admin: 'good first issue'
