@@ -23,7 +23,6 @@ products:
   'DOM: File',
   'DOM: Forms',
   'DOM: HTML Parser',
-  'DOM: Mozilla Extensions',
   'DOM: Navigation',
   'DOM: Networking',
   'DOM: Push Notifications',
