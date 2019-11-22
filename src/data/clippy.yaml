@@ -2,4 +2,4 @@ name: Clippy
 summary: Clippy is linter for Rust code
 icon: clippy
 repositories: 
- - rust-lang-nursery/rust-clippy: good first issue
+ - rust-lang/rust-clippy: good first issue
