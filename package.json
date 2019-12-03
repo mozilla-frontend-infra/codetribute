@@ -51,7 +51,7 @@
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.2",
     "@mozilla-frontend-infra/react-lint": "^1.1.1",
-    "@neutrinojs/image-loader": "9.0.0-rc.0",
+    "@neutrinojs/image-loader": "9.0.0-rc.5",
     "@neutrinojs/jest": "9.0.0-rc.0",
     "@neutrinojs/react": "9.0.0-rc.0",
     "dotenv-cli": "^3.0.0",
