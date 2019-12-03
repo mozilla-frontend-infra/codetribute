@@ -53,7 +53,7 @@
     "@mozilla-frontend-infra/react-lint": "^1.1.1",
     "@neutrinojs/image-loader": "9.0.0-rc.0",
     "@neutrinojs/jest": "9.0.0-rc.0",
-    "@neutrinojs/react": "9.0.0-rc.0",
+    "@neutrinojs/react": "9.0.0-rc.5",
     "dotenv-cli": "^3.0.0",
     "eslint": "^5.6.1",
     "eslint-config-prettier": "^6.0.0",
