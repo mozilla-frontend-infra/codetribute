@@ -31,7 +31,7 @@
     "graphql-tag": "^2.9.2",
     "localforage": "^1.7.1",
     "lodash.uniqby": "^4.7.0",
-    "mdi-react": "^5.0.0",
+    "mdi-react": "^6.0.0",
     "prop-types": "^15.6.1",
     "qs": "^6.5.2",
     "ramda": "^0.26.0",
