@@ -137,7 +137,7 @@ export default class Languages extends Component {
     }
   }
 
-  load = () => {
+  load = async () => {
     this.setState({ isNextPageLoading: true });
 
     const {
@@ -192,7 +192,7 @@ export default class Languages extends Component {
       pageCursors.bzMentored = {};
     }
 
-    Promise.all(
+    await Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
           repos.map(repo => `repo:${repo}`).join(' '),
@@ -204,7 +204,7 @@ export default class Languages extends Component {
       })
     );
 
-    if (bugzillaData) this.fetchBugzilla(language);
+    if (bugzillaData) await this.fetchBugzilla(language);
 
     this.setState({ isNextPageLoading: false });
   };

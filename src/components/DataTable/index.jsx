@@ -123,13 +123,12 @@ class DataTable extends Component {
       ...tableProps
     } = this.props;
     const itemCount = hasNextPage ? rowCount + 1 : rowCount;
-    const loadMoreItems = isNextPageLoading ? () => {} : loadNextPage;
     const isItemLoaded = ({ index }) => !hasNextPage || index < rowCount;
 
     return (
       <InfiniteLoader
         isRowLoaded={isItemLoaded}
-        loadMoreRows={loadMoreItems}
+        loadMoreRows={loadNextPage}
         rowCount={itemCount}>
         {({ onRowsRendered, ref }) => (
           <AutoSizer disableHeight>
