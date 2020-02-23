@@ -13,9 +13,8 @@ repositories:
  - mozilla/mozdownload: mentored
  - mozilla/nightlytt: mentored
  - mozilla/grcov: good-first-bug
- - marco-c/code-coverage-reports: good-first-bug
- - mozilla/code-coverage-addon: good-first-bug
- - mozilla/release-services: skill:good-first-bug
- - mozilla/firefox-code-coverage-frontend: 'good first issue'
- - mozilla/coverage-crawler: 'good first issue'
+ - mozilla/libmozevent: good-first-bug
+ - mozilla/code-coverage: good-first-bug
+ - mozilla/coverage-crawler: good-first-bug
+ - mozilla/code-review: good-first-bug
  - mozilla/wpt-api: 'good first issue'

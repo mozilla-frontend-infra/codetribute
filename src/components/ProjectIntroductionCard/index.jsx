@@ -59,7 +59,7 @@ export default class ProjectIntroductionCard extends Component {
         <Collapse in={open} collapsedHeight={collapsedHeight}>
           {!open && <div className={classes.fadeout} />}
           <CardContent>
-            <Typography>
+            <Typography component="div">
               <Markdown
                 source={introduction}
                 renderers={{ link: this.linkRenderer }}
