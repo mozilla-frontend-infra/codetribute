@@ -182,6 +182,7 @@ export default class TasksTable extends Component {
   state = {
     drawerOpen: false,
     drawerItem: null,
+    windowWidth: window.innerWidth,
   };
 
   getTableData = memoizeWith(
@@ -331,6 +332,20 @@ export default class TasksTable extends Component {
     });
   };
 
+  handleResize = () => {
+    this.setState({
+      windowWidth: window.innerWidth,
+    });
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
   render() {
     const {
       items,
@@ -340,7 +355,7 @@ export default class TasksTable extends Component {
       rowHeight,
       classes,
     } = this.props;
-    const { drawerOpen, drawerItem } = this.state;
+    const { drawerOpen, drawerItem, windowWidth } = this.state;
     const query = this.getQuery();
     const { sortBy, sortDirection, tag, assignee, project } = query;
     const assignment = assignments.includes(assignee)
@@ -418,27 +433,27 @@ export default class TasksTable extends Component {
         <DataTable
           columns={[
             {
-              width: Math.max((window.innerWidth / 2000) * 180, 100),
+              width: Math.max((windowWidth / 2000) * 180, 100),
               label: 'Project',
               dataKey: 'project',
             },
             {
-              width: Math.max((window.innerWidth / 2000) * 700, 520),
+              width: Math.max((windowWidth / 2000) * 700, 520),
               label: 'Summary',
               dataKey: 'summary',
             },
             {
-              width: Math.max((window.innerWidth / 2000) * 750, 570),
+              width: Math.max((windowWidth / 2000) * 750, 570),
               label: 'Tags',
               dataKey: 'tags',
             },
             {
-              width: Math.max((window.innerWidth / 2000) * 100, 110),
+              width: Math.max((windowWidth / 2000) * 100, 110),
               label: 'Assignee',
               dataKey: 'assignee',
             },
             {
-              width: Math.max((window.innerWidth / 2000) * 200, 170),
+              width: Math.max((windowWidth / 2000) * 200, 170),
               label: 'Last Updated',
               dataKey: 'lastUpdated',
             },
