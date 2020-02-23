@@ -1,0 +1,37 @@
+name: Pontoon
+summary: Mozilla's Localization Platform
+introduction: |
+  ## About Pontoon
+ 
+  Pontoon is a localization platform used and developed by the Mozilla’s localization community.
+  It is critical to shipping Firefox, mozilla.org, and many other Mozilla products to millions of users, all around the world.
+  It is written in Javascript and Python and has lots of opportunities to help out.
+
+  You can learn a bit about Pontoon in its [documentation](https://mozilla-pontoon.readthedocs.io/).
+
+  ## Who Works on Pontoon?
+
+  The team assigned to work on Pontoon at Mozilla is listed on
+  [our people page](https://mozilla-pontoon.readthedocs.io/en/latest/dev/first-contribution.html#communicate-with-us).
+  We also receive invaluable help from community members.
+  You will likely see the names of team members listed as mentors in the bugs on this site.
+  We are always excited to meet new Mozillians!
+
+  ## How Do I Get Started?
+
+  To help you get started with contributing, we wrote
+  [The Guide to your First Contribution to Pontoon](https://mozilla-pontoon.readthedocs.io/en/latest/dev/first-contribution.html).
+  It contains all the information you need to know to install Pontoon, populate its database, run tests, and send your contribution.
+
+  ## How Do I Get Help?
+
+  The best place to talk about a bug is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  Each bug has a mentor, and that person will usually be the one to reply.
+
+  We are also available on [chat.mozilla.org](https://chat.mozilla.org/#/room/#pontoon:mozilla.org) in the `#pontoon` channel.
+  That's a great place to get quick help or work through issues together.
+
+products:
+- Webtools: ['Pontoon']

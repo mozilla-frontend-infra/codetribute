@@ -43,7 +43,7 @@ introduction: |
   That way, anyone watching the bug can answer your questions or offer useful advice.
   Each bug has a mentor, and that person will usually be the one to reply.
 
-  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#tc-contributors` channel.
+  We are also available on [matrix.io](https://chat.mozilla.org/#/room/#taskcluster:mozilla.org) in the `#taskcluster` channel in the mozilla.org community.
   That's a great place to get quick help or work through issues with Git or Node.
 
 products: 
