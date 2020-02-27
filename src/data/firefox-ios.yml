@@ -1,0 +1,34 @@
+name: Firefox for iOS
+summary: Firefox mobile experience developed for the iOS platform.
+icon: cellphone-iphone
+introduction: |
+  ## About Firefox for iOS
+
+  Firefox for iOS is the Firefox mobile experience brought to iPhones and iPads, written in Swift.
+
+  ## How Do I Get Started?
+
+  Check out our list of [good first issues](https://github.com/mozilla-mobile/firefox-ios/issues?q=is%3Aissue+is%3Aopen+label%3A%22Contributor+OK+%F0%9F%A4%9D%22) on Github.
+  Pick one that interests you and then follow [these instructions](https://github.com/mozilla-mobile/firefox-ios#building-the-code) to build the project.
+  
+
+  ### How Do I Write the Code?
+
+  All of the code is in the [Github repository](https://github.com/mozilla-mobile/firefox-ios).
+  To get started, fork that repository on GitHub, then clone the resulting forked repository to your computer.
+  Before you change anything, run the tests to make sure everything is working.
+  The repository's README file will describe how to set up and run tests.
+  From there, follow the Github pull-request process: make your changes on a topic branch, and then create a pull request from that branch.
+  The Internet is full of guides for this process, and of course we are happy to help as well.
+
+  ## How Do I Get Help?
+
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+  
+  We are also available on [matrix.io](https://chat.mozilla.org/#/room/#firefox-ios:mozilla.org) in the `#firefox-ios` channel in the mozilla.org community.
+  That's a great place to get quick help or work through issues.
+
+repositories:
+- mozilla-mobile/firefox-ios : 'Contributor OK 🤝'
