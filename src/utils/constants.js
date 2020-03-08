@@ -1,4 +1,4 @@
-export const GOOD_FIRST_BUG = 'good-first-bugggggg';
+export const GOOD_FIRST_BUG = 'good-first-bug';
 export const MENTORED_BUG = {
   fields: 'mentor',
   operators: 'IS_NOT_EMPTY',
@@ -15,7 +15,7 @@ export const BUGZILLA_ORDER = 'changeddate DESC';
 export const ASSIGNEE = {
   ANY: 'Any',
   UNASSIGNED: 'Unassigned',
-  ASSIGNED: 'Assigned',
+  ASSIGNED: 'Assigneddddd',
 };
 export const ALL_PROJECTS = 'All';
 export const BUGZILLA_SEARCH_OPTIONS = {
