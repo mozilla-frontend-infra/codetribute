@@ -1,4 +1,4 @@
-export const GOOD_FIRST_BUG = 'good-first-bug';
+export const GOOD_FIRST_BUG = 'good-first-bugggggg';
 export const MENTORED_BUG = {
   fields: 'mentor',
   operators: 'IS_NOT_EMPTY',
