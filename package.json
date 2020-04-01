@@ -27,7 +27,7 @@
     "dot-prop-immutable": "^1.4.0",
     "dotenv": "^8.0.0",
     "error-stack-parser": "^2.0.2",
-    "graphql": "^0.13.2",
+    "graphql": "^14.0.0",
     "graphql-tag": "^2.9.2",
     "localforage": "^1.7.1",
     "lodash.uniqby": "^4.7.0",
