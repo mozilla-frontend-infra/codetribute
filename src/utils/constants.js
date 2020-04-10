@@ -39,6 +39,7 @@ export const BUGZILLA_LANGUAGES = {
   Shell: 'shell',
   XML: 'xml',
   XUL: 'xul',
+  Go: 'go',
 };
 export const BUGZILLA_UNASSIGNED = ['nobody@mozilla.org', '@bugzilla.bugs'];
 export const THIRD_PARTY_LINKS = [
