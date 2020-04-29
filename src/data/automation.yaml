@@ -9,7 +9,6 @@ repositories:
  - automatedtester/unittest-zero: mentored
  - davehunt/flynnid: mentored
  - mozilla/coversheet: mentored
- - mozilla/memchaser: mentored
  - mozilla/mozdownload: mentored
  - mozilla/nightlytt: mentored
  - mozilla/grcov: good-first-bug

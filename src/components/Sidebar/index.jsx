@@ -20,6 +20,8 @@ import JavaIcon from './JavaIcon';
 import HTMLIcon from './HtmlIcon';
 import PerlIcon from './PerlIcon';
 import RustIcon from './RustIcon';
+import KotlinIcon from './KotlinIcon';
+import GoIcon from './GoIcon';
 
 @withRouter
 @withStyles(theme => ({
@@ -69,6 +71,8 @@ export default class Sidebar extends Component {
       Perl: <PerlIcon />,
       Rust: <RustIcon />,
       Shell: <ConsoleIcon />,
+      Kotlin: <KotlinIcon />,
+      Go: <GoIcon />,
     };
 
     // Add Swift directly as there is no `lang=swift` in bugzilla whiteboards
