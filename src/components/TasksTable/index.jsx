@@ -192,7 +192,9 @@ export default class TasksTable extends Component {
         .filter(
           item =>
             (!tag || item.tags.includes(tag)) &&
-            (!project || project === ALL_PROJECTS || item.project === project)
+            (!project ||
+              project === ALL_PROJECTS ||
+              item.projectLabels.includes(project))
         )
         .sort((a, b) => {
           const firstElement =
