@@ -19,6 +19,7 @@ import {
   BUGZILLA_SEARCH_OPTIONS,
   BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
+import isStringEqualIgnoreCase from '../../utils/isStringEqualIgnoreCase';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
 import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
@@ -50,6 +51,35 @@ const tagReposMapping = repositories =>
       ...mappings,
     };
   }, {});
+const getProjectLabels = (projectName, bugProduct, bugComponent) => {
+  // A bug might have multiple labels when one of the entries only doesn't
+  // specify product name
+  const relatedProductQueriesWithLabel = (
+    projects[projectName].products || []
+  ).filter(
+    query =>
+      !!query.label &&
+      query.products.some(innerProduct => {
+        if (typeof innerProduct === 'string') {
+          return isStringEqualIgnoreCase(bugProduct, innerProduct);
+        }
+
+        if (isStringEqualIgnoreCase(bugProduct, Object.keys(innerProduct)[0])) {
+          const innerComponents = Object.values(innerProduct)[0];
+
+          return innerComponents.some(component =>
+            isStringEqualIgnoreCase(component, bugComponent)
+          );
+        }
+
+        return false;
+      })
+  );
+
+  return relatedProductQueriesWithLabel.length
+    ? relatedProductQueriesWithLabel.map(q => q.label)
+    : [bugComponent];
+};
 
 @hot(module)
 @compose(
@@ -305,6 +335,7 @@ export default class Project extends Component {
               : '-',
             url: issue.url,
             description: issue.body,
+            projectLabels: [issue.repository.name],
           })),
           'summary'
         )) ||
@@ -331,6 +362,11 @@ export default class Project extends Component {
               lastUpdated: bug.lastChanged,
               id: bug.id,
               url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              projectLabels: getProjectLabels(
+                this.props.match.params.project,
+                bug.product,
+                bug.component
+              ),
             })),
           'summary'
         )) ||
@@ -356,6 +392,11 @@ export default class Project extends Component {
               lastUpdated: bug.lastChanged,
               id: bug.id,
               url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              projectLabels: getProjectLabels(
+                this.props.match.params.project,
+                bug.product,
+                bug.component
+              ),
             })),
           'summary'
         )) ||
