@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
-import { mergeAll, memoizeWith } from 'ramda';
+import { mergeAll, memoizeWith, mergeWith, concat } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import { withStyles } from '@material-ui/core/styles';
 import projects from '../../data/loader';
@@ -22,6 +22,14 @@ import {
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
 import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
+
+const getProductsInfoWithoutLabel = products => {
+  return products.reduce(
+    (prev, product) =>
+      product.label ? [...prev, ...product.products] : [...prev, product],
+    []
+  );
+};
 
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
@@ -74,45 +82,51 @@ const tagReposMapping = repositories =>
       match: {
         params: { project },
       },
-    }) => ({
-      fetchPolicy: 'network-only',
-      variables: {
-        goodFirst: {
-          ...BUGZILLA_SEARCH_OPTIONS,
-          keywords: [GOOD_FIRST_BUG],
-          // get all the product with no component as it can be
-          // merged as an OR query if it exists
-          ...(productsWithNoComponents(projects[project].products).length
-            ? { products: productsWithNoComponents(projects[project].products) }
-            : {
-                // otherwise, get only the first product and its components
-                // as component is not unique for product thus can't be merged
-                products: Object.keys(projects[project].products[0])[0],
-                components: Object.values(projects[project].products[0])[0],
-              }),
+    }) => {
+      const productsInfo = getProductsInfoWithoutLabel(
+        projects[project].products
+      );
+
+      return {
+        fetchPolicy: 'network-only',
+        variables: {
+          goodFirst: {
+            ...BUGZILLA_SEARCH_OPTIONS,
+            keywords: [GOOD_FIRST_BUG],
+            // get all the product with no component as it can be
+            // merged as an OR query if it exists
+            ...(productsWithNoComponents(productsInfo).length
+              ? { products: productsWithNoComponents(productsInfo) }
+              : {
+                  // otherwise, get only the first product and its components
+                  // as component is not unique for product thus can't be merged
+                  products: Object.keys(productsInfo[0])[0],
+                  components: Object.values(productsInfo[0])[0],
+                }),
+          },
+          mentored: {
+            ...BUGZILLA_SEARCH_OPTIONS,
+            ...MENTORED_BUG,
+            // get all the product with no component as it can be
+            // merged as an OR query if it exists
+            ...(productsWithNoComponents(productsInfo).length
+              ? { products: productsWithNoComponents(productsInfo) }
+              : {
+                  // otherwise, get only the first product and its components
+                  // as component is not unique for product thus can't be merged
+                  products: Object.keys(productsInfo[0])[0],
+                  components: Object.values(productsInfo[0])[0],
+                }),
+          },
+          paging: {
+            ...BUGZILLA_PAGING_OPTIONS,
+          },
         },
-        mentored: {
-          ...BUGZILLA_SEARCH_OPTIONS,
-          ...MENTORED_BUG,
-          // get all the product with no component as it can be
-          // merged as an OR query if it exists
-          ...(productsWithNoComponents(projects[project].products).length
-            ? { products: productsWithNoComponents(projects[project].products) }
-            : {
-                // otherwise, get only the first product and its components
-                // as component is not unique for product thus can't be merged
-                products: Object.keys(projects[project].products[0])[0],
-                components: Object.values(projects[project].products[0])[0],
-              }),
+        context: {
+          client: 'bugzilla',
         },
-        paging: {
-          ...BUGZILLA_PAGING_OPTIONS,
-        },
-      },
-      context: {
-        client: 'bugzilla',
-      },
-    }),
+      };
+    },
   })
 )
 @withApollo
@@ -254,11 +268,12 @@ export default class Project extends Component {
         return this.fetchGithub(searchQuery);
       })
     );
-    const productWithComponentList = mergeAll(
-      project.products
-        ? project.products.filter(product => typeof product !== 'string')
-        : []
-    );
+    const productInfos = getProductsInfoWithoutLabel(project.products);
+    const productWithComponentList = productInfos
+      ? productInfos
+          .filter(product => typeof product !== 'string')
+          .reduce((prev, product) => mergeWith(concat, prev, product), {})
+      : {};
 
     // fetch only the product with component list, since product without
     // component would have been fetched by the initial graphql decorator query
