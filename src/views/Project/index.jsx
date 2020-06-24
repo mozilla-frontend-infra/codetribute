@@ -51,35 +51,40 @@ const tagReposMapping = repositories =>
       ...mappings,
     };
   }, {});
-const getProjectLabels = (projectName, bugProduct, bugComponent) => {
-  // A bug might have multiple labels when one of the entries only doesn't
-  // specify product name
-  const relatedProductQueriesWithLabel = (
-    projects[projectName].products || []
-  ).filter(
-    query =>
-      !!query.label &&
-      query.products.some(innerProduct => {
-        if (typeof innerProduct === 'string') {
-          return isStringEqualIgnoreCase(bugProduct, innerProduct);
-        }
+const getProjectLabels = memoizeWith(
+  (...args) => args.join('-'),
+  (projectName, bugProduct, bugComponent) => {
+    // A bug might have multiple labels when one of the entries only doesn't
+    // specify product name
+    const relatedProductQueriesWithLabel = (
+      projects[projectName].products || []
+    ).filter(
+      query =>
+        !!query.label &&
+        query.products.some(innerProduct => {
+          if (typeof innerProduct === 'string') {
+            return isStringEqualIgnoreCase(bugProduct, innerProduct);
+          }
 
-        if (isStringEqualIgnoreCase(bugProduct, Object.keys(innerProduct)[0])) {
-          const innerComponents = Object.values(innerProduct)[0];
+          if (
+            isStringEqualIgnoreCase(bugProduct, Object.keys(innerProduct)[0])
+          ) {
+            const innerComponents = Object.values(innerProduct)[0];
 
-          return innerComponents.some(component =>
-            isStringEqualIgnoreCase(component, bugComponent)
-          );
-        }
+            return innerComponents.some(component =>
+              isStringEqualIgnoreCase(component, bugComponent)
+            );
+          }
 
-        return false;
-      })
-  );
+          return false;
+        })
+    );
 
-  return relatedProductQueriesWithLabel.length
-    ? relatedProductQueriesWithLabel.map(q => q.label)
-    : [bugComponent];
-};
+    return relatedProductQueriesWithLabel.length
+      ? relatedProductQueriesWithLabel.map(q => q.label)
+      : [bugComponent];
+  }
+);
 
 @hot(module)
 @compose(
