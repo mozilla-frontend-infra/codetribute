@@ -306,7 +306,7 @@ export default class TasksTable extends Component {
     const projects = [
       ...new Set(
         items
-          .map(item => item.project)
+          .reduce((prev, item) => [...prev, ...item.projectLabels], [])
           .sort((a, b) =>
             a.localeCompare(b, undefined, { sensitivity: 'base' })
           )
