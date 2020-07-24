@@ -278,7 +278,7 @@ export default class Project extends Component {
     });
   };
 
-  load = async () => {
+  handleLoad = async () => {
     this.setState({ isNextPageLoading: true });
 
     const project = projects[this.props.match.params.project];
@@ -421,7 +421,7 @@ export default class Project extends Component {
           items={items}
           hasNextPage={hasNextPage(pageCursors)}
           isNextPageLoading={isNextPageLoading}
-          onNextPageLoad={this.load}
+          onNextPageLoad={this.handleLoad}
         />
       </Dashboard>
     );

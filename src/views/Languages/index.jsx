@@ -138,7 +138,7 @@ export default class Languages extends Component {
     }
   }
 
-  load = async () => {
+  handleLoad = async () => {
     this.setState({ isNextPageLoading: true });
 
     const {
@@ -436,7 +436,7 @@ export default class Languages extends Component {
           items={items}
           hasNextPage={hasNextPage(pageCursors)}
           isNextPageLoading={isNextPageLoading}
-          onNextPageLoad={this.load}
+          onNextPageLoad={this.handleLoad}
         />
       </Dashboard>
     );
