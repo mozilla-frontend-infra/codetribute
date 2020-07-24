@@ -172,7 +172,7 @@ export default class TasksTable extends Component {
      * No arguments are needed.
      * This can be used to get more data from the APIs.
      */
-    loadNextPage: func,
+    onNextPageLoad: func,
   };
 
   static defaultProps = {
@@ -351,7 +351,7 @@ export default class TasksTable extends Component {
       items,
       hasNextPage,
       isNextPageLoading,
-      loadNextPage,
+      onNextPageLoad,
       rowHeight,
       classes,
     } = this.props;
@@ -463,7 +463,7 @@ export default class TasksTable extends Component {
           sortByHeader={sortBy}
           sortDirection={sortDirection}
           rowCount={data.length}
-          loadNextPage={loadNextPage}
+          loadNextPage={onNextPageLoad}
           cellRenderer={({ cellData, columnIndex }) => {
             if (columnIndex === 0) {
               return (

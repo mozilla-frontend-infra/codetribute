@@ -20,6 +20,7 @@ import {
   BUGZILLA_SEARCH_OPTIONS,
   BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
+import hasNextPage from '../../utils/hasNextPage';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
 import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
@@ -397,16 +398,6 @@ export default class Project extends Component {
           'summary.title'
         )) ||
       [];
-    const hasNextPage =
-      Object.keys(pageCursors.github).some(
-        x => pageCursors.github[x].hasNextPage
-      ) ||
-      Object.keys(pageCursors.bzGoodFirst).some(
-        x => pageCursors.bzGoodFirst[x].hasNextPage
-      ) ||
-      Object.keys(pageCursors.bzMentored).some(
-        x => pageCursors.bzMentored[x].hasNextPage
-      );
     const items = uniqBy(
       [...issues, ...goodFirstBugs, ...mentoredBugs],
       'summary.title'
@@ -428,9 +419,9 @@ export default class Project extends Component {
         <TasksTable
           onBugInfoClick={this.handleBugInfoClick}
           items={items}
-          hasNextPage={hasNextPage}
+          hasNextPage={hasNextPage(pageCursors)}
           isNextPageLoading={isNextPageLoading}
-          loadNextPage={this.load}
+          onNextPageLoad={this.load}
         />
       </Dashboard>
     );
