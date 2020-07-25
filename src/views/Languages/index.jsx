@@ -134,7 +134,7 @@ export default class Languages extends Component {
         prevProps.github.loading &&
         !this.props.github.loading)
     ) {
-      this.load();
+      this.handleLoad();
     }
   }
 

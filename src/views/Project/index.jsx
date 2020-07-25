@@ -146,7 +146,7 @@ export default class Project extends Component {
         prevProps.github.loading &&
         !this.props.github.loading)
     ) {
-      this.load();
+      this.handleLoad();
     }
   }
 
@@ -180,12 +180,12 @@ export default class Project extends Component {
       bugzilla: { fetchMore },
     } = this.props;
     const goodFirstPage =
-      JSON.stringify(products) in pageCursors.bzGoodFirst
-        ? pageCursors.bzGoodFirst[JSON.stringify(products)].nextPage
+      products.join() in pageCursors.bzGoodFirst
+        ? pageCursors.bzGoodFirst[products.join()].nextPage
         : 0;
     const mentoredPage =
-      JSON.stringify(products) in pageCursors.bzMentored
-        ? pageCursors.bzMentored[JSON.stringify(products)].nextPage
+      products.join() in pageCursors.bzMentored
+        ? pageCursors.bzMentored[products.join()].nextPage
         : 0;
 
     return fetchMore({
@@ -219,9 +219,9 @@ export default class Project extends Component {
         const moreGoodFirstNodes = fetchMoreResult.goodFirst.edges;
         const moreMentoredNodes = fetchMoreResult.mentored.edges;
 
-        pageCursors.bzGoodFirst[JSON.stringify(products)] =
+        pageCursors.bzGoodFirst[products.join()] =
           fetchMoreResult.goodFirst.pageInfo;
-        pageCursors.bzMentored[JSON.stringify(products)] =
+        pageCursors.bzMentored[products.join()] =
           fetchMoreResult.mentored.pageInfo;
 
         if (!moreGoodFirstNodes.length && !moreMentoredNodes) {
