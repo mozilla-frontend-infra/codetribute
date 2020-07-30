@@ -110,11 +110,6 @@ introduction: |
 products:
 - <Bugzilla Product>
 - <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>']
-# to include multiple products or components under a single label in the "Projects" menu, or customize the label:
-- label: <Project Label shown in the dropdown, to change/group the label from the default value which is the component name>
-  products:
-  - <Bugzilla Product>
-  - <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>'] 
 repositories:
 - <Organization Name>/<Repository Name> : <Github Label>
 - <Organization Name>/<Repository Name> : ['<Github Label 1>', '<Github Label 2>']
