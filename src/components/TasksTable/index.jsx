@@ -29,6 +29,7 @@ import DataTable from '../DataTable';
 import sort from '../../utils/sort';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
 import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
+import Spinner from '../Spinner';
 
 const getTaskHelperText = item => {
   const daysSinceLastUpdate = differenceInCalendarDays(
@@ -369,6 +370,27 @@ export default class TasksTable extends Component {
       assignee,
       project
     );
+
+    if (data.length > 0) {
+      if (isNextPageLoading && data[data.length - 1].project !== 'Loading...') {
+        data.push({
+          assignee: '',
+          id: null,
+          lastUpdated: null,
+          project: 'Loading...',
+          summary: null,
+          tags: [],
+        });
+      }
+
+      if (
+        !isNextPageLoading &&
+        data[data.length - 1].project === 'Loading...'
+      ) {
+        data.pop();
+      }
+    }
+
     const iconSize = 14;
     const projects = [
       ...new Set(
@@ -465,6 +487,30 @@ export default class TasksTable extends Component {
           rowCount={data.length}
           loadNextPage={onNextPageLoad}
           cellRenderer={({ cellData, columnIndex }) => {
+            if (cellData == null) {
+              return (
+                <TableCell
+                  component="th"
+                  scope="row"
+                  className={classes.tableCell}
+                  style={{ height: rowHeight }}>
+                  {cellData}
+                </TableCell>
+              );
+            }
+
+            if (cellData === 'Loading...') {
+              return (
+                <TableCell
+                  component="th"
+                  scope="row"
+                  className={classes.tableCell}
+                  style={{ height: rowHeight }}>
+                  <Spinner />
+                </TableCell>
+              );
+            }
+
             if (columnIndex === 0) {
               return (
                 <TableCell
