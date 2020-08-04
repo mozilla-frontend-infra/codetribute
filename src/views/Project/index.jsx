@@ -25,6 +25,10 @@ import Dashboard from '../../components/Dashboard';
 import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
 
 const getProductsInfoWithoutLabel = products => {
+  if (!products) {
+    return [];
+  }
+
   return products.reduce(
     (prev, product) =>
       product.label ? [...prev, ...product.products] : [...prev, product],
