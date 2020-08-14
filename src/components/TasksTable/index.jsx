@@ -192,7 +192,9 @@ export default class TasksTable extends Component {
         .filter(
           item =>
             (!tag || item.tags.includes(tag)) &&
-            (!project || project === ALL_PROJECTS || item.project === project)
+            (!project ||
+              project === ALL_PROJECTS ||
+              item.projectLabels.includes(project))
         )
         .sort((a, b) => {
           const firstElement =
@@ -306,7 +308,7 @@ export default class TasksTable extends Component {
     const projects = [
       ...new Set(
         items
-          .map(item => item.project)
+          .reduce((prev, item) => [...prev, ...item.projectLabels], [])
           .sort((a, b) =>
             a.localeCompare(b, undefined, { sensitivity: 'base' })
           )

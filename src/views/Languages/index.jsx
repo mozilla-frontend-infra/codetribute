@@ -270,6 +270,7 @@ export default class Languages extends Component {
                 : '-',
               url: issue.url,
               description: issue.body,
+              projectLabels: [issue.repository.name],
             })),
           'summary'
         )) ||
@@ -295,6 +296,7 @@ export default class Languages extends Component {
               lastUpdated: bug.lastChanged,
               id: bug.id,
               url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              projectLabels: [bug.component],
             })),
           'summary'
         )) ||
@@ -320,6 +322,7 @@ export default class Languages extends Component {
               lastUpdated: bug.lastChanged,
               id: bug.id,
               url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              projectLabels: [bug.component],
             })),
           'summary'
         )) ||

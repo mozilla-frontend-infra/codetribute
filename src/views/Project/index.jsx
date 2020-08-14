@@ -2,7 +2,7 @@ import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import dotProp from 'dot-prop-immutable';
-import { mergeAll, memoizeWith } from 'ramda';
+import { mergeAll, memoizeWith, mergeWith, concat } from 'ramda';
 import uniqBy from 'lodash.uniqby';
 import { withStyles } from '@material-ui/core/styles';
 import projects from '../../data/loader';
@@ -19,9 +19,22 @@ import {
   BUGZILLA_SEARCH_OPTIONS,
   BUGZILLA_UNASSIGNED,
 } from '../../utils/constants';
+import isStringEqualIgnoreCase from '../../utils/isStringEqualIgnoreCase';
 import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
 import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
+
+const getProductsInfoWithoutLabel = products => {
+  if (!products) {
+    return [];
+  }
+
+  return products.reduce(
+    (prev, product) =>
+      product.label ? [...prev, ...product.products] : [...prev, product],
+    []
+  );
+};
 
 const productsWithNoComponents = products =>
   products.filter(product => typeof product === 'string');
@@ -42,6 +55,40 @@ const tagReposMapping = repositories =>
       ...mappings,
     };
   }, {});
+const getProjectLabels = memoizeWith(
+  (...args) => args.join('-'),
+  (projectName, bugProduct, bugComponent) => {
+    // A bug might have multiple labels when one of the entries only doesn't
+    // specify product name
+    const relatedProductQueriesWithLabel = (
+      projects[projectName].products || []
+    ).filter(
+      query =>
+        !!query.label &&
+        query.products.some(innerProduct => {
+          if (typeof innerProduct === 'string') {
+            return isStringEqualIgnoreCase(bugProduct, innerProduct);
+          }
+
+          if (
+            isStringEqualIgnoreCase(bugProduct, Object.keys(innerProduct)[0])
+          ) {
+            const innerComponents = Object.values(innerProduct)[0];
+
+            return innerComponents.some(component =>
+              isStringEqualIgnoreCase(component, bugComponent)
+            );
+          }
+
+          return false;
+        })
+    );
+
+    return relatedProductQueriesWithLabel.length
+      ? relatedProductQueriesWithLabel.map(q => q.label)
+      : [bugComponent];
+  }
+);
 
 @hot(module)
 @compose(
@@ -74,45 +121,51 @@ const tagReposMapping = repositories =>
       match: {
         params: { project },
       },
-    }) => ({
-      fetchPolicy: 'network-only',
-      variables: {
-        goodFirst: {
-          ...BUGZILLA_SEARCH_OPTIONS,
-          keywords: [GOOD_FIRST_BUG],
-          // get all the product with no component as it can be
-          // merged as an OR query if it exists
-          ...(productsWithNoComponents(projects[project].products).length
-            ? { products: productsWithNoComponents(projects[project].products) }
-            : {
-                // otherwise, get only the first product and its components
-                // as component is not unique for product thus can't be merged
-                products: Object.keys(projects[project].products[0])[0],
-                components: Object.values(projects[project].products[0])[0],
-              }),
+    }) => {
+      const productsInfo = getProductsInfoWithoutLabel(
+        projects[project].products
+      );
+
+      return {
+        fetchPolicy: 'network-only',
+        variables: {
+          goodFirst: {
+            ...BUGZILLA_SEARCH_OPTIONS,
+            keywords: [GOOD_FIRST_BUG],
+            // get all the product with no component as it can be
+            // merged as an OR query if it exists
+            ...(productsWithNoComponents(productsInfo).length
+              ? { products: productsWithNoComponents(productsInfo) }
+              : {
+                  // otherwise, get only the first product and its components
+                  // as component is not unique for product thus can't be merged
+                  products: Object.keys(productsInfo[0])[0],
+                  components: Object.values(productsInfo[0])[0],
+                }),
+          },
+          mentored: {
+            ...BUGZILLA_SEARCH_OPTIONS,
+            ...MENTORED_BUG,
+            // get all the product with no component as it can be
+            // merged as an OR query if it exists
+            ...(productsWithNoComponents(productsInfo).length
+              ? { products: productsWithNoComponents(productsInfo) }
+              : {
+                  // otherwise, get only the first product and its components
+                  // as component is not unique for product thus can't be merged
+                  products: Object.keys(productsInfo[0])[0],
+                  components: Object.values(productsInfo[0])[0],
+                }),
+          },
+          paging: {
+            ...BUGZILLA_PAGING_OPTIONS,
+          },
         },
-        mentored: {
-          ...BUGZILLA_SEARCH_OPTIONS,
-          ...MENTORED_BUG,
-          // get all the product with no component as it can be
-          // merged as an OR query if it exists
-          ...(productsWithNoComponents(projects[project].products).length
-            ? { products: productsWithNoComponents(projects[project].products) }
-            : {
-                // otherwise, get only the first product and its components
-                // as component is not unique for product thus can't be merged
-                products: Object.keys(projects[project].products[0])[0],
-                components: Object.values(projects[project].products[0])[0],
-              }),
+        context: {
+          client: 'bugzilla',
         },
-        paging: {
-          ...BUGZILLA_PAGING_OPTIONS,
-        },
-      },
-      context: {
-        client: 'bugzilla',
-      },
-    }),
+      };
+    },
   })
 )
 @withApollo
@@ -254,11 +307,12 @@ export default class Project extends Component {
         return this.fetchGithub(searchQuery);
       })
     );
-    const productWithComponentList = mergeAll(
-      project.products
-        ? project.products.filter(product => typeof product !== 'string')
-        : []
-    );
+    const productInfos = getProductsInfoWithoutLabel(project.products);
+    const productWithComponentList = productInfos
+      ? productInfos
+          .filter(product => typeof product !== 'string')
+          .reduce((prev, product) => mergeWith(concat, prev, product), {})
+      : {};
 
     // fetch only the product with component list, since product without
     // component would have been fetched by the initial graphql decorator query
@@ -290,6 +344,7 @@ export default class Project extends Component {
               : '-',
             url: issue.url,
             description: issue.body,
+            projectLabels: [issue.repository.name],
           })),
           'summary'
         )) ||
@@ -316,6 +371,11 @@ export default class Project extends Component {
               lastUpdated: bug.lastChanged,
               id: bug.id,
               url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              projectLabels: getProjectLabels(
+                this.props.match.params.project,
+                bug.product,
+                bug.component
+              ),
             })),
           'summary'
         )) ||
@@ -341,6 +401,11 @@ export default class Project extends Component {
               lastUpdated: bug.lastChanged,
               id: bug.id,
               url: `https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}`,
+              projectLabels: getProjectLabels(
+                this.props.match.params.project,
+                bug.product,
+                bug.component
+              ),
             })),
           'summary'
         )) ||
