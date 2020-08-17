@@ -41,8 +41,75 @@ introduction: |
 
   Some bugs have an assigned mentor, and that person will usually be the one to reply.
 
-  We are also available on [Slack](https://devtools-html-slack.herokuapp.com/) and on [Matrix](https://wiki.mozilla.org/Matrix) in the `#devtools` channel.
+  We are also available on [chat.mozilla.org](https://chat.mozilla.org/#/room/#devtools:mozilla.org).
 products:
- - DevTools
+  - label: about:debugging
+    products:
+      - DevTools: ["about:debugging"]
+  - label: Accessibility Tools
+    products:
+      - DevTools: ["Accessibility Tools"]
+  - label: Application Panel
+    products:
+      - DevTools: ["Application Panel"]
+  - label: Console
+    products:
+      - DevTools: ["Console"]
+  - label: Debugger
+    products:
+      - DevTools: ["Debugger"]
+  - label: Documentation
+    products:
+      - DevTools: ["Documentation"]
+  - label: DOM
+    products:
+      - DevTools: ["DOM"]
+  - label: Framework
+    products:
+      - DevTools: ["Framework"]
+  - label: General
+    products:
+      - DevTools: ["General", "CSS and Themes"]
+  - label: Inspector
+    products:
+      - DevTools:
+          [
+            "Inspector",
+            "Inspector: Animations",
+            "Inspector: Changes",
+            "Inspector: Compatibility",
+            "Inspector: Computed",
+            "Inspector: Fonts",
+            "Inspector: Layout",
+            "Inspector: Rules",
+            "Measuring Tool",
+          ]
+  - label: JSON Viewer
+    products:
+      - DevTools: ["JSON Viewer"]
+  - label: Memory
+    products:
+      - DevTools: ["Memory"]
+  - label: Netmonitor
+    products:
+      - DevTools: ["Netmonitor"]
+  - label: Performance Tools (Profiler/Timeline)
+    products:
+      - DevTools: ["Performance Tools (Profiler/Timeline)"]
+  - label: Responsive Design Mode
+    products:
+      - DevTools: ["Responsive Design Mode"]
+  - label: Shared Components
+    products:
+      - DevTools: ["Shared Components", "Object Inspector", "Source Editor"]
+  - label: Storage Inspector
+    products:
+      - DevTools: ["Storage Inspector"]
+  - label: Style Editor
+    products:
+      - DevTools: ["Style Editor"]
+  - label: Whats New Panel
+    products:
+      - DevTools: ["What's New"]
 repositories:
- - firefox-devtools/profiler: ['good first issue', 'help wanted']
+  - firefox-devtools/profiler: ["good first issue", "help wanted"]
