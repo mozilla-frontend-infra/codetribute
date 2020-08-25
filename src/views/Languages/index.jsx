@@ -358,6 +358,7 @@ export default class Languages extends Component {
                 ? issue.assignees.nodes[0].login
                 : '-',
               description: issue.body,
+              projectLabels: [issue.repository.name],
             })),
           'summary'
         )) ||
@@ -385,6 +386,7 @@ export default class Languages extends Component {
               },
               lastUpdated: bug.lastChanged,
               id: bug.id,
+              projectLabels: [bug.component],
             })),
           'summary.title'
         )) ||
@@ -412,6 +414,7 @@ export default class Languages extends Component {
               },
               lastUpdated: bug.lastChanged,
               id: bug.id,
+              projectLabels: [bug.component],
             })),
           'summary.title'
         )) ||

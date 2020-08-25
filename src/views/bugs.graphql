@@ -23,6 +23,7 @@ fragment Bugs on BugPager {
       keywords
       summary
       whiteboard
+      product
     }
   }
 }
