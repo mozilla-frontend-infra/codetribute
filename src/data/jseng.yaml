@@ -13,21 +13,25 @@ introduction: |
   * **The JIT compilers**: SpiderMonkey has two JIT compilers, Baseline and IonMonkey which work in concert to provide fast execution of JavaScript quickly. 
   
   ## How do I get Started
-  
-  If you are working on a bug (in Bugzilla), you may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi). 
-  
-  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time. 
-  
-  It would definitely be appreciated though if you have done some research!
-  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first. Don't worry if it isn't all clear though. SpiderMonkey is a complicated piece of software.  
-  
-  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#jsapi` channel, which can be a good way to get help. 
-  
-  ### Useful Links: 
-  
+
+  To help you get started, you will want to:
+
+  * Have a checkout of the Firefox source code
+  * Make sure you can build and test [SpiderMonkey](https://firefox-source-docs.mozilla.org/js/build.html)
+  * Understand [the basics of using Mercurial](https://mozilla-version-control-tools.readthedocs.io/en/latest/hgmozilla/firefoxworkflow.html)
+  * Understand [how to submit a patch](https://docs.firefox-dev.tools/contributing/making-prs.html)
+  * Read [this walkthrough](https://moz-conduit.readthedocs.io/en/latest/walkthrough.html) about how development works in Firefox.
+
+  If you are working on a bug (in Bugzilla), you may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi).
+
+  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time. People who work on SpiderMonkey are available on [Matrix](https://chat.mozilla.org) in the `#spidermonkey` channel, which can be a good way to get help. Please feel free to say 'Hi'
+
+  We really appreciate it if you've done some of your own research:
+  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first. Don't worry if it isn't all clear though. SpiderMonkey is a complicated piece of software.
+
+  ### Other Useful Links:
+
   * [New to SpiderMonkey](https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey)
-  * [Building SpiderMonkey](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Build_Documentation)
-  * [Running Tests](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/Build_Documentation#Test)
 
 
 products: 
