@@ -9,5 +9,11 @@
     "helfi92",
     "fiennyangeln"
   ],
-  "pinVersions": false
+  "pinVersions": false,
+  "packageRules": [
+    {
+      "updateTypes": ["minor", "patch", "lockFileMaintenance"],
+      "automerge": true
+    }
+  ]
 }
