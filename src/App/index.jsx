@@ -78,21 +78,19 @@ export default class App extends Component {
           <CssBaseline />
           <BrowserRouter>
             <Switch>
-              {routes.map(({ path, exact, component: Component, ...props }) => {
-                return (
-                  <Route
-                    key={path}
-                    path={path}
-                    exact={exact}
-                    render={({ staticContext, ...renderProps }) => (
-                      <Suspense
-                        fallback={<Spinner className={classes.spinner} />}>
-                        <Component {...renderProps} {...props} />
-                      </Suspense>
-                    )}
-                  />
-                );
-              })}
+              {routes.map(({ path, exact, component: Component, ...props }) => (
+                <Route
+                  key={path}
+                  path={path}
+                  exact={exact}
+                  render={({ staticContext, ...renderProps }) => (
+                    <Suspense
+                      fallback={<Spinner className={classes.spinner} />}>
+                      <Component {...renderProps} {...props} />
+                    </Suspense>
+                  )}
+                />
+              ))}
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>
