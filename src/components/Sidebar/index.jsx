@@ -100,18 +100,16 @@ export default class Sidebar extends Component {
           </List>
         </div>
         <div className={classes.thirdPartyLinks}>
-          {THIRD_PARTY_LINKS.map(links => {
-            return (
-              <a
-                key={links.link}
-                rel="noopener noreferrer"
-                target="_blank"
-                className={classes.link}
-                href={links.link}>
-                {links.label}
-              </a>
-            );
-          })}
+          {THIRD_PARTY_LINKS.map(links => (
+            <a
+              key={links.link}
+              rel="noopener noreferrer"
+              target="_blank"
+              className={classes.link}
+              href={links.link}>
+              {links.label}
+            </a>
+          ))}
         </div>
       </div>
     );
