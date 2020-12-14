@@ -46,7 +46,7 @@
     "react-router-dom": "^5.0.1",
     "redbox-react": "^1.6.0",
     "source-map-support": "^0.5.9",
-    "typeface-roboto": "^0.0.75"
+    "typeface-roboto": "^1.0.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
