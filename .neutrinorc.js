@@ -35,12 +35,6 @@ module.exports = {
         GITHUB_PERSONAL_API_TOKEN : '',
         BUGZILLA_ENDPOINT : 'http://localhost:3090',
       },
-      babel: {
-        plugins: [
-          [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
-          [require.resolve('@babel/plugin-proposal-class-properties'), { loose: true }],
-        ],
-      },
     }],
     (neutrino) => {
       neutrino.config.module
@@ -57,7 +51,21 @@ module.exports = {
             .end()
           .use('gql-loader')
             .loader(require.resolve('graphql-tag/loader'));
+      neutrino.config.module
+        .rule('compile')
+          .use('babel')
+          .tap(options => ({
+            ...options,
+            plugins: options.plugins
+            // @babel/plugin-proposal-decorators needs to come before @babel/plugin-proposal-class-properties
+            .filter(plugin => !plugin[0].includes('plugin-proposal-class-properties'))
+            .concat([
+              [require.resolve('@babel/plugin-proposal-decorators'), { legacy: true }],
+              [require.resolve('@babel/plugin-proposal-class-properties'), { loose: false }],
+            ]).filter(Boolean)
+          }));
     },
+
     '@neutrinojs/jest'
   ],
 };
