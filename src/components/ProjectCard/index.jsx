@@ -53,24 +53,30 @@ export default class ProjectCard extends Component {
     try {
       if (project.icon) {
         const mdiName = pascalCase(project.icon);
-        const ProjectIcon = (await import(/* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`))
-          .default;
+        const ProjectIcon = (
+          await import(
+            /* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`
+          )
+        ).default;
 
         return this.setState({
           projectIcon: <ProjectIcon size={50} />,
         });
       }
 
-      const projectIcon = (await import(/* webpackChunkName: "icon" */ `../../images/projectIcons/${
-        project.fileName
-      }.svg`)).default;
+      const projectIcon = (
+        await import(
+          /* webpackChunkName: "icon" */ `../../images/projectIcons/${project.fileName}.svg`
+        )
+      ).default;
 
       this.setState({
         projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
       });
     } catch (e) {
-      const ProjectIcon = (await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`))
-        .default;
+      const ProjectIcon = (
+        await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`)
+      ).default;
 
       this.setState({ projectIcon: <ProjectIcon size={50} /> });
     }
