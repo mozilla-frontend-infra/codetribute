@@ -9,6 +9,8 @@
     "helfi92",
     "fiennyangeln"
   ],
+  "dependencyDashboard": true,
+  "prConcurrentLimit": 2,
   "pinVersions": false,
   "packageRules": [
     {
