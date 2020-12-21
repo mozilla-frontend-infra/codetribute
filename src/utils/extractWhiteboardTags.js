@@ -2,7 +2,7 @@
 // [lang=js][lang=xul]
 // [lang=js,xul]
 // [lang=js/xul]
-export default whiteboard => {
+export default (whiteboard) => {
   if (!whiteboard) {
     return [];
   }
@@ -25,7 +25,7 @@ export default whiteboard => {
       // so start looping from 3rd element
       return [
         ...acc,
-        ...items.slice(2).map(element => `${items[1]}=${element}`),
+        ...items.slice(2).map((element) => `${items[1]}=${element}`),
       ];
     },
     []

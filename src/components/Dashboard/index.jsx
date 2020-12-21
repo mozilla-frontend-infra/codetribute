@@ -14,7 +14,7 @@ import { bool, node, string, object } from 'prop-types';
 import AppBar from '../AppBar';
 import Sidebar from '../Sidebar';
 
-@withStyles(theme => ({
+@withStyles((theme) => ({
   root: {
     background: theme.palette.background.default,
   },

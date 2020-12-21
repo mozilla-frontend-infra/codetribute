@@ -51,7 +51,7 @@ export default class App extends Component {
   }
 
   link = new RetryLink().split(
-    operation => operation.getContext().client === 'github',
+    (operation) => operation.getContext().client === 'github',
     new HttpLink({
       uri: 'https://api.github.com/graphql',
       headers: {

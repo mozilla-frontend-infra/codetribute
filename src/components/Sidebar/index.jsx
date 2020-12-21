@@ -24,7 +24,7 @@ import KotlinIcon from './KotlinIcon';
 import GoIcon from './GoIcon';
 
 @withRouter
-@withStyles(theme => ({
+@withStyles((theme) => ({
   active: {
     '& $text': {
       color: theme.palette.primary.main,
@@ -80,7 +80,7 @@ export default class Sidebar extends Component {
       <div className={classes.sidebarContainer}>
         <div>
           <List disablePadding>
-            {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map(language => (
+            {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map((language) => (
               <ListItem
                 className={classNames({
                   [classes.active]: language.toLowerCase() === activeLanguage,
@@ -100,7 +100,7 @@ export default class Sidebar extends Component {
           </List>
         </div>
         <div className={classes.thirdPartyLinks}>
-          {THIRD_PARTY_LINKS.map(links => (
+          {THIRD_PARTY_LINKS.map((links) => (
             <a
               key={links.link}
               rel="noopener noreferrer"

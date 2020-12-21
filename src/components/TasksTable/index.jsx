@@ -31,7 +31,7 @@ import sort from '../../utils/sort';
 import { unassigned, assigned } from '../../utils/assignmentFilters';
 import { ASSIGNEE, ALL_PROJECTS } from '../../utils/constants';
 
-const getTaskHelperText = item => {
+const getTaskHelperText = (item) => {
   const daysSinceLastUpdate = differenceInCalendarDays(
     new Date(),
     parseISO(item.lastUpdated)
@@ -59,7 +59,7 @@ const sorted = pipe(
 const assignments = Object.values(ASSIGNEE);
 
 @withRouter
-@withStyles(theme => ({
+@withStyles((theme) => ({
   summary: {
     display: 'inline-block',
     width: 450,
@@ -190,7 +190,7 @@ export default class TasksTable extends Component {
 
       return filteredItems
         .filter(
-          item =>
+          (item) =>
             (!tag || item.tags.includes(tag)) &&
             (!project ||
               project === ALL_PROJECTS ||
@@ -214,7 +214,7 @@ export default class TasksTable extends Component {
     return query;
   }
 
-  setQuery = query => {
+  setQuery = (query) => {
     this.props.history.push({
       search: `?${encodeURIComponent(stringify(query))}`,
     });
@@ -226,7 +226,7 @@ export default class TasksTable extends Component {
     this.setQuery({ ...query, [name]: value });
   };
 
-  handleHeaderClick = sortBy => {
+  handleHeaderClick = (sortBy) => {
     if (sortBy === 'Tags') {
       return;
     }
@@ -268,7 +268,7 @@ export default class TasksTable extends Component {
   };
 
   handleDrawerOpen = async ({ currentTarget: { name } }) => {
-    const item = this.props.items.find(item => item.summary === name);
+    const item = this.props.items.find((item) => item.summary === name);
 
     this.setState({
       drawerOpen: true,
@@ -338,7 +338,7 @@ export default class TasksTable extends Component {
             value={assignment}
             className={classes.dropdown}
             onChange={this.handleFilterChange}>
-            {assignments.map(assignee => (
+            {assignments.map((assignee) => (
               <MenuItem key={assignee} value={assignee}>
                 {assignee}
               </MenuItem>
@@ -352,7 +352,7 @@ export default class TasksTable extends Component {
             className={classes.dropdown}
             onChange={this.handleFilterChange}>
             <MenuItem value={ALL_PROJECTS}>{ALL_PROJECTS}</MenuItem>
-            {projects.map(project => (
+            {projects.map((project) => (
               <MenuItem key={project} value={project}>
                 {project}
               </MenuItem>
@@ -368,7 +368,7 @@ export default class TasksTable extends Component {
         <div className={classes.tableWrapper}>
           <DataTable
             items={data}
-            renderRow={item => (
+            renderRow={(item) => (
               <TableRow tabIndex={-1} key={item.summary}>
                 <TableCell
                   component="th"
@@ -412,7 +412,7 @@ export default class TasksTable extends Component {
                   </List>
                 </TableCell>
                 <TableCell className={classes.tableCell}>
-                  {item.tags.map(tag => (
+                  {item.tags.map((tag) => (
                     <Chip
                       name={tag}
                       key={tag}

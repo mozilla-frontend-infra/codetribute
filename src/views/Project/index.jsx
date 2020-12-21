@@ -24,7 +24,7 @@ import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import Dashboard from '../../components/Dashboard';
 import ProjectIntroductionCard from '../../components/ProjectIntroductionCard';
 
-const getProductsInfoWithoutLabel = products => {
+const getProductsInfoWithoutLabel = (products) => {
   if (!products) {
     return [];
   }
@@ -36,9 +36,9 @@ const getProductsInfoWithoutLabel = products => {
   );
 };
 
-const productsWithNoComponents = products =>
-  products.filter(product => typeof product === 'string');
-const tagReposMapping = repositories =>
+const productsWithNoComponents = (products) =>
+  products.filter((product) => typeof product === 'string');
+const tagReposMapping = (repositories) =>
   Object.keys(repositories).reduce((previousMappings, repoName) => {
     const tags = repositories[repoName];
     const labels = typeof tags === 'string' ? [tags] : tags;
@@ -63,9 +63,9 @@ const getProjectLabels = memoizeWith(
     const relatedProductQueriesWithLabel = (
       projects[projectName].products || []
     ).filter(
-      query =>
+      (query) =>
         !!query.label &&
-        query.products.some(innerProduct => {
+        query.products.some((innerProduct) => {
           if (typeof innerProduct === 'string') {
             return isStringEqualIgnoreCase(bugProduct, innerProduct);
           }
@@ -75,7 +75,7 @@ const getProjectLabels = memoizeWith(
           ) {
             const innerComponents = Object.values(innerProduct)[0];
 
-            return innerComponents.some(component =>
+            return innerComponents.some((component) =>
               isStringEqualIgnoreCase(component, bugComponent)
             );
           }
@@ -85,7 +85,7 @@ const getProjectLabels = memoizeWith(
     );
 
     return relatedProductQueriesWithLabel.length
-      ? relatedProductQueriesWithLabel.map(q => q.label)
+      ? relatedProductQueriesWithLabel.map((q) => q.label)
       : [bugComponent];
   }
 );
@@ -169,7 +169,7 @@ const getProjectLabels = memoizeWith(
   })
 )
 @withApollo
-@withStyles(theme => ({
+@withStyles((theme) => ({
   spinner: {
     marginTop: 3 * theme.spacing.unit,
   },
@@ -194,8 +194,8 @@ export default class Project extends Component {
   }
 
   handleBugInfoClick = memoizeWith(
-    id => id,
-    async id => {
+    (id) => id,
+    async (id) => {
       try {
         const {
           data: { comments },
@@ -261,7 +261,7 @@ export default class Project extends Component {
     });
   };
 
-  fetchGithub = searchQuery => {
+  fetchGithub = (searchQuery) => {
     const {
       github: { fetchMore },
     } = this.props;
@@ -299,7 +299,7 @@ export default class Project extends Component {
     await Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
-          repos.map(repo => `repo:${repo}`).join(' '),
+          repos.map((repo) => `repo:${repo}`).join(' '),
           `label:"${tag}"`,
           'state:open',
         ].join(' ');
@@ -310,7 +310,7 @@ export default class Project extends Component {
     const productInfos = getProductsInfoWithoutLabel(project.products);
     const productWithComponentList = productInfos
       ? productInfos
-          .filter(product => typeof product !== 'string')
+          .filter((product) => typeof product !== 'string')
           .reduce((prev, product) => mergeWith(concat, prev, product), {})
       : {};
 
@@ -334,10 +334,10 @@ export default class Project extends Component {
       (githubData &&
         githubData.search &&
         uniqBy(
-          githubData.search.nodes.map(issue => ({
+          githubData.search.nodes.map((issue) => ({
             project: issue.repository.name,
             summary: issue.title,
-            tags: issue.labels.nodes.map(node => node.name).sort(),
+            tags: issue.labels.nodes.map((node) => node.name).sort(),
             lastUpdated: issue.updatedAt,
             assignee: issue.assignees.nodes[0]
               ? issue.assignees.nodes[0].login
@@ -355,9 +355,9 @@ export default class Project extends Component {
         bugzillaData.goodFirst &&
         uniqBy(
           bugzillaData.goodFirst.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
+            .map((edge) => edge.node)
+            .map((bug) => ({
+              assignee: BUGZILLA_UNASSIGNED.some((email) =>
                 bug.assignedTo.name.endsWith(email)
               )
                 ? '-'
@@ -385,9 +385,9 @@ export default class Project extends Component {
         bugzillaData.mentored &&
         uniqBy(
           bugzillaData.mentored.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
+            .map((edge) => edge.node)
+            .map((bug) => ({
+              assignee: BUGZILLA_UNASSIGNED.some((email) =>
                 bug.assignedTo.name.endsWith(email)
               )
                 ? '-'

@@ -23,18 +23,20 @@ import extractWhiteboardTags from '../../utils/extractWhiteboardTags';
 import projects from '../../data/loader';
 
 const getIgnoreCase = (object, keyToFind) => {
-  const key = Object.keys(object).find(key => key.toLowerCase() === keyToFind);
+  const key = Object.keys(object).find(
+    (key) => key.toLowerCase() === keyToFind
+  );
 
   return key && object[key];
 };
 
 const repos = mergeAll(
   Object.values(projects)
-    .filter(project => project.repositories)
-    .map(project => project.repositories)
+    .filter((project) => project.repositories)
+    .map((project) => project.repositories)
     .reduce((prev, curr) => [...prev, ...curr], [])
 );
-const tagReposMapping = repositories =>
+const tagReposMapping = (repositories) =>
   Object.keys(repositories).reduce((previousMappings, repoName) => {
     const tags = repositories[repoName];
     const labels = typeof tags === 'string' ? [tags] : tags;
@@ -66,7 +68,7 @@ const tagReposMapping = repositories =>
       variables: {
         searchQuery: [
           `language:${language}`,
-          ...Object.keys(repos).map(repo => `repo:${repo}`),
+          ...Object.keys(repos).map((repo) => `repo:${repo}`),
         ].join(' '),
         type: 'REPOSITORY',
       },
@@ -130,7 +132,7 @@ export default class Languages extends Component {
     }
   }
 
-  fetchGithub = searchQuery => {
+  fetchGithub = (searchQuery) => {
     const {
       github: { fetchMore },
     } = this.props;
@@ -177,7 +179,7 @@ export default class Languages extends Component {
         githubData.search &&
         githubData.search.nodes
           .filter(
-            repository =>
+            (repository) =>
               repository.primaryLanguage &&
               repository.primaryLanguage.name.toLowerCase().includes(language)
           )
@@ -207,7 +209,7 @@ export default class Languages extends Component {
     await Promise.all(
       Object.entries(tagsMapping).map(([tag, repos]) => {
         const searchQuery = [
-          repos.map(repo => `repo:${repo}`).join(' '),
+          repos.map((repo) => `repo:${repo}`).join(' '),
           `label:"${tag}"`,
           'state:open',
         ].join(' ');
@@ -220,8 +222,8 @@ export default class Languages extends Component {
   };
 
   handleBugInfoClick = memoizeWith(
-    id => id,
-    async id => {
+    (id) => id,
+    async (id) => {
       try {
         const {
           data: { comments },
@@ -252,18 +254,18 @@ export default class Languages extends Component {
       (githubData && githubData.loading) ||
       githubLoading;
     const title = Object.keys(BUGZILLA_LANGUAGES).find(
-      lang => lang.toLowerCase() === language
+      (lang) => lang.toLowerCase() === language
     );
     const issues =
       (githubData &&
         githubData.search &&
         uniqBy(
           githubData.search.nodes
-            .filter(issue => issue.title)
-            .map(issue => ({
+            .filter((issue) => issue.title)
+            .map((issue) => ({
               project: issue.repository.name,
               summary: issue.title,
-              tags: issue.labels.nodes.map(node => node.name).sort(),
+              tags: issue.labels.nodes.map((node) => node.name).sort(),
               lastUpdated: issue.updatedAt,
               assignee: issue.assignees.nodes[0]
                 ? issue.assignees.nodes[0].login
@@ -280,9 +282,9 @@ export default class Languages extends Component {
         bugzillaData.goodFirst &&
         uniqBy(
           bugzillaData.goodFirst.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
+            .map((edge) => edge.node)
+            .map((bug) => ({
+              assignee: BUGZILLA_UNASSIGNED.some((email) =>
                 bug.assignedTo.name.endsWith(email)
               )
                 ? '-'
@@ -306,9 +308,9 @@ export default class Languages extends Component {
         bugzillaData.mentored &&
         uniqBy(
           bugzillaData.mentored.edges
-            .map(edge => edge.node)
-            .map(bug => ({
-              assignee: BUGZILLA_UNASSIGNED.some(email =>
+            .map((edge) => edge.node)
+            .map((bug) => ({
+              assignee: BUGZILLA_UNASSIGNED.some((email) =>
                 bug.assignedTo.name.endsWith(email)
               )
                 ? '-'

@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Markdown from 'react-markdown';
 
 @withStyles(
-  theme => ({
+  (theme) => ({
     cardAction: {
       position: 'absolute',
       bottom: 0,
@@ -43,7 +43,7 @@ export default class ProjectIntroductionCard extends Component {
     });
   };
 
-  linkRenderer = props => (
+  linkRenderer = (props) => (
     <a href={props.href} target="_blank" rel="noopener noreferrer">
       {props.children}
     </a>
