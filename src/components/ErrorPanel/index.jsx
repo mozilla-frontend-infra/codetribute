@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import ErrorBox from './ErrorBox';
 
-@withStyles(theme => ({
+@withStyles((theme) => ({
   paper: {
     padding: `0 ${2 * theme.spacing.unit}px`,
     display: 'flex',

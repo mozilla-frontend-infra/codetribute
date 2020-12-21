@@ -8,7 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Markdown from 'react-markdown';
 
-@withStyles(theme => ({
+@withStyles((theme) => ({
   card: {
     textAlign: 'center',
     position: 'relative',
@@ -83,13 +83,13 @@ export default class ProjectCard extends Component {
   }
   /* eslint-enable react/no-did-mount-set-state */
 
-  handleSummaryClick = event => {
+  handleSummaryClick = (event) => {
     if (event.target.href) {
       event.stopPropagation();
     }
   };
 
-  linkRenderer = props => (
+  linkRenderer = (props) => (
     <a href={props.href} target="_blank" rel="noopener noreferrer">
       {props.children}
     </a>

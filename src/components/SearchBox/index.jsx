@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
 
-@withStyles(theme => ({
+@withStyles((theme) => ({
   root: {
     marginLeft: 15,
     marginRight: 15,

@@ -8,7 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import { arrayOf, func, string, oneOf, object } from 'prop-types';
 
-@withStyles(theme => ({
+@withStyles((theme) => ({
   table: {
     marginTop: theme.spacing.unit * 3,
     width: '100%',
@@ -78,7 +78,7 @@ class DataTable extends Component {
         {headers && (
           <TableHead>
             <TableRow>
-              {headers.map(header => (
+              {headers.map((header) => (
                 <TableCell key={`table-header-${header}`}>
                   <TableSortLabel
                     id={header}

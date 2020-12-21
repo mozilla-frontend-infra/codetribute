@@ -12,7 +12,7 @@ import SearchBox from '../../components/SearchBox';
 import sort from '../../utils/sort';
 
 @hot(module)
-@withStyles(theme => ({
+@withStyles((theme) => ({
   container: {
     minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
     marginTop: `calc(180px + ${theme.spacing.unit}px)`,
@@ -53,7 +53,7 @@ export default class Projects extends Component {
     searchTerm: '',
   };
 
-  handleTextInputChange = event => {
+  handleTextInputChange = (event) => {
     this.setState({ searchTerm: event.target.value });
   };
 
@@ -61,7 +61,7 @@ export default class Projects extends Component {
     const { classes } = this.props;
     const { searchTerm } = this.state;
     const filteredProjects = Object.keys(projects)
-      .filter(fileName =>
+      .filter((fileName) =>
         projects[fileName].name.toLowerCase().includes(searchTerm.toLowerCase())
       )
       .reduce(
@@ -116,7 +116,7 @@ export default class Projects extends Component {
 
               return sort(firstElement, secondElement);
             })
-            .map(project => (
+            .map((project) => (
               <Grid item key={project.fileName} xs={12} sm={12} md={4} lg={3}>
                 <ProjectCard project={project} />
               </Grid>

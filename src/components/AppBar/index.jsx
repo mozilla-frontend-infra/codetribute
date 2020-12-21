@@ -3,7 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import classNames from 'classnames';
 
-@withStyles(theme => ({
+@withStyles((theme) => ({
   root: {
     background: `linear-gradient(45deg, ${theme.palette.primary.main},
      ${theme.palette.secondary.main}
