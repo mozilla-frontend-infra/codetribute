@@ -1,0 +1,51 @@
+version: 1
+reporting: checks-v1
+policy:
+  pullRequests: public
+tasks:
+  $let:
+    head_rev:
+      $if: 'tasks_for == "github-pull-request"'
+      then: ${event.pull_request.head.sha}
+      else: ${event.after}
+    repository:
+      $if: 'tasks_for == "github-pull-request"'
+      then: ${event.pull_request.head.repo.html_url}
+      else: ${event.repository.html_url}
+  in:
+    $map:
+      - name: yarn test
+        image: node:10
+        command: >-
+          cd frontend &&
+          yarn --frozen-lockfile &&
+          yarn test
+      - name: yarn lint
+        image: node:10
+        command: >-
+          cd frontend &&
+          yarn --frozen-lockfile &&
+          yarn lint
+    each(opts):
+      provisionerId: 'proj-misc'
+      workerType: 'ci'
+      created: {$fromNow: ''}
+      deadline: {$fromNow: '1 hour'}
+      payload:
+        maxRunTime: 3600
+        image: "${opts.image}"
+        command:
+          - /bin/bash
+          - '--login'
+          - '-c'
+          - >-
+            git clone ${repository} repo &&
+            cd repo &&
+            git config advice.detachedHead false &&
+            git checkout ${head_rev} &&
+            ${opts.command}
+      metadata:
+        name: "${opts.name}"
+        description: Codetribute CI
+        owner: nobody@mozilla.com
+        source: https://github.com/mozilla-frontend-infra/codetribute
