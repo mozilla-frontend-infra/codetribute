@@ -17,13 +17,11 @@ tasks:
       - name: yarn test
         image: node:10
         command: >-
-          cd frontend &&
           yarn --frozen-lockfile &&
           yarn test
       - name: yarn lint
         image: node:10
         command: >-
-          cd frontend &&
           yarn --frozen-lockfile &&
           yarn lint
     each(opts):
