@@ -31,6 +31,7 @@
     "graphql": "^15.0.0",
     "graphql-tag": "^2.9.2",
     "localforage": "^1.7.1",
+    "lodash.flowright": "^3.5.0",
     "lodash.uniqby": "^4.7.0",
     "mdi-react": "^6.0.0",
     "prop-types": "^15.6.1",

@@ -1,7 +1,8 @@
 import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
-import { graphql, withApollo, compose } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { memoizeWith, mergeAll } from 'ramda';
+import compose from 'lodash.flowright';
 import uniqBy from 'lodash.uniqby';
 import dotProp from 'dot-prop-immutable';
 import TasksTable from '../../components/TasksTable';
