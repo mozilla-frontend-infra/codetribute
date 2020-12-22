@@ -51,7 +51,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.2",
-    "@mozilla-frontend-infra/react-lint": "^1.1.1",
+    "@mozilla-frontend-infra/react-lint": "^2.0.1",
     "@neutrinojs/image-loader": "9.4.0",
     "@neutrinojs/jest": "9.4.0",
     "@neutrinojs/react": "9.4.0",
