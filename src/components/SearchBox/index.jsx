@@ -49,11 +49,6 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
   },
 }))
 export default class Search extends Component {
-  static propTypes = {
-    value: string.isRequired,
-    onChange: func.isRequired,
-  };
-
   render() {
     const { classes, value, onChange, ...props } = this.props;
 
@@ -76,3 +71,7 @@ export default class Search extends Component {
     );
   }
 }
+Search.propTypes = {
+  value: string.isRequired,
+  onChange: func.isRequired,
+};

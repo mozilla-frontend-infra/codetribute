@@ -31,10 +31,6 @@ import Markdown from 'react-markdown';
   { withTheme: true }
 )
 export default class ProjectIntroductionCard extends Component {
-  static propTypes = {
-    introduction: string.isRequired,
-  };
-
   state = { open: false };
 
   handleButtonClick = () => {
@@ -79,3 +75,6 @@ export default class ProjectIntroductionCard extends Component {
     );
   }
 }
+ProjectIntroductionCard.propTypes = {
+  introduction: string.isRequired,
+};

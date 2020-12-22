@@ -22,10 +22,6 @@ import CardContent from '@material-ui/core/CardContent';
   },
 })
 export default class ErrorBox extends RedBoxError {
-  static propTypes = {
-    error: instanceOf(Error).isRequired,
-  };
-
   render() {
     // The error is received as a property to initialize state.error, which may
     // be updated when it is mapped to the source map.
@@ -56,3 +52,6 @@ export default class ErrorBox extends RedBoxError {
     }
   }
 }
+ErrorBox.propTypes = {
+  error: instanceOf(Error).isRequired,
+};

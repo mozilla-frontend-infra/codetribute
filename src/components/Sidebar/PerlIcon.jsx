@@ -2,16 +2,6 @@ import React, { PureComponent } from 'react';
 import { number, string } from 'prop-types';
 
 export default class PerlIcon extends PureComponent {
-  static propTypes = {
-    size: number,
-    fill: string,
-  };
-
-  static defaultProps = {
-    size: 24,
-    fill: 'currentColor',
-  };
-
   render() {
     const { className, size, fill } = this.props;
 
@@ -29,3 +19,13 @@ export default class PerlIcon extends PureComponent {
     );
   }
 }
+
+PerlIcon.propTypes = {
+  size: number,
+  fill: string,
+};
+
+PerlIcon.defaultProps = {
+  size: 24,
+  fill: 'currentColor',
+};

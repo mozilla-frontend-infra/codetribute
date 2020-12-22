@@ -1,8 +1,11 @@
 const images = require('@neutrinojs/image-loader');
+const lint = require('@mozilla-frontend-infra/react-lint');
+const react = require('@neutrinojs/react');
+const jest = require('@neutrinojs/jest');
 
 module.exports = {
   use: [
-    ['@mozilla-frontend-infra/react-lint', {
+    lint({
       parserOptions: {
         ecmaFeatures: {
           legacyDecorators: true
@@ -11,9 +14,10 @@ module.exports = {
       rules: {
         'react/no-access-state-in-setstate': 'off',
         'babel/no-unused-expressions': 'off',
+        'react/jsx-props-no-spreading': 'off',
       }
-    }],
-    ['@neutrinojs/react', {
+    }),
+    react({
       image: {
         limit: 1,
       },
@@ -35,7 +39,7 @@ module.exports = {
         GITHUB_PERSONAL_API_TOKEN : '',
         BUGZILLA_ENDPOINT : 'http://localhost:3090',
       },
-    }],
+    }),
     (neutrino) => {
       neutrino.config.module
         .rule('js-yaml')
@@ -65,7 +69,6 @@ module.exports = {
             ]).filter(Boolean)
           }));
     },
-
-    '@neutrinojs/jest'
+    jest(),
   ],
 };
