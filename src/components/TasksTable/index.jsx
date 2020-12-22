@@ -141,14 +141,6 @@ const assignments = Object.values(ASSIGNEE);
   },
 }))
 export default class TasksTable extends Component {
-  static propTypes = {
-    /**
-     * A list of objects to display. Each element in the list is represented
-     * by a row and each element's key-value pair represents a column.
-     */
-    items: arrayOf(object).isRequired,
-  };
-
   state = {
     drawerOpen: false,
     drawerItem: null,
@@ -490,3 +482,11 @@ export default class TasksTable extends Component {
     );
   }
 }
+
+TasksTable.propTypes = {
+  /**
+   * A list of objects to display. Each element in the list is represented
+   * by a row and each element's key-value pair represents a column.
+   */
+  items: arrayOf(object).isRequired,
+};

@@ -14,6 +14,7 @@ module.exports = {
       rules: {
         'react/no-access-state-in-setstate': 'off',
         'babel/no-unused-expressions': 'off',
+        'react/jsx-props-no-spreading': 'off',
       }
     }),
     react({

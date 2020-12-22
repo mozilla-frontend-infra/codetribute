@@ -2,16 +2,6 @@ import React, { PureComponent } from 'react';
 import { number, string } from 'prop-types';
 
 export default class RustIcon extends PureComponent {
-  static propTypes = {
-    size: number,
-    fill: string,
-  };
-
-  static defaultProps = {
-    size: 24,
-    fill: 'currentColor',
-  };
-
   render() {
     const { className, size, fill } = this.props;
 
@@ -26,3 +16,13 @@ export default class RustIcon extends PureComponent {
     );
   }
 }
+
+RustIcon.propTypes = {
+  size: number,
+  fill: string,
+};
+
+RustIcon.defaultProps = {
+  size: 24,
+  fill: 'currentColor',
+};

@@ -44,13 +44,6 @@ import ErrorBox from './ErrorBox';
  * when in development
  */
 export default class ErrorPanel extends Component {
-  static propTypes = {
-    /**
-     * Error to display
-     */
-    error: oneOfType([string, instanceOf(Error)]).isRequired,
-  };
-
   render() {
     const { classes, error } = this.props;
     const showStack =
@@ -86,3 +79,9 @@ export default class ErrorPanel extends Component {
     );
   }
 }
+ErrorPanel.propTypes = {
+  /**
+   * Error to display
+   */
+  error: oneOfType([string, instanceOf(Error)]).isRequired,
+};

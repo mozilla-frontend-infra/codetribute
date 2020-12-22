@@ -16,46 +16,6 @@ import { arrayOf, func, string, oneOf, object } from 'prop-types';
   },
 }))
 class DataTable extends Component {
-  static propTypes = {
-    /**
-     * A function to execute for each row to render in the table.
-     * Will be passed a datum from the table data. The function
-     * should return the JSX necessary to render the given row.
-     */
-    renderRow: func,
-    /**
-     * A function to execute when a column header is clicked.
-     * Will receive a single argument which is the column name.
-     * This can be used to handle sorting.
-     */
-    onHeaderClick: func,
-    /**
-     * A header name to sort on.
-     */
-    sortByHeader: string,
-    /**
-     * The sorting direction.
-     */
-    sortDirection: oneOf(['desc', 'asc']),
-    /**
-     * A list of header names to use on the table starting from the left.
-     */
-    headers: arrayOf(string),
-    /**
-     * A list of objects to display. Each element in the list is represented
-     * by a row and each element's key-value pair represents a column.
-     */
-    items: arrayOf(object).isRequired,
-  };
-
-  static defaultProps = {
-    sortByHeader: null,
-    sortDirection: 'desc',
-    headers: null,
-    onHeaderClick: null,
-    renderRow: null,
-  };
-
   handleHeaderClick = ({ target }) => {
     if (this.props.onHeaderClick) {
       this.props.onHeaderClick(target.id);
@@ -107,5 +67,44 @@ class DataTable extends Component {
     );
   }
 }
+DataTable.propTypes = {
+  /**
+   * A function to execute for each row to render in the table.
+   * Will be passed a datum from the table data. The function
+   * should return the JSX necessary to render the given row.
+   */
+  renderRow: func,
+  /**
+   * A function to execute when a column header is clicked.
+   * Will receive a single argument which is the column name.
+   * This can be used to handle sorting.
+   */
+  onHeaderClick: func,
+  /**
+   * A header name to sort on.
+   */
+  sortByHeader: string,
+  /**
+   * The sorting direction.
+   */
+  sortDirection: oneOf(['desc', 'asc']),
+  /**
+   * A list of header names to use on the table starting from the left.
+   */
+  headers: arrayOf(string),
+  /**
+   * A list of objects to display. Each element in the list is represented
+   * by a row and each element's key-value pair represents a column.
+   */
+  items: arrayOf(object).isRequired,
+};
+
+DataTable.defaultProps = {
+  sortByHeader: null,
+  sortDirection: 'desc',
+  headers: null,
+  onHeaderClick: null,
+  renderRow: null,
+};
 
 export default DataTable;

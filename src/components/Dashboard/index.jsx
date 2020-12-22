@@ -86,32 +86,6 @@ import Sidebar from '../Sidebar';
   },
 }))
 export default class Dashboard extends Component {
-  static propTypes = {
-    /*
-     * The title to be put in the AppBar
-     */
-    title: string,
-    /*
-     * Boolean to render the sidebar
-     */
-    withSidebar: bool,
-    /*
-     * The custom header to be put in the AppBar
-     */
-    header: node,
-    /*
-     * The style to be used by the Component
-     */
-    classes: object,
-  };
-
-  static defaultProps = {
-    classes: null,
-    withSidebar: false,
-    title: null,
-    header: null,
-  };
-
   state = {
     drawerOpen: false,
   };
@@ -219,3 +193,28 @@ export default class Dashboard extends Component {
     );
   }
 }
+Dashboard.propTypes = {
+  /*
+   * The title to be put in the AppBar
+   */
+  title: string,
+  /*
+   * Boolean to render the sidebar
+   */
+  withSidebar: bool,
+  /*
+   * The custom header to be put in the AppBar
+   */
+  header: node,
+  /*
+   * The style to be used by the Component
+   */
+  classes: object,
+};
+
+Dashboard.defaultProps = {
+  classes: null,
+  withSidebar: false,
+  title: null,
+  header: null,
+};

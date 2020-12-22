@@ -2,16 +2,6 @@ import React, { PureComponent } from 'react';
 import { number, string } from 'prop-types';
 
 export default class JavaIcon extends PureComponent {
-  static propTypes = {
-    size: number,
-    fill: string,
-  };
-
-  static defaultProps = {
-    size: 24,
-    fill: 'currentColor',
-  };
-
   render() {
     const { className, fill, size } = this.props;
 
@@ -26,3 +16,13 @@ export default class JavaIcon extends PureComponent {
     );
   }
 }
+
+JavaIcon.propTypes = {
+  size: number,
+  fill: string,
+};
+
+JavaIcon.defaultProps = {
+  size: 24,
+  fill: 'currentColor',
+};

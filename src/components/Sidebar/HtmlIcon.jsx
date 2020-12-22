@@ -2,16 +2,6 @@ import React, { PureComponent } from 'react';
 import { number, string } from 'prop-types';
 
 export default class HtmlIcon extends PureComponent {
-  static propTypes = {
-    size: number,
-    fill: string,
-  };
-
-  static defaultProps = {
-    size: 24,
-    fill: 'currentColor',
-  };
-
   render() {
     const { className, size, fill } = this.props;
 
@@ -26,3 +16,13 @@ export default class HtmlIcon extends PureComponent {
     );
   }
 }
+
+HtmlIcon.propTypes = {
+  size: number,
+  fill: string,
+};
+
+HtmlIcon.defaultProps = {
+  size: 24,
+  fill: 'currentColor',
+};

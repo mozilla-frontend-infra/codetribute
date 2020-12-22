@@ -33,15 +33,6 @@ import Markdown from 'react-markdown';
   },
 }))
 export default class ProjectCard extends Component {
-  static propTypes = {
-    project: shape({
-      name: string.isRequired,
-      summary: string,
-      fileName: string.isRequired,
-      icon: string,
-    }).isRequired,
-  };
-
   state = {
     projectIcon: null,
   };
@@ -128,3 +119,11 @@ export default class ProjectCard extends Component {
     );
   }
 }
+ProjectCard.propTypes = {
+  project: shape({
+    name: string.isRequired,
+    summary: string,
+    fileName: string.isRequired,
+    icon: string,
+  }).isRequired,
+};
