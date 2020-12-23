@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import GithubCircleIcon from 'mdi-react/GithubCircleIcon';
+import GithubIcon from 'mdi-react/GithubIcon';
 import projects from '../../data/loader';
 import ProjectCard from '../../components/ProjectCard';
 import Dashboard from '../../components/Dashboard';
@@ -80,7 +80,7 @@ export default class Projects extends Component {
           rel="noopener noreferrer"
           href="https://github.com/mozilla-frontend-infra/codetribute"
           title="Site Repository">
-          <GithubCircleIcon />
+          <GithubIcon />
         </IconButton>
         <Typography variant="h3" align="center" className={classes.title}>
           Codetribute
