@@ -3,12 +3,11 @@
   "description": "A site for connecting contributors to Mozilla's open-source projects.",
   "repository": {
     "url": "https://github.com/mozilla-frontend-infra/codetribute",
-    "license": "MPL2",
-    "tests": "https://travis-ci.com/mozilla-frontend-infra/codetribute"
+    "license": "MPL2"
   },
   "participate": {
     "home": "https://github.com/mozilla-frontend-infra/codetribute",
-    "docs": "https://github.com/mozilla-frontend-infra/codetribute/blob/master/README.md",
+    "docs": "https://github.com/mozilla-frontend-infra/codetribute/blob/main/README.md",
     "irc": "irc://irc.mozilla.org/#frontend-infra",
     "irc-contacts": [
       "hassan",

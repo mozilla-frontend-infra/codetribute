@@ -1,6 +1,5 @@
 # Codetribute
 
-[![Build Status][travis-image]][travis-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 
 Codetribute is a site that guides contributors to
@@ -78,7 +77,7 @@ the production instance, you'll need to clone and run
 
 Codetribute can read from both GitHub and Bugzilla. Regarding the latter, bugs with the `good-first-bug` keyword and mentored bugs will appear in the list.
 To add a new entry to the site, create a file `<project-name>.yml` in `src/data` using the [template example](#template-example) as the initial setup. 
-For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/master/src/data/taskcluster.yaml) yaml file.
+For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/main/src/data/taskcluster.yaml) yaml file.
 
 ### Template Example
 
@@ -183,5 +182,3 @@ join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
 
 [snyk-image]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute/badge.svg
 [snyk-url]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute?targetFile=package.json
-[travis-image]: https://travis-ci.com/mozilla-frontend-infra/codetribute.svg?branch=master
-[travis-url]: https://travis-ci.com/mozilla-frontend-infra/codetribute
