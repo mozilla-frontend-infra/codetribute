@@ -37,7 +37,7 @@ import Sidebar from '../Sidebar';
   },
   header: {
     height: 60,
-    paddingBottom: theme.spacing.unit,
+    paddingBottom: theme.spacing(1),
     zIndex: theme.zIndex.drawer + 1,
   },
   headerWithSidebar: {
@@ -70,11 +70,11 @@ import Sidebar from '../Sidebar';
   },
   menuIconButton: {
     position: 'absolute',
-    right: theme.spacing.unit,
+    right: theme.spacing(1),
   },
   container: {
     marginTop: 60,
-    padding: 2 * theme.spacing.unit,
+    padding: theme.spacing(2),
   },
   containerWithSidebar: {
     overflowY: 'auto',

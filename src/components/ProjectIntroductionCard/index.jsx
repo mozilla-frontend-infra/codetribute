@@ -21,7 +21,7 @@ import Markdown from 'react-markdown';
       right: 0,
       left: 0,
       bottom: 0,
-      height: 13 * theme.spacing.unit,
+      height: theme.spacing(13),
       position: 'absolute',
     },
     card: {
@@ -48,14 +48,14 @@ export default class ProjectIntroductionCard extends Component {
   render() {
     const { classes, introduction, theme } = this.props;
     const { open } = this.state;
-    const collapsedHeight = `${28 * theme.spacing.unit}px`;
+    const collapsedHeight = `${theme.spacing(28)}px`;
 
     return (
       <Card className={classes.card}>
         <Collapse in={open} collapsedHeight={collapsedHeight}>
           {!open && <div className={classes.fadeout} />}
           <CardContent>
-            <Typography component="div">
+            <Typography component="div" variant="body2">
               <Markdown
                 source={introduction}
                 renderers={{ link: this.linkRenderer }}

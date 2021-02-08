@@ -3,16 +3,16 @@ import { instanceOf, oneOfType, string } from 'prop-types';
 import classNames from 'classnames';
 import Markdown from 'react-markdown';
 import { withStyles } from '@material-ui/core/styles';
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Paper from '@material-ui/core/Paper';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import ErrorBox from './ErrorBox';
 
 @withStyles((theme) => ({
   paper: {
-    padding: `0 ${2 * theme.spacing.unit}px`,
+    padding: `0 ${theme.spacing(2)}px`,
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -23,7 +23,7 @@ import ErrorBox from './ErrorBox';
   error: {
     backgroundColor: theme.palette.error.main,
     borderColor: theme.palette.error.light,
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     '& svg': {
       fill: theme.palette.common.white,
     },
@@ -66,16 +66,16 @@ export default class ErrorPanel extends Component {
     }
 
     return (
-      <ExpansionPanel className={classes.error} disabled={!showStack}>
-        <ExpansionPanelSummary
+      <Accordion className={classes.error} disabled={!showStack}>
+        <AccordionSummary
           classes={{ disabled: classes.disabled }}
           expandIcon={<ChevronDownIcon />}>
           {markdown}
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary>
+        <AccordionDetails>
           <ErrorBox error={error} />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        </AccordionDetails>
+      </Accordion>
     );
   }
 }

@@ -68,10 +68,10 @@ const theme = createMuiTheme({
       },
     },
     MuiTypography: {
-      display2: {
+      h3: {
         color: '#fff',
       },
-      display1: {
+      h4: {
         color: '#fff',
       },
     },

@@ -1,6 +1,7 @@
 import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith, mergeWith, concat } from 'ramda';
 import uniqBy from 'lodash.uniqby';
@@ -171,7 +172,7 @@ const getProjectLabels = memoizeWith(
 @withApollo
 @withStyles((theme) => ({
   spinner: {
-    marginTop: 3 * theme.spacing.unit,
+    marginTop: theme.spacing(3),
   },
 }))
 export default class Project extends Component {
