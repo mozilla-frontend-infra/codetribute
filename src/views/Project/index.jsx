@@ -171,7 +171,7 @@ const getProjectLabels = memoizeWith(
 @withApollo
 @withStyles((theme) => ({
   spinner: {
-    marginTop: 3 * theme.spacing.unit,
+    marginTop: theme.spacing(3),
   },
 }))
 export default class Project extends Component {

@@ -77,13 +77,13 @@ const assignments = Object.values(ASSIGNEE);
     whiteSpace: 'nowrap',
   },
   summaryItem: {
-    marginLeft: -theme.spacing.unit,
-    padding: theme.spacing.unit,
+    marginLeft: -theme.spacing(1),
+    padding: theme.spacing(1),
   },
   dropdown: {
     minWidth: 200,
-    marginRight: 2 * theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(1),
   },
   filter: {
     ...theme.mixins.gutters(),
@@ -107,7 +107,7 @@ const assignments = Object.values(ASSIGNEE);
   [theme.breakpoints.down('sm')]: {
     adventurousButton: {
       order: 2,
-      margin: `${theme.spacing.unit}px 0`,
+      margin: `${theme.spacing(1)}px 0`,
     },
     toolbar: {
       justifyContent: 'flex-start',
@@ -117,8 +117,8 @@ const assignments = Object.values(ASSIGNEE);
     flexShrink: 0,
   },
   infoButton: {
-    marginRight: theme.spacing.unit,
-    marginLeft: -2 * theme.spacing.unit,
+    marginRight: theme.spacing(1),
+    marginLeft: -theme.spacing(2),
   },
   drawerPaper: {
     width: 400,
@@ -126,8 +126,8 @@ const assignments = Object.values(ASSIGNEE);
   },
   drawerCloseButton: {
     position: 'absolute',
-    right: theme.spacing.unit,
-    top: theme.spacing.unit,
+    right: theme.spacing(1),
+    top: theme.spacing(1),
     zIndex: theme.zIndex.drawer + 1,
   },
   listItemButton: {

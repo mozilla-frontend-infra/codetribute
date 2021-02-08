@@ -26,7 +26,10 @@ import Markdown from 'react-markdown';
   },
   projectSummary: {
     fontWeight: 300,
-    padding: 2 * theme.spacing.unit,
+    padding: theme.spacing(2),
+  },
+  projectIcon: {
+    color: theme.palette.secondary.dark,
   },
   link: {
     textDecoration: 'none',
@@ -39,7 +42,7 @@ export default class ProjectCard extends Component {
 
   /* eslint-disable react/no-did-mount-set-state */
   async componentDidMount() {
-    const { project } = this.props;
+    const { project, classes } = this.props;
 
     try {
       if (project.icon) {
@@ -51,7 +54,9 @@ export default class ProjectCard extends Component {
         ).default;
 
         return this.setState({
-          projectIcon: <ProjectIcon size={50} />,
+          projectIcon: (
+            <ProjectIcon size={50} className={classes.projectIcon} />
+          ),
         });
       }
 
@@ -69,7 +74,9 @@ export default class ProjectCard extends Component {
         await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`)
       ).default;
 
-      this.setState({ projectIcon: <ProjectIcon size={50} /> });
+      this.setState({
+        projectIcon: <ProjectIcon size={50} className={classes.projectIcon} />,
+      });
     }
   }
   /* eslint-enable react/no-did-mount-set-state */
@@ -105,6 +112,7 @@ export default class ProjectCard extends Component {
               <Typography
                 className={classes.projectSummary}
                 onClick={this.handleSummaryClick}
+                variant="body2"
                 component="object"
                 color="textSecondary">
                 <Markdown

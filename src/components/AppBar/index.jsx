@@ -8,7 +8,7 @@ import classNames from 'classnames';
     background: `linear-gradient(45deg, ${theme.palette.primary.main},
      ${theme.palette.secondary.main}
       90%)`,
-    paddingTop: theme.spacing.unit,
+    paddingTop: theme.spacing(1),
   },
 }))
 class CustomAppBar extends Component {

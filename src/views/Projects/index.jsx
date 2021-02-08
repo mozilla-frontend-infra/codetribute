@@ -14,8 +14,8 @@ import sort from '../../utils/sort';
 @hot(module)
 @withStyles((theme) => ({
   container: {
-    minHeight: `calc(100vh - 180px - ${3 * theme.spacing.unit}px)`,
-    marginTop: `calc(180px + ${theme.spacing.unit}px)`,
+    minHeight: `calc(100vh - 180px - ${theme.spacing(3)}px)`,
+    marginTop: `calc(180px + ${theme.spacing(1)}px)`,
     padding: 0,
   },
   header: {
@@ -108,7 +108,7 @@ export default class Projects extends Component {
         }}
         withSidebar
         header={header}>
-        <Grid container spacing={24} className={classes.grid}>
+        <Grid container spacing={3} className={classes.grid}>
           {Object.values(filteredProjects)
             .sort((a, b) => {
               const firstElement = a.name;

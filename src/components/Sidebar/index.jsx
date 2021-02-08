@@ -41,7 +41,7 @@ import GoIcon from './GoIcon';
     display: 'inline-flex',
   },
   thirdPartyLinks: {
-    padding: 3 * theme.spacing.unit,
+    padding: theme.spacing(3),
   },
   sidebarContainer: {
     display: 'flex',

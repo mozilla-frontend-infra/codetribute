@@ -10,7 +10,7 @@ import { arrayOf, func, string, oneOf, object } from 'prop-types';
 
 @withStyles((theme) => ({
   table: {
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     width: '100%',
     overflowX: 'auto',
   },
