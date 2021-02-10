@@ -71,6 +71,17 @@ class App extends Component {
     const { error } = this.state;
     const { classes } = this.props;
 
+    if (error) {
+      return (
+        <ApolloProvider client={this.apolloClient}>
+          <MuiThemeProvider theme={theme}>
+            <FontStager />
+            {error && <ErrorPanel error={error} />}
+          </MuiThemeProvider>
+        </ApolloProvider>
+      );
+    }
+
     return (
       <ApolloProvider client={this.apolloClient}>
         <MuiThemeProvider theme={theme}>
