@@ -8,6 +8,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Markdown from 'react-markdown';
 
+export default
 @withStyles((theme) => ({
   card: {
     textAlign: 'center',
@@ -35,7 +36,7 @@ import Markdown from 'react-markdown';
     textDecoration: 'none',
   },
 }))
-export default class ProjectCard extends Component {
+class ProjectCard extends Component {
   state = {
     projectIcon: null,
   };

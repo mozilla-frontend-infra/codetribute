@@ -30,6 +30,7 @@ persistCache({
   storage,
 });
 
+export default
 @hot(module)
 @withStyles({
   '@global': {
@@ -41,7 +42,7 @@ persistCache({
     marginTop: 60,
   },
 })
-export default class App extends Component {
+class App extends Component {
   state = {
     error: null,
   };

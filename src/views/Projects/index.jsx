@@ -11,6 +11,7 @@ import Dashboard from '../../components/Dashboard';
 import SearchBox from '../../components/SearchBox';
 import sort from '../../utils/sort';
 
+export default
 @hot(module)
 @withStyles((theme) => ({
   container: {
@@ -48,7 +49,7 @@ import sort from '../../utils/sort';
     },
   },
 }))
-export default class Projects extends Component {
+class Projects extends Component {
   state = {
     searchTerm: '',
   };

@@ -55,6 +55,7 @@ const tagReposMapping = (repositories) =>
     };
   }, {});
 
+export default
 @withApollo
 @hot(module)
 @compose(
@@ -112,7 +113,7 @@ const tagReposMapping = (repositories) =>
     }),
   })
 )
-export default class Languages extends Component {
+class Languages extends Component {
   state = {
     error: null,
     // we need a way to know when github loading is done.

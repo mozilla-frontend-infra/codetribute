@@ -409,6 +409,12 @@ module.exports = function (webpackEnv) {
                 ],
                 
                 plugins: [
+                  // CODETRIBUTE: use decorators
+                  [
+                    require.resolve('@babel/plugin-proposal-decorators'),
+                    { legacy: true },
+                  ],
+                  require.resolve('@babel/plugin-proposal-class-properties'),
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
