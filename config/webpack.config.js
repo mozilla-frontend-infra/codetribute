@@ -545,8 +545,15 @@ module.exports = function (webpackEnv) {
             // CODETRIBUTE: add a YAML loader for .yml and .yaml
             {
               test: /\.(yaml|yml)$/,
+              include: paths.appSrc,
               loader: 'js-yaml-loader',
               options: { safe: true },
+            },
+            // CODETRIBUTE: load .graphql files
+            {
+              test: /\.graphql$/,
+              include: paths.appSrc,
+              loader: 'graphql-tag/loader',
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
