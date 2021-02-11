@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "lint": "eslint src/**/*.jsx",
     "test": "node scripts/test.js"
   },
   "engines": {
