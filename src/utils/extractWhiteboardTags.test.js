@@ -1,4 +1,4 @@
-import extractWhiteboardTags from '../src/utils/extractWhiteboardTags';
+import extractWhiteboardTags from './extractWhiteboardTags';
 
 describe('extract whiteboard tags', () => {
   it('should extract languages from [lang=js][lang=xul]', () => {

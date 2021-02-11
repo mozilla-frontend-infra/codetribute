@@ -91,6 +91,7 @@ const getProjectLabels = memoizeWith(
   }
 );
 
+export default
 @hot(module)
 @compose(
   graphql(githubInfoQuery, {
@@ -175,7 +176,7 @@ const getProjectLabels = memoizeWith(
     marginTop: theme.spacing(3),
   },
 }))
-export default class Project extends Component {
+class Project extends Component {
   state = {
     loading: true,
     error: null,

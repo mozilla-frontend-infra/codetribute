@@ -30,6 +30,7 @@ persistCache({
   storage,
 });
 
+export default
 @hot(module)
 @withStyles({
   '@global': {
@@ -41,7 +42,7 @@ persistCache({
     marginTop: 60,
   },
 })
-export default class App extends Component {
+class App extends Component {
   state = {
     error: null,
   };
@@ -69,6 +70,17 @@ export default class App extends Component {
   render() {
     const { error } = this.state;
     const { classes } = this.props;
+
+    if (error) {
+      return (
+        <ApolloProvider client={this.apolloClient}>
+          <MuiThemeProvider theme={theme}>
+            <FontStager />
+            {error && <ErrorPanel error={error} />}
+          </MuiThemeProvider>
+        </ApolloProvider>
+      );
+    }
 
     return (
       <ApolloProvider client={this.apolloClient}>

@@ -23,6 +23,7 @@ import RustIcon from './RustIcon';
 import KotlinIcon from './KotlinIcon';
 import GoIcon from './GoIcon';
 
+export default
 @withRouter
 @withStyles((theme) => ({
   active: {
@@ -50,7 +51,7 @@ import GoIcon from './GoIcon';
     height: '100%',
   },
 }))
-export default class Sidebar extends Component {
+class Sidebar extends Component {
   render() {
     const {
       match: {

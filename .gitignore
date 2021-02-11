@@ -7,3 +7,4 @@ node_modules
 .env
 .eslintcache
 .DS_Store
+TODO.txt

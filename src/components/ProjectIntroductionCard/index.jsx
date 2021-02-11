@@ -10,6 +10,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import Markdown from 'react-markdown';
 
+export default
 @withStyles(
   (theme) => ({
     cardAction: {
@@ -30,7 +31,7 @@ import Markdown from 'react-markdown';
   }),
   { withTheme: true }
 )
-export default class ProjectIntroductionCard extends Component {
+class ProjectIntroductionCard extends Component {
   state = { open: false };
 
   handleButtonClick = () => {

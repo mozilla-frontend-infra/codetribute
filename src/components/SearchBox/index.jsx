@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
 
+export default
 @withStyles((theme) => ({
   root: {
     marginLeft: 15,
@@ -48,7 +49,7 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
     },
   },
 }))
-export default class Search extends Component {
+class Search extends Component {
   render() {
     const { classes, value, onChange, ...props } = this.props;
 

@@ -3,12 +3,13 @@ import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import classNames from 'classnames';
 
+export default
 @withStyles({
   center: {
     textAlign: 'center',
   },
 })
-export default class Spinner extends PureComponent {
+class Spinner extends PureComponent {
   render() {
     const { classes, className } = this.props;
 

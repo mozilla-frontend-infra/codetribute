@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { string, shape } from 'prop-types';
-import { pascalCase } from 'change-case';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Markdown from 'react-markdown';
+import ProjectIcon from '../ProjectIcon';
 
+export default
 @withStyles((theme) => ({
   card: {
     textAlign: 'center',
@@ -35,52 +36,7 @@ import Markdown from 'react-markdown';
     textDecoration: 'none',
   },
 }))
-export default class ProjectCard extends Component {
-  state = {
-    projectIcon: null,
-  };
-
-  /* eslint-disable react/no-did-mount-set-state */
-  async componentDidMount() {
-    const { project, classes } = this.props;
-
-    try {
-      if (project.icon) {
-        const mdiName = pascalCase(project.icon);
-        const ProjectIcon = (
-          await import(
-            /* webpackChunkName: "icon" */ `mdi-react/${mdiName}Icon.js`
-          )
-        ).default;
-
-        return this.setState({
-          projectIcon: (
-            <ProjectIcon size={50} className={classes.projectIcon} />
-          ),
-        });
-      }
-
-      const projectIcon = (
-        await import(
-          /* webpackChunkName: "icon" */ `../../images/projectIcons/${project.fileName}.svg`
-        )
-      ).default;
-
-      this.setState({
-        projectIcon: <img height="45" src={projectIcon} alt="Project Icon" />,
-      });
-    } catch (e) {
-      const ProjectIcon = (
-        await import(/* webpackChunkName: "icon" */ `mdi-react/WebIcon.js`)
-      ).default;
-
-      this.setState({
-        projectIcon: <ProjectIcon size={50} className={classes.projectIcon} />,
-      });
-    }
-  }
-  /* eslint-enable react/no-did-mount-set-state */
-
+class ProjectCard extends Component {
   handleSummaryClick = (event) => {
     if (event.target.href) {
       event.stopPropagation();
@@ -96,15 +52,14 @@ export default class ProjectCard extends Component {
   render() {
     const {
       classes,
-      project: { name, summary, fileName },
+      project: { icon, name, summary, fileName },
     } = this.props;
-    const { projectIcon } = this.state;
 
     return (
       <Link className={classes.link} to={`projects/${fileName}`}>
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
-            {projectIcon}
+            <ProjectIcon icon={icon || fileName} />
             <Typography gutterBottom variant="h5" component="h4">
               {name}
             </Typography>

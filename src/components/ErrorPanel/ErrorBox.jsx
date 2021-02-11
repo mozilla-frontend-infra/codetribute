@@ -5,6 +5,7 @@ import ErrorStackParser from 'error-stack-parser';
 import { withStyles } from '@material-ui/core/styles';
 import CardContent from '@material-ui/core/CardContent';
 
+export default
 @withStyles({
   redbox: {
     width: '100%',
@@ -21,7 +22,7 @@ import CardContent from '@material-ui/core/CardContent';
     marginTop: '1em',
   },
 })
-export default class ErrorBox extends RedBoxError {
+class ErrorBox extends RedBoxError {
   render() {
     // The error is received as a property to initialize state.error, which may
     // be updated when it is mapped to the source map.

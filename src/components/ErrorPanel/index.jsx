@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import ChevronDownIcon from 'mdi-react/ChevronDownIcon';
 import ErrorBox from './ErrorBox';
 
+export default
 @withStyles((theme) => ({
   paper: {
     padding: `0 ${theme.spacing(2)}px`,
@@ -43,7 +44,7 @@ import ErrorBox from './ErrorBox';
  * Render an error in a panel. Will be expandable display stack traces
  * when in development
  */
-export default class ErrorPanel extends Component {
+class ErrorPanel extends Component {
   render() {
     const { classes, error } = this.props;
     const showStack =

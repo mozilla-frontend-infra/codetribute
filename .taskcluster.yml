@@ -32,6 +32,8 @@ tasks:
       payload:
         maxRunTime: 3600
         image: "${opts.image}"
+        env:
+          CI: true
         command:
           - /bin/bash
           - '--login'

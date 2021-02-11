@@ -14,6 +14,7 @@ import { bool, node, string, object } from 'prop-types';
 import AppBar from '../AppBar';
 import Sidebar from '../Sidebar';
 
+export default
 @withStyles((theme) => ({
   root: {
     background: theme.palette.background.default,
@@ -85,7 +86,7 @@ import Sidebar from '../Sidebar';
     },
   },
 }))
-export default class Dashboard extends Component {
+class Dashboard extends Component {
   state = {
     drawerOpen: false,
   };

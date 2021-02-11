@@ -58,6 +58,7 @@ const sorted = pipe(
 );
 const assignments = Object.values(ASSIGNEE);
 
+export default
 @withRouter
 @withStyles((theme) => ({
   summary: {
@@ -140,7 +141,7 @@ const assignments = Object.values(ASSIGNEE);
     },
   },
 }))
-export default class TasksTable extends Component {
+class TasksTable extends Component {
   state = {
     drawerOpen: false,
     drawerItem: null,
