@@ -6,8 +6,7 @@
     ":unpublishSafe"
   ],
   "reviewers": [
-    "djmitche",
-    "fiennyangeln"
+    "djmitche"
   ],
   "dependencyDashboard": true,
   "prConcurrentLimit": 2,
