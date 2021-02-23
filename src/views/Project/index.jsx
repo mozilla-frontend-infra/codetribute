@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
-import { graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from '@apollo/client/react/hoc';
 import { flowRight as compose } from 'lodash';
 import dotProp from 'dot-prop-immutable';
 import { mergeAll, memoizeWith, mergeWith, concat } from 'ramda';

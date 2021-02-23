@@ -1,7 +1,7 @@
 import { hot } from 'react-hot-loader';
 import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/client';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { RetryLink } from 'apollo-link-retry';
