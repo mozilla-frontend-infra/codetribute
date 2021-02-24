@@ -114,7 +114,7 @@
     "webpack": "^4.22.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "3.11.2",
-    "webpack-manifest-plugin": "2.2.0",
+    "webpack-manifest-plugin": "3.0.0",
     "workbox-webpack-plugin": "5.1.4"
   },
   "eslintConfig": {
