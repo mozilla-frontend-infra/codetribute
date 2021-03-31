@@ -1,0 +1,43 @@
+name: Data @ Mozilla
+summary: Data Science and Data Engineering. Helping Mozillians make better, data-informed decisions.
+icon: database
+introduction: |
+  ## About Data @ Mozilla
+
+  The Data group's vision is a sustainable, global and independent Mozilla that ethically leverages data for the common good.
+  Data @ Mozilla is composed of two sister teams:
+
+  * Data Engineering: Works on the data platform that allows us to gather and analyze data about our products. This includes
+    the [Glean SDK](https://mozilla.github.io/glean) as well as 
+    [our data ingestion pipeline](https://docs.telemetry.mozilla.org/concepts/pipeline/gcp_data_pipeline.html).
+  * Data Science: Helps the rest of Mozilla make data informed decisions using the data platform, applying a broad range of
+    statistical and analytical skills.
+
+  A good starting point for learning more is our [team wiki page](https://wiki.mozilla.org/Data).
+
+  ## How Do I Get Started?
+
+  If you are working on a bug (in Bugzilla), you may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi).
+  If you are working on an issue (in Github), you will need a Github account.
+
+  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time.
+  But do your research!
+  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first.
+  This helps you learn more about the data platform and understand better the bug you're fixing or feature you're adding.
+
+  ## How Do I Get Help?
+
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+
+  Individual data projects may have project-specific channels or forums for asking questions and getting advice.
+  We are also available on [matrix.io](https://chat.mozilla.org/#/room/#telemetry:mozilla.org) in the `#telemetry` channel in the mozilla.org community.
+
+products:
+  - "Data Platform and Tools"
+
+repositories:
+  - mozilla/glean: "good first issue"
+  - mozilla/glean.js: "good first issue"
+  - mozilla/glean-dictionary: "good first issue"
