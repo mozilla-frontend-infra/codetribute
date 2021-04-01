@@ -38,7 +38,7 @@ products:
   - label: Firefox Telemetry
     products:
       - Toolkit: ["Telemetry"]
-  - label: glean.js
+  - label: Glean.js
     products:
       - "Data Platform and Tools": ["Glean.js"]
   - label: Glean SDK
