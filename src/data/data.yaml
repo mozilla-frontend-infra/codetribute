@@ -35,8 +35,15 @@ introduction: |
   We are also available on [matrix.io](https://chat.mozilla.org/#/room/#telemetry:mozilla.org) in the `#telemetry` channel in the mozilla.org community.
 
 products:
-  - "Data Platform and Tools"
-  - Toolkit: ["Telemetry"]
+  - label: Firefox Telemetry
+    products:
+      - Toolkit: ["Telemetry"]
+  - label: glean.js
+    products:
+      - "Data Platform and Tools": ["Glean.js"]
+  - label: Glean SDK
+    products:
+      - "Data Platform and Tools": ["Glean: SDK"]
 
 repositories:
   - mozilla/glean-dictionary: "good first issue"
