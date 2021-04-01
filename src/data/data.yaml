@@ -36,8 +36,8 @@ introduction: |
 
 products:
   - "Data Platform and Tools"
+  - Toolkit: ["Telemetry"]
 
 repositories:
-  - mozilla/glean: "good first issue"
-  - mozilla/glean.js: "good first issue"
   - mozilla/glean-dictionary: "good first issue"
+  - mozilla/telemetry-dashboard: ["mentored", "good first issue"]
