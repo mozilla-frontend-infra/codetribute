@@ -46,5 +46,5 @@ products:
       - "Data Platform and Tools": ["Glean: SDK"]
 
 repositories:
-  - mozilla/glean-dictionary: "good first issue"
+  - mozilla/glean-dictionary: ["help wanted", "good first issue"]
   - mozilla/telemetry-dashboard: ["mentored", "good first issue"]
