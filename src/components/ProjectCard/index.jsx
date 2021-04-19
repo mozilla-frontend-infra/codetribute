@@ -70,10 +70,7 @@ class ProjectCard extends Component {
                 variant="body2"
                 component="object"
                 color="textSecondary">
-                <Markdown
-                  source={summary}
-                  renderers={{ link: this.linkRenderer }}
-                />
+                <Markdown components={{ a: this.linkRenderer }}>{summary}</Markdown>
               </Typography>
             )}
           </CardContent>
