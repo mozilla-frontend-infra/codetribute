@@ -57,10 +57,7 @@ class ProjectIntroductionCard extends Component {
           {!open && <div className={classes.fadeout} />}
           <CardContent>
             <Typography component="div" variant="body2">
-              <Markdown
-                source={introduction}
-                renderers={{ link: this.linkRenderer }}
-              />
+              <Markdown components={{ a: this.linkRenderer }}>{introduction}</Markdown>
             </Typography>
           </CardContent>
           <CardActions
