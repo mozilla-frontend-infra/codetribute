@@ -326,6 +326,7 @@ class TasksTable extends Component {
         <div className={classes.filter}>
           <TextField
             select
+            key={assignment}
             name="assignee"
             label="Assignee"
             value={assignment}
@@ -339,6 +340,7 @@ class TasksTable extends Component {
           </TextField>
           <TextField
             select
+            key={project || ALL_PROJECTS}
             name="project"
             label="Project"
             value={project || ALL_PROJECTS}
