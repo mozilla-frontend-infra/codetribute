@@ -13,7 +13,7 @@ someone else.
 
 ### Prerequisites
 
-- Node version v8+
+- Node version v12+
 - [Yarn](https://www.npmjs.com/package/yarn)
 
 ### Building

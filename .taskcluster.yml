@@ -15,17 +15,17 @@ tasks:
   in:
     $map:
       - name: yarn test
-        image: node:10
+        image: node:12
         command: >-
           yarn --frozen-lockfile &&
           yarn test
       - name: yarn build
-        image: node:10
+        image: node:12
         command: >-
           yarn --frozen-lockfile &&
           BUGZILLA_ENDPOINT=fake GITHUB_PERSONAL_API_TOKEN=fake yarn build
       - name: yarn lint
-        image: node:10
+        image: node:12
         command: >-
           yarn --frozen-lockfile &&
           yarn lint
