@@ -3,6 +3,6 @@ summary: Manage multiple calendars, create your daily to do list, invite friends
 icon: calendar
 introduction: |
   Calendar's project page is at https://www.thunderbird.net/calendar/
-  The IRC channel is #calendar at irc.mozilla.org
-products: 
+  The Matrix channel for developers is `#maildev:mozilla.org` on [Matrix](https://wiki.mozilla.org/Matrix).
+products:
  - Calendar

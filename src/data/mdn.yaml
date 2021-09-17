@@ -19,7 +19,7 @@ introduction: |
 
   ## How Do I Get Help?
 
-  The best place to get help are the [MDN Discourse channel](https://discourse.mozilla.org/c/mdn) or the `#mdn` [irc](https://wiki.mozilla.org/IRC) channel.
+  The best place to get help are the [MDN Discourse channel](https://discourse.mozilla.org/c/mdn) or the `#mdn:mozilla.org` [Matrix](https://wiki.mozilla.org/Matrix) channel.
 
-products: 
+products:
  - Developer Documentation: ['Accessibility', 'Add-ons', 'API: CSSOM', 'API: Device API', 'API: DOM', 'API: File API', 'API: HTML', 'API: IndexedDB', 'API: Miscellaneous', 'API: SVG', 'API: Web Animations', 'API: Web Audio', 'API: Web Sockets', 'API: Web Workers', 'API: WebRTC', 'Apps', 'CSS', 'Developer Tools', 'Emscripten', 'Games', 'General', 'HTML', 'JavaScript', 'Learning Area', 'Localization', 'Macros/Templates', 'Marketplace', 'MathML', 'MDN Meta Docs', 'Mozilla Platform', 'Protocols', 'Security', 'SVG']

@@ -3,7 +3,7 @@ summary: Get involved with the [Release Engineering](https://wiki.mozilla.org/Re
 icon: sitemap
 introduction: |
   ## About Release Engineering
- 
+
   We ship Firefox to the world!
 
   Release Engineering does this by:
@@ -33,7 +33,7 @@ introduction: |
   To understand how we do things, at a high level, see the following onboarding presentation [slides](https://docs.google.com/presentation/d/1nUrZ8abpNnC5sYV97ePbUhLNu7La66JE4HEdEy1IdU8/edit?usp=sharing)
 
   ### How Do I Write the Code?
- 
+
   Our code is mostly within Github repositories in the [mozilla-releng organization](https://github.com/mozilla-releng). We also contribute a lot
   of "in-tree" code. That is, code that lives within the main [Firefox repository](https://hg.mozilla.org/mozilla-central). Primarly this can be
   found under our build and release scheduling configuration logic within [taskgraph](https://hg.mozilla.org/mozilla-central/file/default/taskcluster),
@@ -55,7 +55,7 @@ introduction: |
   That way, anyone watching the bug can answer your questions or offer useful advice.
   Each bug has a mentor, and that person will usually be the one to reply.
 
-  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#ci` channel.
+  We are also available on [Matrix](https://wiki.mozilla.org/Matrix) in the `#firefox-ci:mozilla.org` channel.
   That's a great place to get quick help. Look for one of our [team's nicks](https://wiki.mozilla.org/ReleaseEngineering#Team) in that channel.
-products: 
+products:
  - Release Engineering

@@ -17,7 +17,7 @@ introduction: |
   That way, anyone watching the bug can answer your questions or offer useful advice.
   Each bug has a mentor, and that person will usually be the one to reply.
 
-  There is also help available on [Matrix](https://wiki.mozilla.org/Matrix) in the `#introduction` channel.
+  There is also help available on [Matrix](https://wiki.mozilla.org/Matrix) in the `#introduction:mozilla.org` channel.
   That's a great place to get quick help or work through issues with Mercurial or git as well.
 products:
  - Firefox
