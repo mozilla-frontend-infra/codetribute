@@ -6,5 +6,7 @@ introduction: |
   Our Matrix support channel is `#thunderbird:mozilla.org`, and our development channel is `#maildev:mozilla.org` at [Matrix](https://wiki.mozilla.org/Matrix)
   You can find information on how to contribute to Thunderbird at https://thunderbird.net/get-involved
 products:
+ - Calendar
+ - Chat Core
  - Thunderbird
  - MailNews Core
