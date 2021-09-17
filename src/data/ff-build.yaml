@@ -1,0 +1,9 @@
+name: Firefox - Development Environment
+summary: The harnesses, code analysis, and linting tools surrounding the building of Firefox.
+icon: package-variant
+introduction: |
+  The development environment (aka build system) supports the building of Firefox.
+
+  This area also covers tools for building documentation, code analysis and linting.
+products:
+ - "Firefox Build System"

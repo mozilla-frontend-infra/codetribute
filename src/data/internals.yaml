@@ -1,21 +1,7 @@
-name: Firefox - Internals
+name: Firefox - Platform (Core)
+summary: The core of the platform on which Firefox is built.
 icon: package-variant
-products: 
+products:
  - Core: ['General', 'Document Navigation', 'XPCOM', 'Embedding: APIs', 'Embedding: GRE Core', 'Embedding: Mac', 'Embedding: Packaging', 'Embedding: GTK Widget', 'File Handling', 'Find Backend', 'Gecko Profiler', 'History (Global)', 'Image Blocking', 'Installer', 'IPC', 'MFBT', 'Plug-ins', 'Preferences: Backend', 'Print Preview', 'Printing: Output', 'Printing: Setup', 'Profile: BackEnd', 'Profile: Migration', 'Profile: Roaming', 'RDF', 'Rewriting and Analysis', 'Security', 'Security: CAPS', 'Security: PSM', 'Security: S/MIME', 'Security: UI', 'Serializers', 'SQL', 'String', 'XBL', 'XTF', 'XUL', 'Widget', 'Widget: Android', 'Widget: BeOS', 'Widget: Cocoa', 'Widget: Gtk', 'Widget: OS/2', 'Widget: Photon', 'Widget: Qt', 'Widget: Win32', 'XP Toolkit/Widgets: XUL', 'XP Toolkit/Widgets: Menus', 'Identity', 'Localization']
  - NSPR
  - NSS
- - Toolkit: ['Add-ons Manager']
- - "Firefox Build System": [
-     "Android Studio and Gradle Integration",
-     "Bootstrap Configuration",
-     "Developer Environment Integration",
-     "General",
-     "General: Unsupported Platforms",
-     "Generated Documentation",
-     "Lint and Formatting",
-     "Mach Core",
-     "Source Code Analysis",
-     "Toolchains",
-     "Try"
-   ]
- - MailNews Core: ['Build Config']
