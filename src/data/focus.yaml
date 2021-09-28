@@ -17,7 +17,7 @@ introduction: |
 
   - Start by looking for issues marked with the `good first issue` label
   - You can find more challenging issues marked with the `help wanted` label
-  - Join the `#focus` channel on irc.mozilla.org and get in contact with us. We're available Monday-Friday, during GMT and PST working hours.
+  - Join the `#focus-android:mozilla.org` or `#focus-ios:mozilla.org` channels on [Matrix](https://wiki.mozilla.org/Matrix) and get in contact with us. We're available Monday-Friday, during GMT and PST working hours.
   - Comment on the issue if you would like to work on it.
   - If you want to work on a new feature then always file an issue first so that all teams (product, ux, engineering) can comment on it and so that it can be assigned to a milestone. Pull requests for unsolicited features are unlikely to get merged.
   - When you open a pull request, please also include a screenshot if there are UI changes, so UX can also do a visual review.
@@ -30,7 +30,7 @@ introduction: |
   That way, anyone watching the bug can answer your questions or offer useful advice.
   Each issue has a mentor, and that person will usually be the one to reply.
 
-  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#focus` channel.
+  We are also available in the the `#focus-android:mozilla.org` or `#focus-ios:mozilla.org` channels on [Matrix](https://wiki.mozilla.org/Matrix).
   That's a great place to get quick help or work through issues with Git, Swift, or Java.
 repositories:
  - mozilla-mobile/focus-android: ['good first issue', 'help wanted']

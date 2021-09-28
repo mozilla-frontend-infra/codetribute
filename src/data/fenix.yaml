@@ -1,10 +1,10 @@
-name: Fenix
-summary: Firefox Preview (internal code name "Fenix") is an all-new browser for Android, based on GeckoView and Mozilla Android Components.
+name: Firefox for Android
+summary: Firefox for Android (internal code name "Fenix") is a browser for Android, based on GeckoView and Mozilla Android Components.
 icon: target
 introduction: |
   ## About Fenix
 
-  Firefox Preview (internal code name "Fenix") is an all-new browser for Android, based on GeckoView and Mozilla Android Components.
+  Firefox for Android (internal code name "Fenix") is a browser for Android, based on GeckoView and Mozilla Android Components.
 
   ## How Do I Get Started?
 
