@@ -10,7 +10,7 @@ introduction: |
 
   Check out our list of [good first issues](https://github.com/mozilla-mobile/firefox-ios/issues?q=is%3Aissue+is%3Aopen+label%3A%22Contributor+OK+%F0%9F%A4%9D%22) on Github.
   Pick one that interests you and then follow [these instructions](https://github.com/mozilla-mobile/firefox-ios#building-the-code) to build the project.
-  
+
 
   ### How Do I Write the Code?
 
@@ -26,9 +26,9 @@ introduction: |
   The best place to talk about a bug or issue is in the comments.
   Don't be afraid to ask questions or describe how you are solving the problem.
   That way, anyone watching the bug can answer your questions or offer useful advice.
-  
+
   We are also available on [matrix.io](https://chat.mozilla.org/#/room/#firefox-ios:mozilla.org) in the `#firefox-ios` channel in the mozilla.org community.
   That's a great place to get quick help or work through issues.
 
 repositories:
-- mozilla-mobile/firefox-ios : 'Contributor OK 🤝'
+- mozilla-mobile/firefox-ios : 'Contributor OK'

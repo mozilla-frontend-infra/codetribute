@@ -1,4 +1,4 @@
-name: Firefox Desktop Frontend
+name: Firefox - Desktop Frontend
 summary: Get involved with the [Firefox](https://wiki.mozilla.org/Firefox) Frontend team.
 icon: desktop-mac
 introduction: |
@@ -8,7 +8,7 @@ introduction: |
 
   ## How Do I Get Started?
 
-  See our [developer documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Introduction) page for how to get the source code and start developing.
+  See our [Contributor's Quick Reference guide](https://firefox-source-docs.mozilla.org/contributing/contribution_quickref.html) for how to get the source code and start developing.
 
   ## How Do I Get Help?
 
@@ -17,7 +17,7 @@ introduction: |
   That way, anyone watching the bug can answer your questions or offer useful advice.
   Each bug has a mentor, and that person will usually be the one to reply.
 
-  There is also help available on [irc](https://wiki.mozilla.org/IRC) in the `#introduction` channel.
+  There is also help available on [Matrix](https://wiki.mozilla.org/Matrix) in the `#introduction:mozilla.org` channel.
   That's a great place to get quick help or work through issues with Mercurial or git as well.
 products:
  - Firefox

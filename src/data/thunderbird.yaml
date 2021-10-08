@@ -3,8 +3,10 @@ summary: Thunderbird is a free and open-source cross-platform email client, news
 icon: email
 introduction: |
   The Thunderbird project's website is at https://thunderbird.net
-  Our IRC support channel is #thunderbird, and our development channel is #maildev at irc.mozilla.org
+  Our Matrix support channel is `#thunderbird:mozilla.org`, and our development channel is `#maildev:mozilla.org` at [Matrix](https://wiki.mozilla.org/Matrix)
   You can find information on how to contribute to Thunderbird at https://thunderbird.net/get-involved
-products: 
+products:
+ - Calendar
+ - Chat Core
  - Thunderbird
  - MailNews Core

@@ -1,11 +1,11 @@
-name: Fenix
-summary: Firefox Preview (internal code name "Fenix") is an all-new browser for Android, based on GeckoView and Mozilla Android Components.
+name: Firefox for Android
+summary: Firefox for Android (internal code name "Fenix") is a browser for Android, based on GeckoView and Mozilla Android Components.
 icon: target
 introduction: |
   ## About Fenix
 
-  Firefox Preview (internal code name "Fenix") is an all-new browser for Android, based on GeckoView and Mozilla Android Components.
-  
+  Firefox for Android (internal code name "Fenix") is a browser for Android, based on GeckoView and Mozilla Android Components.
+
   ## How Do I Get Started?
 
   You will need a Github account. Comment in the bug or issue to say that you are working on it, and ask any questions
@@ -17,7 +17,7 @@ introduction: |
 
   - Start by looking for issues marked with the `good first issue` label
   - You can find more challenging issues marked with the `help wanted` label
-  - Join the `#fenix` channel on irc.mozilla.org and get in contact with us. We're available Monday-Friday, during GMT and PST working hours.
+  - Join the `#fenix:mozilla.org` channel on [Matrix](https://wiki.mozilla.org/Matrix) and get in contact with us. We're available Monday-Friday, during GMT and PST working hours.
   - Comment on the issue if you would like to work on it.
   - If you want to work on a new feature then always file an issue first so that all teams (product, ux, engineering) can comment on it and so that it can be assigned to a milestone. Pull requests for unsolicited features are unlikely to get merged.
   - When you open a pull request, please also include a screenshot if there are UI changes, so UX can also do a visual review.
@@ -30,7 +30,7 @@ introduction: |
   That way, anyone watching the bug can answer your questions or offer useful advice.
   Each issue has a mentor, and that person will usually be the one to reply.
 
-  We are also available on [irc](https://wiki.mozilla.org/IRC) in the `#fenix` channel.
+  We are also available on [Matrix](https://wiki.mozilla.org/Matrix) in the `#fenix:mozilla.org` channel.
   That's a great place to get quick help or work through issues with Git or Kotlin.
 repositories:
  - mozilla-mobile/fenix: ['good first issue', 'help wanted']

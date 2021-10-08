@@ -3,9 +3,9 @@ summary: SeaMonkey is an all-in-one Internet application suite that includes the
 introduction: |
   The SeaMonkey project is at https://www.seamonkey-project.org.
 
-  Our IRC channel is #seamonkey at irc.mozilla.org
+  Our Matrix channel is `#seamonkey:mozilla.org` on [Matrix](https://wiki.mozilla.org/Matrix)
 
-products: 
+products:
  - SeaMonkey: ['General', 'Security', 'Build Config', 'OS Integration', 'Preferences',
      'Website', 'Composer', 'Help Viewer', 'Bookmarks & History', 'Installer',
      'Search', 'Session Restore', 'Tabbed Browser', 'Help Documentation',
