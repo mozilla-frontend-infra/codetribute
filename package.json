@@ -43,7 +43,7 @@
     "change-case": "^4.0.0",
     "classnames": "^2.2.5",
     "core-js": "^3.0.0",
-    "css-loader": "5.2.6",
+    "css-loader": "5.2.7",
     "date-fns": "2.22.1",
     "dot-prop-immutable": "^2.0.0",
     "dotenv": "9.0.2",
