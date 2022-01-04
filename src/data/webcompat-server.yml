@@ -1,0 +1,5 @@
+name: webcompat.com
+summary: webcompat.com is a server to collect issues about Web site breaking in one browsers and not another. It is mainly developed in python and JavaScript.
+icon: lightbulb-on-outline
+repositories:
+- webcompat/webcompat.com : ['prio: good first bug', 'prio: good next bug']
