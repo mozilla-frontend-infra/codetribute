@@ -71,7 +71,7 @@
     "jest": "^26.0.0",
     "jest-circus": "26.6.3",
     "jest-resolve": "26.6.2",
-    "jest-watch-typeahead": "0.6.4",
+    "jest-watch-typeahead": "0.6.5",
     "js-yaml-loader": "^1.2.2",
     "localforage": "^1.7.1",
     "lodash.flowright": "^3.5.0",
