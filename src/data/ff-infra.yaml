@@ -1,0 +1,11 @@
+name: Firefox - Development Infrastructure
+summary: All the linting tools, code analysis, editor integration, source documentation infrastructure that supports Firefox developers.
+icon: package-variant
+introduction: |
+  These tools are a vital part of the developer support system for Firefox.
+
+  They help provide the linting and code analysis tools that reduce errors in the
+  code and provide consistent formatting. They also help with editor integration,
+  generating source documentation and more.
+products:
+ - "Developer Infrastructure"
