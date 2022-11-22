@@ -7,7 +7,7 @@ introduction: |
   Every day, it runs hundreds of thousands of tasks to support Firefox and lots of other projects at Mozilla.
   It is written in Javascript and Go and has lots of opportunities to help out.
 
-  You can learn a bit about Taskcluster in its [documentation](http://docs.taskcluster.net/).
+  You can learn a bit about Taskcluster in its [documentation](https://docs.taskcluster.net/).
 
   ## Who Works on Taskcluster?
 

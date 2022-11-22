@@ -10,8 +10,8 @@
     "test": "node scripts/test.js"
   },
   "engines": {
-    "node": ">=12",
-    "yarn": ">=1.10.0"
+    "node": "16.18.1",
+    "yarn": "^1.22.19"
   },
   "dependencies": {
     "@apollo/client": "^3.3.11",
