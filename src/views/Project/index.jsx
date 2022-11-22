@@ -336,7 +336,11 @@ class Project extends Component {
       (githubData &&
         githubData.search &&
         uniqBy(
-          githubData.search.nodes.map((issue) => ({
+          githubData.search.nodes
+          // filter out PRs, which appear in issue queries but aren't
+          // issues (and don't have a repository property, for example)
+          .filter(issue_or_pr => issue_or_pr.__typename === "Issue")
+          .map((issue) => ({
             project: issue.repository.name,
             summary: issue.title,
             tags: issue.labels.nodes.map((node) => node.name).sort(),
