@@ -55,3 +55,4 @@ repositories:
  - taskcluster/websocktunnel: 'good first bug'
  - taskcluster/taskcluster-worker-runner: 'good first issue'
  - taskcluster/tc-admin: 'good first issue'
+ - taskcluster/taskgraph: ['good first issue', 'good second issue', 'help wanted']
