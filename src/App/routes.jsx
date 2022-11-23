@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 
-export default [
+const routes = [
   {
     component: lazy(() => import('../views/Projects/index')),
     path: '/',
@@ -15,3 +15,5 @@ export default [
     path: '/languages/:language',
   },
 ];
+
+export default routes;
