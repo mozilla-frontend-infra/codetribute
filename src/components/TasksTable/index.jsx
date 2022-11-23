@@ -262,12 +262,16 @@ class TasksTable extends Component {
 
   handleDrawerOpen = async ({ currentTarget: { name } }) => {
     const item = this.props.items.find((item) => item.summary === name);
+    const host = new URL(item.url).host;
+    const allowedHosts = [
+      'bugzilla.mozilla.org'
+    ];
 
     this.setState({
       drawerOpen: true,
       drawerItem: {
         ...item,
-        ...(item.url.includes('bugzilla.mozilla.org')
+        ...(allowedHosts.includes(host)
           ? { description: await this.props.onBugInfoClick(item.id) }
           : null),
       },
