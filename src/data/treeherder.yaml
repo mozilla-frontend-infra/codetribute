@@ -7,7 +7,7 @@ introduction: |
   allows users to see the results of automatic builds and their respective tests. Treeherder also provides a set of APIs
   that can be used by other projects. It hosts smaller dashboards such as Perfherder, used for tracking performance data,
   and Intermittent Failures View, which is used to track intermittent test failures. The website can be found
-  [here](http://treeherder.mozilla.org/).
+  [here](https://treeherder.mozilla.org/).
 
   ## Who Works on Treeherder?
   Treeherder is composed of a small team that is distributed across the UK and the west coast of the US.

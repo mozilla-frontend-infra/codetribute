@@ -13,7 +13,7 @@ someone else.
 
 ### Prerequisites
 
-- Node version v8+
+- Node version v16.18.1
 - [Yarn](https://www.npmjs.com/package/yarn)
 
 ### Building
@@ -29,7 +29,7 @@ yarn
 
 ### Web Server
 Codetribute relies on two servers, namely, GitHub’s GraphQL API v4 (managed by GitHub) and
-[bugzilla-graphql-gateway](http://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway). 
+[bugzilla-graphql-gateway](https://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway).
 The latter is required to perform queries to the Bugzilla API. For a local setup, clone the repo 
 and follow the instruction for starting it prior to launching this application. You will need to
 launch the bugzilla-graphql-gateway in a terminal instance separate from this application in order 
