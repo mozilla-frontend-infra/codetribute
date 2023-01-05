@@ -10,6 +10,7 @@ import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
 import HumanIcon from 'mdi-react/HumanIcon';
 import PuzzleIcon from 'mdi-react/PuzzleIcon';
 import BugIcon from 'mdi-react/BugIcon';
+import RobotIcon from 'mdi-react/RobotIcon';
 import CloudSyncIcon from 'mdi-react/CloudSyncIcon';
 import CalendarIcon from 'mdi-react/CalendarIcon';
 import LeadPencilIcon from 'mdi-react/LeadPencilIcon';
@@ -58,6 +59,7 @@ class ProjectIcon extends Component {
     case 'human': return  <HumanIcon size={50} className={classes.projectIcon} />;
     case 'puzzle': return  <PuzzleIcon size={50} className={classes.projectIcon} />;
     case 'bug': return  <BugIcon size={50} className={classes.projectIcon} />;
+    case 'robot': return  <RobotIcon size={50} className={classes.projectIcon} />;
     case 'cloud-sync': return <CloudSyncIcon size={50} className={classes.projectIcon} />;
     case 'calendar': return  <CalendarIcon size={50} className={classes.projectIcon} />;
     case 'lead-pencil': return <LeadPencilIcon size={50} className={classes.projectIcon} />;
