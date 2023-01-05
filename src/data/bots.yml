@@ -1,0 +1,5 @@
+name: Bots
+summary: Bots that help Mozilla developers (e.g., send reminders and improve Bugzilla metadata)
+icon: robot
+repositories:
+ - mozilla/relman-auto-nag: good-first-bug
