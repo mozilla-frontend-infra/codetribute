@@ -38,7 +38,7 @@ tasks:
         maxRunTime: 3600
         image: "${opts.image}"
         env:
-          CI: true
+          CI: "true"
         command:
           - /bin/bash
           - '--login'
