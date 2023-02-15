@@ -32,5 +32,5 @@ introduction: |
 
   We are also available on [Matrix](https://wiki.mozilla.org/Matrix) in the `#fenix:mozilla.org` channel.
   That's a great place to get quick help or work through issues with Git or Kotlin.
-repositories:
- - mozilla-mobile/fenix: ['good first issue', 'help wanted']
+products:
+ - Fenix
