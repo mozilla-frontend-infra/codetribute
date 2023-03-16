@@ -1,36 +1,36 @@
 name: Firefox for Android
-summary: Firefox for Android (internal code name "Fenix") is a browser for Android, based on GeckoView and Mozilla Android Components.
+summary: Firefox for Android (internal code name "Fenix") is a browser for Android, based on Mozilla's GeckoView and Android Components.
 icon: target
 introduction: |
   ## About Fenix
 
-  Firefox for Android (internal code name "Fenix") is a browser for Android, based on GeckoView and Mozilla Android Components.
+  Firefox for Android (internal code name "Fenix") is a browser for Android, based on Mozilla's GeckoView and Android Components.
 
   ## How Do I Get Started?
 
-  You will need a Github account. Comment in the bug or issue to say that you are working on it, and ask any questions
-  that you have at that time. But do your research!
-  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first.
-  This helps you learn more about Focus and understand better the bug you're fixing or feature you're adding.
+  You will need a Bugzilla account. Some Fenix bugs also require a GitHub account to submit the PR. Comment in the bug to say that you are working on it, and ask any questions
+  that you have at that time.
+  Lookat the other comments, look at the documentation and source code, and try to figure out as much as you can first.
+  This helps you learn more about Fenix and understand better the bug you're fixing or feature you're adding.
 
   ### How Do I Write the Code?
 
-  - Start by looking for issues marked with the `good first issue` label
-  - You can find more challenging issues marked with the `help wanted` label
-  - Join the `#fenix:mozilla.org` channel on [Matrix](https://wiki.mozilla.org/Matrix) and get in contact with us. We're available Monday-Friday, during GMT and PST working hours.
-  - Comment on the issue if you would like to work on it.
-  - If you want to work on a new feature then always file an issue first so that all teams (product, ux, engineering) can comment on it and so that it can be assigned to a milestone. Pull requests for unsolicited features are unlikely to get merged.
-  - When you open a pull request, please also include a screenshot if there are UI changes, so UX can also do a visual review.
-  - Include a `Closes #<issue-number>` as part of your first commit message so it's auto-linked to the issue.
+  - First, follow the instructions in the [Firefox Contributors’ Quick Reference](https://firefox-source-docs.mozilla.org/contributing/contribution_quickref.html) to build the Firefox Android code on your own computer and test it in an Android emulator or device.
+  - Start by looking for Bugzilla bugs marked with the `good-first-bug` keyword.
+  - Comment on the bug if you would like to work on it.
+  - When you open a pull request, please also attach a screenshot if there are UI changes, so UX can also do a visual review.
+  - The first line of your commit messages should being with `Bug #<bug-number> - `, so your PR is auto-linked to the bug.
 
   ## How Do I Get Help?
 
-  The best place to talk about an issue is in the comments.
+  The best place to talk about a bug is in the comments.
   Don't be afraid to ask questions or describe how you are solving the problem.
   That way, anyone watching the bug can answer your questions or offer useful advice.
-  Each issue has a mentor, and that person will usually be the one to reply.
+  Each bug has a mentor, and that person will usually be the one to reply.
 
-  We are also available on [Matrix](https://wiki.mozilla.org/Matrix) in the `#fenix:mozilla.org` channel.
-  That's a great place to get quick help or work through issues with Git or Kotlin.
+  Join the [`#fenix:mozilla.org` channel](https://chat.mozilla.org/?#/room/#fenix:mozilla.org) on [Matrix](https://wiki.mozilla.org/Matrix) and get in contact with us. We're available Monday-Friday, during GMT and PST working hours.
+  That's a great place to get quick help or work through bugs with Git or Kotlin.
+
 products:
  - Fenix
+ - GeckoView
