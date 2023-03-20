@@ -10,7 +10,7 @@ introduction: |
 
   You will need a Bugzilla account. Some Fenix bugs also require a GitHub account to submit the PR. Comment in the bug to say that you are working on it, and ask any questions
   that you have at that time.
-  Lookat the other comments, look at the documentation and source code, and try to figure out as much as you can first.
+  Look at the other comments, look at the documentation and source code, and try to figure out as much as you can first.
   This helps you learn more about Fenix and understand better the bug you're fixing or feature you're adding.
 
   ### How Do I Write the Code?
