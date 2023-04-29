@@ -1,0 +1,5 @@
+name: Rust Analyser
+summary: A Rust compiler front-end for IDEs
+icon: server
+repositories: 
+ - rust-lang/rust-analyser: good first issue
