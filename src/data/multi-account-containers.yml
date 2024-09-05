@@ -1,0 +1,29 @@
+name: Firefox Multi-Account Containers
+summary: The Firefox Multi-Account Containers extension lets you carve out a separate box for each of your online lives – no more opening a different browser just to check your work email.
+introduction: |
+  ## About Multi-Account Containers
+
+  Firefox Multi-Account Containers lets you keep parts of your online life
+  separated into color-coded tabs. Cookies are separated by container,
+  allowing you to use the web with multiple accounts and integrate Mozilla VPN
+  for an extra layer of privacy.
+
+  ## Contributing
+
+  Everyone is welcome to contribute to Multi-Account Containers. To learn how
+  to contribute a patch to Multi-Account Container, please
+  [read our contributing guide][contributing].
+
+  You can also chat with us on [our Matrix room][matrix] or [our forum][forum].
+
+  This repository is governed by Mozilla's code of conduct and etiquette
+  guidelines. For more details,
+  [please read the Mozilla Community Participation Guidelines][cpg].
+
+  [contributing]: https://github.com/mozilla/multi-account-containers/blob/main/CONTRIBUTING.md
+  [cpg]: https://www.mozilla.org/about/governance/policies/participation/
+  [enduser]: https://support.mozilla.org/en-US/kb/containers
+  [matrix]: https://matrix.to/#/#containers:mozilla.org
+
+repositories:
+ - mozilla/multi-account-containers: ['help wanted', 'good first issue']
