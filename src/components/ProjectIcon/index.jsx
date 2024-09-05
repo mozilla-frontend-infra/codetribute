@@ -43,7 +43,7 @@ import RustIcon from '../../images/projectIcons/rust.svg';
 import SeamonkeyIcon from '../../images/projectIcons/seamonkey.svg';
 import ServoIcon from '../../images/projectIcons/servo.svg';
 import TaskclusterIcon from '../../images/projectIcons/taskcluster.svg';
-import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.png';
+import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
 
 export default
 @withStyles((theme) => ({
