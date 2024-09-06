@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="multi-account-containers.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#505050"
+     showguides="true"
+     inkscape:zoom="22.627417"
+     inkscape:cx="3.6460193"
+     inkscape:cy="4.574097"
+     inkscape:window-width="1410"
+     inkscape:window-height="908"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <style
+     id="style1">
+    :root { color-scheme: light dark; }
+    rect, path { fill: rgb(24, 25, 26); }
+    @media (prefers-color-scheme: dark) {
+      rect, path { fill: rgba(249, 249, 250, 0.8); }
+    }
+  </style>
+  <rect
+     x="0"
+     y="0"
+     width="16"
+     height="16"
+     rx="0"
+     id="rect1-3"
+     style="fill:#386eba;fill-opacity:1;stroke-width:2.66666" />
+  <g
+     id="g4"
+     style="fill:#ffffff;fill-opacity:1"
+     transform="matrix(0.85714286,0,0,0.85714286,1.1428571,1.1428571)">
+    <rect
+       x="1"
+       y="1"
+       width="6"
+       height="6"
+       rx="1"
+       id="rect1"
+       style="fill:#ffffff;fill-opacity:1" />
+    <path
+       d="M 14.75,3 H 13 V 1.25 A 0.25,0.25 0 0 0 12.75,1 h -1.5 A 0.25,0.25 0 0 0 11,1.25 V 3 H 9.25 A 0.25,0.25 0 0 0 9,3.25 v 1.5 A 0.25,0.25 0 0 0 9.25,5 H 11 V 6.75 A 0.25,0.25 0 0 0 11.25,7 h 1.5 A 0.25,0.25 0 0 0 13,6.75 V 5 h 1.75 A 0.25,0.25 0 0 0 15,4.75 V 3.25 A 0.25,0.25 0 0 0 14.75,3 Z"
+       fill-rule="evenodd"
+       id="path1"
+       style="fill:#ffffff;fill-opacity:1" />
+    <rect
+       x="1"
+       y="9"
+       width="6"
+       height="6"
+       rx="1"
+       id="rect2"
+       style="fill:#ffffff;fill-opacity:1" />
+    <rect
+       x="9"
+       y="9"
+       width="6"
+       height="6"
+       rx="1"
+       id="rect3"
+       style="fill:#ffffff;fill-opacity:1" />
+  </g>
+</svg>
