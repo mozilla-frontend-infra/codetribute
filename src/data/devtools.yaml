@@ -6,14 +6,14 @@ introduction: |
 
   DevTools is a toolbox, built-in to Firefox, for developers and designers to inspect, debug and modify Web code.
 
-  You can learn about using DevTools by reading its [documentation](https://developer.mozilla.org/en-US/docs/Tools).
+  You can learn about using DevTools by reading its [documentation](https://firefox-source-docs.mozilla.org/devtools-user/index.html).
 
   DevTools is written in Javascript, HTML and CSS and has lots of opportunities to help out.
 
   ## Who Works on DevTools?
 
   A large community of volunteers throughout the world report bugs, test DevTools, submit code changes and localize the UI.
-  The team assigned to work on DevTools at Mozilla is distributed around Europe, Asia and North America.
+  The team assigned to work on DevTools at Mozilla is distributed around Europe.
   You will likely see the names of team members listed as mentors in the bugs and issues on this site.
   We are always excited to meet new Mozillians!
 
@@ -26,7 +26,7 @@ introduction: |
 
   ### How Do I Write the Code?
 
-  Most of the code is hosted in the Firefox repository (called `mozilla-central`), while some pieces are developed on GitHub.
+  Most of the code is hosted in the Firefox repository (called `mozilla-central`), while the Profiler is developed on GitHub.
 
   Once you've figured out what you would like to work on, read about [how to set up your local development environment](https://firefox-source-docs.mozilla.org/devtools/getting-started/README.html#set-up-your-dev-environment).
 
