@@ -61,7 +61,7 @@ products:
   'Networking: Cookies',
   'Networking: DNS',
   'Networking: File',
-  'Networking: FTP',
+  'Networking: Proxy',
   'Networking: HTTP',
   'Networking: JAR',
   'Networking: WebSockets',
