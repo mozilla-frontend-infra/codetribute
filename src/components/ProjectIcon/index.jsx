@@ -35,6 +35,7 @@ import TestTubeIcon from 'mdi-react/TestTubeIcon';
 import BookOpenPageVariantIcon from 'mdi-react/BookOpenPageVariantIcon';
 import EmailIcon from 'mdi-react/EmailIcon';
 import PineTreeIcon from 'mdi-react/PineTreeIcon';
+import MagnifyIcon from 'mdi-react/MagnifyIcon';
 
 // custom icons defined as SVG files
 import WebextensionsIcon from '../../images/projectIcons/webextensions.svg';
@@ -85,6 +86,7 @@ class ProjectIcon extends Component {
     case 'book-open-page-variant': return <BookOpenPageVariantIcon size={50} className={classes.projectIcon} />;
     case 'email': return  <EmailIcon size={50} className={classes.projectIcon} />;
     case 'pine-tree': return <PineTreeIcon size={50} className={classes.projectIcon} />;
+    case 'magnify': return <MagnifyIcon size={50} className={classes.projectIcon} />;
 
     case 'webextensions': return <img height="45" src={WebextensionsIcon} alt="Webextensions Icon" />;
     case 'pontoon': return <img height="45" src={PontoonIcon} alt="Pontoon Icon" />;
