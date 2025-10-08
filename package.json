@@ -10,7 +10,7 @@
     "test": "node scripts/test.js"
   },
   "engines": {
-    "node": "16.18.1",
+    "node": ">=16.18.1",
     "yarn": "^1.22.19"
   },
   "dependencies": {
