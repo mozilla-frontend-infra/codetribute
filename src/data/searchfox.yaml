@@ -1,0 +1,26 @@
+name: Searchfox
+summary: Mozilla code search website
+icon: magnify
+introduction: |
+  ## About Searchfox
+
+  [Searchfox](https://searchfox.org/) is a source code indexing tool for Mozilla Firefox.
+
+  ## How do I Get Started
+
+  * Clone the [mozsearch](https://github.com/mozsearch/mozsearch) repository
+  * Follow the [README](https://github.com/mozsearch/mozsearch/blob/master/README.md) document, to setup the development environment in docker, and start the local server with the test repository
+  * Understand [how to file a bug and submit a patch](https://github.com/mozsearch/mozsearch/blob/master/CONTRIBUTING.md)
+
+  ## How Do I Get Help
+
+  The best place to talk about a bug or issue is in the comments.
+  Don't be afraid to ask questions or describe how you are solving the problem.
+  That way, anyone watching the bug can answer your questions or offer useful advice.
+
+  Some bugs have an assigned mentor, and that person will usually be the one to reply.
+
+  We are also available on [chat.mozilla.org](https://chat.mozilla.org/#/room/#searchfox:mozilla.org).
+
+products:
+- Webtools: ['Searchfox']

@@ -35,6 +35,7 @@ import TestTubeIcon from 'mdi-react/TestTubeIcon';
 import BookOpenPageVariantIcon from 'mdi-react/BookOpenPageVariantIcon';
 import EmailIcon from 'mdi-react/EmailIcon';
 import PineTreeIcon from 'mdi-react/PineTreeIcon';
+import MagnifyIcon from 'mdi-react/MagnifyIcon';
 
 // custom icons defined as SVG files
 import WebextensionsIcon from '../../images/projectIcons/webextensions.svg';
@@ -43,6 +44,7 @@ import RustIcon from '../../images/projectIcons/rust.svg';
 import SeamonkeyIcon from '../../images/projectIcons/seamonkey.svg';
 import ServoIcon from '../../images/projectIcons/servo.svg';
 import TaskclusterIcon from '../../images/projectIcons/taskcluster.svg';
+import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
 
 export default
 @withStyles((theme) => ({
@@ -84,6 +86,7 @@ class ProjectIcon extends Component {
     case 'book-open-page-variant': return <BookOpenPageVariantIcon size={50} className={classes.projectIcon} />;
     case 'email': return  <EmailIcon size={50} className={classes.projectIcon} />;
     case 'pine-tree': return <PineTreeIcon size={50} className={classes.projectIcon} />;
+    case 'magnify': return <MagnifyIcon size={50} className={classes.projectIcon} />;
 
     case 'webextensions': return <img height="45" src={WebextensionsIcon} alt="Webextensions Icon" />;
     case 'pontoon': return <img height="45" src={PontoonIcon} alt="Pontoon Icon" />;
@@ -91,6 +94,7 @@ class ProjectIcon extends Component {
     case 'seamonkey': return <img height="45" src={SeamonkeyIcon} alt="Seamonkey Icon" />;
     case 'servo': return <img height="45" src={ServoIcon} alt="Servo Icon" />;
     case 'taskcluster': return <img height="45" src={TaskclusterIcon} alt="Taskcluster Icon" />;
+    case 'multi-account-containers': return <img height="45" src={MultiAccountContainersIcon} alt="Multi-Account Containers Icon" />;
 
     default: return <WebIcon size={50} className={classes.projectIcon} />;
     }
