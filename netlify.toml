@@ -6,7 +6,7 @@
   YARN_FLAGS = "--frozen-lockfile"
   YARN_VERSION = "1.22.19"
   NODE_VERSION = "16.18.1"
-  SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "ghp_" # looks like some false positives were triggered during build 
+  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false" # false positives during build time fail the build on netlify. Codetribute doesn't embed any secrets
 
 # Redirect HTTP to HTTPS
 # TODO: Delete when Codetribute successfully moves to codetribute.mozilla.org
