@@ -1,6 +1,5 @@
-name: Firefox - Developer Tools
+name: Firefox Developer Tools
 summary: These are the tools provided by Firefox for developers and designers to inspect, debug and modify Web code.
-icon: wrench
 introduction: |
   ## About DevTools
 
