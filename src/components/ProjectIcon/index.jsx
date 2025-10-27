@@ -38,13 +38,19 @@ import PineTreeIcon from 'mdi-react/PineTreeIcon';
 import MagnifyIcon from 'mdi-react/MagnifyIcon';
 
 // custom icons defined as SVG files
+import BugzillaIcon from '../../images/projectIcons/bugzilla.svg';
+import FirefoxDevToolsIcon from '../../images/projectIcons/firefox-devtools.svg';
+import FirefoxFocusIcon from '../../images/projectIcons/firefox-focus.svg';
 import WebextensionsIcon from '../../images/projectIcons/webextensions.svg';
 import PontoonIcon from '../../images/projectIcons/pontoon.svg';
 import RustIcon from '../../images/projectIcons/rust.svg';
 import SeamonkeyIcon from '../../images/projectIcons/seamonkey.svg';
 import ServoIcon from '../../images/projectIcons/servo.svg';
+import SpiderMonkeyIcon from '../../images/projectIcons/spidermonkey.svg';
 import TaskclusterIcon from '../../images/projectIcons/taskcluster.svg';
+import ThunderbirdIcon from '../../images/projectIcons/thunderbird.svg';
 import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
+import MDNIcon from '../../images/projectIcons/mdn.svg';
 
 export default
 @withStyles((theme) => ({
@@ -57,16 +63,13 @@ class ProjectIcon extends Component {
     const { icon, classes } = this.props;
 
     switch (icon ) {
-    case 'language-javascript': return <LanguageJavascriptIcon size={50} className={classes.projectIcon} />;
     case 'human': return  <HumanIcon size={50} className={classes.projectIcon} />;
     case 'puzzle': return  <PuzzleIcon size={50} className={classes.projectIcon} />;
-    case 'bug': return  <BugIcon size={50} className={classes.projectIcon} />;
     case 'robot': return  <RobotIcon size={50} className={classes.projectIcon} />;
     case 'cloud-sync': return <CloudSyncIcon size={50} className={classes.projectIcon} />;
     case 'calendar': return  <CalendarIcon size={50} className={classes.projectIcon} />;
     case 'lead-pencil': return <LeadPencilIcon size={50} className={classes.projectIcon} />;
     case 'target': return  <TargetIcon size={50} className={classes.projectIcon} />;
-    case 'view-dashboard-variant': return <ViewDashboardVariantIcon size={50} className={classes.projectIcon} />;
     case 'ship': return  <ShipIcon size={50} className={classes.projectIcon} />;
     case 'clippy': return  <ClippyIcon size={50} className={classes.projectIcon} />;
     case 'wrench': return  <WrenchIcon size={50} className={classes.projectIcon} />;
@@ -77,24 +80,28 @@ class ProjectIcon extends Component {
     case 'desktop-mac': return <DesktopMacIcon size={50} className={classes.projectIcon} />;
     case 'sitemap': return  <SitemapIcon size={50} className={classes.projectIcon} />;
     case 'image-search': return <ImageSearchIcon size={50} className={classes.projectIcon} />;
-    case 'file-document-box-multiple': return <FileDocumentBoxMultipleIcon size={50} className={classes.projectIcon} />;
     case 'server': return  <ServerIcon size={50} className={classes.projectIcon} />;
     case 'vector-combine': return <VectorCombineIcon size={50} className={classes.projectIcon} />;
     case 'format-indent-increase': return <FormatIndentIncreaseIcon size={50} className={classes.projectIcon} />;
     case 'radio-tower': return <RadioTowerIcon size={50} className={classes.projectIcon} />;
     case 'test-tube': return <TestTubeIcon size={50} className={classes.projectIcon} />;
     case 'book-open-page-variant': return <BookOpenPageVariantIcon size={50} className={classes.projectIcon} />;
-    case 'email': return  <EmailIcon size={50} className={classes.projectIcon} />;
     case 'pine-tree': return <PineTreeIcon size={50} className={classes.projectIcon} />;
     case 'magnify': return <MagnifyIcon size={50} className={classes.projectIcon} />;
 
+    case 'bugzilla': return <img height="45" src={BugzillaIcon} alt="Bugzilla Icon" />;
+    case 'firefox-devtools': return <img height="45" src={FirefoxDevToolsIcon} alt="Firefox DevTools Icon" />;
+    case 'firefox-focus': return <img height="45" src={FirefoxFocusIcon} alt="Firefox Focus Icon" />;
     case 'webextensions': return <img height="45" src={WebextensionsIcon} alt="Webextensions Icon" />;
     case 'pontoon': return <img height="45" src={PontoonIcon} alt="Pontoon Icon" />;
     case 'rust': return <img height="45" src={RustIcon} alt="Rust Icon" />;
     case 'seamonkey': return <img height="45" src={SeamonkeyIcon} alt="Seamonkey Icon" />;
     case 'servo': return <img height="45" src={ServoIcon} alt="Servo Icon" />;
+    case 'spidermonkey': return <img height="45" src={SpiderMonkeyIcon} alt="SpiderMoney Icon" />;
     case 'taskcluster': return <img height="45" src={TaskclusterIcon} alt="Taskcluster Icon" />;
+    case 'thunderbird': return <img height="45" src={ThunderbirdIcon} alt="Thunderbird Icon" />;
     case 'multi-account-containers': return <img height="45" src={MultiAccountContainersIcon} alt="Multi-Account Containers Icon" />;
+    case 'mdn': return <img height="45" src={MDNIcon} alt="Mozilla Developer Network Icon" />;
 
     default: return <WebIcon size={50} className={classes.projectIcon} />;
     }
