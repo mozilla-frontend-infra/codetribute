@@ -2,4 +2,7 @@ name: Rust bindgen
 summary: Tool for automatically generating Rust bindings for C/C++ APIs
 icon: vector-combine
 repositories:
- - rust-lang/rust-bindgen: E-easy
+  - rust-lang/rust-bindgen:
+    - 'E-easy'
+    - 'help wanted'
+    - 'good first issue'
