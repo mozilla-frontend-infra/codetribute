@@ -42,6 +42,7 @@ import BugzillaIcon from '../../images/projectIcons/bugzilla.svg';
 import CommonVoiceIcon from '../../images/projectIcons/common-voice.svg';
 import FirefoxDevToolsIcon from '../../images/projectIcons/firefox-devtools.svg';
 import FirefoxFocusIcon from '../../images/projectIcons/firefox-focus.svg';
+import FirefoxFrontendIcon from '../../images/projectIcons/firefox-frontend.svg';
 import WebextensionsIcon from '../../images/projectIcons/webextensions.svg';
 import PontoonIcon from '../../images/projectIcons/pontoon.svg';
 import RustIcon from '../../images/projectIcons/rust.svg';
@@ -93,6 +94,7 @@ class ProjectIcon extends Component {
 
     case 'bugzilla': return <img height="45" src={BugzillaIcon} alt="Bugzilla Icon" />;
     case 'common-voice': return <img height="45" src={CommonVoiceIcon} alt="" />;
+    case 'firefox-frontend': return <img height="45" src={FirefoxFrontendIcon} alt="" />;
     case 'firefox-devtools': return <img height="45" src={FirefoxDevToolsIcon} alt="Firefox DevTools Icon" />;
     case 'firefox-focus': return <img height="45" src={FirefoxFocusIcon} alt="Firefox Focus Icon" />;
     case 'webextensions': return <img height="45" src={WebextensionsIcon} alt="Webextensions Icon" />;
