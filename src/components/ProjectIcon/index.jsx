@@ -48,6 +48,7 @@ import RustIcon from '../../images/projectIcons/rust.svg';
 import SeamonkeyIcon from '../../images/projectIcons/seamonkey.svg';
 import ServoIcon from '../../images/projectIcons/servo.svg';
 import SpiderMonkeyIcon from '../../images/projectIcons/spidermonkey.svg';
+import SumoIcon from '../../images/projectIcons/sumo.svg';
 import TaskclusterIcon from '../../images/projectIcons/taskcluster.svg';
 import ThunderbirdIcon from '../../images/projectIcons/thunderbird.svg';
 import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
@@ -100,6 +101,7 @@ class ProjectIcon extends Component {
     case 'seamonkey': return <img height="45" src={SeamonkeyIcon} alt="Seamonkey Icon" />;
     case 'servo': return <img height="45" src={ServoIcon} alt="Servo Icon" />;
     case 'spidermonkey': return <img height="45" src={SpiderMonkeyIcon} alt="SpiderMoney Icon" />;
+    case 'sumo': return <img height="45" src={SumoIcon} alt="" />;
     case 'taskcluster': return <img height="45" src={TaskclusterIcon} alt="Taskcluster Icon" />;
     case 'thunderbird': return <img height="45" src={ThunderbirdIcon} alt="Thunderbird Icon" />;
     case 'multi-account-containers': return <img height="45" src={MultiAccountContainersIcon} alt="Multi-Account Containers Icon" />;
