@@ -1,0 +1,12 @@
+name: Common Voice
+summary: Common Voice is part of Mozilla's initiative to help teach machines how real people speak.
+introduction: |
+  ## About Common Voice
+
+  Common Voice is a publicly available voice dataset, powered by the voices of
+  volunteer contributors around the world. People who want to build voice
+  applications can use the dataset to train machine learning models.
+
+repositories:
+ - common-voice/common-voice: ["Good First Issue", "Help Wanted", "Open for Community Contributors"]
+ - common-voice/cv-sentence-extractor: ["good first issue", "help wanted"]
