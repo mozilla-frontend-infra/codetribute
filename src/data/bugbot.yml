@@ -1,0 +1,7 @@
+name: BugBot
+summary: |
+  A Mozilla release management tool to send reminders to Firefox developers and
+  improve Bugzilla metadata
+icon: robot
+repositories:
+ - mozilla/bugbot: good-first-bug
