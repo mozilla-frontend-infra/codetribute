@@ -39,6 +39,7 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
 
 // custom icons defined as SVG files
 import BugzillaIcon from '../../images/projectIcons/bugzilla.svg';
+import CommonVoiceIcon from '../../images/projectIcons/common-voice.svg';
 import FirefoxDevToolsIcon from '../../images/projectIcons/firefox-devtools.svg';
 import FirefoxFocusIcon from '../../images/projectIcons/firefox-focus.svg';
 import WebextensionsIcon from '../../images/projectIcons/webextensions.svg';
@@ -90,6 +91,7 @@ class ProjectIcon extends Component {
     case 'magnify': return <MagnifyIcon size={50} className={classes.projectIcon} />;
 
     case 'bugzilla': return <img height="45" src={BugzillaIcon} alt="Bugzilla Icon" />;
+    case 'common-voice': return <img height="45" src={CommonVoiceIcon} alt="" />;
     case 'firefox-devtools': return <img height="45" src={FirefoxDevToolsIcon} alt="Firefox DevTools Icon" />;
     case 'firefox-focus': return <img height="45" src={FirefoxFocusIcon} alt="Firefox Focus Icon" />;
     case 'webextensions': return <img height="45" src={WebextensionsIcon} alt="Webextensions Icon" />;
