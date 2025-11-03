@@ -3,10 +3,10 @@
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 
 Codetribute is a site that guides contributors to
-their first contribution. It helps new contributors 
-find a project they want to work with, learn about 
-that project, and then find a task that is suitable 
-to their skills and interests and not already assigned to 
+their first contribution. It helps new contributors
+find a project they want to work with, learn about
+that project, and then find a task that is suitable
+to their skills and interests and not already assigned to
 someone else.
 
 ## Development
@@ -30,9 +30,9 @@ yarn
 ### Web Server
 Codetribute relies on two servers, namely, GitHub’s GraphQL API v4 (managed by GitHub) and
 [bugzilla-graphql-gateway](https://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway).
-The latter is required to perform queries to the Bugzilla API. For a local setup, clone the repo 
+The latter is required to perform queries to the Bugzilla API. For a local setup, clone the repo
 and follow the instruction for starting it prior to launching this application. You will need to
-launch the bugzilla-graphql-gateway in a terminal instance separate from this application in order 
+launch the bugzilla-graphql-gateway in a terminal instance separate from this application in order
 to run both simultaneously.
 
 ### Environment variables
@@ -76,7 +76,7 @@ the production instance, you'll need to clone and run
 ## Adding a project
 
 Codetribute can read from both GitHub and Bugzilla. Regarding the latter, bugs with the `good-first-bug` keyword and mentored bugs will appear in the list.
-To add a new entry to the site, create a file `<project-name>.yml` in `src/data` using the [template example](#template-example) as the initial setup. 
+To add a new entry to the site, create a file `<project-name>.yml` in `src/data` using the [template example](#template-example) as the initial setup.
 For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/main/src/data/taskcluster.yaml) yaml file.
 
 ### Template Example
@@ -113,7 +113,7 @@ products:
 - label: <Project Label shown in the dropdown, to change/group the label from the default value which is the component name>
   products:
   - <Bugzilla Product>
-  - <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>'] 
+  - <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>']
 repositories:
 - <Organization Name>/<Repository Name> : <Github Label>
 - <Organization Name>/<Repository Name> : ['<Github Label 1>', '<Github Label 2>']
@@ -139,7 +139,7 @@ Codetribute will read the `repositories` field from the yaml file and will take 
 _Example: Display servo issues tagged with the label *E-easy*_
 
 ```yaml
-repositories: 
+repositories:
  - servo/servo: E-easy
 ```
 
@@ -160,7 +160,7 @@ Codetribute will read the `products` field from the yaml file and will extract b
 _Example: Display all Taskcluster bugs with keyword *good-first-bug*_
 
 ```yaml
-products: 
+products:
  - Taskcluster
 ```
 
@@ -178,7 +178,12 @@ products:
 ## Contributing
 
 This project welcomes contributors. If you are interested, please feel free to
-join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
+join [#codetribute:mozilla.org][codetribute-matrix] on Mozilla Matrix server.
 
+If you're new to Matrix, you can [read our how-to guide][matrix-howto] on Mozilla
+Wiki.
+
+[matrix-howto]: https://wiki.mozilla.org/Matrix:Join
+[codetribute-matrix]: https://matrix.to/#/#codetribute:mozilla.org
 [snyk-image]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute/badge.svg
 [snyk-url]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute?targetFile=package.json
