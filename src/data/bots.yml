@@ -1,5 +1,0 @@
-name: Bots
-summary: Bots that help Mozilla developers (e.g., send reminders and improve Bugzilla metadata)
-icon: robot
-repositories:
- - mozilla/bugbot: good-first-bug

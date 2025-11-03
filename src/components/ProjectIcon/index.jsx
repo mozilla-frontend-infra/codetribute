@@ -39,14 +39,17 @@ import MagnifyIcon from 'mdi-react/MagnifyIcon';
 
 // custom icons defined as SVG files
 import BugzillaIcon from '../../images/projectIcons/bugzilla.svg';
+import CommonVoiceIcon from '../../images/projectIcons/common-voice.svg';
 import FirefoxDevToolsIcon from '../../images/projectIcons/firefox-devtools.svg';
 import FirefoxFocusIcon from '../../images/projectIcons/firefox-focus.svg';
+import FirefoxFrontendIcon from '../../images/projectIcons/firefox-frontend.svg';
 import WebextensionsIcon from '../../images/projectIcons/webextensions.svg';
 import PontoonIcon from '../../images/projectIcons/pontoon.svg';
 import RustIcon from '../../images/projectIcons/rust.svg';
 import SeamonkeyIcon from '../../images/projectIcons/seamonkey.svg';
 import ServoIcon from '../../images/projectIcons/servo.svg';
 import SpiderMonkeyIcon from '../../images/projectIcons/spidermonkey.svg';
+import SumoIcon from '../../images/projectIcons/sumo.svg';
 import TaskclusterIcon from '../../images/projectIcons/taskcluster.svg';
 import ThunderbirdIcon from '../../images/projectIcons/thunderbird.svg';
 import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
@@ -90,6 +93,8 @@ class ProjectIcon extends Component {
     case 'magnify': return <MagnifyIcon size={50} className={classes.projectIcon} />;
 
     case 'bugzilla': return <img height="45" src={BugzillaIcon} alt="Bugzilla Icon" />;
+    case 'common-voice': return <img height="45" src={CommonVoiceIcon} alt="" />;
+    case 'firefox-frontend': return <img height="45" src={FirefoxFrontendIcon} alt="" />;
     case 'firefox-devtools': return <img height="45" src={FirefoxDevToolsIcon} alt="Firefox DevTools Icon" />;
     case 'firefox-focus': return <img height="45" src={FirefoxFocusIcon} alt="Firefox Focus Icon" />;
     case 'webextensions': return <img height="45" src={WebextensionsIcon} alt="Webextensions Icon" />;
@@ -98,6 +103,7 @@ class ProjectIcon extends Component {
     case 'seamonkey': return <img height="45" src={SeamonkeyIcon} alt="Seamonkey Icon" />;
     case 'servo': return <img height="45" src={ServoIcon} alt="Servo Icon" />;
     case 'spidermonkey': return <img height="45" src={SpiderMonkeyIcon} alt="SpiderMoney Icon" />;
+    case 'sumo': return <img height="45" src={SumoIcon} alt="" />;
     case 'taskcluster': return <img height="45" src={TaskclusterIcon} alt="Taskcluster Icon" />;
     case 'thunderbird': return <img height="45" src={ThunderbirdIcon} alt="Thunderbird Icon" />;
     case 'multi-account-containers': return <img height="45" src={MultiAccountContainersIcon} alt="Multi-Account Containers Icon" />;

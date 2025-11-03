@@ -1,5 +1,10 @@
 name: Rustfmt
 summary: Rustfmt is the automatic code formatter for Rust code
 icon: format-indent-increase
-repositories: 
- - rust-lang/rustfmt: good-first-issue
+repositories:
+  - rust-lang/rustfmt:
+    - 'community driven'
+    - 'E-help-wanted'
+    - 'E-easy'
+    - 'E-medium'
+    - 'good first issue'
