@@ -2,24 +2,23 @@
 
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 
-Codetribute is a site that guides contributors to
-their first contribution. It helps new contributors 
-find a project they want to work with, learn about 
-that project, and then find a task that is suitable 
-to their skills and interests and not already assigned to 
-someone else.
+Codetribute is a site that guides contributors to their first contribution. It
+helps new contributors find a project they want to work with, learn about that
+project, and then find a task that is suitable to their skills and interests and
+not already assigned to someone else.
 
 ## Development
 
 ### Prerequisites
 
-- Node version v16.18.1
+- Node version v16.18.1 (We recommend `nvm` to install multiple Node version in
+  parallele)
 - [Yarn](https://www.npmjs.com/package/yarn)
 
 ### Building
 
-First, fork this repository to another GitHub account (your account).
-Then you can clone and install:
+First, fork this repository to another GitHub account (your account). Then you
+can clone and install:
 
 ```
 git clone https://github.com/<YOUR_ACCOUNT>/codetribute.git
@@ -28,17 +27,20 @@ yarn
 ```
 
 ### Web Server
-Codetribute relies on two servers, namely, GitHub’s GraphQL API v4 (managed by GitHub) and
-[bugzilla-graphql-gateway](https://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway).
-The latter is required to perform queries to the Bugzilla API. For a local setup, clone the repo 
-and follow the instruction for starting it prior to launching this application. You will need to
-launch the bugzilla-graphql-gateway in a terminal instance separate from this application in order 
-to run both simultaneously.
+
+Codetribute relies on two servers, namely, GitHub’s GraphQL API v4 (managed by
+GitHub) and [bugzilla-graphql-gateway][bz-gateway].
+
+The latter is required to perform queries to the Bugzilla API. For a local setup,
+clone the repo and follow the instruction for starting it prior to launching this
+application. You will need to launch the bugzilla-graphql-gateway in a terminal
+instance separate from this application in order to run both simultaneously.
 
 ### Environment variables
 
-To get started with local development, create a file in the root of the repo named
-`.env` with the following content. You can also set the variables in your shell environment.
+To get started with local development, create a file in the root of the repo
+named `.env` with the following content. You can also set the variables in your
+shell environment.
 
 ```bash
 GITHUB_PERSONAL_API_TOKEN=<your_github_api_token>
@@ -46,18 +48,21 @@ BUGZILLA_ENDPOINT=http://localhost:3090
 PORT=5000
 ```
 
-Generate a GitHub personal access token [here](https://github.com/settings/tokens). When prompted
-about scopes, access to public repositories is the only one required.
+Generate a GitHub personal access token
+[here](https://github.com/settings/tokens). When prompted about scopes, access to
+public repositories is the only one required.
 
 ### Code Organization
 
 - `src/`: source code
 - `src/App`: top-level component
-- `src/components`: generic components that can be used in any view (not view-specific)
+- `src/components`: generic components that can be used in any view (not
+  view-specific)
 
 ### Tasks and Configuration
 
-Building this project uses [Neutrino](https://github.com/mozilla-neutrino/neutrino-dev),
+Building this project uses
+[Neutrino](https://github.com/mozilla-neutrino/neutrino-dev),
 [neutrino-preset-mozilla-frontend-infra](https://github.com/mozilla-frontend-infra/neutrino-preset-mozilla-frontend-infra)
 
 ### Testing changes
@@ -70,14 +75,19 @@ Install npm dependencies and start it up:
 This will start a local development server on port 5000 (http://localhost:5000).
 
 Additionally if you wish to query the Bugzilla GraphQL API locally instead of
-the production instance, you'll need to clone and run
-[mozilla-frontend-infra/bugzilla-graphql-gateway](https://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway).
+the production instance, you'll need to clone and run an instance of
+[bugzilla-graphql-gateway][bz-gateway].
 
 ## Adding a project
 
-Codetribute can read from both GitHub and Bugzilla. Regarding the latter, bugs with the `good-first-bug` keyword and mentored bugs will appear in the list.
-To add a new entry to the site, create a file `<project-name>.yml` in `src/data` using the [template example](#template-example) as the initial setup. 
-For inspiration, check out the [Taskcluster](https://github.com/mozilla-frontend-infra/codetribute/blob/main/src/data/taskcluster.yaml) yaml file.
+Codetribute can read from both GitHub and Bugzilla. Regarding the latter, bugs
+with the `good-first-bug` keyword and mentored bugs will appear in the list.
+
+To add a new entry to the site, create a file `<project-name>.yml` in `src/data`
+using the [template example](#template-example) as the initial setup.
+For inspiration, check out the [Taskcluster][taskcluster-example] yaml file.
+
+[taskcluster-example]: https://github.com/mozilla-frontend-infra/codetribute/blob/main/src/data/taskcluster.yaml
 
 ### Template Example
 
@@ -96,37 +106,47 @@ introduction: |
 
   ## How Do I Get Started?
 
-  <General advice - tutorials to learn about the project, development setup, repo to clone if there is only one>
+  <General advice - tutorials to learn about the project, development setup, repo
+  to clone if there is only one>
 
   ### How Do I Write the Code?
 
-  <Summary of the development and patch-submission process -- pull requests? patches on bugzilla? tests?>
+  <Summary of the development and patch-submission process -- pull requests?
+  patches on bugzilla? tests?>
 
   ## How Do I Get Help?
 
-  <Suggestions for how, and when, to ask for help -- mailing lists, irc channels, bug or issue comments, etc.>
+  <Suggestions for how, and when, to ask for help -- mailing lists, irc channels,
+  bug or issue comments, etc.>
 
 products:
 - <Bugzilla Product>
 - <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>']
-# to include multiple products or components under a single label in the "Projects" menu, or customize the label:
-- label: <Project Label shown in the dropdown, to change/group the label from the default value which is the component name>
+# to include multiple products or components under a single label in the
+# "Projects" menu, or customize the label:
+- label: <Project Label shown in the dropdown, to change/group the label from the
+  default value which is the component name>
   products:
   - <Bugzilla Product>
-  - <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>'] 
+  - <Bugzilla Product>: ['<Bugzilla Component 1>', '<Bugzilla Component 2>']
 repositories:
 - <Organization Name>/<Repository Name> : <Github Label>
 - <Organization Name>/<Repository Name> : ['<Github Label 1>', '<Github Label 2>']
 
 ```
-_Note: The `summary` and `introduction` fields are to be rendered as markdown, allowing for bullet points, links and other simple formatting._
+
+_Note: The `summary` and `introduction` fields are to be rendered as markdown,
+allowing for bullet points, links and other simple formatting._
 
 #### Project Icons
 
-Each project should have an icon associated to it to be displayed on the home page. To pick an icon, you could either:
-1. Include an icon in `src/images/projectIcons`. The icon should have the same name as its configuration file
-and have the image extension set as `.svg`.
-2. Pick an icon from [materialdesignicons](https://materialdesignicons.com) and include its name in the `icon` field of the yaml file.
+Each project should have an icon associated to it to be displayed on the home
+page. To pick an icon, you could either:
+
+1. Include an icon in `src/images/projectIcons`. The icon should have the same
+   name as its configuration file and have the image extension set as `.svg`.
+2. Pick an icon from [materialdesignicons](https://materialdesignicons.com) and
+   include its name in the `icon` field of the yaml file.
 
 ### Best Practices
 
@@ -134,37 +154,44 @@ Below is information about how to get a bug or issue appear on the site.
 
 #### GitHub
 
-Codetribute will read the `repositories` field from the yaml file and will take extract the issues that match the repository labels.
+Codetribute will read the `repositories` field from the yaml file and will take
+extract the issues that match the repository labels.
 
 _Example: Display servo issues tagged with the label *E-easy*_
 
 ```yaml
-repositories: 
+repositories:
  - servo/servo: E-easy
 ```
 
-_Example: Display telemetry-dashboard issues tagged with either the *mentored* or *good first issue* label_
+_Example: Display telemetry-dashboard issues tagged with either the *mentored* or
+*good first issue* label_
 
 ```yaml
 repositories:
  - mozilla/telemetry-dashboard: ['mentored', 'good first issue']
 ```
 
-For the `/languages/:language` route, we get issues from repositories whose primary language is the language selected & tagged with labels specified in yaml files
-or any issues across Github repositories with the language lowercased as the label (e.g., `javascript`).
+For the `/languages/:language` route, we get issues from repositories whose
+primary language is the language selected & tagged with labels specified in yaml
+files or any issues across Github repositories with the language lowercased as
+the label (e.g., `javascript`).
 
 #### Bugzilla
 
-Codetribute will read the `products` field from the yaml file and will extract bugs with keyword `good-first-bug`. Here are some ways to display bugs on the site.
+Codetribute will read the `products` field from the yaml file and will extract
+bugs with keyword `good-first-bug`. Here are some ways to display bugs on the
+site.
 
 _Example: Display all Taskcluster bugs with keyword *good-first-bug*_
 
 ```yaml
-products: 
+products:
  - Taskcluster
 ```
 
-_Example: Display Taskcluster bugs that are under either the Tools component or the Queue component with keyword *good-first-bug*_
+_Example: Display Taskcluster bugs that are under either the Tools component or
+the Queue component with keyword *good-first-bug*_
 
 ```yaml
 products:
@@ -178,7 +205,14 @@ products:
 ## Contributing
 
 This project welcomes contributors. If you are interested, please feel free to
-join [the mailing list](https://mail.mozilla.org/listinfo/bugsahoy-devel)
+join [#codetribute:mozilla.org][codetribute-matrix] on Mozilla Matrix server.
 
+If you're new to Matrix, you can [read our how-to guide][matrix-howto] on Mozilla
+Wiki.
+
+<!-- links -->
+[bz-gateway]: https://github.com/mozilla-frontend-infra/bugzilla-graphql-gateway
+[matrix-howto]: https://wiki.mozilla.org/Matrix:Join
+[codetribute-matrix]: https://matrix.to/#/#codetribute:mozilla.org
 [snyk-image]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute/badge.svg
 [snyk-url]: https://snyk.io/test/github/mozilla-frontend-infra/codetribute?targetFile=package.json
