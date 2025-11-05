@@ -54,6 +54,7 @@ import TaskclusterIcon from '../../images/projectIcons/taskcluster.svg';
 import ThunderbirdIcon from '../../images/projectIcons/thunderbird.svg';
 import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
 import MDNIcon from '../../images/projectIcons/mdn.svg';
+import MozregressionIcon from '../../images/projectIcons/mozregression.svg';
 
 export default
 @withStyles((theme) => ({
@@ -108,6 +109,7 @@ class ProjectIcon extends Component {
     case 'thunderbird': return <img height="45" src={ThunderbirdIcon} alt="Thunderbird Icon" />;
     case 'multi-account-containers': return <img height="45" src={MultiAccountContainersIcon} alt="Multi-Account Containers Icon" />;
     case 'mdn': return <img height="45" src={MDNIcon} alt="Mozilla Developer Network Icon" />;
+    case 'mozregression': return <img height="45" src={MozregressionIcon} alt="" />;
 
     default: return <WebIcon size={50} className={classes.projectIcon} />;
     }
