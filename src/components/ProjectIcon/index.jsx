@@ -55,6 +55,7 @@ import ThunderbirdIcon from '../../images/projectIcons/thunderbird.svg';
 import ThunderbirdAndroidIcon from '../../images/projectIcons/thunderbird-android.svg';
 import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
 import MDNIcon from '../../images/projectIcons/mdn.svg';
+import MozillaVPNIcon from '../../images/projectIcons/mozillavpn.svg';
 import MozregressionIcon from '../../images/projectIcons/mozregression.svg';
 
 export default
@@ -111,6 +112,7 @@ class ProjectIcon extends Component {
     case 'thunderbird-android': return <img height="45" src={ThunderbirdAndroidIcon} alt="" />;
     case 'multi-account-containers': return <img height="45" src={MultiAccountContainersIcon} alt="Multi-Account Containers Icon" />;
     case 'mdn': return <img height="45" src={MDNIcon} alt="Mozilla Developer Network Icon" />;
+    case 'mozillavpn': return <img height="45" src={MozillaVPNIcon} alt="" />;
     case 'mozregression': return <img height="45" src={MozregressionIcon} alt="" />;
 
     default: return <WebIcon size={50} className={classes.projectIcon} />;

@@ -1,0 +1,12 @@
+name: Mozilla VPN
+summary: |
+  Mozilla VPN is a fast, secure and easy to use cross-platform VPN service.
+introduction: |
+  Mozilla VPN is a fast, secure and easy to use cross-platform VPN service.
+
+  You can learn more on
+  [our official website](https://www.mozilla.org/en-US/products/vpn)
+repositories:
+  - mozilla-mobile/mozilla-vpn-client:
+    - 'good first issue'
+    - 'Contributions Welcome'
