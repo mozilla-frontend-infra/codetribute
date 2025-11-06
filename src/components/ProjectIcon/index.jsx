@@ -57,6 +57,7 @@ import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-
 import MDNIcon from '../../images/projectIcons/mdn.svg';
 import MozillaVPNIcon from '../../images/projectIcons/mozillavpn.svg';
 import MozregressionIcon from '../../images/projectIcons/mozregression.svg';
+import WebcompatIcon from '../../images/projectIcons/webcompat.svg';
 
 export default
 @withStyles((theme) => ({
@@ -114,6 +115,7 @@ class ProjectIcon extends Component {
     case 'mdn': return <img height="45" src={MDNIcon} alt="Mozilla Developer Network Icon" />;
     case 'mozillavpn': return <img height="45" src={MozillaVPNIcon} alt="" />;
     case 'mozregression': return <img height="45" src={MozregressionIcon} alt="" />;
+    case 'webcompat': return <img height="45" src={WebcompatIcon} alt="" />;
 
     default: return <WebIcon size={50} className={classes.projectIcon} />;
     }

@@ -1,0 +1,18 @@
+name: webcompat.com
+summary: |
+  webcompat.com makes it easy to report and view web compatibility problems for
+  any part of the web.
+introduction: |
+  What is Web Compatibility?
+
+  Web compatibility is about making sure web sites work the same way across all
+  browsers and devices.
+
+  Sometimes sites have bugs or policies that prevent them from working well in
+  every browser. Sometimes browser vendors have implemented features in different
+  ways. We work to help web developers and site owners identify and fix such
+  issues, or raise the issues to browser vendors or standards bodies to be fixed.
+repositories:
+  - webcompat/webcompat.com:
+    - 'prio: good first bug'
+    - 'prio: good next bug'
