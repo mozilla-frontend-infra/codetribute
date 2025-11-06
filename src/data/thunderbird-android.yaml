@@ -1,0 +1,15 @@
+name: Thunderbird Android
+summary: |
+  Thunderbird for Android is an open source email app for Android
+introduction: |
+  The Thunderbird project's website is at https://thunderbird.net
+  Our Matrix support channel is `#thunderbird:mozilla.org`, and our development
+  channel is `#tb-mobile-dev:mozilla.org` at
+  [Matrix](https://wiki.mozilla.org/Matrix)
+
+  You can find information on how to contribute to Thunderbird at
+  https://thunderbird.net/get-involved
+repositories:
+  - thunderbird/thunderbird-android:
+    - 'good first issue'
+    - 'status: help wanted'

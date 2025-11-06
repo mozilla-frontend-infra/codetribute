@@ -52,8 +52,12 @@ import SpiderMonkeyIcon from '../../images/projectIcons/spidermonkey.svg';
 import SumoIcon from '../../images/projectIcons/sumo.svg';
 import TaskclusterIcon from '../../images/projectIcons/taskcluster.svg';
 import ThunderbirdIcon from '../../images/projectIcons/thunderbird.svg';
+import ThunderbirdAndroidIcon from '../../images/projectIcons/thunderbird-android.svg';
 import MultiAccountContainersIcon from '../../images/projectIcons/multi-account-containers.svg';
 import MDNIcon from '../../images/projectIcons/mdn.svg';
+import MozillaVPNIcon from '../../images/projectIcons/mozillavpn.svg';
+import MozregressionIcon from '../../images/projectIcons/mozregression.svg';
+import WebcompatIcon from '../../images/projectIcons/webcompat.svg';
 
 export default
 @withStyles((theme) => ({
@@ -106,8 +110,12 @@ class ProjectIcon extends Component {
     case 'sumo': return <img height="45" src={SumoIcon} alt="" />;
     case 'taskcluster': return <img height="45" src={TaskclusterIcon} alt="Taskcluster Icon" />;
     case 'thunderbird': return <img height="45" src={ThunderbirdIcon} alt="Thunderbird Icon" />;
+    case 'thunderbird-android': return <img height="45" src={ThunderbirdAndroidIcon} alt="" />;
     case 'multi-account-containers': return <img height="45" src={MultiAccountContainersIcon} alt="Multi-Account Containers Icon" />;
     case 'mdn': return <img height="45" src={MDNIcon} alt="Mozilla Developer Network Icon" />;
+    case 'mozillavpn': return <img height="45" src={MozillaVPNIcon} alt="" />;
+    case 'mozregression': return <img height="45" src={MozregressionIcon} alt="" />;
+    case 'webcompat': return <img height="45" src={WebcompatIcon} alt="" />;
 
     default: return <WebIcon size={50} className={classes.projectIcon} />;
     }

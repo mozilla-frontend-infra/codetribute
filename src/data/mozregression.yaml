@@ -1,0 +1,12 @@
+name: mozregression
+summary: |
+  mozregression is an interactive regression range finder for Firefox and other
+  Mozilla products.
+introduction: |
+  mozregression is an interactive regression range finder for Firefox and other
+  Mozilla products. It uses a binary search algorithm for quickly determining a
+  changeset range corresponding to when a problem was introduced.
+products:
+  - Testing:
+    - "mozregression"
+
