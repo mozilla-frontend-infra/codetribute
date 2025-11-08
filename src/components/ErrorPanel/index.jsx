@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { instanceOf, oneOfType, string } from 'prop-types';
 import classNames from 'classnames';
 import Markdown from 'react-markdown';
 import { withStyles } from '@material-ui/core/styles';
@@ -80,9 +79,3 @@ class ErrorPanel extends Component {
     );
   }
 }
-ErrorPanel.propTypes = {
-  /**
-   * Error to display
-   */
-  error: oneOfType([string, instanceOf(Error)]).isRequired,
-};

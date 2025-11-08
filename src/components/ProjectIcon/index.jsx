@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { string } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import WebIcon from 'mdi-react/WebIcon';
 
@@ -121,7 +120,3 @@ class ProjectIcon extends Component {
     }
   }
 }
-ProjectIcon.propTypes = {
-  // The name of the icon to display, from the case statement above.
-  icon: string,
-};

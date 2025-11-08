@@ -1,5 +1,4 @@
 import React from 'react';
-import { instanceOf } from 'prop-types';
 import { RedBoxError } from 'redbox-react';
 import ErrorStackParser from 'error-stack-parser';
 import { withStyles } from '@material-ui/core/styles';
@@ -53,6 +52,3 @@ class ErrorBox extends RedBoxError {
     }
   }
 }
-ErrorBox.propTypes = {
-  error: instanceOf(Error).isRequired,
-};

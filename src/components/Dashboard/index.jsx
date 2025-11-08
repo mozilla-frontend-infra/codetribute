@@ -10,7 +10,6 @@ import CloseIcon from 'mdi-react/CloseIcon';
 import ArrowLeftIcon from 'mdi-react/ArrowLeftIcon';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { bool, node, string, object } from 'prop-types';
 import AppBar from '../AppBar';
 import Sidebar from '../Sidebar';
 
@@ -194,28 +193,3 @@ class Dashboard extends Component {
     );
   }
 }
-Dashboard.propTypes = {
-  /*
-   * The title to be put in the AppBar
-   */
-  title: string,
-  /*
-   * Boolean to render the sidebar
-   */
-  withSidebar: bool,
-  /*
-   * The custom header to be put in the AppBar
-   */
-  header: node,
-  /*
-   * The style to be used by the Component
-   */
-  classes: object,
-};
-
-Dashboard.defaultProps = {
-  classes: null,
-  withSidebar: false,
-  title: null,
-  header: null,
-};

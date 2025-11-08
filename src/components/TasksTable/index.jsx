@@ -17,7 +17,6 @@ import LinkIcon from 'mdi-react/LinkIcon';
 import InformationVariantIcon from 'mdi-react/InformationVariantIcon';
 import CloseIcon from 'mdi-react/CloseIcon';
 import { withRouter } from 'react-router-dom';
-import { arrayOf, object } from 'prop-types';
 import { camelCase } from 'change-case';
 import Linkify from 'react-linkify';
 import { formatDistance, parseISO, differenceInCalendarDays } from 'date-fns';
@@ -487,11 +486,3 @@ class TasksTable extends Component {
     );
   }
 }
-
-TasksTable.propTypes = {
-  /**
-   * A list of objects to display. Each element in the list is represented
-   * by a row and each element's key-value pair represents a column.
-   */
-  items: arrayOf(object).isRequired,
-};

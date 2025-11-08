@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { string, shape } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
@@ -79,11 +78,3 @@ class ProjectCard extends Component {
     );
   }
 }
-ProjectCard.propTypes = {
-  project: shape({
-    name: string.isRequired,
-    summary: string,
-    fileName: string.isRequired,
-    icon: string,
-  }).isRequired,
-};
