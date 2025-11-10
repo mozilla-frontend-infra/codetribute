@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { number, string } from 'prop-types';
 
 export default class GoIcon extends PureComponent {
   render() {
@@ -8,8 +7,8 @@ export default class GoIcon extends PureComponent {
     return (
       <svg
         className={className}
-        width={size}
-        fill={fill}
+        width={size || 24}
+        fill={fill || 'currentColor'}
         version="1.1"
         x="0px"
         y="0px"
@@ -23,13 +22,3 @@ export default class GoIcon extends PureComponent {
     );
   }
 }
-
-GoIcon.propTypes = {
-  size: number,
-  fill: string,
-};
-
-GoIcon.defaultProps = {
-  size: 24,
-  fill: 'currentColor',
-};
