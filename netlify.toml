@@ -5,7 +5,7 @@
 [build.environment]
   YARN_FLAGS = "--frozen-lockfile"
   YARN_VERSION = "1.22.19"
-  NODE_VERSION = "22.20.0"
+  NODE_VERSION = "24.12.0"
   SECRETS_SCAN_SMART_DETECTION_ENABLED = "false" # false positives during build time fail the build on netlify. Codetribute doesn't embed any secrets
 
 # Redirect HTTP to HTTPS
