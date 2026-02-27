@@ -1,6 +1,6 @@
 import { hot } from 'react-hot-loader';
 import React, { Component, Suspense } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
@@ -90,19 +90,31 @@ class App extends Component {
           <CssBaseline />
           <BrowserRouter>
             <Switch>
-              {routes.map(({ path, exact, component: Component, ...props }) => (
-                <Route
-                  key={path}
-                  path={path}
-                  exact={exact}
-                  render={({ staticContext, ...renderProps }) => (
-                    <Suspense
-                      fallback={<Spinner className={classes.spinner} />}>
-                      <Component {...renderProps} {...props} />
-                    </Suspense>
-                  )}
-                />
-              ))}
+              {routes.map(({ path, exact, redirect, component: Component, ...props }) =>
+                redirect ? (
+                  <Route
+                    key={path}
+                    path={path}
+                    render={({ location }) => (
+                      <Redirect
+                        to={{ pathname: redirect, search: location.search }}
+                      />
+                    )}
+                  />
+                ) : (
+                  <Route
+                    key={path}
+                    path={path}
+                    exact={exact}
+                    render={({ staticContext, ...renderProps }) => (
+                      <Suspense
+                        fallback={<Spinner className={classes.spinner} />}>
+                        <Component {...renderProps} {...props} />
+                      </Suspense>
+                    )}
+                  />
+                )
+              )}
             </Switch>
           </BrowserRouter>
         </MuiThemeProvider>
