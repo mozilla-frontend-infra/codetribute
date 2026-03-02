@@ -7,6 +7,10 @@ const routes = [
     exact: true,
   },
   {
+    path: '/projects/ff',
+    redirect: '/projects/firefox-frontend',
+  },
+  {
     component: lazy(() => import('../views/Project/index')),
     path: '/projects/:project',
   },
