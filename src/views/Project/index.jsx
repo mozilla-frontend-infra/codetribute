@@ -101,16 +101,33 @@ export default
       },
     }) => !projects[project].repositories,
     name: 'github',
-    options: () => ({
-      fetchPolicy: 'network-only',
-      variables: {
-        searchQuery: '',
-        type: 'ISSUE',
+    options: ({
+      match: {
+        params: { project },
       },
-      context: {
-        client: 'github',
-      },
-    }),
+    }) => {
+      const repositories = mergeAll(projects[project].repositories);
+      const tagsMapping = tagReposMapping(repositories);
+      const firstEntry = Object.entries(tagsMapping)[0];
+      const searchQuery = firstEntry
+        ? [
+            firstEntry[1].map((repo) => `repo:${repo}`).join(' '),
+            `label:"${firstEntry[0]}"`,
+            'state:open',
+          ].join(' ')
+        : '';
+
+      return {
+        fetchPolicy: 'network-only',
+        variables: {
+          searchQuery,
+          type: 'ISSUE',
+        },
+        context: {
+          client: 'github',
+        },
+      };
+    },
   }),
   graphql(bugsQuery, {
     skip: ({
@@ -299,7 +316,7 @@ class Project extends Component {
     const tagsMapping = tagReposMapping(repositories);
 
     await Promise.all(
-      Object.entries(tagsMapping).map(([tag, repos]) => {
+      Object.entries(tagsMapping).slice(1).map(([tag, repos]) => {
         const searchQuery = [
           repos.map((repo) => `repo:${repo}`).join(' '),
           `label:"${tag}"`,
