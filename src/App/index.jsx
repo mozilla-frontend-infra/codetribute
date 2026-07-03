@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React, { Component, Suspense } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
@@ -31,7 +30,6 @@ persistCache({
 });
 
 export default
-@hot(module)
 @withStyles({
   '@global': {
     a: {

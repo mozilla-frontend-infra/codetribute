@@ -94,7 +94,6 @@
     "react-dev-utils": "^11.0.2",
     "react-dom": "18",
     "react-fout-stager": "^3.0.0",
-    "react-hot-loader": "^4.1.3",
     "react-linkify": "^0.2.2",
     "react-markdown": "^6.0.0",
     "react-refresh": "^0.12.0",
