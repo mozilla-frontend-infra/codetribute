@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React, { Component } from 'react';
 import { graphql, withApollo } from '@apollo/client/react/hoc';
 import { flowRight as compose } from 'lodash';
@@ -92,7 +91,6 @@ const getProjectLabels = memoizeWith(
 );
 
 export default
-@hot(module)
 @compose(
   graphql(githubInfoQuery, {
     skip: ({

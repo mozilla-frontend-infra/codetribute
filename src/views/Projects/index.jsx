@@ -1,4 +1,3 @@
-import { hot } from 'react-hot-loader';
 import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +11,6 @@ import SearchBox from '../../components/SearchBox';
 import sort from '../../utils/sort';
 
 export default
-@hot(module)
 @withStyles((theme) => ({
   container: {
     minHeight: `calc(100vh - 180px - ${theme.spacing(3)}px)`,
