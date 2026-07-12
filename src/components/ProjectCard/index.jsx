@@ -58,7 +58,7 @@ class ProjectCard extends Component {
       <Link className={classes.link} to={`projects/${fileName}`}>
         <Card className={classes.card} tabIndex={0}>
           <CardContent className={classes.textAlign}>
-            <ProjectIcon icon={icon || fileName} />
+            <ProjectIcon icon={icon} />
             <Typography gutterBottom variant="h5" component="h4">
               {name}
             </Typography>

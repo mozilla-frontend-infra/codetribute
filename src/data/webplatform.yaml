@@ -1,87 +1,88 @@
 name: Firefox - Platform (Web)
-summary: Web Platform consists of Networking, Layout, DOM & CSS Technology, Input Handling, and Media.
-icon: layers
+summary: |
+  Web Platform consists of Networking, Layout, DOM & CSS Technology,
+  Input Handling, and Media.
+icon: firefox
 products:
- - Core: [
-  'Audio/Video',
-  'Audio/Video: cubeb',
-  'Audio/Video: GMP',
-  'Audio/Video: MediaStreamGraph',
-  'Audio/Video: Playback',
-  'Audio/Video: Recording',
-  'CSS Parsing and Computation',
-  'CSS Transitions and Animations',
-  'DOM: Animation',
-  'DOM: Bindings (WebIDL)',
-  'DOM: Content Processes',
-  'DOM: Core & HTML',
-  'DOM: CSS Object Model',
-  'DOM: Device Interfaces',
-  'DOM: Drag & Drop',
-  'DOM: Editor',
-  'DOM: Events',
-  'DOM: File',
-  'DOM: Forms',
-  'DOM: HTML Parser',
-  'DOM: Navigation',
-  'DOM: Networking',
-  'DOM: Push Notifications',
-  'DOM: Security',
-  'DOM: Selection',
-  'DOM: Serializers',
-  'DOM: Service Workers',
-  'DOM: UI Events & Focus Handling',
-  'DOM: Web Authentication',
-  'DOM: Web Crypto',
-  'DOM: Web Payments',
-  'DOM: Window and Location',
-  'DOM: Workers',
-  'DOM: postMessage',
-  'Find Backend',
-  'General',
-  'Gecko Profiler',
-  'Keyboard: Navigation',
-  'Layout',
-  'Layout: Block and Inline',
-  'Layout: Columns',
-  'Layout: Flexbox',
-  'Layout: Floats',
-  'Layout: Form Controls',
-  'Layout: Generated Content, Lists, and Counters',
-  'Layout: Grid',
-  'Layout: Images, Video, and HTML Frames',
-  'Layout: Positioned',
-  'Layout: Ruby',
-  'Layout: Scrolling and Overflow',
-  'Layout: Tables',
-  'Layout: Text and Fonts',
-  'MathML',
-  'Networking',
-  'Networking: Cache',
-  'Networking: Cookies',
-  'Networking: DNS',
-  'Networking: File',
-  'Networking: Proxy',
-  'Networking: HTTP',
-  'Networking: JAR',
-  'Networking: WebSockets',
-  'Performance',
-  'Privacy: Anti-Tracking',
-  'Storage: IndexedDB',
-  'Storage: Cache API',
-  'Storage: QuotaManager',
-  'Storage: localStorage & sessionStorage',
-  'Storage: StorageManager',
-  'SVG',
-  'Web Audio',
-  'Web Painting', # XXX Should maybe be in gfx.yaml? It's half-layout / half-graphics...
-  'Web Replay',
-  'Web Speech',
-  'WebRTC',
-  'WebRTC: Audio/Video',
-  'WebRTC: Networking',
-  'WebRTC: Signaling',
-  'WebVR',
-  'XML',
-  'XSLT'
- ]
+  - Core:
+    - 'Audio/Video'
+    - 'Audio/Video: cubeb'
+    - 'Audio/Video: GMP'
+    - 'Audio/Video: MediaStreamGraph'
+    - 'Audio/Video: Playback'
+    - 'Audio/Video: Recording'
+    - 'CSS Parsing and Computation'
+    - 'CSS Transitions and Animations'
+    - 'DOM: Animation'
+    - 'DOM: Bindings (WebIDL)'
+    - 'DOM: Content Processes'
+    - 'DOM: Core & HTML'
+    - 'DOM: CSS Object Model'
+    - 'DOM: Device Interfaces'
+    - 'DOM: Drag & Drop'
+    - 'DOM: Editor'
+    - 'DOM: Events'
+    - 'DOM: File'
+    - 'DOM: Forms'
+    - 'DOM: HTML Parser'
+    - 'DOM: Navigation'
+    - 'DOM: Networking'
+    - 'DOM: Push Notifications'
+    - 'DOM: Security'
+    - 'DOM: Selection'
+    - 'DOM: Serializers'
+    - 'DOM: Service Workers'
+    - 'DOM: UI Events & Focus Handling'
+    - 'DOM: Web Authentication'
+    - 'DOM: Web Crypto'
+    - 'DOM: Web Payments'
+    - 'DOM: Window and Location'
+    - 'DOM: Workers'
+    - 'DOM: postMessage'
+    - 'Find Backend'
+    - 'General'
+    - 'Gecko Profiler'
+    - 'Keyboard: Navigation'
+    - 'Layout'
+    - 'Layout: Block and Inline'
+    - 'Layout: Columns'
+    - 'Layout: Flexbox'
+    - 'Layout: Floats'
+    - 'Layout: Form Controls'
+    - 'Layout: Generated Content, Lists, and Counters'
+    - 'Layout: Grid'
+    - 'Layout: Images, Video, and HTML Frames'
+    - 'Layout: Positioned'
+    - 'Layout: Ruby'
+    - 'Layout: Scrolling and Overflow'
+    - 'Layout: Tables'
+    - 'Layout: Text and Fonts'
+    - 'MathML'
+    - 'Networking'
+    - 'Networking: Cache'
+    - 'Networking: Cookies'
+    - 'Networking: DNS'
+    - 'Networking: File'
+    - 'Networking: Proxy'
+    - 'Networking: HTTP'
+    - 'Networking: JAR'
+    - 'Networking: WebSockets'
+    - 'Performance'
+    - 'Privacy: Anti-Tracking'
+    - 'Storage: IndexedDB'
+    - 'Storage: Cache API'
+    - 'Storage: QuotaManager'
+    - 'Storage: localStorage & sessionStorage'
+    - 'Storage: StorageManager'
+    - 'SVG'
+    - 'Web Audio'
+    - 'Web Painting' # XXX Should maybe be in gfx.yaml? It's half-layout / half-graphics...
+    - 'Web Replay'
+    - 'Web Speech'
+    - 'WebRTC'
+    - 'WebRTC: Audio/Video'
+    - 'WebRTC: Networking'
+    - 'WebRTC: Signaling'
+    - 'WebVR'
+    - 'XML'
+    - 'XSLT'

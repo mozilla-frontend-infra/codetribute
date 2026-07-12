@@ -1,4 +1,7 @@
 name: Servo
-summary: Servo is a modern, high-performance browser engine designed for both application and embedded use.
-repositories: 
+summary: |
+  Servo is a modern, high-performance browser engine designed for both
+  application and embedded use.
+icon: servo
+repositories:
  - servo/servo: E-easy

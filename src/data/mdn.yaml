@@ -1,20 +1,29 @@
 name: MDN Web Docs
-summary: Get involved with the [MDN Community](https://developer.mozilla.org/en-US/docs/MDN/Getting_started)
+summary: |
+  Get involved with the [MDN Community](https://developer.mozilla.org/en-US/docs/MDN/Getting_started)
+icon: mdn
 introduction: |
   ## About MDN Web Docs
 
-  MDN Web Docs is an evolving learning platform for Web technologies and software that power the Web, including HTML, CSS, JavaScript and the various web standards and APIs.
+  MDN Web Docs is an evolving learning platform for Web technologies and
+  software that power the Web, including HTML, CSS, JavaScript and the various
+  web standards and APIs.
 
   ## Who Works on MDN?
 
-  We are an open community of developers and writers building resources for a better Web, regardless of brand, browser, or platform.
-  Anyone can contribute and each person who does makes us stronger.
+  We are an open community of developers and writers building resources for a
+  better Web, regardless of brand, browser, or platform. Anyone can contribute
+  and each person who does makes us stronger.
 
   ## How Do I Get Started?
 
   You can just go ahead and pick one of the beginner-friendly tasks listed below.
-  All the tasks listed below have mentors assigned to them and besides that, there is an extremely friendly and supportive community of contributors always willing to help.
-  If you would like to know more about MDN and how to help out in general, check out our [Getting Started](https://developer.mozilla.org/en-US/docs/MDN/Getting_started) page.
+  All the tasks listed below have mentors assigned to them and besides that,
+  there is an extremely friendly and supportive community of contributors
+  always willing to help.
+
+  If you would like to know more about MDN and how to help out in general,
+  check out our [Getting Started](https://developer.mozilla.org/en-US/docs/MDN/Getting_started) page.
 
   ## How Do I Get Help?
 

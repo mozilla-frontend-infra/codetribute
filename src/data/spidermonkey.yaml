@@ -1,15 +1,21 @@
 name: SpiderMonkey
 summary: Get involved with SpiderMoney the JavaScript Engine team
+icon: spidermonkey
 introduction: |
   ## About SpiderMonkey
 
-  SpiderMonkey, Mozilla's JavaScript engine, is the component responsible for taking JavaScript code written by programmers, and executing it efficiently.
+  SpiderMonkey, Mozilla's JavaScript engine, is the component responsible for
+  taking JavaScript code written by programmers, and executing it efficiently.
 
   SpiderMonkey is broken into a number of pieces:
 
-  * **The core JavaScript engine**: Defines the most basic pieces of JavaScript, like the interpreter, data types, the parser etc.
-  * **The JavaScript standard library**: These are all the extra pieces of JavaScript that make it the language people know as JavaScript.
-  * **The JIT compilers**: SpiderMonkey has two JIT compilers, Baseline and IonMonkey which work in concert to provide fast execution of JavaScript quickly.
+  * **The core JavaScript engine**: Defines the most basic pieces of
+  JavaScript, like the interpreter, data types, the parser etc.
+  * **The JavaScript standard library**: These are all the extra pieces of
+  JavaScript that make it the language people know as JavaScript.
+  * **The JIT compilers**: SpiderMonkey has two JIT compilers, Baseline and
+  IonMonkey which work in concert to provide fast execution of JavaScript
+  quickly.
 
   ## How do I get Started
 
@@ -19,19 +25,24 @@ introduction: |
   * Make sure you can build and test [SpiderMonkey](https://firefox-source-docs.mozilla.org/js/build.html)
   * Understand [the basics of using Mercurial](https://mozilla-version-control-tools.readthedocs.io/en/latest/hgmozilla/firefoxworkflow.html)
   * Understand [how to submit a patch](https://docs.firefox-dev.tools/contributing/making-prs.html)
-  * Read [this walkthrough](https://moz-conduit.readthedocs.io/en/latest/walkthrough.html) about how development works in Firefox.
+  * Read [this walkthrough](https://moz-conduit.readthedocs.io/en/latest/walkthrough.html)
+    about how development works in Firefox.
 
-  If you are working on a bug (in Bugzilla), you may need to [create a new account](https://bugzilla.mozilla.org/createaccount.cgi).
+  If you are working on a bug (in Bugzilla), you may need to [create a new
+  account](https://bugzilla.mozilla.org/createaccount.cgi).
 
-  Comment in the bug or issue to say that you are working on it, and ask any questions that you have at that time. People who work on SpiderMonkey are available on [Matrix](https://chat.mozilla.org) in the `#spidermonkey` channel, which can be a good way to get help. Please feel free to say 'Hi'
+  Comment in the bug or issue to say that you are working on it, and ask any
+  questions that you have at that time. People who work on SpiderMonkey are
+  available on [Matrix](https://chat.mozilla.org) in the `#spidermonkey`
+  channel, which can be a good way to get help. Please feel free to say 'Hi'.
 
   We really appreciate it if you've done some of your own research:
-  Look the other comments, look at the documentation and source code, and try to figure out as much as you can first. Don't worry if it isn't all clear though. SpiderMonkey is a complicated piece of software.
+  Look the other comments, look at the documentation and source code, and try
+  to figure out as much as you can first. Don't worry if it isn't all clear
+  though. SpiderMonkey is a complicated piece of software.
 
   ### Other Useful Links:
 
   * [New to SpiderMonkey](https://wiki.mozilla.org/JavaScript:New_to_SpiderMonkey)
-
-
 products:
  - Core: ['JavaScript Engine', 'JavaScript Engine: JIT', 'JavaScript: GC', 'JavaScript: Internationalization API', 'JavaScript: Standard Library', 'js-ctypes', 'XPConnect']

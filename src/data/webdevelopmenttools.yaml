@@ -1,5 +1,4 @@
 name: Web Development Tools
 summary: Tools and libraries for backend and frontend web development.
-icon: wrench
-repositories: 
+repositories:
  - web-push-libs/web-push: good-first-bug

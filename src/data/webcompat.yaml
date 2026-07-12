@@ -2,6 +2,7 @@ name: webcompat.com
 summary: |
   webcompat.com makes it easy to report and view web compatibility problems for
   any part of the web.
+icon: webcompat
 introduction: |
   What is Web Compatibility?
 

@@ -1,5 +1,4 @@
 name: Machine Learning
 summary: Tools, libraries and projects about or using machine learning.
-icon: wrench
-repositories: 
+repositories:
  - mozilla/bugbug: good-first-bug
