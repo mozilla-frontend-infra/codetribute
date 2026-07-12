@@ -1,0 +1,32 @@
+name: AI Language Partner
+summary: Local-first Japanese speaking practice for Korean learners.
+icon: book-open-page-variant
+introduction: |
+  ## About AI Language Partner
+
+  AI Language Partner is an MIT-licensed Japanese speaking-practice app for
+  Korean learners. It combines an Expo/React Native client, a FastAPI backend,
+  curated dialogue-bank content, and optional local speech engines. The core
+  Daily Talk path does not require a runtime LLM or paid model API.
+
+  ## How Do I Get Started?
+
+  Choose a scoped issue from the
+  [first-issue matcher](https://duct-tape2.github.io/ai-language-partner/community/FIRST_ISSUE_MATCHER.html).
+  Documentation and language-review tasks can be completed in GitHub's web
+  editor without installing the app. Code tasks can use the repository's
+  Codespaces setup.
+
+  Comment `/claim` on the issue before starting. Keep the pull request focused,
+  link the issue with `Closes #<number>`, and follow the acceptance criteria in
+  the issue body.
+
+  ## How Do I Get Help?
+
+  Ask a question on the issue you want to work on, or use the
+  [first-PR help desk](https://github.com/duct-tape2/ai-language-partner/discussions/53).
+  The maintainer aims to provide an initial response within 24 hours when
+  possible.
+
+repositories:
+- duct-tape2/ai-language-partner: ['good first issue', 'help wanted', 'first-timers-only', 'up-for-grabs']
