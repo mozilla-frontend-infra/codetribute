@@ -28,9 +28,6 @@ export default
     fontWeight: 300,
     padding: theme.spacing(2),
   },
-  projectIcon: {
-    color: theme.palette.secondary.dark,
-  },
   link: {
     textDecoration: 'none',
   },
