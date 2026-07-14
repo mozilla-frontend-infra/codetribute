@@ -1,5 +1,4 @@
 name: Application Services
 summary: Application Services is a platform for building cross-platform browser components using Rust
-icon: cloud-sync
 repositories:
 - mozilla/application-services: ['good-first-issue', 'good-second-issue', 'help-wanted']

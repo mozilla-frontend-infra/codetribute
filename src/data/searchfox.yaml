@@ -1,7 +1,6 @@
 name: Searchfox
 summary: |
   Searchfox is a source code indexing tool for Mozilla Firefox and Thunderbird.
-icon: magnify
 introduction: |
   ## About Searchfox
 

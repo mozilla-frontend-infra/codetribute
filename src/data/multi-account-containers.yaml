@@ -1,5 +1,9 @@
 name: Firefox Multi-Account Containers
-summary: The Firefox Multi-Account Containers extension lets you carve out a separate box for each of your online lives – no more opening a different browser just to check your work email.
+summary: |
+  The Firefox Multi-Account Containers extension lets you carve out a separate
+  box for each of your online lives – no more opening a different browser just
+  to check your work email.
+icon: multi-account-containers
 introduction: |
   ## About Multi-Account Containers
 

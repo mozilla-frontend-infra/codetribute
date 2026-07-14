@@ -1,6 +1,6 @@
 name: Firefox - Development Build System Environment
 summary: The harnesses tools surrounding the building of Firefox.
-icon: package-variant
+icon: firefox
 introduction: |
   The development environment (aka build system) supports the building of Firefox.
 products:

@@ -1,9 +1,14 @@
 name: Thunderbird
-summary: Thunderbird is a free and open-source cross-platform email client, news client, RSS and chat client.
+summary: |
+  Thunderbird is a free and open-source cross-platform email client, news
+  client, RSS and chat client.
+icon: thunderbird
 introduction: |
   The Thunderbird project's website is at https://thunderbird.net
-  Our Matrix support channel is `#thunderbird:mozilla.org`, and our development channel is `#maildev:mozilla.org` at [Matrix](https://wiki.mozilla.org/Matrix)
-  You can find information on how to contribute to Thunderbird at https://thunderbird.net/get-involved
+  Our Matrix support channel is `#thunderbird:mozilla.org`, and our development
+  channel is `#maildev:mozilla.org` at [Matrix](https://wiki.mozilla.org/Matrix)
+  You can find information on how to contribute to Thunderbird at
+  https://thunderbird.net/get-involved
 products:
  - Calendar
  - Chat Core

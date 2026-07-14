@@ -189,5 +189,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "yaml": "^2.9.0"
   }
 }

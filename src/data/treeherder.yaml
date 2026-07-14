@@ -1,6 +1,5 @@
 name: Treeherder
 summary: Dashboard for tracking Continous Integration builds and tests, performance data and intermittent test failures
-icon: pine-tree
 introduction: |
   ## About Treeherder
   Treeherder is a reporting dashboard for code submitted to Mozilla projects (such as the mozilla-central repository) that

@@ -1,13 +1,12 @@
 name: Neqo
 summary: Neqo, the Mozilla Firefox implementation of QUIC in Rust
-icon: cat
 introduction: |
   ## About Neqo
 
   Neqo is the QUIC implementation used by Mozilla in Firefox and other products.
   It is written in Rust and provides a library for QUIC transport, HTTP/3, and QPACK.
   The TLS security backend is the Mozilla NSS library, which is also used by Firefox.
-  
+
   Neqo is designed to be used in Firefox, but it can also be used standalone.
   We include command line tools for testing and debugging, such as neqo-client
   and neqo-server, which can be used to test HTTP/3 servers and clients.

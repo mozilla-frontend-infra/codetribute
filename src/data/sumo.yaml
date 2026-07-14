@@ -1,13 +1,18 @@
 name: Mozilla Support / Kitsune
-summary: Kitsune is the platform that powers support.mozilla.org (SUMO), the platform for Mozilla product support.
+summary: |
+  Kitsune is the platform that powers support.mozilla.org (SUMO), the platform
+  for Mozilla product support.
+icon: sumo
 introduction: |
   ## About Kitsune
 
-  Kitsune is a web application based on Django, a Python web application framework.
+  Kitsune is a web application based on Django, a Python web application
+  framework.
 
   ## How Do I Get Started?
 
-  Explore our documentation (https://mozilla.github.io/kitsune/) to learn about getting started.
+  Explore our documentation (https://mozilla.github.io/kitsune/) to learn about
+  getting started.
 products:
 - support.mozilla.org
 repositories:

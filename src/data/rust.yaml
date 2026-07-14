@@ -1,4 +1,7 @@
 name: Rust
-summary: Rust is a systems programming language that runs blazingly fast, prevents segfaults, and guarantees thread safety.
-repositories: 
+summary: |
+  Rust is a systems programming language that runs blazingly fast, prevents
+  segfaults, and guarantees thread safety.
+icon: rust
+repositories:
  - rust-lang/rust: E-easy

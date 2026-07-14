@@ -1,17 +1,20 @@
 name: Firefox - WebExtensions
 summary: APIs to build Firefox extensions and themes.
+icon: webextensions
 introduction: |
   ## About WebExtensions
 
-  The WebExtensions API is a cross-browser API for developing extensions and themes that can modify the capability of a browser.
+  The WebExtensions API is a cross-browser API for developing extensions and
+  themes that can modify the capability of a browser.
 
   ## How Do I Get Started?
 
-  To get started with contributing to the WebExtensions API, see https://wiki.mozilla.org/Add-ons/Contribute#Contribute_to_the_WebExtensions_API.
+  To get started with contributing to the WebExtensions API, see
+  https://wiki.mozilla.org/Add-ons/Contribute#Contribute_to_the_WebExtensions_API.
 
   ## How Do I Get Help?
 
-  We are available on [Matrix](https://wiki.mozilla.org/Matrix) in the [Add-ons](https://chat.mozilla.org/#/room/#addons:mozilla.org) room.
-
+  We are available on [Matrix](https://wiki.mozilla.org/Matrix) in the
+  [Add-ons](https://chat.mozilla.org/#/room/#addons:mozilla.org) room.
 products:
  - WebExtensions

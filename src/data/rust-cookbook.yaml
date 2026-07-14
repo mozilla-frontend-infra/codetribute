@@ -1,5 +1,4 @@
 name: The Rust Cookbook
 summary: Work on bite-sized examples to get folks cooking with Rust
-icon: book-open-page-variant
-repositories: 
+repositories:
  - rust-lang-nursery/rust-cookbook: easy

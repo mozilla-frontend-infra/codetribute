@@ -1,6 +1,5 @@
 name: Data @ Mozilla
 summary: Data Science and Data Engineering. Helping Mozillians make better, data-informed decisions.
-icon: database
 introduction: |
   ## About Data @ Mozilla
 
@@ -8,7 +7,7 @@ introduction: |
   Data @ Mozilla is composed of two sister teams:
 
   * Data Engineering: Works on the data platform that allows us to gather and analyze data about our products. This includes
-    the [Glean SDK](https://mozilla.github.io/glean) as well as 
+    the [Glean SDK](https://mozilla.github.io/glean) as well as
     [our data ingestion pipeline](https://docs.telemetry.mozilla.org/concepts/pipeline/gcp_data_pipeline.html).
   * Data Science: Helps the rest of Mozilla make data informed decisions using the data platform, applying a broad range of
     statistical and analytical skills.

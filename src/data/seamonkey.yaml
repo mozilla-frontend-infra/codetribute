@@ -1,5 +1,8 @@
 name: SeaMonkey
-summary: SeaMonkey is an all-in-one Internet application suite that includes the Browser, Mail, Web-authoring and irc components.
+summary: |
+  SeaMonkey is an all-in-one Internet application suite that includes the
+  Browser, Mail, Web-authoring and irc components.
+icon: seamonkey
 introduction: |
   The SeaMonkey project is at https://www.seamonkey-project.org.
 
