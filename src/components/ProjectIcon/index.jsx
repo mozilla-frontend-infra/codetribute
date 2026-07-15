@@ -1,21 +1,6 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+export default function ProjectIcon(props) {
+  const { icon } = props;
+  const iconSrc = (icon) ? `/icons/${icon}.svg` : `/icons/dino.svg`;
 
-export default
-@withStyles((theme) => ({
-  projectIcon: {
-    color: theme.palette.secondary.dark,
-  },
-}))
-class ProjectIcon extends Component {
-  render() {
-    const { icon, classes } = this.props;
-
-    if (!icon) {
-      return <img height="45" src="/icons/dino.svg" alt="" />;
-    }
-
-    const iconSrc = `/icons/${icon}.svg`;
-    return <img height="45" src={iconSrc} alt="" />;
-  }
+  return <img height="48" src={iconSrc} alt="" />;
 }
