@@ -19,6 +19,7 @@ import ErrorPanel from '../components/ErrorPanel/index';
 import routes from './routes';
 import introspectionQueryResultData from '../fragmentTypes.json';
 import Spinner from '../components/Spinner';
+import './index.css';
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,

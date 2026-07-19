@@ -43,5 +43,6 @@ export const BUGZILLA_LANGUAGES = {
 };
 export const BUGZILLA_UNASSIGNED = ['nobody@mozilla.org', '@bugzilla.bugs'];
 export const THIRD_PARTY_LINKS = [
+  { link: 'https://github.com/mozilla-frontend-infra/codetribute', label: 'GitHub'},
   { link: 'https://www.outreachy.org', label: 'Outreachy' },
 ];
