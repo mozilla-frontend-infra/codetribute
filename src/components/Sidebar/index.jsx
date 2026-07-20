@@ -1,118 +1,45 @@
-import React, { Component } from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import List from '@material-ui/core/List';
-import { withStyles } from '@material-ui/core/styles';
-import { Link, withRouter } from 'react-router-dom';
-import WebIcon from 'mdi-react/WebIcon';
-import classNames from 'classnames';
-import LanguagePythonIcon from 'mdi-react/LanguagePythonIcon';
-import LanguageCppIcon from 'mdi-react/LanguageCppIcon';
-import LanguageCIcon from 'mdi-react/LanguageCIcon';
-import LanguageJavascriptIcon from 'mdi-react/LanguageJavascriptIcon';
-import LanguageCsharpIcon from 'mdi-react/LanguageCsharpIcon';
-import LanguageCss3Icon from 'mdi-react/LanguageCss3Icon';
-import LanguageSwiftIcon from 'mdi-react/LanguageSwiftIcon';
-import ConsoleIcon from 'mdi-react/ConsoleIcon';
+import React from 'react';
 import { BUGZILLA_LANGUAGES, THIRD_PARTY_LINKS } from '../../utils/constants';
-import JavaIcon from './JavaIcon';
-import HTMLIcon from './HtmlIcon';
-import PerlIcon from './PerlIcon';
-import RustIcon from './RustIcon';
-import KotlinIcon from './KotlinIcon';
-import GoIcon from './GoIcon';
+import { Link, useParams } from 'react-router-dom';
+import './index.css';
 
-export default
-@withRouter
-@withStyles((theme) => ({
-  active: {
-    '& $text': {
-      color: theme.palette.primary.main,
-    },
-    '& svg': {
-      fill: theme.palette.primary.main,
-    },
-  },
-  text: {
-    color: theme.palette.grey[800],
-    fontFamily: 'Roboto500',
-  },
-  link: {
-    display: 'inline-flex',
-  },
-  thirdPartyLinks: {
-    padding: theme.spacing(3),
-  },
-  sidebarContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
-  },
-}))
-class Sidebar extends Component {
-  render() {
-    const {
-      match: {
-        params: { language: activeLanguage },
-      },
-      classes,
-    } = this.props;
-    const icons = {
-      Java: <JavaIcon />,
-      HTML: <HTMLIcon />,
-      Python: <LanguagePythonIcon />,
-      JavaScript: <LanguageJavascriptIcon />,
-      Swift: <LanguageSwiftIcon />,
-      C: <LanguageCIcon />,
-      'C++': <LanguageCppIcon />,
-      'C#': <LanguageCsharpIcon />,
-      CSS: <LanguageCss3Icon />,
-      Perl: <PerlIcon />,
-      Rust: <RustIcon />,
-      Shell: <ConsoleIcon />,
-      Kotlin: <KotlinIcon />,
-      Go: <GoIcon />,
-    };
+export default function Sidebar({ classes }) {
+  const { language: activeLanguage } = useParams();
+  const languages = ['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].sort();
 
-    // Add Swift directly as there is no `lang=swift` in bugzilla whiteboards
-    return (
-      <div className={classes.sidebarContainer}>
-        <div>
-          <List disablePadding>
-            {['Swift', ...Object.keys(BUGZILLA_LANGUAGES)].map((language) => (
-              <ListItem
-                className={classNames({
-                  [classes.active]: language.toLowerCase() === activeLanguage,
-                })}
-                button
-                onClick={this.props.onLanguageClick}
-                id={language}
-                key={language}
-                component={Link}
-                to={`/languages/${language.toLowerCase()}`}>
-                <ListItemIcon>{icons[language] || <WebIcon />}</ListItemIcon>
-                <ListItemText disableTypography className={classes.text}>
-                  {language}
-                </ListItemText>
-              </ListItem>
-            ))}
-          </List>
-        </div>
-        <div className={classes.thirdPartyLinks}>
-          {THIRD_PARTY_LINKS.map((links) => (
+  return (
+    <div className="flex flex-column flex-grow-1">
+      <ul className="nav nav-tiles flex-column">
+        {languages.map((language) => (
+          <li key={language} className="nav-item">
+            <Link
+              className={
+                language.toLowerCase() === activeLanguage
+                  ? 'nav-link active'
+                  : 'nav-link'
+              }
+              to={`/languages/${language.toLowerCase()}`}
+            >
+              {language}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <ul className="nav flex-column flex-grow-1 justify-content-end">
+        {THIRD_PARTY_LINKS.map((link) => (
+          <li key={link.link}>
             <a
-              key={links.link}
+              className="nav-link"
               rel="noopener noreferrer"
               target="_blank"
-              className={classes.link}
-              href={links.link}>
-              {links.label}
+              href={link.link}
+            >
+              {link.label}
             </a>
-          ))}
-        </div>
-      </div>
-    );
-  }
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
