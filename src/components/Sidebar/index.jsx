@@ -20,6 +20,10 @@ export default function Sidebar({ classes }) {
               }
               to={`/languages/${language.toLowerCase()}`}
             >
+              <span
+                aria-hidden="true"
+                className={`color-lang color-lang-${language.toLowerCase()}`}>
+              </span>
               {language}
             </Link>
           </li>
