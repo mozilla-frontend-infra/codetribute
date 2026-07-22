@@ -8,7 +8,10 @@
 }
 
 .nav-link {
-  display: block;
+  align-items: center;
+  color: #0f66a4;
+  display: flex;
+  gap: 0.5rem;
   padding-block: 0.5rem;
   padding-inline: 1rem;
 }

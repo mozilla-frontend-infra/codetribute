@@ -1,3 +1,22 @@
+:root {
+  /* Language Colors based on GitHub colors */
+  --color-lang-c: #555555;
+  --color-lang-cpp: #663399;
+  --color-lang-css: #f34b7d;
+  --color-lang-other: #131313;
+  --color-lang-go: #00add8;
+  --color-lang-html: #e34c26;
+  --color-lang-java: #b07219;
+  --color-lang-javascript: #f1e05a;
+  --color-lang-kotlin: #a97bff;
+  --color-lang-perl: #0298c3;
+  --color-lang-python: #3572a5;
+  --color-lang-rust: #dea584;
+  --color-lang-shell: #89e051;
+  --color-lang-swift: #f05138;
+  --color-lang-xml: #0060ac;
+}
+
 /* Utils */
 .flex {
   display: flex;
@@ -14,3 +33,28 @@
 .justify-content-end {
   justify-content: end;
 }
+
+.color-lang {
+  background-color: var(--color-lang-other);
+  border-radius: 50px;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+}
+
+.color-lang-c { background-color: var(--color-lang-c); }
+.color-lang-css { background-color: var(--color-lang-css); }
+/* TODO: Ideally we would use 'cpp' but we would have to change
+ * BUGZILLA_LANGUAGES to include both 'cpp' and 'c++' variant */
+.color-lang-c\+\+ { background-color: var(--color-lang-cpp); }
+.color-lang-go { background-color: var(--color-lang-go); }
+.color-lang-html { background-color: var(--color-lang-html); }
+.color-lang-java { background-color: var(--color-lang-java); }
+.color-lang-javascript { background-color: var(--color-lang-javascript); }
+.color-lang-kotlin { background-color: var(--color-lang-kotlin); }
+.color-lang-perl { background-color: var(--color-lang-perl); }
+.color-lang-python { background-color: var(--color-lang-python); }
+.color-lang-rust { background-color: var(--color-lang-rust); }
+.color-lang-shell { background-color: var(--color-lang-shell); }
+.color-lang-swift { background-color: var(--color-lang-swift); }
+.color-lang-xml { background-color: var(--color-lang-xml); }
